@@ -34,10 +34,23 @@ namespace DataLayer.ViewModels.News
         /// <summary>
         /// دسته‌بندی خبر
         /// </summary>
-        public int NewsGroup { get; set; }
+        public int NewsGroupId { get; set; }
 
 
-        //TODO
-        public IFormFile ImageAddress { get; set; }
+        /// <summary>
+        /// فایلی که ارسال شده برای ذخیره
+        /// </summary>
+        public IFormFile ImageFile { get; set; }
+
+        /// <summary>
+        /// شماره کاربری کسی در حال ذخیره خبر است
+        /// </summary>
+        public int UserId { get; set; }
+
+
+        /// <summary>
+        /// آدرسی که فایل مورد نظر ذخیره شده است
+        /// </summary>
+        public string ImageAddress { get; set; }
     }
 }

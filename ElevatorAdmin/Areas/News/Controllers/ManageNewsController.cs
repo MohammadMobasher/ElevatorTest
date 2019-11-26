@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using WebFramework.Base;
+using Core.Utilities;
+using System.Security.Claims;
 
 namespace ElevatorAdmin.Areas.News.Controllers
 {
@@ -29,12 +31,20 @@ namespace ElevatorAdmin.Areas.News.Controllers
 
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(NewsSearchViewModel searchModel)
         {
+            this.PageSize = 10;
+            var model = await _newsRepository.LoadAsyncCount(
+                this.CurrentPage,
+                this.PageSize,
+                searchModel);
 
-            var model = await _newsRepository.LoadAsync<NewsDTO>(this.CurrentPage, this.PageSize);
+            this.TotalNumber = model.Item1;
 
-            return View(model);
+            ViewBag.SearchModel = searchModel;
+
+            return View(model.Item2);
+
         }
 
 
@@ -48,8 +58,46 @@ namespace ElevatorAdmin.Areas.News.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(InsertNewsListView model, IFormFile ImageAddress)
+        public async Task<IActionResult> Insert(InsertNewsListView model)
         {
+            model.UserId = this.UserId;
+
+            TempData.AddResult(await _newsRepository.Insert(model));
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region ویرایش
+
+        public async Task<IActionResult> Update(int Id)
+        {
+
+            var result = await _newsRepository.GetByIdAsync(Id);
+            ViewBag.NewsGroups = await _newsGroupRepository.LoadAsync<NewsGroupDTO>();
+            return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(NewsUpdateViewModel model)
+        {
+            var result = await _newsRepository.UpdateAsync(model);
+
+            TempData.AddResult(result);
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region حذف
+
+        public async Task<IActionResult> Delete(int Id)
+        {
+
+            var result = await _newsRepository.DeleteAsync(Id);
+            TempData.AddResult(result);
 
             return RedirectToAction("Index");
         }

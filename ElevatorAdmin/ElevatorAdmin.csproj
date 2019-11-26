@@ -37,6 +37,7 @@
     <Folder Include="Areas\News\Data\" />
     <Folder Include="Areas\News\Models\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />
+    <Folder Include="wwwroot\Uploads\NewsImages\" />
   </ItemGroup>
 
 </Project>
