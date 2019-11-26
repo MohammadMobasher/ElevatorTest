@@ -1,0 +1,8 @@
+﻿.direction-ltr{
+    direction:ltr !important;
+}
+
+
+.direction-rtl {
+    direction: rtl !important;
+}
