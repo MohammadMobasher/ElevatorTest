@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.779
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiftBazar", "LiftBazar\LiftBazar.csproj", "{533FDCC7-4981-4A21-95FD-D1687624729C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{B20DB0B9-6312-4705-A0D5-F7931FFE34CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{0A2C9839-3C47-4EB2-8279-2B0928887C42}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{76D5861A-5D05-421D-914F-256258D2FF11}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebFramework", "WebFramework\WebFramework.csproj", "{73379678-B2C1-4E46-96CC-58CD58368F82}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{809A3E31-F64F-42FD-94F9-D4856674C6C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{533FDCC7-4981-4A21-95FD-D1687624729C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{533FDCC7-4981-4A21-95FD-D1687624729C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{533FDCC7-4981-4A21-95FD-D1687624729C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{533FDCC7-4981-4A21-95FD-D1687624729C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B20DB0B9-6312-4705-A0D5-F7931FFE34CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B20DB0B9-6312-4705-A0D5-F7931FFE34CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B20DB0B9-6312-4705-A0D5-F7931FFE34CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B20DB0B9-6312-4705-A0D5-F7931FFE34CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A2C9839-3C47-4EB2-8279-2B0928887C42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A2C9839-3C47-4EB2-8279-2B0928887C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A2C9839-3C47-4EB2-8279-2B0928887C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A2C9839-3C47-4EB2-8279-2B0928887C42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73379678-B2C1-4E46-96CC-58CD58368F82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73379678-B2C1-4E46-96CC-58CD58368F82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73379678-B2C1-4E46-96CC-58CD58368F82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73379678-B2C1-4E46-96CC-58CD58368F82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{809A3E31-F64F-42FD-94F9-D4856674C6C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{809A3E31-F64F-42FD-94F9-D4856674C6C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{809A3E31-F64F-42FD-94F9-D4856674C6C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{809A3E31-F64F-42FD-94F9-D4856674C6C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B20DB0B9-6312-4705-A0D5-F7931FFE34CF} = {76D5861A-5D05-421D-914F-256258D2FF11}
+		{0A2C9839-3C47-4EB2-8279-2B0928887C42} = {76D5861A-5D05-421D-914F-256258D2FF11}
+		{73379678-B2C1-4E46-96CC-58CD58368F82} = {76D5861A-5D05-421D-914F-256258D2FF11}
+		{809A3E31-F64F-42FD-94F9-D4856674C6C4} = {76D5861A-5D05-421D-914F-256258D2FF11}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F9FACE7C-59EA-43A7-BC0E-49D40E412C1D}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dev.azure.com/emraanjadidi
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Core\\Core.csproj
+		SccProjectTopLevelParentUniqueName1 = LiftBazar.sln
+		SccProjectName1 = Core
+		SccLocalPath1 = Core
+		SccProjectUniqueName2 = DataLayer\\DataLayer.csproj
+		SccProjectTopLevelParentUniqueName2 = LiftBazar.sln
+		SccProjectName2 = DataLayer
+		SccLocalPath2 = DataLayer
+		SccProjectUniqueName3 = LiftBazar\\LiftBazar.csproj
+		SccProjectName3 = LiftBazar
+		SccLocalPath3 = LiftBazar
+		SccProjectUniqueName4 = Repository\\Repository.csproj
+		SccProjectTopLevelParentUniqueName4 = LiftBazar.sln
+		SccProjectName4 = Repository
+		SccLocalPath4 = Repository
+		SccProjectUniqueName5 = WebFramework\\WebFramework.csproj
+		SccProjectTopLevelParentUniqueName5 = LiftBazar.sln
+		SccProjectName5 = WebFramework
+		SccLocalPath5 = WebFramework
+	EndGlobalSection
+EndGlobal
