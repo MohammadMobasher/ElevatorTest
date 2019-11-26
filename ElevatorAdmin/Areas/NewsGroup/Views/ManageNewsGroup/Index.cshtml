@@ -1,0 +1,74 @@
+﻿@using DataLayer.DTO;
+@model List<NewsGroupDTO>
+@{
+    ViewData["Title"] = "لیست دسته‌بندی اخبار‌ ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+
+
+    <a href="/NewsGroup/ManageNewsGroup/Insert" class="btn btn-lg btn-primary">
+        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;
+        ثبت
+    </a>
+
+</div>
+
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+
+    <table class="table table-responsive table-striped rounded table-hover table-bordered ">
+        <thead>
+            <tr>
+                <th width="8%">
+                    ردیف
+                </th>
+                <th>عنوان</th>
+                <th width="10%">اقدامات</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <form method="post">
+                    <td>
+                        ---
+                        @*<input type="text" value="@ViewBag.SearchModel.Id" name="Id" class="form-control searchInput" />*@
+                    </td>
+                    <td><input type="text" value="@ViewBag.SearchModel.Title" name="Title" class="form-control searchInput" /></td>
+                    <td><input type="submit" class="form-control btn btn-success btn-block searchBtn" value="جستجو" /></td>
+                </form>
+            </tr>
+
+
+            @{var index = 1;}
+            @if (Model != null)
+            {
+
+                @foreach (NewsGroupDTO item in Model)
+                {
+                    <tr>
+                        <th>@(index++)</th>
+                        <td>@item.Title</td>
+                        <td>
+                            <a data-toggle="tooltip" title="ویرایش" href="/NewsGroup/ManageNewsGroup/Update/@item.Id" data-role="confirm">
+                                <i class="fa fa-pencil-square-o text-yellow pe-2x" aria-hidden="true"></i>
+                            </a>
+
+                            <a data-toggle="tooltip" title="حذف" href="/NewsGroup/ManageNewsGroup/Delete/@item.Id" data-role="confirm">
+                                <i class="fa fa-trash-o text-danger pe-2x" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    @Html.Partial("~/Views/Shared/_Pagination.cshtml")
+
+
+</div>
+
+
+

@@ -2,7 +2,7 @@
 using DataLayer.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using Repository;
+using Service;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.CustomAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,12 @@ namespace Core.Utilities
             //return type.IsDefined(attribute, inherit);
             //return type.GetCustomAttributes(attribute, inherit).Length > 0;
         }
+
+        public static Type GetTypeByAttribute(this MemberInfo memberInfo, Type attribute)
+        {
+            return memberInfo.HasAttribute(attribute).GetType();
+        }
+
 
         public static bool IsInheritFrom<T>(this Type type)
         {
@@ -98,5 +105,8 @@ namespace Core.Utilities
         {
             return !type.IsValueType && !type.IsPrimitive && type.Namespace != null && !type.Namespace.StartsWith("System", StringComparison.Ordinal);
         }
+
+       
+
     }
 }

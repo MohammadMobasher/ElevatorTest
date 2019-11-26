@@ -1,0 +1,26 @@
+﻿@using DataLayer.Entities
+@model NewsGroup
+
+@{
+    ViewData["Title"] = "ویرایش دسته";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form class="form-horizontal" method="post" style="">
+
+    <input type="hidden" value="@Model.Id"/>
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">عنوان دسته <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" value="@Model.Title" class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان دسته" />
+        </div>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-block btn-primary">ثبت</button>
+
+
+</form>

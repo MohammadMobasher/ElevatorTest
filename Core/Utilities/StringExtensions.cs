@@ -41,6 +41,12 @@ namespace Core.Utilities
             return value.ToString("C0");
         }
 
+
+        /// <summary>
+        /// تبدیل اعداد انگلیسی به فارسی
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string En2Fa(this string str)
         {
             return str.Replace("0", "۰")
@@ -55,6 +61,11 @@ namespace Core.Utilities
                 .Replace("9", "۹");
         }
 
+        /// <summary>
+        /// تبدیل اعداد فارسی به انگلیسی
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string Fa2En(this string str)
         {
             return str.Replace("۰", "0")

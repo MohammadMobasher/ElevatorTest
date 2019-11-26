@@ -1,0 +1,78 @@
+﻿@model IEnumerable<DataLayer.DTO.UserDTO.UsersManageDTO>
+
+
+<style>
+    table, th, td {
+        text-align: center;
+    }
+</style>
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h4 class="header-title m-t-0 m-b-30">مدیریت کاربران</h4>
+                                    @*<div class="m-b-30">
+                                        <a  class="btn btn-primary waves-effect waves-light">افزودن <i class="fa fa-plus"></i></a>
+                                    </div>*@
+                                </div>
+                            </div>
+
+                            <div class="editable-responsive">
+                                <table class="table table-striped" id="datatable-editable">
+                                    <thead>
+                                        <tr>
+                                            <th width="10">ردیف</th>
+                                            <th width="200">
+                                                نام کاربری
+                                            </th>
+                                            <th width="200">
+                                                ایمیل
+                                            </th>
+                                            <th width="200">
+                                                اقدامات
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{ var raw = 1;}
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr @*class="gradeX" *@>
+                                                <td>@(raw++)</td>
+                                                <td>@item.UserName</td>
+                                                <td>@item.Email</td>
+                                                <td>
+
+                                                    <a href='@Url.Action("SetRole", new {id = @item.Id})' class="btn btn-success btn-sm btn-rounded w-md waves-effect waves-light m-b-5">نقش</a>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- end: panel body -->
+
+                    </div> <!-- end panel -->
+                    <div>
+                        <a href='/Admin/ProductCategoryManage/SubCategoryIndex?id=@ViewBag.Ct' class="btn btn-danger btn-sm btn-rounded w-md waves-effect waves-light m-b-5">بازگشت</a>
+                    </div>
+                </div> <!-- end col-->
+            </div>
+            <!-- end row -->
+
+        </div> <!-- container -->
+
+    </div> <!-- content -->
+
+
+
+</div>
+
