@@ -15,7 +15,7 @@
 
     <!-- App css -->
     <link href="~/UI/assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/Plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css" rel="stylesheet" />
+
     @*<link href="~/UI/font-awesome/css/font-awesome.min.css" rel="stylesheet" />*@
     <link href="~/Plugins/Template/css/bootstrap-rtl.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Plugins/Template/css/core.css" rel="stylesheet" type="text/css" />
@@ -26,6 +26,7 @@
     <link href="~/Plugins/Template/css/responsive.css" rel="stylesheet" type="text/css" />
     <link href="~/lib/Dropify/dropify.css" rel="stylesheet" />
     <link href="~/css/MStite.css" rel="stylesheet" />
+    <link href="~/Plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css" rel="stylesheet" />
 
     <link href="~/lib/BootstrapPersianDateTimePicker/bootstrap.datetimepicker.style.css" rel="stylesheet" />
     <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -45,6 +46,10 @@
 
         .display-inherit {
             display: inherit
+        }
+        .input-group-prepend {
+            display: -ms-flexbox;
+            display: flex
         }
     </style>
 </head>
@@ -132,11 +137,11 @@
         <script src="~/Plugins/tinymce/jquery.tinymce.min.js"></script>
 
         @Html.Partial("_Message.cshtml")
-        <div class="content-page ">
+        <div class="content-page " style="min-height: 100vh">
             <!-- Start content -->
-            <div class="content " style="">
+            <div class="content " style="min-height: 100vh">
                 <div style="border-top:2.5px solid #3d871d; position:fixed;z-index:10000; width:100% !important"></div>
-                <div class="container " style=" padding-bottom:10px; background-color:#FFF">
+                <div class="container " style=" margin-bottom:-73px; background-color:#FFF; min-height: 100vh">
 
                     <div class="form-horizontal pageTitle">
                         @ViewData["Title"]
