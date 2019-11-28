@@ -4,7 +4,7 @@
 @using Newtonsoft.Json
 @model Roles
 @{
-    ViewData["Title"] = "دسترسی ها ";
+    ViewData["Title"] = "ویرایش دسترسی";
     var actionInfo = ViewBag.ActionInfo as Dictionary<string, List<MethodInfo>>;
     var controllerInfo = ViewBag.ControllerInfo as List<Type>;
     var listAccess = ViewBag.Accesss as List<UsersAccess>;
@@ -16,111 +16,116 @@
     }
 </style>
 
-<div class="content-page">
-    <!-- Start content -->
-    <div class="content">
-        <div class="container">
-            <form asp-action="Edit" method="post">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card-box p-b-0">
+<form asp-action="Edit" method="post">
+    <div class="row">
+        <div class="col-lg-12">
 
-                            <h4 class="header-title m-t-0 m-b-30">ثبت نقش جدید</h4>
 
-                            <div class="row">
 
-                                <input type="hidden" asp-for="Id" />
-                                <div class="card-box">
-                                    <div class="form-group clearfix">
-                                        <label class="control-label col-md-2">نقش</label>
-                                        <div class="col-md-10">
-                                            <input type="text" asp-for="Name" required class="form-control" />
-                                        </div>
-                                    </div>
 
-                                    <div class="form-group clearfix">
-                                        <label class="control-label col-md-2">عنوان نقش</label>
-                                        <div class="col-md-10">
-                                            <input type="text" asp-for="RoleTitle" required class="form-control" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="row">
+
+                <input type="hidden" asp-for="Id" />
+                <div class="card-box">
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-2">نقش <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-md-10">
+                            <input type="text" asp-for="Name" required class="form-control" />
                         </div>
                     </div>
 
-
-                    @{ var raw = 0;}
-                    @foreach (var item in controllerInfo)
-                    {
-                        var currentAccess = listAccess.FirstOrDefault(a => a.Controller.Equals(item.Name));
-
-                        <input type="hidden" name="vm[@raw].RoleId" value="@item.Name" />
-                        <div class="col-md-4">
-                            <div class="card-box">
-                                <div class="dropdown pull-right">
-                                    <div class="checkbox checkbox-primary" style="top:-10px;padding-left:0 !important">
-                                        <input type="checkbox" class="checkboxHead" name="vm[@raw].Controller" @(currentAccess != null ? "checked" : "") value="@item.Name" data-role="@item.Name">
-
-                                        <label>
-
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <h4 class="header-title m-t-0 m-b-30">@(item.GetCustomAttribute<ControllerRoleAttribute>()?.GetName())</h4>
-                                <hr />
-                                <ul>
-                                    @{
-                                        var lst = actionInfo.Keys.ToList().Contains(item.Name) ? actionInfo[item.Name] : null;
-                                        var actionJsons = new List<string>();
-                                        if (currentAccess != null && currentAccess.Actions != null)
-                                        {
-                                            actionJsons.AddRange(JsonConvert.DeserializeObject<List<string>>(currentAccess.Actions));
-                                        }
-                                    }
-                                    @if (lst != null)
-                                    {
-                                        foreach (var actions in lst)
-                                        {
-                                            <li>
-                                                <div class="checkbox checkbox-info" style="top:-10px;padding-left:0 !important">
-                                                    <input type="checkbox" class="sub_@item.Name" name="vm[@raw].Actions" @(actionJsons.Contains(actions.Name) ? "checked" : "") value="@actions.Name" disabled>
-                                                    <label>
-                                                        @(actions.GetCustomAttribute<ActionRoleAttribute>().GetActionName())
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        }
-                                    }
-
-
-                                </ul>
-                            </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-2">عنوان نقش <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-md-10">
+                            <input type="text" asp-for="RoleTitle" required class="form-control" />
                         </div>
-
-                        raw++;
-                    }
-
-
-
-
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-success btn-sm btn-rounded w-md waves-effect waves-light m-b-5">ثبت </button>
-                <a href='/RoleManage/Index' class="btn btn-danger btn-sm btn-rounded w-md waves-effect waves-light m-b-5">بازگشت</a>
-            </form>
-        </div> <!-- container -->
-        <div>
+            </div>
 
         </div>
-    </div> <!-- content -->
+
+        <div class="card-box">
+            <div class="row">
+                @{ var raw = 0;}
+                @foreach (var item in controllerInfo)
+                {
+                    var currentAccess = listAccess.FirstOrDefault(a => a.Controller.Equals(item.Name));
+
+                    <input type="hidden" name="vm[@raw].RoleId" value="@item.Name" />
+                    <div class="col-md-4">
+                        <div class="card-box">
+                            <div class="dropdown pull-right">
+                                <div class="checkbox checkbox-primary" style="top:-10px;padding-left:0 !important">
+                                    <input type="checkbox" class="checkboxHead" name="vm[@raw].Controller" @(currentAccess != null ? "checked" : "") value="@item.Name" data-role="@item.Name">
+
+                                    <label>
+
+                                    </label>
+                                </div>
+                            </div>
+
+                            <h4 class="header-title m-t-0 m-b-30">@(item.GetCustomAttribute<ControllerRoleAttribute>()?.GetName())</h4>
+                            <hr class="hr-random" />
+                            <ul>
+                                @{
+                                    var lst = actionInfo.Keys.ToList().Contains(item.Name) ? actionInfo[item.Name] : null;
+                                    var actionJsons = new List<string>();
+                                    if (currentAccess != null && currentAccess.Actions != null)
+                                    {
+                                        actionJsons.AddRange(JsonConvert.DeserializeObject<List<string>>(currentAccess.Actions));
+                                    }
+                                }
+                                @if (lst != null)
+                                {
+                                    foreach (var actions in lst)
+                                    {
+                                        <li>
+                                            <div class="checkbox checkbox-info" style="top:-10px;padding-left:0 !important">
+                                                <input type="checkbox" class="sub_@item.Name" name="vm[@raw].Actions" @(actionJsons.Contains(actions?.Name) ? "checked" : "") value="@actions?.Name" disabled>
+                                                <label>
+                                                    @(actions.GetCustomAttribute<ActionRoleAttribute>()?.GetActionName())
+                                                </label>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    raw++;
+                }
+
+            </div>
+        </div>
+
+    </div>
+    <button type="submit" class="btn btn-success btn-block">ثبت </button>
+    <a href='/RoleManage/Index' class="btn btn-danger btn-block">بازگشت</a>
+</form>
+<div>
 
 </div>
+
 
 
 @section Script{
     <script>
         $(function () {
+
+            var colors = ['red', 'blue', 'green', 'gray', 'black', 'yellow',];
+
+
+            $('hr[class^="hr-random"]').each(function () {
+                $(this).css('background-color', '#' + Math.floor(Math.random() * 16777215).toString(16));
+            });
+
+
+
+
 
             var checkBoxHead = $('.checkboxHead');
             $.each(checkBoxHead, function (index, key) {
