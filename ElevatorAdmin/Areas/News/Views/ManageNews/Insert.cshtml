@@ -40,7 +40,7 @@
     <div class="form-group">
         <label for="Text" class="control-label col-sm-2">دسته بندی خبر <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
-            <select name="NewsGroup" required="required" class="form-control form-control-lg">
+            <select name="NewsGroupId" required="required" class="form-control form-control-lg">
                 <option>لطفا انتخاب کنید</option>
                 @foreach (var item in Model)
                 {
@@ -53,7 +53,7 @@
     <div class="form-group">
         <label for="Text" class="control-label col-sm-2">عکس خبر <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
-            <input name="ImageAddress"
+            <input name="ImageFile"
                    required 
                    type="file" class="dropify"
                    data-show-loader="true"

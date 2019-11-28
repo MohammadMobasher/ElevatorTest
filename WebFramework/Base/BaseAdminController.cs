@@ -1,9 +1,11 @@
-﻿using DataLayer.SSOT;
+﻿using Core.Utilities;
+using DataLayer.SSOT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using WebFramework.Authenticate;
 
@@ -42,6 +44,19 @@ namespace WebFramework.Base
 
         #endregion
 
+        /// <summary>
+        /// شماره کاربری شخصی که لاگین است
+        /// </summary>
+        public int UserId {
+            get
+            {
+                if(_userId == null)
+                    _userId = User.Identity.FindFirstValue(ClaimTypes.NameIdentifier).ToInt();
+                return _userId.Value;
+            }
+        }
+
+        private int? _userId { get; set; }
 
         public BaseAdminController()
         {

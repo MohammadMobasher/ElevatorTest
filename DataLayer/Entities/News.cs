@@ -15,7 +15,7 @@ namespace DataLayer.Entities
     {
 
         /// <summary>
-        /// عنوان مربوط به هر شرط
+        /// عنوان مربوط به هر خبر
         /// </summary>
         [StringLength(200, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
         [Required]
@@ -64,6 +64,8 @@ namespace DataLayer.Entities
 
         [Required]
         public int NewsGroupId { get; set; }
+
+
 
 
         #region UserId

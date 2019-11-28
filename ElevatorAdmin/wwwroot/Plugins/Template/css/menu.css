@@ -200,7 +200,8 @@ File: Menu
 }
 .content-page .content {
   padding: 0px 5px;
-  margin-top: 73px;
+  /*margin-top: 73px;*/
+  padding-top:73px !important;
 }
 .button-menu-mobile {
   background: transparent;

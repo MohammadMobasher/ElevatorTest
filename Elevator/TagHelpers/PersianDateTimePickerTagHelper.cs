@@ -60,7 +60,7 @@ namespace Elevator.TagHelpers
                         " + (this.Required ? "required='required'" : "") + @" />
                     <input type='hidden' name='" + this.Name + @"' id='" + this.Name + @"' />
                     <div class='input-group-prepend'>
-                        <i class='input-group-text cursor-pointer display-inherit fas fa-calendar-alt' id='IconPersianDateTimePicker'></i>
+                        <i class='input-group-text cursor-pointer display-inherit fa fa-calendar-alt' id='IconPersianDateTimePicker'></i>
                     </div>
                 </div>
 
