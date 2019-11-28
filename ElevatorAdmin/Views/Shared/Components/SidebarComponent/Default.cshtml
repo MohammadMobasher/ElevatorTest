@@ -1,0 +1,12 @@
+﻿
+@if (ViewBag.HasAccess)
+{
+    <li>
+        <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" class="waves-effect sidebarActiveClass">
+        <i class="zmdi @ViewBag.Icon"></i> 
+            <span> 
+                @ViewBag.Title 
+            </span> 
+        </a>
+    </li>
+}

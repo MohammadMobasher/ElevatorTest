@@ -23,7 +23,7 @@
     <link href="~/Plugins/Template/css/menu.css" rel="stylesheet" type="text/css" />
     <link href="~/Plugins/Template/css/responsive.css" rel="stylesheet" type="text/css" />
     <link href="~/lib/Dropify/dropify.css" rel="stylesheet" />
-    
+
     <link href="~/Plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css" rel="stylesheet" />
     <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -47,7 +47,7 @@
 
             <!-- LOGO -->
             <div class="topbar-left">
-                <a href="index.html" class="logo"><span>لیفت<span>بازار</span></span><i class="zmdi zmdi-layers"></i></a>
+                <a href="/" class="logo"><span>لیفت<span> بازار </span></span><i class="zmdi zmdi-layers"></i></a>
             </div>
 
             <!-- Button mobile view to collapse sidebar menu -->
@@ -102,7 +102,16 @@
         <div class="left side-menu">
             <div class="sidebar-inner slimscrollleft" style="height:100% !important">
 
+                <div id="sidebar-menu">
+                    <ul>
+                        <li class="text-muted menu-title">دسته بندی ها</li>
+                        @await Component.InvokeAsync("SidebarComponent", new { controller = "Home", action = "Index", title = "صفحه اصلی" })
+                        @await Component.InvokeAsync("SidebarComponent", new { controller = "UserManage", action = "Index", title = "مدیریت کاربران", icon = "zmdi-account-circle" })
+                        @await Component.InvokeAsync("SidebarComponent", new { controller = "RoleManage", action = "Index", title = "مدیریت نقش ها", icon = "zmdi-settings" })
 
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
 
 
             </div>

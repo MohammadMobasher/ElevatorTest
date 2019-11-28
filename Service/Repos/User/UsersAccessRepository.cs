@@ -41,21 +41,24 @@ namespace Service.Repos.User
         }
 
 
-        public bool HasAccess(int userId, string controller, string action) => true;
-        //{
-        //    var userAccess = TableNoTracking.Where(a => a.UserId == userId).ToList();
+        public bool HasAccess(int roleId, string controller, string action) /*=> true;*/
+        {
+            var roleName = _roleRepository.GetRoleNameByRoleId(roleId);
+            if (roleName == ImportantNames.AdminNormalTitle()) return true;
 
-        //    foreach (var item in userAccess)
-        //    {
-        //        if (item.Controller.ToUpper() == controller.ToUpper() + ImportantNames.ControllerName())
-        //        {
-        //            var actions = item.Actions == null ? null : JsonConvert.DeserializeObject<List<string>>(item.Actions);
+            var userAccess = TableNoTracking.Where(a => a.RoleId == roleId).ToList();
 
-        //            if (actions != null && actions.Contains(action)) return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+            foreach (var item in userAccess)
+            {
+                if (item.Controller.ToUpper() == controller.ToUpper() + ImportantNames.ControllerName())
+                {
+                    var actions = item.Actions == null ? null : JsonConvert.DeserializeObject<List<string>>(item.Actions);
+
+                    if (actions != null && actions.Contains(action)) return true;
+                }
+}
+            return false;
+        }
 
 
 

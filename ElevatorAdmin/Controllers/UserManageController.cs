@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Repos.User;
 using WebFramework.Authenticate;
 using WebFramework.Base;
+using WebFramework.SmsManage;
 
 namespace ElevatorAdmin.Controllers
 {
@@ -17,15 +18,18 @@ namespace ElevatorAdmin.Controllers
         private readonly UserRepository _userRepository;
         private readonly UsersRoleRepository _usersRoleRepository;
         private readonly RoleRepository _roleRepository;
+        private readonly SmsService _smsService;
 
         public UserManageController
-            ( UserRepository userRepository
+            (UserRepository userRepository
             , UsersRoleRepository usersRoleRepository
-            , RoleRepository roleRepository)
+            , RoleRepository roleRepository
+            , SmsService smsService)
         {
             _userRepository = userRepository;
             _usersRoleRepository = usersRoleRepository;
             _roleRepository = roleRepository;
+            _smsService = smsService;
         }
 
         [ActionRole("صفحه مدیریت کاربران")]
@@ -36,6 +40,8 @@ namespace ElevatorAdmin.Controllers
                 .TableNoTracking
                 .ProjectTo<UsersManageDTO>()
                 .ToList();
+
+            var credi = _smsService.Credit();
 
             return View(model);
         }

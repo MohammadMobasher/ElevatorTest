@@ -14,8 +14,11 @@
 
   <ItemGroup>
     <Compile Remove="DataInitializer\**" />
+    <Compile Remove="Repos\User\NewFolder\**" />
     <EmbeddedResource Remove="DataInitializer\**" />
+    <EmbeddedResource Remove="Repos\User\NewFolder\**" />
     <None Remove="DataInitializer\**" />
+    <None Remove="Repos\User\NewFolder\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.1.0" />
@@ -32,9 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repos\User\NewFolder\" />
   </ItemGroup>
 
 </Project>

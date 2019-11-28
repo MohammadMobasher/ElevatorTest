@@ -47,23 +47,29 @@ namespace WebFramework.Authenticate
                     //if (!isAllowAccess)
                     //{
 
-                        if (!context.HttpContext.User.Identity.IsAuthenticated)
-                        {
-                            context.HttpContext.Response.Redirect("/Account/Login", true);
-                        }
-                        else
-                        {
+                    if (!context.HttpContext.User.Identity.IsAuthenticated)
+                    {
+                        context.HttpContext.Response.Redirect("/Account/Login", true);
+                    }
+                    else
+                    {
 
-                            var route = context.ActionDescriptor.RouteValues;
-                            var userId = int.Parse(context.HttpContext.User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
-                            var role = _usersRoleRepository.TableNoTracking.FirstOrDefault(a => a.UserId == userId).RoleId;
+                        var route = context.ActionDescriptor.RouteValues;
+                        //*************************************REVIEW**********************************************************
+                        var userId = int.Parse(context.HttpContext.User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
+                        var role = _usersRoleRepository.TableNoTracking.FirstOrDefault(a => a.UserId == userId).RoleId;
 
-                            if (!_usersAccessRepository.HasAccess(role, route))
-                            {
-                                context.Result = new BadRequestResult();
-                            }
+                        // تصمیم گیری نهایی که برای ما سرعت مهم است یا امنیت
+                        //var role = int.Parse(context.HttpContext.User.Identity.FindFirstValue(ClaimTypes.Role));
+
+                        //*****************************************************************************************************
+
+                        if (!_usersAccessRepository.HasAccess(role, route))
+                        {
+                            context.Result = new BadRequestResult();
                         }
                     }
+                }
 
                 //}
                 catch

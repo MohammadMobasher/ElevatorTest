@@ -15,5 +15,17 @@
         public bool PasswordRequireLowercase { get; set; }
         public bool RequireUniqueEmail { get; set; }
     }
+
+    /// <summary>
+    /// اطلاعات کاربری سامانه پیامکی
+    /// </summary>
+    public class SmsSettings
+    {
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
+
+        public string Number { get; set; }
+    }
    
 }

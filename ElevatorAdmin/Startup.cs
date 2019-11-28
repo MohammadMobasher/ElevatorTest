@@ -53,6 +53,7 @@ namespace ElevatorAdmin
 
             services.AddCustomIdentity(_siteSetting.IdentitySettings);
 
+            services.SmsConfiguration();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
