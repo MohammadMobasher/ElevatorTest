@@ -36,6 +36,12 @@
                         ایمیل
                     </th>
                     <th width="200">
+                        شماره تماس
+                    </th>
+                    <th width="200">
+                        تاریخ ثبت نام
+                    </th>
+                    <th width="200">
                         اقدامات
                     </th>
                 </tr>
@@ -48,6 +54,7 @@
                         <td>@(raw++)</td>
                         <td>@item.UserName</td>
                         <td>@item.Email</td>
+                        <td>@item.PhoneNumber</td>
                         <td>
 
                             <a href='@Url.Action("SetRole", new {id = @item.Id})' class="btn btn-info btn-sm btn-rounded w-md waves-effect waves-light m-b-5">نقش</a>
