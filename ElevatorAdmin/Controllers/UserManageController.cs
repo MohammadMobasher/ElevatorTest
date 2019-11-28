@@ -76,7 +76,7 @@ namespace ElevatorAdmin.Controllers
         #endregion
 
         #region ویرایش رمز عبور
-      
+
         [ActionRole("ویرایش رمز عبور")]
         public IActionResult EditPassword(int id) => View(id);
 
@@ -95,7 +95,12 @@ namespace ElevatorAdmin.Controllers
         #region ارسال پیامک به کاربر
 
         [ActionRole("ارسال پیامک به کاربر")]
-        public IActionResult SendSmsToUser(int id) => View(id);
+        public IActionResult SendSmsToUser(int id)
+        {
+            //var credit = _smsService.Credit();
+
+            return View(id);
+        }
 
         [HttpPost]
         public async Task<IActionResult> SendSmsToUser(SendSmsToUserViewModel vm)
@@ -110,12 +115,39 @@ namespace ElevatorAdmin.Controllers
         }
         #endregion
 
+        #region ارسال پیامک به تمامی کاربران
+
+        [ActionRole("ارسال پیامک به تمامی کاربران")]
+        public IActionResult SendSmsToUsers()
+        {
+            var countAllUser = _userRepository.CountUsers();
+            //var credit = _smsService.Credit();
+
+            return View(countAllUser);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendSmsToUsers(SendSmsToAllUsersViewModel vm)
+        {
+            var phoneNumbers = await _userRepository.AllUserPhoneNumber(vm.SendType);
+
+            var swMessage = _smsService.SendSmsRange(phoneNumbers, vm.Message);
+
+            TempData.AddResult(swMessage);
+
+            return RedirectToAction(nameof(Index));
+
+        }
+        #endregion
+
         #region فعال/غیرفعال کردن کاربر
 
         [ActionRole("فعال/غیرفعال کردن کاربر")]
-        public IActionResult UserChangeStatus(int userId)
+        public async Task<IActionResult> UserChangeStatus(int userId)
         {
-            
+            var swMessage = await _userRepository.ChangeUserActivity(userId);
+
+            TempData.AddResult(swMessage);
 
             return RedirectToAction(nameof(Index));
         }

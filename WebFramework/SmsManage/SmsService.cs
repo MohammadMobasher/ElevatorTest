@@ -4,6 +4,7 @@ using DataLayer.SSOT;
 using Microsoft.Extensions.Configuration;
 using PayamakPanel.Core;
 using System;
+using System.Collections.Generic;
 
 namespace WebFramework.SmsManage
 {
@@ -29,8 +30,8 @@ namespace WebFramework.SmsManage
             try
             {
                 var model = _faraApi.SendSms
-                (_siteSetting.UserName, _siteSetting.Password
-                , _siteSetting.Number, to, message);
+                            (_siteSetting.UserName, _siteSetting.Password
+                            , _siteSetting.Number, to, message);
 
                 return model.RetStatus == 35 ? SweetAlertExtenstion.Error("اطلاعات وارد شده نادرست است") : SweetAlertExtenstion.Ok();
             }
@@ -38,7 +39,31 @@ namespace WebFramework.SmsManage
             {
                 return SweetAlertExtenstion.Error("پیامک ارسال نشد!! خطای غیرمنتظره ای رخ داد لطفا پس از چند لحظه دوباره امتحان کنید و در صورت برطرف نشدن مشکل با پشتیبانی تماس بگیرید");
             }
+        }
 
+        /// <summary>
+        /// ارسال پیامک به صورت گروهی
+        /// </summary>
+        /// <param name="phoneNumbers">لیستی از شماره تلفن ها</param>
+        /// <param name="message">متن پیامک</param>
+        /// <returns></returns>
+        public SweetAlertExtenstion SendSmsRange(List<string> phoneNumbers, string message)
+        {
+            try
+            {
+                foreach (var to in phoneNumbers)
+                {
+                    var model = _faraApi.SendSms
+                                (_siteSetting.UserName, _siteSetting.Password
+                                , _siteSetting.Number, to, message);
+                }
+
+                return SweetAlertExtenstion.Ok();
+            }
+            catch (Exception)
+            {
+                return SweetAlertExtenstion.Error("پیامک ارسال نشد!! خطای غیرمنتظره ای رخ داد لطفا پس از چند لحظه دوباره امتحان کنید و در صورت برطرف نشدن مشکل با پشتیبانی تماس بگیرید");
+            }
         }
 
         /// <summary>

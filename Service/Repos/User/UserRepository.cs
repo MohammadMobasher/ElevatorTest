@@ -1,5 +1,6 @@
 ﻿using Core.Utilities;
 using DataLayer.Entities.Users;
+using DataLayer.SSOT;
 using DataLayer.ViewModels.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,21 @@ namespace Service.Repos.User
         public UserRepository(DatabaseContext db, UserManager<Users> userManager) : base(db)
         {
             _userManager = userManager;
+        }
+
+        /// <summary>
+        /// گرفتن کاربران شرایط خاص
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public IQueryable<Users> GetUsers(FilterUserSSOT filter)
+        {
+            var model = TableNoTracking
+                .WhereIf(filter == FilterUserSSOT.AllUser, a => true)
+                .WhereIf(filter == FilterUserSSOT.ActiveUser, a => a.IsActive)
+                .WhereIf(filter == FilterUserSSOT.DeActiveUser, a => !a.IsActive);
+
+            return model;
         }
 
         /// <summary>
@@ -48,17 +64,59 @@ namespace Service.Repos.User
         /// <returns></returns>
         public async Task<string> PhoneNumberByUserId(int userId)
         {
-           var userInfo = await GetByIdAsync(userId);
+            var userInfo = await GetByIdAsync(userId);
 
             return userInfo.PhoneNumber;
         }
 
-        //public async Task<SweetAlertExtenstion> ChangeUserActivity(int userId)
-        //{
-        //    var userInfo = await GetByIdAsync(userId);
+        /// <summary>
+        /// گرفتن اطلاعات شماره تماس تمامی کاربران
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<string>> AllUserPhoneNumber()
+        {
+            var phoneNumbers = await TableNoTracking.Select(a => a.PhoneNumber).ToListAsync();
 
-        //    userInfo.
-        //}
+            return phoneNumbers;
+        }
+
+        /// <summary>
+        /// گرفتن اطلاعات شماره تماس تمامی کاربران
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<string>> AllUserPhoneNumber(FilterUserSSOT filter)
+        {
+            var phoneNumbers = GetUsers(filter);
+
+            return await phoneNumbers.Select(a=>a.PhoneNumber).ToListAsync();
+        }
+
+
+
+        /// <summary>
+        /// تعداد تمامی کاربران
+        /// </summary>
+        /// <returns></returns>
+        public int CountUsers() => TableNoTracking.Count();
+
+        public async Task<SweetAlertExtenstion> ChangeUserActivity(int userId)
+        {
+            try
+            {
+                var userInfo = await GetByIdAsync(userId);
+
+                if (userInfo == null) return SweetAlertExtenstion.Error("کاربری با این شناسه یافت نشد");
+
+                userInfo.IsActive = !userInfo.IsActive;
+                await UpdateAsync(userInfo);
+
+                return SweetAlertExtenstion.Ok();
+            }
+            catch (Exception)
+            {
+                return SweetAlertExtenstion.Error("خطای نامشخصی رخ داده است لطفا پس از چند لحظه دوباره امتحان کنید و در صورت برطرف نشدن مشکل با پشتیبانی تماس بگیرید");
+            }
+        }
 
     }
 }
