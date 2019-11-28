@@ -41,7 +41,7 @@ namespace ElevatorAdmin.Controllers
                 .ProjectTo<UsersManageDTO>()
                 .ToList();
 
-            var credi = _smsService.Credit();
+           
 
             return View(model);
         }
