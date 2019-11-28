@@ -8,6 +8,6 @@ namespace DataLayer.Entities.Users
 {
     public class Users : IdentityUser<int>, IEntity
     {
-        
+        public bool IsActive { get; set; }
     }
 }

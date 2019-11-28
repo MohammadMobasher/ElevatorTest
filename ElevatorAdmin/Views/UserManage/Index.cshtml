@@ -41,6 +41,8 @@
                     <td>
 
                         <a href='@Url.Action("SetRole", new {id = @item.Id})' class="btn btn-success btn-sm btn-rounded w-md waves-effect waves-light m-b-5">نقش</a>
+                        <a href='@Url.Action("EditPassword", new {id = @item.Id})' class="btn btn-success btn-sm btn-rounded w-md waves-effect waves-light m-b-5">ویرایش رمز عبور</a>
+                        <a href='@Url.Action("SendSmsToUser", new {id = @item.Id})' class="btn btn-success btn-sm btn-rounded w-md waves-effect waves-light m-b-5">ارسال پیامک</a>
                     </td>
 
                 </tr>

@@ -1,9 +1,12 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.DTO.UserDTO;
+using DataLayer.Entities.Users;
 using DataLayer.ViewModels.User;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos.User;
 using WebFramework.Authenticate;
@@ -41,10 +44,11 @@ namespace ElevatorAdmin.Controllers
                 .ProjectTo<UsersManageDTO>()
                 .ToList();
 
-           
+
 
             return View(model);
         }
+        #region دسترسی دادن به کاربران
 
         [ActionRole("دسترسی دادن به کاربر")]
         [HasAccess]
@@ -69,26 +73,53 @@ namespace ElevatorAdmin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [ActionRole("ثبت کاربر جدید")]
-        [HasAccess]
-        public IActionResult Create()
+        #endregion
+
+        #region ویرایش رمز عبور
+      
+        [ActionRole("ویرایش رمز عبور")]
+        public IActionResult EditPassword(int id) => View(id);
+
+        [HttpPost]
+        public async Task<IActionResult> EditPassword(AdminSetPasswordViewModel vm)
         {
-            return View();
+            var sweetMessage = await _userRepository.AdminChangePassword(vm);
+
+            TempData.AddResult(sweetMessage);
+
+            return RedirectToAction(nameof(Index));
         }
 
-        [ActionRole("ویرایش کاربر")]
-        [HasAccess]
-        public IActionResult Edit()
+        #endregion
+
+        #region ارسال پیامک به کاربر
+
+        [ActionRole("ارسال پیامک به کاربر")]
+        public IActionResult SendSmsToUser(int id) => View(id);
+
+        [HttpPost]
+        public async Task<IActionResult> SendSmsToUser(SendSmsToUserViewModel vm)
         {
-            return View();
+            var model = await _userRepository.PhoneNumberByUserId(vm.UserId);
+
+            var swMessage = _smsService.SendSms(model, vm.Message);
+
+            TempData.AddResult(swMessage);
+
+            return RedirectToAction(nameof(Index));
+        }
+        #endregion
+
+        #region فعال/غیرفعال کردن کاربر
+
+        [ActionRole("فعال/غیرفعال کردن کاربر")]
+        public IActionResult UserChangeStatus(int userId)
+        {
+            
+
+            return RedirectToAction(nameof(Index));
         }
 
-        [ActionRole("تست")]
-        [HasAccess]
-        public IActionResult Test()
-        {
-            return View();
-        }
-
+        #endregion
     }
 }

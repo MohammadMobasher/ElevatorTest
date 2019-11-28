@@ -32,13 +32,13 @@ namespace WebFramework.SmsManage
                 (_siteSetting.UserName, _siteSetting.Password
                 , _siteSetting.Number, to, message);
 
-                return SweetAlertExtenstion.Ok();
+                return model.RetStatus == 35 ? SweetAlertExtenstion.Error("اطلاعات وارد شده نادرست است") : SweetAlertExtenstion.Ok();
             }
             catch (Exception)
             {
                 return SweetAlertExtenstion.Error("پیامک ارسال نشد!! خطای غیرمنتظره ای رخ داد لطفا پس از چند لحظه دوباره امتحان کنید و در صورت برطرف نشدن مشکل با پشتیبانی تماس بگیرید");
             }
-            
+
         }
 
         /// <summary>
