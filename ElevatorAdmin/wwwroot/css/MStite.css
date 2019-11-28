@@ -11,3 +11,11 @@
 .hr-random {
     height: 1.5px !important;
 }
+
+.tr-selected {
+    background-color: #747415;
+}
+
+    .tr-selected:hover {
+        background-color: #747415;
+    }

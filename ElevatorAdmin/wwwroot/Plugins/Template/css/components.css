@@ -1111,7 +1111,7 @@ File: Components
 .table > thead > tr.active > th,
 .table > tbody > tr.active > th,
 .table > tfoot > tr.active > th {
-  background-color: #f4f8fb !important;
+  background-color: #f4f8fb ;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,

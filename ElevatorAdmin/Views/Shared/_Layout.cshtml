@@ -47,6 +47,7 @@
         .display-inherit {
             display: inherit
         }
+
         .input-group-prepend {
             display: -ms-flexbox;
             display: flex
@@ -56,7 +57,7 @@
 
 
 <body class="fixed-left">
-    
+
     <!-- Begin page -->
     <div id="wrapper">
 
@@ -145,6 +146,8 @@
         <script src="~/Plugins/bootstrap-tagsinput/src/bootstrap-tagsinput.js"></script>
         <script src="~/Plugins/tinymce/jquery.tinymce.min.js"></script>
 
+        <input type="hidden" name="selectedRowInTable" />
+
         @Html.Partial("_Message.cshtml")
         <div class="content-page " style="min-height: 100vh">
             <!-- Start content -->
@@ -161,7 +164,7 @@
             </div>
         </div>
 
-        
+
 
         <!-- ============================================================== -->
         <!-- End Right content here -->
@@ -294,9 +297,20 @@
 
     @RenderSection("Script", false)
 
+    <script>
+        //$(function () {
+        function reload(href) {
+            if (href != undefined)
+                window.location = href;
+            else
+                location.reload();
 
+        }
+        //});
+    </script>
 
     <script>
+        // این قسمت مربوط به جستجو در قسمت جداول هست
         $(function () {
 
             $('.searchInput').on("keypress", function (event) {
@@ -308,6 +322,56 @@
 
             });
 
+        });
+    </script>
+
+
+
+    <script>
+        // این قسمت مربوط به زمانی است که در داخل یک جدول یک سطر انتخاب می‌شود
+        // و باید در ادامه این کارهایی انجام شود
+        $(function () {
+            // برای زمانی که دکمه برگشت زده می‌شود
+            $("input[data-role-table-checkbox]").prop("checked", false);
+
+            $("input[data-role-table-checkbox]").click(function () {
+                if ($(this).is(':checked')) {
+                    $("input[data-role-table-checkbox]").parent().parent().removeClass("tr-selected");
+                    $(this).parent().parent().addClass("tr-selected");
+
+                    $("span[data-role-table-btn-area-access]").removeClass("hidden");
+
+                    $("input[data-role-table-checkbox]").removeAttr("checked");
+                    $(this).prop("checked", true);
+
+                    $("[name='selectedRowInTable']").val($(this).attr('data-role-table-checkbox'));
+
+                }
+                else {
+                    $(this).parent().parent().removeClass("tr-selected");
+
+                    $("span[data-role-table-btn-area-access]").addClass("hidden");
+
+                    $("[name='selectedRowInTable']").val("");
+                }
+            });
+
+
+        });
+    </script>
+
+
+    <script>
+        // این قسمت مربوط به بخش دکمه های بالا جداول است
+        // وقتی روی دکمه ایی زد، شماره آیتم انتخاب شده به انتحای آدرسی که در دکمه قرار دارد
+        // اضافه میکند و سپس به سمت آن صفحه می‌رود
+        $(function () {
+            $(".data-role-table-btn").click(function () {
+                var href = $(this).attr("data-role-href") + "/" + $("[name='selectedRowInTable']").val();
+
+                reload(href);
+
+            });
         });
     </script>
 

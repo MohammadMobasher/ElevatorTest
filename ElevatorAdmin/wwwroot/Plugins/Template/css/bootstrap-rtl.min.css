@@ -5,10 +5,27 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
+.tr-selected {
+    background-color: yellow !important;
+}
+
+    .tr-selected:hover {
+        background-color: yellow !important;
+    }
+
+
 .pe-lg {
     font-size: 1.3333333333333333em;
     line-height: 0.75em;
     vertical-align: -15%;
+}
+
+.btn-icon{
+    font-size:0.8em !important;
+}
+
+.pe-1x {
+    font-size: 1em !important;
 }
 
 .pe-2x {
@@ -2833,7 +2850,7 @@ th {
 
     .table > thead > tr > th {
         line-height: 2.8 !important;
-        background-color: #167ccb;
+        background-color: #1e7ac2;
         color: #FFF;
         border-bottom: 2px solid #DDD !important;
         font-size: 16px;
@@ -2850,9 +2867,12 @@ th {
 
 
     .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-        padding: 8px;
+        padding-bottom: 4px;
+        padding-top: 4px;
+        padding-left:4px;
+        padding-right:4px;
         line-height: 2;
-        vertical-align: top;
+        vertical-align: central;
         border-top: 1px solid #ddd;
         justify-content: center;
         text-align: center !important;
@@ -3507,9 +3527,9 @@ textarea.input-lg, select[multiple].input-lg {
 
 .btn {
     display: inline-block;
-    padding: 6px 12px;
+    padding: 4px 8px;
     margin-bottom: 0;
-    font-size: 20px;
+    font-size: 17px;
     font-weight: normal;
     line-height: 1.42857143;
     text-align: center;
