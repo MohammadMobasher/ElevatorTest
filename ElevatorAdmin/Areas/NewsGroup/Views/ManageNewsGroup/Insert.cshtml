@@ -1,15 +1,14 @@
-﻿@using DataLayer.DTO
-
+﻿
 
 @{
     ViewData["Title"] = "ثبت دسته‌بندی جدید";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
 
 
 
-<form class="form-horizontal" method="post" style="">
+<form action="/NewsGroup/ManageNewsGroup/Insert" class="form-horizontal" method="post" style="">
 
     <div class="form-group">
         <label for="Title" class="control-label col-sm-2">عنوان دسته <i class="text-danger fa fa-star size-8"></i></label>
@@ -20,7 +19,7 @@
 
     
 
-    <button type="submit" class="btn btn-block btn-primary">ثبت</button>
+    <button type="submit" class="btn btn-block btn-success">ثبت</button>
 
 
 </form>

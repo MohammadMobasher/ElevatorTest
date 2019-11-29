@@ -3,13 +3,13 @@
 
 @{
     ViewData["Title"] = "ویرایش دسته";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
 
-<form class="form-horizontal" method="post" style="">
+<form action="/NewsGroup/ManageNewsGroup/Update" class="form-horizontal" method="post" style="">
 
-    <input type="hidden" value="@Model.Id"/>
+    <input type="hidden" name="Id" value="@Model.Id"/>
 
     <div class="form-group">
         <label for="Title" class="control-label col-sm-2">عنوان دسته <i class="text-danger fa fa-star size-8"></i></label>

@@ -2,12 +2,13 @@
 
 @{
     ViewData["Title"] = "ویرایش دسته";
+    Layout = null;
 }
 
 
-<form class="form-horizontal" method="post">
+<form action="/ProductGroup/ManageProductGroup/Update" class="form-horizontal" method="post">
 
-    <input type="hidden" value="@Model.Id"/>
+    <input type="hidden" name="Id" value="@Model.Id"/>
 
     <div class="form-group">
         <label for="Title" class="control-label col-sm-2">عنوان گروه <i class="text-danger fa fa-star size-8"></i></label>
@@ -18,7 +19,7 @@
 
 
 
-    <button type="submit" class="btn btn-block btn-primary">ثبت</button>
+    <button type="submit" class="btn btn-block btn-success">ثبت</button>
 
 
 </form>

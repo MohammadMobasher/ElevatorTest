@@ -3,13 +3,10 @@
 
 
 @{
-    ViewData["Title"] = "ثبت خبر جدید";
+    ViewData["Title"] = "ویرایش خبر";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>*@
-
-@*<script src="//cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>*@
 <script src="~/lib/ckeditor/ckeditor.js"></script>
 
 
@@ -55,7 +52,7 @@
         <div class="col-sm-10">
             <input name="ImageFile"
                    
-                   data-default-file="@Model.ImageAddress.Replace("wwwroot", "")"
+                   data-default-file="/@Model.ImageAddress.Replace("wwwroot", "")"
                    type="file" 
                    class="dropify"
                    data-show-loader="true"
@@ -77,7 +74,7 @@
             <input type="text" value="کلمه یک,کلمه دو,کلمه سه" data-role="tagsinput" placeholder="افزودن تگ" />
         </div>*@
 
-    <button type="submit" class="btn btn-block btn-primary">ثبت</button>
+    <button type="submit" class="btn btn-block btn-success">ثبت</button>
 
 
     <script>
