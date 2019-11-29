@@ -41,7 +41,16 @@
                 <option>لطفا انتخاب کنید</option>
                 @foreach (var item in ViewBag.NewsGroups)
                 {
-                    <option @(Model.NewsGroupId == item.Id ? "selected" : "") value="@item.Id">@item.Title</option>
+                    if (Model.NewsGroupId == item.Id)
+                    {
+                        <option selected value="@item.Id">@item.Title</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.Title</option>
+                    }
+
+
                 }
             </select>
         </div>

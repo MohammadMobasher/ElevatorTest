@@ -920,7 +920,7 @@ textarea.form-control {
   border-color: #DDDDDD;
   border-radius: 2px;
   box-shadow: none;
-  padding: 25px;
+  padding: 25px 25px 0 25px;
 }
 .modal .modal-dialog .modal-content .modal-header {
   border-bottom-width: 2px;

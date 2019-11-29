@@ -282,9 +282,9 @@ function CustomOpenModal(url, modalTitle) {
     
     $('[name="LiftBazarModalContent"]').html(AjaxCall(url, null, "GET"));
 
-    $('[name="LiftBazarModalTitle"]').html(modalTitle);
-
-    $('[data-animation="fadein"]').trigger("click");
+    $('[name="LiftBazarModalTitle"]').html(modalTitle); 
+    
+    $('#LiftBazarModal').modal('show');
 
 }
 
