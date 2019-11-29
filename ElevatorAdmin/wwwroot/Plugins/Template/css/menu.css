@@ -199,9 +199,9 @@ File: Menu
   overflow: hidden;
 }
 .content-page .content {
-  padding: 0px 5px;
+  padding: 0px 0px;
   /*margin-top: 73px;*/
-  padding-top:73px !important;
+  /*padding-top:73px !important;*/
 }
 .button-menu-mobile {
   background: transparent;

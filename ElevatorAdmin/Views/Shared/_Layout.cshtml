@@ -57,13 +57,13 @@
 </head>
 
 
-<body class="fixed-left">
+<body class="fixed-left" style="overflow:hidden">
     
     <!-- Begin page -->
     <div id="wrapper">
 
         <!-- Top Bar Start -->
-        <div class="topbar">
+        <div class="topbar Mtopbar" >
 
             <!-- LOGO -->
             <div class="topbar-left">
@@ -150,11 +150,11 @@
         <input type="hidden" name="selectedRowInTable" />
 
         @Html.Partial("_Message.cshtml")
-        <div class="content-page " style="min-height: 100vh">
+        <div class="content-page " style="">
             <!-- Start content -->
-            <div class="content " style="min-height: 100vh; overflow-y:scroll">
-                <div style="border-top:2.5px solid #3d871d; position:fixed;z-index:10000; width:100% !important"></div>
-                <div class="container " style=" margin-bottom:-73px; background-color:#FFF; min-height: 100vh">
+            <div class="content Mcontent" style="margin-top:73px; overflow-y:auto">
+                <div style="border-top:2.5px solid #3d871d; position:fixed; z-index:10000; width:100% !important"></div>
+                <div class="container  " style=" background-color:#FFF;height:inherit">
 
                     @* Custome Modal For LiftBazar *@
 
@@ -172,13 +172,16 @@
                         </div>
                     </div>
                     @* Custome Modal For LiftBazar *@
-                    <div class="form-horizontal pageTitle">
+
+                    <div class="form-horizontal pageTitle ">
                         @ViewData["Title"]
                     </div>
 
                     @RenderBody()
                 </div>
             </div>
+
+            
         </div>
 
 
@@ -318,7 +321,13 @@
 
     @RenderSection("Script", false)
 
+    <script>
+        $(function () {
 
+            $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height()+"px" });
+
+        });
+    </script>
 
 
 </body>
