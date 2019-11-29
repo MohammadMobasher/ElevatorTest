@@ -12,6 +12,8 @@ namespace DataLayer.Entities.Users
         {
             CreateDate = DateTime.Now;
         }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         public DateTime? CreateDate { get; set; }
         public bool IsActive { get; set; }
