@@ -2,28 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.DTO;
 using DataLayer.ViewModels.NewsGroup;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
+using Service.Repos.User;
+using WebFramework.Authenticate;
 using WebFramework.Base;
 
 namespace ElevatorAdmin.Areas.NewsGroup.Controllers
 {
     [Area("NewsGroup")]
-    [AllowAnonymous()]
+    [ControllerRole("مدیریت گروه اخبار")]
     public class ManageNewsGroupController : BaseAdminController
     {
         private readonly NewsGroupRepository _newsGroupRepository;
 
-        public ManageNewsGroupController(NewsGroupRepository newsGroupRepository)
+        public ManageNewsGroupController(NewsGroupRepository newsGroupRepository, UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
         {
             
             _newsGroupRepository = newsGroupRepository;
         }
 
+
+        [ActionRole("صفحه لیست گروه اخبار")]
+        [HasAccess]
         public async Task<IActionResult> Index(NewsGroupSearchViewModel searchModel)
         {
             this.PageSize = 10;
@@ -42,6 +48,8 @@ namespace ElevatorAdmin.Areas.NewsGroup.Controllers
 
         #region ثبت
 
+        [ActionRole("ثبت گروه جدید")]
+        [HasAccess]
         public async Task<IActionResult> Insert()
         {
             return View();
@@ -60,7 +68,8 @@ namespace ElevatorAdmin.Areas.NewsGroup.Controllers
         #endregion
 
         #region ویرایش
-
+        [ActionRole("ویرایش گروه")]
+        [HasAccess]
         public async Task<IActionResult> Update(int Id)
         {
 
@@ -81,7 +90,8 @@ namespace ElevatorAdmin.Areas.NewsGroup.Controllers
         #endregion
 
         #region حذف
-
+        [ActionRole("حذف گروه")]
+        [HasAccess]
         public async Task<IActionResult> Delete(int Id)
         {
 

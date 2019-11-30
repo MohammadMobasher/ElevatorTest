@@ -2,30 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.ViewModels.ProductGroup;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos.Product;
+using Service.Repos.User;
+using WebFramework.Authenticate;
 using WebFramework.Base;
 
 namespace ElevatorAdmin.Areas.ProductGroup.Controllers
 {
     [Area("ProductGroup")]
-    [AllowAnonymous()]
+    [ControllerRole("مدیریت گروه کالا‌ها")]
     public class ManageProductGroupController : BaseAdminController
     {
 
         private readonly ProductGroupRepository _productGroupRepository;
 
-        public ManageProductGroupController(ProductGroupRepository productGroupRepository)
+        public ManageProductGroupController(ProductGroupRepository productGroupRepository, UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
         {
             _productGroupRepository = productGroupRepository;
         }
 
 
 
-
+        [ActionRole("صفحه لیست گروه کالاها")]
+        [HasAccess]
         public async Task<IActionResult> Index(ProductGroupSearchViewModel searchModel)
         {
             this.PageSize = 10;
@@ -44,7 +48,8 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
 
 
         #region ثبت
-
+        [ActionRole("ثبت گروه کالا جدید")]
+        [HasAccess]
         public async Task<IActionResult> Insert()
         {
             return View();
@@ -63,7 +68,8 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         #endregion
 
         #region ویرایش
-
+        [ActionRole("ویرایش گروه کالا")]
+        [HasAccess]
         public async Task<IActionResult> Update(int Id)
         {
 
@@ -84,7 +90,8 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         #endregion
 
         #region حذف
-
+        [ActionRole("حذف گروه کالا")]
+        [HasAccess]
         public async Task<IActionResult> Delete(int Id)
         {
 

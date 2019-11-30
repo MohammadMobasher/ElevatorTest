@@ -66,7 +66,7 @@ $(function () {
 
         var href = $(this).attr("data-role-href") + "/";
 
-        console.log("qqqq", $("[name='selectedRowInTable']").val());
+        
         if ($("[name='selectedRowInTable']").val() != "")
             href += $("[name='selectedRowInTable']").val();
 

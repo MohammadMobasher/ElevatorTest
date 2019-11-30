@@ -71,27 +71,26 @@ namespace ElevatorAdmin.TagHelpers
 
         public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            string Button = "";
-            List<UserAccessListViewModel> ListAccess = ViewContext.ViewBag.ListAccess;
+            //===================================================================================
+                string Button = "";
+                List<UserAccessListViewModel> ListAccess = ViewContext.ViewBag.ListAccess;
+            //===================================================================================
 
-            if (ListAccess.Where(x => x.Controller == this.Controller && x.Action == this.Action) != null)
+            if (ListAccess != null && ListAccess.Count > 0 && ListAccess.Where(x => x.Controller == this.Controller + "Controller" && x.Action == this.Action).ToList().Count() > 0)
             {
                 Button = @"
                     <button data-role-href='/" + this.Area + "/" + this.Controller + "/" + this.Action + @"' 
                             class='btn btn-lg " + this.ButtonClass + @" data-role-table-btn'
                             data-toggle='tooltip'
                             title='" + Title + @"'
-                            modal-title='" + this.ModalTitle + @"'
-                            ismodal='" + (this.IsModal ? "true" : "false") + @"'
+                            " + (!string.IsNullOrEmpty(this.ModalTitle) ? "modal-title='" + this.ModalTitle + "'" : "") + @"
+                            " + (this.IsModal ? "ismodal" : "" ) + @"
                             data-role='confirm'>
                             <i class='fa " + this.Icon + @" btn-icon' aria-hidden='true'></i>&nbsp;&nbsp;
                             " + Title + @"
                     </button>
                 ";
-                
-
             }
-
 
             output.Content.AppendHtml(Button);
             return base.ProcessAsync(context, output);

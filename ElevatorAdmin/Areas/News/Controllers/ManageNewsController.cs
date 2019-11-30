@@ -11,11 +11,14 @@ using Service.Repos;
 using WebFramework.Base;
 using Core.Utilities;
 using System.Security.Claims;
+using Core.CustomAttributes;
+using WebFramework.Authenticate;
+using Service.Repos.User;
 
 namespace ElevatorAdmin.Areas.News.Controllers
 {
     [Area("News")]
-    [AllowAnonymous()]
+    [ControllerRole("مدیریت ویژگی‌ها")]
     public class ManageNewsController : BaseAdminController
     {
 
@@ -23,7 +26,7 @@ namespace ElevatorAdmin.Areas.News.Controllers
         private readonly NewsGroupRepository _newsGroupRepository;
 
         public ManageNewsController(NewsRepository newsRepository,
-            NewsGroupRepository newsGroupRepository)
+            NewsGroupRepository newsGroupRepository, UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
         {
             _newsRepository = newsRepository;
             _newsGroupRepository = newsGroupRepository;
@@ -31,6 +34,8 @@ namespace ElevatorAdmin.Areas.News.Controllers
 
         }
 
+        [ActionRole("صفحه لیست اخبار")]
+        [HasAccess]
         public async Task<IActionResult> Index(NewsSearchViewModel searchModel)
         {
             this.PageSize = 10;
@@ -49,7 +54,8 @@ namespace ElevatorAdmin.Areas.News.Controllers
 
 
         #region ثبت
-
+        [ActionRole("ثبت خبر جدید")]
+        [HasAccess]
         public async Task<IActionResult> Insert()
         {
             var NewsGroups = await _newsGroupRepository.LoadAsync<NewsGroupDTO>();
@@ -70,7 +76,8 @@ namespace ElevatorAdmin.Areas.News.Controllers
         #endregion
 
         #region ویرایش
-
+        [ActionRole("ویرایش خبر")]
+        [HasAccess]
         public async Task<IActionResult> Update(int Id)
         {
 
@@ -92,7 +99,8 @@ namespace ElevatorAdmin.Areas.News.Controllers
         #endregion
 
         #region حذف
-
+        [ActionRole("حذف خبر")]
+        [HasAccess]
         public async Task<IActionResult> Delete(int Id)
         {
 

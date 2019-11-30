@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.ViewModels.Feature;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using Service.Repos.User;
+using WebFramework.Authenticate;
 using WebFramework.Base;
 
 namespace ElevatorAdmin.Areas.Feature.Controllers
 {
     [Area("Feature")]
-    [AllowAnonymous()]
+    [ControllerRole("مدیریت ویژگی‌ها")]
     public class ManageFeatureController : BaseAdminController
     {
         private readonly FeatureRepository _featureRepository;
@@ -23,6 +25,9 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
             _featureRepository = featureRepository;
         }
 
+
+        [ActionRole("صفحه لیست کاربران")]
+        [HasAccess]
         public async Task<IActionResult> Index(FeatureSearchViewModel searchModel)
         {
 
@@ -42,6 +47,9 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
 
         #region ثبت
 
+
+        [ActionRole("ثبت ویژگی جدید")]
+        [HasAccess]
         public async Task<IActionResult> Insert()
         {
             return View();
