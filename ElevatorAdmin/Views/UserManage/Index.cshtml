@@ -22,6 +22,8 @@
 
     <span class="hidden" data-role-table-btn-area-access="">
         <TableBotton controller="UserManage" action="EditPassword"
+                     isModal="true"
+                     modalTitle="تغییر رمز عبور"
                      title="تغییر رمز عبور"
                      icon="fa-key"
                      buttonClass="btn-warning"></TableBotton>
@@ -33,8 +35,8 @@
 
 
         <TableBotton controller="UserManage" action="SendSmsToUser"
-                     @*isModal="true"
-                     modalTitle="ارسال پیامک به کاربر" *@
+                     isModal="true"
+                     modalTitle="ارسال پیامک به کاربر"
                      title="ارسال پیامک به کاربر"
                      icon="fa-paper-plane"
                      buttonClass="btn-primary"></TableBotton>
