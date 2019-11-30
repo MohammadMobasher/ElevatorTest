@@ -8,12 +8,21 @@
 
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
 
-    <button data-role-href="/Feature/ManageFeature/Insert"
+    @*<button data-role-href="/Feature/ManageFeature/Insert"
             class="btn btn-lg btn-primary data-role-table-btn" data-toggle="tooltip" modal-title="ثبت جدید" ismodal="true" title="ثبت" data-role="confirm">
         <i class="fa fa-plus btn-icon" aria-hidden="true"></i>&nbsp;&nbsp;
 
         ثبت
-    </button>
+    </button>*@
+    <TableBotton
+        area="Feature" controller="ManageFeature" action="Insert"
+        isModal="true"
+        modalTitle="ثبت جدید"
+        title="ثبت"
+        icon="fa-plus"
+        buttonClass="btn-primary"
+        ></TableBotton>
+    
 
     <span class="hidden" data-role-table-btn-area-access="">
 

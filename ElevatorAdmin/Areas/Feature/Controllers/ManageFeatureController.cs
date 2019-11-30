@@ -7,6 +7,7 @@ using DataLayer.ViewModels.Feature;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
+using Service.Repos.User;
 using WebFramework.Base;
 
 namespace ElevatorAdmin.Areas.Feature.Controllers
@@ -17,7 +18,7 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
     {
         private readonly FeatureRepository _featureRepository;
 
-        public ManageFeatureController(FeatureRepository featureRepository)
+        public ManageFeatureController(FeatureRepository featureRepository, UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
         {
             _featureRepository = featureRepository;
         }
