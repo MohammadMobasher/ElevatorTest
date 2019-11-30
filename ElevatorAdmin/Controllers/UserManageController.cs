@@ -16,7 +16,7 @@ using WebFramework.SmsManage;
 namespace ElevatorAdmin.Controllers
 {
     [ControllerRole("مدیریت کاربران")]
-    public class UserManageController : Controller
+    public class UserManageController : BaseAdminController
     {
         private readonly UserRepository _userRepository;
         private readonly UsersRoleRepository _usersRoleRepository;
@@ -27,7 +27,8 @@ namespace ElevatorAdmin.Controllers
             (UserRepository userRepository
             , UsersRoleRepository usersRoleRepository
             , RoleRepository roleRepository
-            , SmsService smsService)
+            , SmsService smsService
+            , UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
         {
             _userRepository = userRepository;
             _usersRoleRepository = usersRoleRepository;

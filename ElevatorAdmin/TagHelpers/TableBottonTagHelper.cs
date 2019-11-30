@@ -79,7 +79,7 @@ namespace ElevatorAdmin.TagHelpers
             if (ListAccess != null && ListAccess.Count > 0 && ListAccess.Where(x => x.Controller == this.Controller + "Controller" && x.Action == this.Action).ToList().Count() > 0)
             {
                 Button = @"
-                    <button data-role-href='/" + this.Area + "/" + this.Controller + "/" + this.Action + @"' 
+                    <button data-role-href='" + (!string.IsNullOrEmpty(this.Area) ? "/" + this.Area : "") + "/" + this.Controller + "/" + this.Action + @"' 
                             class='btn btn-lg " + this.ButtonClass + @" data-role-table-btn'
                             data-toggle='tooltip'
                             title='" + Title + @"'

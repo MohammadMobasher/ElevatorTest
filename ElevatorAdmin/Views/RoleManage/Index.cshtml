@@ -11,42 +11,52 @@
 </style>
 
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
-    <a href="/RoleManage/Create" class="btn btn-lg btn-primary" data-toggle="tooltip" title="ثبت" data-role="confirm">
-        <i class="fa fa-plus btn-icon" aria-hidden="true"></i>&nbsp;&nbsp;
-        ثبت
-    </a>
+    @*<a href="/RoleManage/Create" class="btn btn-lg btn-primary" data-toggle="tooltip" title="ثبت" data-role="confirm">
+            <i class="fa fa-plus btn-icon" aria-hidden="true"></i>&nbsp;&nbsp;
+            ثبت
+        </a>*@
+
+    <TableBotton controller="RoleManage" action="Create"
+                 title="ثبت"
+                 icon="fa-plus"
+                 buttonClass="btn-primary"></TableBotton>
+
+    <span class="hidden" data-role-table-btn-area-access="">
+        <TableBotton controller="RoleManage" action="Edit"
+                     title="ویرایش"
+                     icon="fa-pencil-square-o"
+                     buttonClass="btn-warning"></TableBotton>
+
+    </span>
 </div>
 
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
     <table class="table table-responsive table-striped rounded table-hover table-bordered ">
         <thead>
             <tr>
-                <th width="10">ردیف</th>
-                <th width="200">
+                <th width="3%"></th>
+                <th width="50px">
+                    ردیف
+                </th>
+                <th>
                     عنوان نقش
                 </th>
-                <th width="200">
+                <th>
                     نقش
                 </th>
-                <th width="200">
-                    اقدامات
-                </th>
+
             </tr>
         </thead>
         <tbody>
             @{ var raw = 1;}
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@(raw++)</td>
-                    <td>@item.RoleTitle</td>
-                    <td>@item.Name</td>
-                    <td>
-
-                        <a href='@Url.Action("Edit", new {id = @item.Id})' class="btn btn-trans btn-info btn-sm btn-rounded w-md waves-effect waves-light m-b-5"><i class="fa fa-wrench"></i> تنظیمات نقش <i class="fa fa-wrench"></i></a>
-                    </td>
-
-                </tr>
+            <tr>
+                <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                <td>@(raw++)</td>
+                <td>@item.RoleTitle</td>
+                <td>@item.Name</td>
+            </tr>
             }
         </tbody>
     </table>
