@@ -67,6 +67,10 @@ $(function () {
 // اضافه میکند و سپس به سمت آن صفحه می‌رود
 $(function () {
     $(".data-role-table-btn").click(function () {
+
+        var ladda = Ladda.create(document.querySelector('button.ladda-button'));
+        ladda.start();
+
         $(".loading").removeClass("hidden");
 
         var attr = $(this).attr('ismodal');
@@ -87,6 +91,7 @@ $(function () {
             reload(href);
         }
         $(".loading").addClass("hidden");
+        ladda.stop();
 
     });
 });
@@ -98,10 +103,16 @@ $(function () {
 // کلیک شد بسته به نوع کلیک (انتخاب کرده باشد یا مه)
 // مقداری برای این فیلد قرار میدهد
 $(document).on("click", "[type='checkbox']", function (e) {
-    if (this.checked) {
-        $(this).attr("value", "true");
-    } else {
-        $(this).attr("value", "false");
+
+    //درصفحه مربوط به دسترسی‌ها نباید این روش اعمال شود
+    // چک میکنیم اگر همچین کلاسی داشته باشند 
+    // یعنی در آن صفحه هستیم
+    if (!$(this).hasClass("checkbox-NotValue")) {
+        if (this.checked) {
+            $(this).attr("value", "true");
+        } else {
+            $(this).attr("value", "false");
+        }
     }
 });
 
@@ -175,15 +186,11 @@ function AjaxCall(url, params, type) {
         async: false,
         data: params,
         success: function (data) {
-            console.log("mohammad");
-            // پنهان کردن لودینگ
-            $('.loading').addClass("hide");
-            
+           
             returnData = data;
             
         },
         error: function (xhr, textStatus, errorThrown) {
-            console.log("mohammad1");
             console.log(xhr.status);
             // درصورتی که کوکی شخص پریده باشد باید به صفحه لاگین هدایت شود
             // درصورتی که شماره status برابر 401 باشد باید به صفحه لاگین هدایت شود

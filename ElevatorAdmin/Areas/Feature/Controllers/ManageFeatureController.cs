@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Core.CustomAttributes;
 using Core.Utilities;
@@ -54,6 +55,7 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
         [HasAccess]
         public async Task<IActionResult> Insert()
         {
+            
             return View();
         }
 
