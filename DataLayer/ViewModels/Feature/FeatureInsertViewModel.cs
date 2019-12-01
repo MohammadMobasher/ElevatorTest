@@ -12,6 +12,6 @@ namespace DataLayer.ViewModels.Feature
 
         public FeatureTypeSSOT FeatureType { get; set; }
 
-        public string SSOTValue { get; set; }
+        public bool IsRequired { get; set; } = false;
     }
 }

@@ -15,15 +15,7 @@ namespace DataLayer.Entities
         [StringLength(150, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
         [Required]
         public string Title { get; set; }
-
-
-        ///// <summary>
-        ///// نام ویژگی (انگیلسی)
-        ///// </summary>
-        //[StringLength(150, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
-        //[Required]
-        //public string Name { get; set; }
-
+        
 
         /// <summary>
         /// نوع این ویژگی
@@ -31,11 +23,10 @@ namespace DataLayer.Entities
         [Required]
         public FeatureTypeSSOT FeatureType { get; set; }
 
+
         /// <summary>
-        /// در این فیلد زمانی که نوع فیلد به صورت 
-        /// ssot
-        /// باشد، مقادیر مربوط به آن قرار میگیرد
+        /// آیا این فیلد به صورت ضروری است و باید پر شود
         /// </summary>
-        public string SSOTValue { get; set; }
+        public bool IsRequired { get; set; } = false;
     }
 }

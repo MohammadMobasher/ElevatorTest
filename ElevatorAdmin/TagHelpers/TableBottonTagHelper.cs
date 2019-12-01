@@ -82,15 +82,21 @@ namespace ElevatorAdmin.TagHelpers
                 || ListAccess.Any(a=>a.IsAdmin == true))
             {
                 Button = @"
-                    <button data-role-href='" + (!string.IsNullOrEmpty(this.Area) ? "/" + this.Area : "") + "/" + this.Controller + "/" + this.Action + @"' 
-                            class='btn btn-lg " + this.ButtonClass + @" data-role-table-btn'
+                    <button data-style='zoom-out'
+                            data-role-href='" + (!string.IsNullOrEmpty(this.Area) ? "/" + this.Area : "") + "/" + this.Controller + "/" + this.Action + @"' 
+                            class='ladda-button btn btn-lg " + this.ButtonClass + @" data-role-table-btn'
                             data-toggle='tooltip'
                             title='" + Title + @"'
                             " + (!string.IsNullOrEmpty(this.ModalTitle) ? "modal-title='" + this.ModalTitle + "'" : "") + @"
                             " + (this.IsModal ? "ismodal" : "") + @"
                             data-role='confirm'>
-                            <i class='fa " + this.Icon + @" btn-icon' ari a-hidden='true'></i>&nbsp;&nbsp;
-                            " + Title + @"
+
+                            <span class='ladda-label'>
+
+                                  <i class='fa " + this.Icon + @" btn-icon' aria-hidden='true'></i>&nbsp;&nbsp;
+                                  " + Title + @"
+                            
+                            </span>
                     </button>
                 ";
             }

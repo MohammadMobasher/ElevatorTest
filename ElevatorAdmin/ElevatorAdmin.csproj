@@ -34,8 +34,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\Feature\Data\" />
-    <Folder Include="Areas\Feature\Models\" />
     <Folder Include="Areas\News\Data\" />
     <Folder Include="Areas\News\Models\" />
     <Folder Include="Areas\ProductGroup\Data\" />

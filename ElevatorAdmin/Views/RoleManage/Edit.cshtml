@@ -56,7 +56,7 @@
                         <div class="card-box">
                             <div class="dropdown pull-right">
                                 <div class="checkbox checkbox-primary" style="top:-10px;padding-left:0 !important">
-                                    <input type="checkbox" class="checkboxHead" name="vm[@raw].Controller" @(currentAccess != null ? "checked" : "") value="@item.Name" data-role="@item.Name">
+                                    <input type="checkbox" class="checkboxHead checkbox-NotValue" name="vm[@raw].Controller" @(currentAccess != null ? "checked" : "") value="@item.Name" data-role="@item.Name">
 
                                     <label>
 
@@ -81,7 +81,7 @@
                                     {
                                         <li>
                                             <div class="checkbox checkbox-info" style="top:-10px;padding-left:0 !important">
-                                                <input type="checkbox" class="sub_@item.Name" name="vm[@raw].Actions" @(actionJsons.Contains(actions?.Name) ? "checked" : "") value="@actions?.Name" disabled>
+                                                <input type="checkbox" class="sub_@item.Name checkbox-NotValue" name="vm[@raw].Actions" @(actionJsons.Contains(actions?.Name) ? "checked" : "") value="@actions?.Name" disabled>
                                                 <label>
                                                     @(actions.GetCustomAttribute<ActionRoleAttribute>()?.GetActionName())
                                                 </label>
