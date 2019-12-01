@@ -8,24 +8,20 @@
 
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
 
-    <button data-role-href="/Feature/ManageFeature/Insert"
-            class="btn btn-lg btn-primary data-role-table-btn" data-toggle="tooltip" modal-title="ثبت جدید" ismodal="true" title="ثبت" data-role="confirm">
-        <i class="fa fa-plus btn-icon" aria-hidden="true"></i>&nbsp;&nbsp;
-
-        ثبت
-    </button>
+    <TableBotton
+        area="Feature" controller="ManageFeature" action="Insert"
+        isModal="true"
+        modalTitle="ثبت جدید"
+        title="ثبت"
+        icon="fa-plus"
+        buttonClass="btn-primary"
+        ></TableBotton>
+    
 
     <span class="hidden" data-role-table-btn-area-access="">
 
-        <button data-role-href="/Feature/ManageFeature/Update" class="btn btn-lg btn-warning data-role-table-btn" data-toggle="tooltip" title="ویرایش" data-role="confirm">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp;
-            ویرایش
-        </button>
+        
 
-        <button data-role-href="/Feature/ManageFeature/Delete" class="btn btn-lg btn-danger data-role-table-btn" data-toggle="tooltip" title="حذف" data-role="confirm">
-            <i class="fa fa-trash-o btn-icon" aria-hidden="true"></i>&nbsp;&nbsp;
-            حذف
-        </button>
     </span>
 
 </div>

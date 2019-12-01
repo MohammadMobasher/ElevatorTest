@@ -41,15 +41,18 @@
 
         </div>
 
-        <div class="card-box">
+        <div class="card-box" style="background-color:#EEE">
+
+
             <div class="row">
+
                 @{ var raw = 0;}
                 @foreach (var item in controllerInfo)
                 {
                     var currentAccess = listAccess.FirstOrDefault(a => a.Controller.Equals(item.Name));
 
-                    <input type="hidden" name="vm[@raw].RoleId" value="@item.Name" />
                     <div class="col-md-4">
+                        <input type="hidden" name="vm[@raw].RoleId" value="@item.Name" />
                         <div class="card-box">
                             <div class="dropdown pull-right">
                                 <div class="checkbox checkbox-primary" style="top:-10px;padding-left:0 !important">
@@ -112,11 +115,9 @@
     <script>
         $(function () {
 
-            var colors = ['red', 'blue', 'green', 'gray', 'black', 'yellow',];
-
 
             $('hr[class^="hr-random"]').each(function () {
-                $(this).css('background-color', '#' + Math.floor(Math.random() * 16777215).toString(16));
+                $(this).css('background-color', '#' + Math.floor(Math.random() * 16777215).toString(16) );
             });
 
 

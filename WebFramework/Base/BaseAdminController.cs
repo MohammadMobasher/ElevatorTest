@@ -3,6 +3,7 @@ using DataLayer.SSOT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Service.Repos.User;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -15,6 +16,12 @@ namespace WebFramework.Base
     [Authorize]
     public class BaseAdminController : Controller
     {
+        private readonly UsersAccessRepository _usersAccessRepository;
+
+        public BaseAdminController(UsersAccessRepository usersAccessRepository) 
+        {
+            _usersAccessRepository = usersAccessRepository;
+        }
 
         #region Fields
 
@@ -58,6 +65,20 @@ namespace WebFramework.Base
 
         private int? _userId { get; set; }
 
+        /// <summary>
+        /// شماره نقش فردی که لاگین کرده است
+        /// </summary>
+        public string Role {
+            get
+            {
+                if (_roleId == null)
+                    _roleId = User.Identity.FindFirstValue(ClaimTypes.Role);
+
+                return _roleId;
+            }
+        }
+        private string _roleId { get; set; }
+
         public BaseAdminController()
         {
 
@@ -87,6 +108,9 @@ namespace WebFramework.Base
         {
             base.OnActionExecuted(context);
 
+            // لیست دسترسی‌های موجود برای این نقش
+            getListAccess();
+
 
             ViewBag.CurrentPage = this.CurrentPage;
             ViewBag.pageSize = this.PageSize;
@@ -95,6 +119,22 @@ namespace WebFramework.Base
             ViewBag.pageCount = (int)Math.Floor((decimal)((this.TotalNumber + this.PageSize - 1) / this.PageSize));
             
             ViewBag.totalNumber = this.TotalNumber;
+
+
+
+        }
+
+        /// <summary>
+        /// با استفاده از این تابع یک لیستی به صفحه پاس داده می‌شود
+        /// در این تابع لیستی از 
+        /// controller 
+        /// و
+        /// action
+        /// هایی که این نقش دارد را به صفحه پاس میدهد
+        /// </summary>
+        private void getListAccess()
+        {
+            ViewBag.ListAccess = _usersAccessRepository.GetAllUserAccesss(this.Role);
         }
 
 

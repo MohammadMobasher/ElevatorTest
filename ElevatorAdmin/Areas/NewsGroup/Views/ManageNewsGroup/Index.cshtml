@@ -8,24 +8,29 @@
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
 
 
-    <button data-role-href="/NewsGroup/ManageNewsGroup/Insert"
-            
-            class="btn btn-lg btn-primary data-role-table-btn" modal-title="ثبت جدید" ismodal="true" data-toggle="tooltip" title="ثبت" data-role="confirm">
-        <i class="fa fa-plus btn-icon" aria-hidden="true"></i>&nbsp;&nbsp;
-        ثبت
-    </button>
+    
+    <TableBotton area="NewsGroup" controller="ManageNewsGroup" action="Insert"
+                 isModal="true"
+                 modalTitle="ثبت جدید"
+                 title="ثبت"
+                 icon="fa-plus"
+                 buttonClass="btn-primary"></TableBotton>
+
 
     <span class="hidden" data-role-table-btn-area-access="">
 
-        <button data-role-href="/NewsGroup/ManageNewsGroup/Update" modal-title="ویرایش" ismodal="true" class="btn btn-lg btn-warning data-role-table-btn" data-toggle="tooltip" title="ویرایش" data-role="confirm">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp;
-            ویرایش
-        </button>
+        <TableBotton area="NewsGroup" controller="ManageNewsGroup" action="Update"
+                     isModal="true"
+                     modalTitle="ویرایش آیتم"
+                     title="ویرایش"
+                     icon="fa-pencil-square-o"
+                     buttonClass="btn-warning"></TableBotton>
 
-        <button data-role-href="/NewsGroup/ManageNewsGroup/Delete" class="btn btn-lg btn-danger data-role-table-btn" data-toggle="tooltip" title="حذف" data-role="confirm">
-            <i class="fa fa-trash-o btn-icon" aria-hidden="true"></i>&nbsp;&nbsp;
-            حذف
-        </button>
+
+        <TableBotton area="NewsGroup" controller="ManageNewsGroup" action="Delete"
+                     title="حذف"
+                     icon="fa-trash-o"
+                     buttonClass="btn-danger"></TableBotton>
     </span>
 
 

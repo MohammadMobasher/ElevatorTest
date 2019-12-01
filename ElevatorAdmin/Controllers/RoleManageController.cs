@@ -19,7 +19,7 @@ namespace ElevatorAdmin.Controllers
 {
     [ControllerRole("مدیریت نقش ها")]
 
-    public class RoleManageController : Controller
+    public class RoleManageController : BaseAdminController
     {
         private readonly RoleRepository _roleRepository;
         private readonly UsersRoleRepository _usersRoleRepository;
@@ -29,7 +29,7 @@ namespace ElevatorAdmin.Controllers
         public RoleManageController(RoleRepository roleRepository
             , UsersRoleRepository usersRoleRepository
             , BasicRepository basicRepository
-            , UsersAccessRepository usersAccessRepository)
+            , UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
         {
             _roleRepository = roleRepository;
             _usersRoleRepository = usersRoleRepository;

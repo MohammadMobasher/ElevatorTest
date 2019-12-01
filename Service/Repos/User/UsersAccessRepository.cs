@@ -56,7 +56,7 @@ namespace Service.Repos.User
 
                     if (actions != null && actions.Contains(action)) return true;
                 }
-}
+            }
             return false;
         }
 
@@ -113,11 +113,38 @@ namespace Service.Repos.User
                     Add(new UsersAccess()
                     {
                         RoleId = roleId,
-                        Actions = item.Actions != null ? JsonConvert.SerializeObject(item.Actions) : null ,
+                        Actions = item.Actions != null ? JsonConvert.SerializeObject(item.Actions) : null,
                         Controller = item.Controller
                     });
                 }
             }
+        }
+
+        /// <summary>
+        /// لیست تمامی کنترلر ها و اکشن ها که کاربر دسترسی دارد
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public List<UserAccessListViewModel> GetAllUserAccesss(string Role)
+        {
+            var lst = new List<UserAccessListViewModel>();
+            var model= TableNoTracking.Where(a => a.Roles.Name == Role).ToList();
+
+            foreach (var item in model)
+            {
+                var actions = JsonConvert.DeserializeObject<List<string>>(item.Actions);
+
+                foreach (var action in actions)
+                {
+                    lst.Add(new UserAccessListViewModel()
+                    {
+                        Action = action,
+                        Controller = item.Controller
+                    });
+                }
+            }
+
+            return lst;
         }
     }
 }
