@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.Entities.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos.User;
@@ -10,7 +11,7 @@ using WebFramework.Base;
 
 namespace ElevatorAdmin.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseAdminController
     {
         private readonly UserRepository _userRepository;
         private readonly UsersRoleRepository _usersRoleRepository;
@@ -21,8 +22,8 @@ namespace ElevatorAdmin.Controllers
             UserManager<Users> userManager,
             UserRepository userRepository,
             UsersRoleRepository usersRoleRepository,
-            RoleRepository roleRepository
-            )
+            RoleRepository roleRepository,
+            UsersAccessRepository usersAccessRepository) : base (usersAccessRepository)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -37,6 +38,7 @@ namespace ElevatorAdmin.Controllers
         }
 
         [AllowAccess]
+        [AllowAnonymous()]
         public IActionResult Login()
         {
             return View();
@@ -65,7 +67,9 @@ namespace ElevatorAdmin.Controllers
             TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور یا نام کاربری نادرست است"));
             return RedirectToAction("Index");
         }
+
         [AllowAccess]
+        [AllowAnonymous()]
         public async Task<IActionResult> Logout()
         {
 

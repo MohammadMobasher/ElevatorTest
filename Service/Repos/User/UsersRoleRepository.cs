@@ -45,8 +45,12 @@ namespace Service.Repos.User
             #endregion
         }
 
+        public UserRoles GetRoleByUserId(int userId)
+            => GetByCondition(a => a.UserId == userId);
 
 
+        public async Task<UserRoles> GetRoleByUserIdAsync(int userId)
+           =>await GetByConditionAsync(a => a.UserId == userId);
 
     }
 }

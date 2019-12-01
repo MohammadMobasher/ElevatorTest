@@ -37,7 +37,7 @@ namespace ElevatorAdmin.Controllers
         }
 
         [ActionRole("صفحه مدیریت کاربران")]
-        [HasAccess]
+        //[HasAccess]
         public IActionResult Index()
         {
             var model = _userRepository
@@ -52,7 +52,7 @@ namespace ElevatorAdmin.Controllers
         #region دسترسی دادن به کاربران
 
         [ActionRole("دسترسی دادن به کاربر")]
-        [HasAccess]
+        //[HasAccess]
         public IActionResult SetRole(int id)
         {
             // لیست تمامی نقش های تعریف شده در سایت

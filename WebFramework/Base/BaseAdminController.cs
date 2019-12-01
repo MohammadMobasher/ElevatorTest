@@ -12,7 +12,7 @@ using WebFramework.Authenticate;
 
 namespace WebFramework.Base
 {
-    //[HasAccess]
+    [HasAccess]
     [Authorize]
     public class BaseAdminController : Controller
     {
@@ -134,7 +134,7 @@ namespace WebFramework.Base
         /// </summary>
         private void getListAccess()
         {
-            ViewBag.ListAccess = _usersAccessRepository.GetAllUserAccesss(this.Role);
+            ViewBag.ListAccess = _usersAccessRepository.GetAllUserAccesss(this.UserId);
         }
 
 

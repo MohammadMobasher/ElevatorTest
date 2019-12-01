@@ -72,11 +72,14 @@ namespace ElevatorAdmin.TagHelpers
         public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             //===================================================================================
-                string Button = "";
-                List<UserAccessListViewModel> ListAccess = ViewContext.ViewBag.ListAccess;
+            string Button = "";
+            List<UserAccessListViewModel> ListAccess = ViewContext.ViewBag.ListAccess;
             //===================================================================================
 
-            if (ListAccess != null && ListAccess.Count > 0 && ListAccess.Where(x => x.Controller == this.Controller + "Controller" && x.Action == this.Action).ToList().Count() > 0)
+            if ((ListAccess != null && ListAccess.Count > 0 
+                && ListAccess.Where(x => x.Controller == this.Controller + "Controller" 
+                && x.Action == this.Action).ToList().Count() > 0) 
+                || ListAccess.Any(a=>a.IsAdmin == true))
             {
                 Button = @"
                     <button data-role-href='" + (!string.IsNullOrEmpty(this.Area) ? "/" + this.Area : "") + "/" + this.Controller + "/" + this.Action + @"' 
@@ -84,7 +87,7 @@ namespace ElevatorAdmin.TagHelpers
                             data-toggle='tooltip'
                             title='" + Title + @"'
                             " + (!string.IsNullOrEmpty(this.ModalTitle) ? "modal-title='" + this.ModalTitle + "'" : "") + @"
-                            " + (this.IsModal ? "ismodal" : "" ) + @"
+                            " + (this.IsModal ? "ismodal" : "") + @"
                             data-role='confirm'>
                             <i class='fa " + this.Icon + @" btn-icon' aria-hidden='true'></i>&nbsp;&nbsp;
                             " + Title + @"
@@ -99,5 +102,5 @@ namespace ElevatorAdmin.TagHelpers
 
 
 
-        }
+    }
 }

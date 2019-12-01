@@ -38,7 +38,7 @@ namespace ElevatorAdmin.Controllers
         }
 
         [ActionRole("مدیریت نقش ها")]
-        [HasAccess]
+        //[HasAccess]
         public async Task<IActionResult> Index()
         {
             var model = await _roleRepository.TableNoTracking.Where(a => a.NormalizedName != ImportantNames.AdminNormalTitle()).ProjectTo<RoleManageDTO>().ToListAsync();
@@ -49,7 +49,7 @@ namespace ElevatorAdmin.Controllers
         //            var actionInfos = _basicRepository.GetControllerAndActionByCustomAttribute(asm);
 
         [ActionRole("ایجاد نقش جدید")]
-        [HasAccess]
+        //[HasAccess]
         public IActionResult Create()
         {
             var assembly = typeof(HomeController).Assembly;
@@ -78,7 +78,7 @@ namespace ElevatorAdmin.Controllers
 
 
         [ActionRole("تنظیمات نقش")]
-        [HasAccess]
+        //[HasAccess]
         public IActionResult Edit(int id)
         {
             var assembly = typeof(HomeController).Assembly;
