@@ -9,5 +9,7 @@ namespace DataLayer.ViewModels.User
         public string Controller { get; set; }
 
         public string Action { get; set; }
+
+        public bool? IsAdmin { get; set; }
     }
 }

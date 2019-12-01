@@ -11,14 +11,19 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using WebFramework.Base;
 using WebFramework.Authenticate;
+using Service.Repos.User;
 
 namespace ElevatorAdmin.Controllers
 {
     [ControllerRole("مدیریت داشبورد")]
-    public class HomeController : Controller
+    public class HomeController : BaseAdminController
     {
+        public HomeController(UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
+        {
+        }
+
         [ActionRole("صفحه اصلی داشبورد")]
-        [HasAccess]
+        //[HasAccess]
         public IActionResult Index()
         {
             ViewBag.User = User?.Identity?.Name;
@@ -26,14 +31,14 @@ namespace ElevatorAdmin.Controllers
         }
 
         [ActionRole("تستی")]
-        [HasAccess]
+        //[HasAccess]
         public IActionResult Privacy()
         {
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        [HasAccess]
+        //[HasAccess]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

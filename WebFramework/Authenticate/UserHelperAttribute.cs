@@ -42,36 +42,36 @@ namespace WebFramework.Authenticate
             {
                 try
                 {
-                    //var isAllowAccess = context.ActionDescriptor.EndpointMetadata.Any(a => a.GetType() == typeof(AllowAccessAttribute));
+                    var isAllowAccess = context.ActionDescriptor.EndpointMetadata.Any(a => a.GetType() == typeof(AllowAccessAttribute));
 
-                    //if (!isAllowAccess)
-                    //{
-
-                    if (!context.HttpContext.User.Identity.IsAuthenticated)
-                    {
-                        context.HttpContext.Response.Redirect("/Account/Login", true);
-                    }
-                    else
+                    if (!isAllowAccess)
                     {
 
-                        var route = context.ActionDescriptor.RouteValues;
-                        //*************************************REVIEW**********************************************************
-                        var userId = int.Parse(context.HttpContext.User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
-                        var role = _usersRoleRepository.TableNoTracking.FirstOrDefault(a => a.UserId == userId).RoleId;
-
-                        // تصمیم گیری نهایی که برای ما سرعت مهم است یا امنیت
-                        //var role = int.Parse(context.HttpContext.User.Identity.FindFirstValue(ClaimTypes.Role));
-
-                        //*****************************************************************************************************
-
-                        if (!_usersAccessRepository.HasAccess(role, route))
+                        if (!context.HttpContext.User.Identity.IsAuthenticated)
                         {
-                            context.Result = new BadRequestResult();
+                            context.HttpContext.Response.Redirect("/Account/Login", true);
+                        }
+                        else
+                        {
+
+                            var route = context.ActionDescriptor.RouteValues;
+                            //*************************************REVIEW**********************************************************
+                            var userId = int.Parse(context.HttpContext.User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
+                            var role = _usersRoleRepository.TableNoTracking.FirstOrDefault(a => a.UserId == userId).RoleId;
+
+                            // تصمیم گیری نهایی که برای ما سرعت مهم است یا امنیت
+                            //var role = int.Parse(context.HttpContext.User.Identity.FindFirstValue(ClaimTypes.Role));
+
+                            //*****************************************************************************************************
+
+                            if (!_usersAccessRepository.HasAccess(role, route))
+                            {
+                                context.Result = new BadRequestResult();
+                            }
                         }
                     }
-                }
 
-                //}
+                }
                 catch
                 {
                     context.Result = new BadRequestResult();

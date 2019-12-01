@@ -94,5 +94,13 @@ namespace Service.Repos.User
 
             DbContext.SaveChanges();
         }
+
+        /// <summary>
+        /// چک کردن اینکه این شناسه نقش ادمین است یا خیر
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public bool IsAdmin(int roleId)
+            => TableNoTracking.FirstOrDefault(a => a.Id == roleId).NormalizedName == ImportantNames.AdminNormalTitle();
     }
 }

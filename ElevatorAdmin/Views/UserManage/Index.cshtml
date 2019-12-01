@@ -63,9 +63,9 @@
                     <th>
                         شماره تماس
                     </th>
-                    @*<th>
+                    <th>
                             تاریخ ثبت نام
-                        </th>*@
+                        </th>
 
                 </tr>
             </thead>
@@ -79,7 +79,8 @@
                         <td>@item.UserName</td>
                         <td>@item.Email</td>
                         <td>@item.PhoneNumber</td>
-
+                        <td>@item.CreateDate</td>
+                        
 
                         @*<a href='@Url.Action("SetRole", new {id = @item.Id})' class="btn btn-info btn-sm btn-rounded w-md waves-effect waves-light m-b-5">نقش</a>
                             <a href='@Url.Action("EditPassword", new {id = @item.Id})' class="btn btn-info btn-sm btn-rounded w-md waves-effect waves-light m-b-5">ویرایش رمز عبور</a>
