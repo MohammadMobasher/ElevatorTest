@@ -19,6 +19,13 @@ $(function () {
     });
 
 
+    $(".searchSelect").on("change", function (event) {
+
+        $('.searchBtn').trigger('click');
+
+    });
+
+
 
 });
 
@@ -60,7 +67,7 @@ $(function () {
 // اضافه میکند و سپس به سمت آن صفحه می‌رود
 $(function () {
     $(".data-role-table-btn").click(function () {
-
+        $(".loading").removeClass("hidden");
 
         var attr = $(this).attr('ismodal');
 
@@ -79,8 +86,23 @@ $(function () {
         else {
             reload(href);
         }
+        $(".loading").addClass("hidden");
 
     });
+});
+
+
+/// در این سامانه 
+// هروقت یک فیلد از نوع 
+//checkbox
+// کلیک شد بسته به نوع کلیک (انتخاب کرده باشد یا مه)
+// مقداری برای این فیلد قرار میدهد
+$(document).on("click", "[type='checkbox']", function (e) {
+    if (this.checked) {
+        $(this).attr("value", "true");
+    } else {
+        $(this).attr("value", "false");
+    }
 });
 
 

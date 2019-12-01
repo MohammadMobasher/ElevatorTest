@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.CustomAttributes;
 using Core.Utilities;
+using DataLayer.DTO;
+using DataLayer.ViewModels;
 using DataLayer.ViewModels.Feature;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -60,6 +62,52 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
         {
             
             TempData.AddResult(await _featureRepository.Insert(model));
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+
+        #region ویرایش
+
+
+        [ActionRole("ویرایش ویژگی")]
+        [HasAccess]
+        public async Task<IActionResult> Update(int Id)
+        {
+            var result = await _featureRepository.GetByIdAsync(Id);
+            return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(FeatureUpdateViewModel model)
+        {
+
+            TempData.AddResult(await _featureRepository.UpdateAsync(model));
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+
+        #region حذف
+
+        [ActionRole("حذف ویژگی")]
+        [HasAccess]
+        public async Task<IActionResult> Delete(int Id)
+        {
+
+            return View(new DeleteDTO { Id = Id});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteViewModel model)
+        {
+
+            var result = await _featureRepository.DeleteAsync(model.Id);
+            TempData.AddResult(result);
 
             return RedirectToAction("Index");
         }

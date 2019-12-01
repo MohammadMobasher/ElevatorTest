@@ -3,25 +3,34 @@
 @model List<FeatureDTO>
 @{
     ViewData["Title"] = "لیست ویژگی‌ها";
-
+    
 }
 
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
 
-    <TableBotton
-        area="Feature" controller="ManageFeature" action="Insert"
-        isModal="true"
-        modalTitle="ثبت جدید"
-        title="ثبت"
-        icon="fa-plus"
-        buttonClass="btn-primary"
-        ></TableBotton>
-    
+    <TableBotton area="Feature" controller="ManageFeature" action="Insert"
+                 isModal="true"
+                 modalTitle="ثبت جدید"
+                 title="ثبت"
+                 icon="fa-plus"
+                 buttonClass="btn-primary"></TableBotton>
+
 
     <span class="hidden" data-role-table-btn-area-access="">
 
-        
+        <TableBotton area="Feature" controller="ManageFeature" action="Update"
+                     isModal="true"
+                     modalTitle="ویرایش آیتم"
+                     title="ویرایش"
+                     icon="fa-pencil-square-o"
+                     buttonClass="btn-warning"></TableBotton>
 
+        <TableBotton area="Feature" controller="ManageFeature" action="Delete"
+                     isModal="true"
+                     modalTitle="حذف آیتم"
+                     title="حذف"
+                     icon="fa-trash-o"
+                     buttonClass="btn-danger"></TableBotton>
     </span>
 
 </div>
@@ -33,7 +42,6 @@
         <i class="fa fa-bath" aria-hidden="true"></i>*@
     <table class="table table-responsive table-striped rounded table-hover table-bordered ">
         <thead>
-
             <tr>
                 <th width="3%"></th>
                 <th width="50px">
@@ -48,10 +56,11 @@
                 <form method="post">
                     <td>---</td>
                     <td>---</td>
-                    <td><input type="text" value="" name="Title" class="form-control searchInput" /></td>
+                    <td><input type="text" value="@ViewBag.SearchModel.Title" name="Title" class="form-control searchInput" /></td>
                     <td>
-                        <select name="type" asp-items="@Html.GetEnumSelectList<DataLayer.SSOT.FeatureTypeSSOT>()" required class="form-control">
+                        <select name="type" @*asp-for="@ViewBag.SearchModel.FeatureType" *@ asp-items="@Html.GetEnumSelectList<DataLayer.SSOT.FeatureTypeSSOT>()" class="form-control searchSelect">
                             <option value="">انتخاب نمایید...</option>
+                            
                         </select>
                     </td>
                     <input type="submit" class="hidden searchBtn" value="جستجو" />
@@ -62,8 +71,15 @@
             @{var index = 1;}
             @if (Model != null && Model.Count != 0)
             {
-
-
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                        <td>@(index++)</td>
+                        <td>@item.Title</td>
+                        <td>@item.FeatureType.ToDisplay()</td>
+                    </tr>
+                }
             }
             else
             {

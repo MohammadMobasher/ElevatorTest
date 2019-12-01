@@ -12,7 +12,7 @@
 
     <!--Morris Chart CSS -->
     <link rel="stylesheet" href="~/Plugins/morris/morris.css">
-    
+
     <!-- App css -->
     <link href="~/UI/assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Ul/assets/fonts/font-awesome5-11-2/css/all.min.css" rel="stylesheet" />
@@ -54,16 +54,21 @@
             display: flex
         }
     </style>
+
+
+
+    
 </head>
 
 
 <body class="fixed-left" style="overflow:hidden">
-    
+
+    <div class="loading hidden"></div>
     <!-- Begin page -->
     <div id="wrapper">
 
         <!-- Top Bar Start -->
-        <div class="topbar Mtopbar" >
+        <div class="topbar Mtopbar">
 
             <!-- LOGO -->
             <div class="topbar-left">
@@ -152,16 +157,16 @@
         @Html.Partial("_Message.cshtml")
         <div class="content-page " style="">
             <!-- Start content -->
-            <div class="content Mcontent" style="margin-top:73px; overflow-y:auto">
+            <div class="content Mcontent" style="margin-top:73px; overflow-y:auto; background-color:#FFF">
                 <div style="border-top:2.5px solid #3d871d; position:fixed; z-index:100; width:100% !important"></div>
-                <div class="container  " style=" background-color:#FFF;height:inherit">
+                <div class="container  " style=" background-color:#FFF;">
 
                     @* Custome Modal For LiftBazar *@
 
                     @*<button href="#LiftBazarModal" class="hidden" data-animation="fadein" data-plugin="custommodal"
-                data-overlaySpeed="100" data-overlayColor="#36404a">
-            Rotate
-        </button>*@
+                                data-overlaySpeed="100" data-overlayColor="#36404a">
+                            Rotate
+                        </button>*@
 
 
                     <button class="btn btn-primary waves-effect waves-light hidden" data-toggle="modal" data-target="#LiftBazarModal">نمونه 1</button>
@@ -175,15 +180,15 @@
                                     <h4 class="modal-title" name="LiftBazarModalTitle">متن سربرگ</h4>
                                 </div>
                                 <div class="modal-body" name="LiftBazarModalContent">
-                                   
+
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
 
 
-                   
+
                     @* Custome Modal For LiftBazar *@
 
                     <div class="form-horizontal pageTitle ">
@@ -194,7 +199,7 @@
                 </div>
             </div>
 
-            
+
         </div>
 
 
@@ -337,7 +342,7 @@
     <script>
         $(function () {
 
-            $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height()+"px" });
+            $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height() + "px" });
 
         });
     </script>

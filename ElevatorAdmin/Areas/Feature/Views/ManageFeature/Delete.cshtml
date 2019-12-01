@@ -1,0 +1,16 @@
+﻿@using DataLayer.DTO
+@model DeleteDTO
+
+@{
+    Layout = null;
+}
+
+
+<form action="/Feature/ManageFeature/Delete" class="form-horizontal" method="post" style="">
+
+    <input type="hidden" value="@Model.Id" name="Id" />
+
+    
+    <button type="submit" class="btn btn-block btn-success">حذف</button>
+
+</form>

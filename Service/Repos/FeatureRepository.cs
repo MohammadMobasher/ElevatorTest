@@ -73,7 +73,7 @@ namespace Service.Repos
         }
 
 
-        public async Task<SweetAlertExtenstion> UpdateAsync(NewsUpdateViewModel model)
+        public async Task<SweetAlertExtenstion> UpdateAsync(FeatureUpdateViewModel model)
         {
             try
             {
@@ -100,20 +100,12 @@ namespace Service.Repos
         {
             var query = Entities.ProjectTo<FeatureDTO>();
 
-
-            //if (model.Id != null)
-            //    query = query.Where(x => x.Id == model.Id);
-
-            //if (!string.IsNullOrEmpty(model.Title))
-            //    query = query.Where(x => x.Title.Contains(model.Title));
+            if (!string.IsNullOrEmpty(model.Title))
+                query = query.Where(x => x.Title.Contains(model.Title));
 
 
-            //if (!string.IsNullOrEmpty(model.SummeryNews))
-            //    query = query.Where(x => x.SummeryNews.Contains(model.SummeryNews));
-
-
-            //if (model.Date != DateTime.MinValue)
-            //    query = query.Where(x => x.Date.Equals(model.Date));
+            if (model.FeatureType != null)
+                query = query.Where(x => x.FeatureType == model.FeatureType);
 
 
             int Count = query.Count();
