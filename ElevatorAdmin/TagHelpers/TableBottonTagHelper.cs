@@ -89,7 +89,7 @@ namespace ElevatorAdmin.TagHelpers
                             " + (!string.IsNullOrEmpty(this.ModalTitle) ? "modal-title='" + this.ModalTitle + "'" : "") + @"
                             " + (this.IsModal ? "ismodal" : "") + @"
                             data-role='confirm'>
-                            <i class='fa " + this.Icon + @" btn-icon' aria-hidden='true'></i>&nbsp;&nbsp;
+                            <i class='fa " + this.Icon + @" btn-icon' ari a-hidden='true'></i>&nbsp;&nbsp;
                             " + Title + @"
                     </button>
                 ";
