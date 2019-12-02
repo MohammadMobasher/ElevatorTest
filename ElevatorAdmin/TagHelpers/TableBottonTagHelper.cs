@@ -12,6 +12,11 @@ namespace ElevatorAdmin.TagHelpers
     [HtmlTargetElement("TableBotton", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class TableBottonTagHelper : TagHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        [HtmlAttributeName("querystring")]
+        public string QueryString { get; set; }
 
         /// <summary>
         /// 
@@ -83,6 +88,7 @@ namespace ElevatorAdmin.TagHelpers
             {
                 Button = @"
                     <button data-style='zoom-out'
+                            " + (!string.IsNullOrEmpty(this.QueryString) ? "data-role-querystring='" + this.QueryString + "'" : "") + @"  
                             data-role-href='" + (!string.IsNullOrEmpty(this.Area) ? "/" + this.Area : "") + "/" + this.Controller + "/" + this.Action + @"' 
                             class='ladda-button btn btn-lg " + this.ButtonClass + @" data-role-table-btn'
                             data-toggle='tooltip'

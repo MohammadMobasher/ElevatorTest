@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataLayer.DTO
 {
-    public class FeatureDTO
+    public class FeatureFullDetailDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }

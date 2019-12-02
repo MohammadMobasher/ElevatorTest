@@ -31,9 +31,9 @@ namespace Service.Repos
         /// </summary>
         /// <param name="id">شماره خبر</param>
         /// <returns></returns>
-        public FeatureDTO GetItemDetail(int id)
+        public FeatureFullDetailDTO GetItemDetail(int id)
         {
-            return this.Entities.ProjectTo<FeatureDTO>().Where(x => x.Id == id).SingleOrDefault();
+            return this.Entities.ProjectTo<FeatureFullDetailDTO>().Where(x => x.Id == id).SingleOrDefault();
         }
 
 
@@ -43,9 +43,9 @@ namespace Service.Repos
         /// </summary>
         /// <param name="id">شماره خبر</param>
         /// <returns></returns>
-        public async Task<FeatureDTO> GetItemDetailAsync(int id)
+        public async Task<FeatureFullDetailDTO> GetItemDetailAsync(int id)
         {
-            var result = this.Entities.ProjectTo<FeatureDTO>().Where(x => x.Id == id).SingleOrDefault();
+            var result = this.Entities.ProjectTo<FeatureFullDetailDTO>().Where(x => x.Id == id).SingleOrDefault();
             return result;
         }
 
@@ -93,12 +93,12 @@ namespace Service.Repos
         }
 
 
-        public async Task<Tuple<int, List<FeatureDTO>>> LoadAsyncCount(
+        public async Task<Tuple<int, List<FeatureFullDetailDTO>>> LoadAsyncCount(
             int skip = -1,
             int take = -1,
             FeatureSearchViewModel model = null)
         {
-            var query = Entities.ProjectTo<FeatureDTO>();
+            var query = Entities.ProjectTo<FeatureFullDetailDTO>();
 
             if (!string.IsNullOrEmpty(model.Title))
                 query = query.Where(x => x.Title.Contains(model.Title));
@@ -121,7 +121,7 @@ namespace Service.Repos
 
 
 
-            return new Tuple<int, List<FeatureDTO>>(Count, await query.ToListAsync());
+            return new Tuple<int, List<FeatureFullDetailDTO>>(Count, await query.ToListAsync());
         }
 
 
