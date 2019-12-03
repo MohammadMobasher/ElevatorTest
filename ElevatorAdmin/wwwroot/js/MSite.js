@@ -1,4 +1,12 @@
-﻿function reload(href) {
+﻿$(function () {
+    $(".seperator-input").simpleMoneyFormat();
+    $(".seperator-input").on("keyup", function () {
+        var name = $(this).attr("name").replace("_show", "");
+        $("[name='" + name + "']").attr("value", $(this).val().replace(/,/g, ""));        
+    });
+});
+
+function reload(href) {
     if (href != undefined)
         window.location = href;
     else
