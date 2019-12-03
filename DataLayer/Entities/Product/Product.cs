@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
-using System.Web.Mvc;
 
 namespace DataLayer.Entities
 {
@@ -25,7 +24,6 @@ namespace DataLayer.Entities
         
         [Required(ErrorMessage = "لطفا توضیح کامل محصول را وارد کنید")]
         [DataType(DataType.MultilineText)]
-        [AllowHtml]
         /// <summary>
         /// توضیح کلی محصول
         /// </summary>
