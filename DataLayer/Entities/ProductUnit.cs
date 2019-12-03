@@ -15,7 +15,7 @@ namespace DataLayer.Entities
         /// <summary>
         /// عنوان مربوط به هر واحد
         /// </summary>
-        [StringLength(40, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
+        [StringLength(100, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
         [Required]
         public string Title { get; set; }
 
@@ -23,7 +23,7 @@ namespace DataLayer.Entities
         /// <summary>
         /// علامتی که برای هر واحد به کار گرفته می ‌شود دراین فیلد قرار می‌گیرد
         /// </summary>
-        [StringLength(10, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
+        [StringLength(40, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
         [Required]
         public string Name { get; set; }
 
