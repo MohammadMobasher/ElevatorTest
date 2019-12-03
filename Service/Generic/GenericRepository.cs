@@ -9,6 +9,7 @@ using System.Text;
 using AutoMapper.QueryableExtensions;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace Service
 {
@@ -315,28 +316,28 @@ namespace Service
 
         #region SyncMapping
 
-        public virtual void Add<TProject>(TProject mapEntity, bool saveNow = true)
+        public virtual void MapAdd<TProject>(TProject mapEntity, bool saveNow = true)
         {
             var mapModel = Map(mapEntity);
 
             Add(mapModel, saveNow);
         }
 
-        public virtual void AddRange<TProject>(List<TProject> mapEntity, bool saveNow = true)
+        public virtual void MapAddRange<TProject>(List<TProject> mapEntity, bool saveNow = true)
         {
             var mapModel = MapToList(mapEntity);
 
             AddRange(mapModel, saveNow);
         }
 
-        public virtual void Update<TProject>(TProject mapEntity, bool saveNow)
+        public virtual void MapUpdate<TProject>(TProject mapEntity, bool saveNow = true)
         {
             var mapModel = Map(mapEntity);
 
             Update(mapModel, saveNow);
         }
 
-        public virtual void UpdateRange<TProject>(List<TProject> mapEntity, bool saveNow)
+        public virtual void MapUpdateRange<TProject>(List<TProject> mapEntity, bool saveNow = true)
         {
             var mapModel = MapToList(mapEntity);
 
@@ -347,28 +348,29 @@ namespace Service
 
         #region AsyncMapping
 
-        public async Task AddAsync<TProject>(TProject project, bool saveNow)
+        public async Task MapAddAsync<TProject>(TProject project, bool saveNow = true)
         {
             var mapModel = Map(project);
 
-            await AddAsync(project, saveNow);
+            await AddAsync(mapModel, saveNow);
         }
 
-        public async Task AddRangeAsync<TProject>(List<TProject> project, bool saveNow)
+
+        public async Task MapAddRangeAsync<TProject>(List<TProject> project, bool saveNow = true)
         {
             var mapModel = MapToList(project);
 
             await AddRangeAsync(mapModel, saveNow);
         }
 
-        public async Task UpdateAsync<TProject>(TProject project , bool saveNow)
+        public async Task MapUpdateAsync<TProject>(TProject project , bool saveNow = true)
         {
             var mapModel = Map(project);
 
             await UpdateAsync(mapModel, saveNow);
         }
 
-        public async Task UpdateRangeAsync<TProject>(List<TProject> project, bool saveNow)
+        public async Task MapUpdateRangeAsync<TProject>(List<TProject> project, bool saveNow = true)
         {
             var mapModel = MapToList(project);
 

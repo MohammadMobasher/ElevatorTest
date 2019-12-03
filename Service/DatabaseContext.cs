@@ -45,7 +45,7 @@ namespace Service
         public DbSet<StoreRoom> StoreRoom { get; set; }
         public DbSet<Dependency> Dependency { get; set; }
         public DbSet<ProductGroupFeature> ProductGroupFeature { get; set; }
-
+        public DbSet<ProductGallery> Gallery { get; set; }
         public DbSet<SlideShow> SlideShow { get; set; }
 
         #endregion
