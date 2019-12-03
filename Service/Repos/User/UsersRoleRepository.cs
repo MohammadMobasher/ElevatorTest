@@ -32,11 +32,11 @@ namespace Service.Repos.User
 
             SweetAlertExtenstion ResetRole()
             {
-                if (userRole == null) Add(vm, false); 
+                if (userRole == null) MapAdd(vm, false); 
                 else
                 {
                     Delete(userRole);
-                    Add(vm, false);
+                    MapAdd(vm, false);
                 }
 
                 return Save();

@@ -14,17 +14,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\News\Data\**" />
+    <Compile Remove="Areas\News\Models\**" />
     <Compile Remove="Areas\ProductGroup\Data\**" />
     <Compile Remove="Areas\ProductGroup\Models\**" />
     <Compile Remove="Areas\TestArea\**" />
+	<Content Remove="Areas\News\Data\**" />
+    <Content Remove="Areas\News\Models\**" />
     <Content Remove="Areas\ProductGroup\Data\**" />
     <Content Remove="Areas\ProductGroup\Models\**" />
     <Content Remove="Areas\TestArea\**" />
     <EmbeddedResource Remove="Areas\ProductGroup\Data\**" />
     <EmbeddedResource Remove="Areas\ProductGroup\Models\**" />
+	    <EmbeddedResource Remove="Areas\News\Data\**" />
+    <EmbeddedResource Remove="Areas\News\Models\**" />
     <EmbeddedResource Remove="Areas\TestArea\**" />
     <None Remove="Areas\ProductGroup\Data\**" />
     <None Remove="Areas\ProductGroup\Models\**" />
+	  <None Remove="Areas\News\Data\**" />
+    <None Remove="Areas\News\Models\**" />
     <None Remove="Areas\TestArea\**" />
   </ItemGroup>
 
@@ -44,7 +52,10 @@
   <ItemGroup>
     <Folder Include="Areas\News\Data\" />
     <Folder Include="Areas\News\Models\" />
+	 <Folder Include="Areas\ProductGroup\Data\" />
+    <Folder Include="Areas\ProductGroup\Models\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />
+    <Folder Include="wwwroot\Uploads\Product\" />
     <Folder Include="wwwroot\Uploads\NewsImages\" />
   </ItemGroup>
 

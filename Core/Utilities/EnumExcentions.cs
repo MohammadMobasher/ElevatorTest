@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
@@ -24,6 +25,25 @@ namespace Core.Utilities
             foreach (var value in Enum.GetValues(input.GetType()))
                 if ((input as Enum).HasFlag(value as Enum))
                     yield return (T)value;
+        }
+
+        public static string GetDescription(this Enum enumValue)
+        {
+            if (enumValue == null) return "";
+
+            try
+            {
+                var model = enumValue.GetType()
+                    .GetMember(enumValue.ToString())
+                    .First()
+                    .GetCustomAttribute<DescriptionAttribute>();
+
+                return model?.Description;
+            }
+            catch (Exception)
+            {
+                return enumValue.ToString();
+            }
         }
 
         public static string ToDisplay(this Enum value, DisplayProperty property = DisplayProperty.Name)

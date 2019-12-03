@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191203151738_Products")]
+    partial class Products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,12 +237,10 @@ namespace Service.Migrations
 
                     b.Property<int>("ProductGroupId");
 
-                    b.Property<int?>("ProductUnitId");
+                    b.Property<int>("ProductUnitId");
 
                     b.Property<string>("ShortDescription")
                         .HasMaxLength(2000);
-
-                    b.Property<string>("Tags");
 
                     b.Property<string>("Text")
                         .IsRequired();
@@ -319,11 +319,11 @@ namespace Service.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(40);
+                        .HasMaxLength(10);
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(40);
 
                     b.HasKey("Id");
 
@@ -614,7 +614,8 @@ namespace Service.Migrations
 
                     b.HasOne("DataLayer.Entities.ProductUnit", "ProductUnit")
                         .WithMany()
-                        .HasForeignKey("ProductUnitId");
+                        .HasForeignKey("ProductUnitId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DataLayer.Entities.ProductGallery", b =>

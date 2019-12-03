@@ -1,4 +1,4 @@
-﻿@model List<DataLayer.DTO.ProductGroupDTO>
+﻿@model List<DataLayer.DTO.Products.ProductFullDTO>
 
 @{
     ViewData["Title"] = "لیست کالاها";
@@ -11,9 +11,7 @@
 
 
 
-    <TableBotton area="ProductGroup" controller="ManageProductGroup" action="Insert"
-                 isModal="true"
-                 modalTitle="ثبت جدید"
+    <TableBotton area="Product" controller="ManageProduct" action="Create"
                  title="ثبت"
                  icon="fa-plus"
                  buttonClass="btn-primary"></TableBotton>
@@ -73,7 +71,7 @@
                         ---
                         @*<input type="text" value="@ViewBag.SearchModel.Id" name="Id" class="form-control searchInput" />*@
                     </td>
-                    <td><input type="text" value="@ViewBag.SearchModel.Title" name="Title" class="form-control searchInput" /></td>
+                    <td><input type="text"  name="Title" class="form-control searchInput" /></td>
                     @*<td></td>*@
                     <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
                 </form>
@@ -84,7 +82,7 @@
             @if (Model != null)
             {
 
-                @foreach (DataLayer.DTO.ProductGroupDTO item in Model)
+                foreach (var item in Model)
                 {
                     <tr>
                         <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>

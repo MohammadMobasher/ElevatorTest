@@ -8,16 +8,16 @@ namespace Core.Utilities
 {
     public class MFile
     {
-        
+
 
         /// <summary>
         /// آدرسی که باید در آن فایل مورد نظر ذخیره شود
         /// </summary>
         public string FilePath { get; set; }
 
-        
 
-        
+
+
 
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Core.Utilities
         public static string Save(IFormFile uploadFile, string whereSave)
         {
             //======================================================
-                string UniqueFileName, FilePath;
+            string UniqueFileName, FilePath;
             //======================================================
 
             if (uploadFile != null)
@@ -45,7 +45,7 @@ namespace Core.Utilities
         public static void Delete(string address)
         {
             var pic = Path.Combine(
-                     Directory.GetCurrentDirectory(), "wwwroot\\" ,
+                     Directory.GetCurrentDirectory(), "wwwroot\\",
                      address);
             File.Delete(pic);
         }
