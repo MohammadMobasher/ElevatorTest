@@ -7,16 +7,12 @@ using System.Text;
 
 namespace DataLayer.Entities
 {
-    public class Product : BaseEntity<int>
+    public class ProductGroupFeature : BaseEntity<int>
     {
-        [StringLength(150, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
-        [Required]
-        public string Title { get; set; }
-
-        [Required]
+        
         public int ProductGroupId { get; set; }
 
-
+        public int FeatureId { get; set; }
 
 
 
@@ -25,6 +21,11 @@ namespace DataLayer.Entities
         [ForeignKey(nameof(ProductGroupId))]
         public virtual ProductGroup ProductGroup { get; set; }
 
+        [ForeignKey(nameof(FeatureId))]
+        public virtual Feature Feature { get; set; }
+
         #endregion
+
+
     }
 }

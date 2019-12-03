@@ -18,7 +18,7 @@ using Service.Repos.User;
 namespace ElevatorAdmin.Areas.News.Controllers
 {
     [Area("News")]
-    [ControllerRole("مدیریت ویژگی‌ها")]
+    [ControllerRole("مدیریت اخبار")]
     public class ManageNewsController : BaseAdminController
     {
 

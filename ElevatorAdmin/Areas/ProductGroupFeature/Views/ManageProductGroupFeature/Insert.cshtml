@@ -1,0 +1,48 @@
+﻿@model List<DataLayer.DTO.Feature.FeatureIdTitleDTO>
+@{
+    Layout = null;
+}
+
+
+<form action="/ProductGroupFeature/ManageProductGroupFeature/Insert" class="form-horizontal" method="post" style="">
+    <link href="~/lib/select2/select2.css" rel="stylesheet" />
+    <script src="~/lib/select2/select2.js"></script>
+    <input type="hidden" name="ProductGroupId" value="@ViewBag.ProductGroupId" />
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-3">ویژگی <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-9">
+            <select name="FeatureId" class="select2">
+                <option value="">انتخاب نمایید...</option>
+                @foreach (DataLayer.DTO.Feature.FeatureIdTitleDTO item in Model)
+                {
+                    <option value="@item.Id">@item.Title</option>
+                }
+            </select>
+        </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-block btn-success">ثبت</button>
+
+
+
+
+</form>
+
+
+<script>
+        jQuery(document).ready(function() {
+            // Select2
+                $(".select2").select2();
+
+            });
+
+
+    $('select:not(.normal)').each(function () {
+                $(this).select2({
+                    dropdownParent: $(this).parent()
+                });
+            });
+
+</script>

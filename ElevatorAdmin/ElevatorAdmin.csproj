@@ -42,4 +42,19 @@
     <Folder Include="wwwroot\Uploads\NewsImages\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="wwwroot\Plugins\Groupable-Searchable-Dual-Listbox-Transfer\.gitignore" />
+    <None Include="wwwroot\Plugins\Groupable-Searchable-Dual-Listbox-Transfer\icon_font\font\iconfont.svg" />
+    <None Include="wwwroot\Plugins\Groupable-Searchable-Dual-Listbox-Transfer\js\jquery.transfer.js" />
+    <None Include="wwwroot\Plugins\Groupable-Searchable-Dual-Listbox-Transfer\README.md" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,6 @@
 ﻿@using DataLayer.DTO;
 @using DNTPersianUtils.Core;
-@model List<FeatureDTO>
+@model List<FeatureFullDetailDTO>
 @{
     ViewData["Title"] = "لیست ویژگی‌ها";
     
@@ -34,14 +34,12 @@
     </span>
 
 
-    <button class="ladda-button" data-style="expand-right"><span class="ladda-label">Submit</span></button>
+    
 </div>
 
 
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
-    @*<i class="fa fa-calendar" aria-hidden="true"></i>
 
-        <i class="fa fa-bath" aria-hidden="true"></i>*@
     <table class="table table-responsive table-striped rounded table-hover table-bordered ">
         <thead>
             <tr>
@@ -95,10 +93,5 @@
     @Html.Partial("~/Views/Shared/_Pagination.cshtml")
 
 
-    <script>
-        $(function(){
-            
-            
-        });
-    </script>
+    
 </div>

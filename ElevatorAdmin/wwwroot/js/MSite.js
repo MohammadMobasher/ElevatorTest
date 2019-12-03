@@ -68,18 +68,28 @@ $(function () {
 $(function () {
     $(".data-role-table-btn").click(function () {
 
-        var ladda = Ladda.create(document.querySelector('button.ladda-button'));
+        var ladda = Ladda.create(this);
         ladda.start();
 
         $(".loading").removeClass("hidden");
 
         var attr = $(this).attr('ismodal');
 
-        var href = $(this).attr("data-role-href") + "/";
+        var href = $(this).attr("data-role-href");
 
-        
+        var queryString = $(this).attr("data-role-querystring");
+
         if ($("[name='selectedRowInTable']").val() != "")
-            href += $("[name='selectedRowInTable']").val();
+        {
+            if(queryString == "" && queryString == undefined)
+                href += "/" + $("[name='selectedRowInTable']").val();
+            else
+                href += "?" + "Id=" + $("[name='selectedRowInTable']").val() + "&" + queryString;
+        }
+        else
+        {
+            href += "?" +  queryString;
+        }
 
 
         // باز شدن در یک مودال
