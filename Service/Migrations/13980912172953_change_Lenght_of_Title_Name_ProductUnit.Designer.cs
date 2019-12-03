@@ -3,19 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("13980912172953_change_Lenght_of_Title_Name_ProductUnit")]
+    partial class change_Lenght_of_Title_Name_ProductUnit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -225,56 +227,17 @@ namespace Service.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("DisLike");
-
-                    b.Property<string>("IndexPic");
-
-                    b.Property<int>("Like");
-
-                    b.Property<decimal>("Price");
-
                     b.Property<int>("ProductGroupId");
-
-                    b.Property<int?>("ProductUnitId");
-
-                    b.Property<string>("ShortDescription")
-                        .HasMaxLength(2000);
-
-                    b.Property<string>("Tags");
-
-                    b.Property<string>("Text")
-                        .IsRequired();
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(150);
 
-                    b.Property<int>("Visit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProductGroupId");
 
-                    b.HasIndex("ProductUnitId");
-
                     b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.ProductGallery", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Pic");
-
-                    b.Property<int>("ProductId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Gallery");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.ProductGroup", b =>
@@ -469,6 +432,21 @@ namespace Service.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("DataLayer.Entities.Users.UserTokens", b =>
+                {
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
             modelBuilder.Entity("DataLayer.Entities.Users.Users", b =>
                 {
                     b.Property<int>("Id")
@@ -548,21 +526,6 @@ namespace Service.Migrations
                     b.ToTable("UsersAccess");
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.Users.UserTokens", b =>
-                {
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("LoginProvider");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens");
-                });
-
             modelBuilder.Entity("DataLayer.Entities.Dependency", b =>
                 {
                     b.HasOne("DataLayer.Entities.Condition", "Condition")
@@ -610,18 +573,6 @@ namespace Service.Migrations
                     b.HasOne("DataLayer.Entities.ProductGroup", "ProductGroup")
                         .WithMany()
                         .HasForeignKey("ProductGroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DataLayer.Entities.ProductUnit", "ProductUnit")
-                        .WithMany()
-                        .HasForeignKey("ProductUnitId");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.ProductGallery", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -675,19 +626,19 @@ namespace Service.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.Users.UsersAccess", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Users.Roles", "Roles")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("DataLayer.Entities.Users.UserTokens", b =>
                 {
                     b.HasOne("DataLayer.Entities.Users.Users")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Users.UsersAccess", b =>
+                {
+                    b.HasOne("DataLayer.Entities.Users.Roles", "Roles")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
