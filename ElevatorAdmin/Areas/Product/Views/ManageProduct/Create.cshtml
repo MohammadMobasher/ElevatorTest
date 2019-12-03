@@ -4,6 +4,7 @@
     ViewBag.Title = "ثبت کالای جدید";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var groups = ViewBag.Groups as List<ProductGroup>;
+    var units = ViewBag.Units as List<ProductUnit>;
 }
 
 
@@ -115,9 +116,18 @@
 
 
                     <div class="form-group">
-                        <label for="Tags" class="control-label col-sm-2">واحد اندازه گیری کالا <i class="text-danger fa fa-star size-8"></i></label>
+                        <label for="Tags" class="control-label col-sm-2">واحد اندازه گیری کالا</label>
                         <div class="col-sm-10">
-                            <input type="text" required="required" value="" name="Tags" data-role="tagsinput" placeholder="افزودن تگ جدید" />
+                            <select class="form-control" name="ProductUnitId">
+                                <option>--انتخاب کنید--</option>
+                                @if (units != null)
+                                {
+                                    foreach (var item in units)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            </select>
                         </div>
                     </div>
                 </div>

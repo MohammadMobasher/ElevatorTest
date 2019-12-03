@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Service.Migrations
 {
-    public partial class initialize : Migration
+    public partial class initDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,8 @@ namespace Service.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    RoleTitle = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,7 +43,11 @@ namespace Service.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,35 +85,18 @@ namespace Service.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "News",
+                name: "Feature",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(maxLength: 200, nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false),
-                    ViewCount = table.Column<int>(nullable: false),
-                    Tags = table.Column<string>(maxLength: 400, nullable: true)
+                    Title = table.Column<string>(maxLength: 150, nullable: false),
+                    FeatureType = table.Column<int>(nullable: false),
+                    IsRequired = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_News", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "NewsComment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    NewsId = table.Column<int>(nullable: false),
-                    Text = table.Column<string>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NewsComment", x => x.Id);
+                    table.PrimaryKey("PK_Feature", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -138,18 +126,6 @@ namespace Service.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductGroup",
                 columns: table => new
                 {
@@ -168,8 +144,8 @@ namespace Service.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(maxLength: 40, nullable: false),
-                    Name = table.Column<string>(maxLength: 10, nullable: false)
+                    Title = table.Column<string>(maxLength: 100, nullable: false),
+                    Name = table.Column<string>(maxLength: 40, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -222,6 +198,27 @@ namespace Service.Migrations
                     table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UsersAccess",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RoleId = table.Column<int>(nullable: false),
+                    Controller = table.Column<string>(nullable: true),
+                    Actions = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersAccess", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UsersAccess_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
@@ -340,6 +337,121 @@ namespace Service.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "News",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(maxLength: 200, nullable: false),
+                    SummeryNews = table.Column<string>(maxLength: 600, nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    ViewCount = table.Column<int>(nullable: false),
+                    Tags = table.Column<string>(maxLength: 400, nullable: true),
+                    UserId = table.Column<int>(nullable: false),
+                    ImageAddress = table.Column<string>(maxLength: 1000, nullable: false),
+                    NewsGroupId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_News", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_News_NewsGroup_NewsGroupId",
+                        column: x => x.NewsGroupId,
+                        principalTable: "NewsGroup",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_News_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductGroupFeature",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ProductGroupId = table.Column<int>(nullable: false),
+                    FeatureId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductGroupFeature", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductGroupFeature_Feature_FeatureId",
+                        column: x => x.FeatureId,
+                        principalTable: "Feature",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductGroupFeature_ProductGroup_ProductGroupId",
+                        column: x => x.ProductGroupId,
+                        principalTable: "ProductGroup",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(maxLength: 150, nullable: false),
+                    ProductGroupId = table.Column<int>(nullable: false),
+                    ShortDescription = table.Column<string>(maxLength: 2000, nullable: true),
+                    Text = table.Column<string>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
+                    IndexPic = table.Column<string>(nullable: true),
+                    Like = table.Column<int>(nullable: false),
+                    DisLike = table.Column<int>(nullable: false),
+                    Visit = table.Column<int>(nullable: false),
+                    ProductUnitId = table.Column<int>(nullable: true),
+                    Tags = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Product_ProductGroup_ProductGroupId",
+                        column: x => x.ProductGroupId,
+                        principalTable: "ProductGroup",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Product_ProductUnit_ProductUnitId",
+                        column: x => x.ProductUnitId,
+                        principalTable: "ProductUnit",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NewsComment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    NewsId = table.Column<int>(nullable: false),
+                    Text = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NewsComment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NewsComment_News_NewsId",
+                        column: x => x.NewsId,
+                        principalTable: "News",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FactorItem",
                 columns: table => new
                 {
@@ -368,22 +480,21 @@ namespace Service.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GroupFeature",
+                name: "Gallery",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(maxLength: 150, nullable: false),
-                    Name = table.Column<string>(maxLength: 150, nullable: false),
-                    GroupId = table.Column<int>(nullable: false)
+                    Pic = table.Column<string>(nullable: true),
+                    ProductId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GroupFeature", x => x.Id);
+                    table.PrimaryKey("PK_Gallery", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GroupFeature_ProductGroup_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "ProductGroup",
+                        name: "FK_Gallery_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -443,9 +554,49 @@ namespace Service.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupFeature_GroupId",
-                table: "GroupFeature",
-                column: "GroupId");
+                name: "IX_Gallery_ProductId",
+                table: "Gallery",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_News_NewsGroupId",
+                table: "News",
+                column: "NewsGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_News_UserId",
+                table: "News",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsComment_NewsId",
+                table: "NewsComment",
+                column: "NewsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_ProductGroupId",
+                table: "Product",
+                column: "ProductGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_ProductUnitId",
+                table: "Product",
+                column: "ProductUnitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductGroupFeature_FeatureId",
+                table: "ProductGroupFeature",
+                column: "FeatureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductGroupFeature_ProductGroupId",
+                table: "ProductGroupFeature",
+                column: "ProductGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersAccess_RoleId",
+                table: "UsersAccess",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -472,22 +623,16 @@ namespace Service.Migrations
                 name: "FactorItem");
 
             migrationBuilder.DropTable(
-                name: "GroupFeature");
-
-            migrationBuilder.DropTable(
-                name: "News");
+                name: "Gallery");
 
             migrationBuilder.DropTable(
                 name: "NewsComment");
 
             migrationBuilder.DropTable(
-                name: "NewsGroup");
-
-            migrationBuilder.DropTable(
                 name: "NewsTag");
 
             migrationBuilder.DropTable(
-                name: "ProductUnit");
+                name: "ProductGroupFeature");
 
             migrationBuilder.DropTable(
                 name: "SlideShow");
@@ -496,10 +641,7 @@ namespace Service.Migrations
                 name: "StoreRoom");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "UsersAccess");
 
             migrationBuilder.DropTable(
                 name: "Condition");
@@ -511,7 +653,25 @@ namespace Service.Migrations
                 name: "Product");
 
             migrationBuilder.DropTable(
+                name: "News");
+
+            migrationBuilder.DropTable(
+                name: "Feature");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "ProductGroup");
+
+            migrationBuilder.DropTable(
+                name: "ProductUnit");
+
+            migrationBuilder.DropTable(
+                name: "NewsGroup");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

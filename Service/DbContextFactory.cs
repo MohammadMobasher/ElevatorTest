@@ -12,7 +12,7 @@ namespace Service
         {
             var optionBuilder = new DbContextOptionsBuilder();
 
-            optionBuilder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=LiftBazarDb;Data Source=.");
+            optionBuilder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=LiftBazarDb2;Data Source=.");
 
             return new DatabaseContext(optionBuilder.Options);
         }

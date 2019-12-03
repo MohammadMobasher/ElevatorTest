@@ -26,12 +26,15 @@ namespace ElevatorAdmin.Areas.Product.Controllers
     {
         private readonly ProductRepostitory _productRepostitory;
         private readonly ProductGroupRepository _productGroupRepository;
+        private readonly ProductUnitRepository _productUnitRepository;
         public ManageProductController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
-            ProductGroupRepository productGroupRepository) : base(usersAccessRepository)
+            ProductGroupRepository productGroupRepository,
+            ProductUnitRepository productUnitRepository) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
             _productGroupRepository = productGroupRepository;
+            _productUnitRepository = productUnitRepository;
         }
 
 
@@ -47,6 +50,9 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         [ActionRole("ثبت کالای جدید")]
         public async Task<IActionResult> Create(int? id)
         {
+            ViewBag.Units = await _productUnitRepository.TableNoTracking.ToListAsync();
+
+
             if (id != null) return View(id);
             ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
 
