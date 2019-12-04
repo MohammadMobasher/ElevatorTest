@@ -46,6 +46,7 @@ namespace ElevatorAdmin.Controllers
 
         [HttpPost]
         [AllowAccess]
+        [AllowAnonymous()]
         public async Task<IActionResult> Login(string userName, string password)
         {
             var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.UserName == userName);

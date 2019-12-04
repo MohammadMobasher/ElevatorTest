@@ -6,7 +6,7 @@ namespace DataLayer.DTO
 {
     public class SlideShowDTO
     {
-
+        public int Id { get; set; }
         public string ImgAddress { get; set; }
         public string URL { get; set; }
         public bool IsActive { get; set; }

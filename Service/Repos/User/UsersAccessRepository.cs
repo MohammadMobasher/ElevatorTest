@@ -132,32 +132,36 @@ namespace Service.Repos.User
         public List<UserAccessListViewModel> GetAllUserAccesss(int userId)
         {
             var lst = new List<UserAccessListViewModel>();
-            var role = _usersRoleRepository.GetRoleByUserId(userId);
-
-            if (!_roleRepository.IsAdmin(role.RoleId))
+            if (userId != 0)
             {
+                var role = _usersRoleRepository.GetRoleByUserId(userId);
 
-                var model = TableNoTracking.Where(a => a.RoleId == role.RoleId).ToList();
-
-                foreach (var item in model)
+                if (!_roleRepository.IsAdmin(role.RoleId))
                 {
-                    var actions = JsonConvert.DeserializeObject<List<string>>(item.Actions);
 
-                    foreach (var action in actions)
+                    var model = TableNoTracking.Where(a => a.RoleId == role.RoleId).ToList();
+
+                    foreach (var item in model)
                     {
-                        lst.Add(new UserAccessListViewModel()
+                        var actions = JsonConvert.DeserializeObject<List<string>>(item.Actions);
+
+                        foreach (var action in actions)
                         {
-                            Action = action,
-                            Controller = item.Controller
-                        });
+                            lst.Add(new UserAccessListViewModel()
+                            {
+                                Action = action,
+                                Controller = item.Controller
+                            });
+                        }
                     }
                 }
+                else
+                {
+                    lst.Add(new UserAccessListViewModel() { IsAdmin = true });
+                }
+                return lst;
             }
-            else
-            {
-                lst.Add(new UserAccessListViewModel() { IsAdmin = true });
-            }
-            return lst;
+            else return null;
         }
     }
 }

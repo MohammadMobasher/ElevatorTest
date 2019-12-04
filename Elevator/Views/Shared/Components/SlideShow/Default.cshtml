@@ -6,7 +6,24 @@
     {
         <a href="@item.URL" target="_blank">
             <div class="herobanner-single">
-                <img src="~/Plugins/Template/@item.ImgAddress" title="@item.Title" alt="@item.Alt">
+                <img src="@item.ImgAddress" title="@item.Title" alt="@item.Alt">
+                <div class="herobanner-content">
+                    @*<div class="herobanner-box">
+                        <h4>اسپیکر بلوتوثی</h4>
+                    </div>*@
+                    <div class="herobanner-box">
+                        <h1>@item.Title</h1>
+                    </div>
+                    @*<div class="herobanner-box">
+                        <p>@item.Title</p>
+                    </div>*@
+                    <div class="herobanner-box">
+                        <a href="shop-rightsidebar.html" class="ho-button ho-button-white">
+                            <i class="lnr lnr-cart"></i>
+                            <span>خرید کنید</span>
+                        </a>
+                    </div>
+                </div>
                 <span class="herobanner-progress"></span>
             </div>
         </a>

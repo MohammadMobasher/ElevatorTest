@@ -50,11 +50,10 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\News\Data\" />
-    <Folder Include="Areas\News\Models\" />
 	 <Folder Include="Areas\ProductGroup\Data\" />
     <Folder Include="Areas\ProductGroup\Models\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />
+    <Folder Include="wwwroot\Uploads\SlideShow\" />
     <Folder Include="wwwroot\Uploads\Product\" />
     <Folder Include="wwwroot\Uploads\NewsImages\" />
   </ItemGroup>
