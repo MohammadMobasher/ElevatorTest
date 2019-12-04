@@ -1,4 +1,21 @@
-﻿$(function () {
+﻿$('.dropify').dropify({
+    messages: {
+        'default': 'Drag and drop a file here or click',
+        'replace': 'لطفا فایل خود را اینجا رها کنید',
+        'remove': 'حذف',
+        'error': 'خطایی رخ داده است'
+    }
+});
+
+
+$(".Mcontent").niceScroll({
+    cursorcolor: "#000",
+    cursorwidth: "6px",
+    background: "#DDD",
+    
+});
+
+$(function () {
     $(".seperator-input").simpleMoneyFormat();
     $(".seperator-input").on("keyup", function () {
         var name = $(this).attr("name").replace("_show", "");
@@ -89,14 +106,18 @@ $(function () {
 
         if ($("[name='selectedRowInTable']").val() != "")
         {
-            if(queryString == "" && queryString == undefined)
+            if (queryString == undefined)
                 href += "/" + $("[name='selectedRowInTable']").val();
             else
                 href += "?" + "Id=" + $("[name='selectedRowInTable']").val() + "&" + queryString;
         }
         else
         {
-            href += "?" +  queryString;
+            
+            
+            if (queryString != undefined) {
+                href += "?" + queryString;
+            }
         }
 
 
