@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Web.Mvc;
 
 namespace DataLayer.ViewModels.Products
 {
@@ -24,7 +23,6 @@ namespace DataLayer.ViewModels.Products
 
         [Required(ErrorMessage = "لطفا توضیح کامل محصول را وارد کنید")]
         [DataType(DataType.MultilineText)]
-        [AllowHtml]
         /// <summary>
         /// توضیح کلی محصول
         /// </summary>

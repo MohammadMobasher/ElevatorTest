@@ -1,4 +1,12 @@
-﻿$(function () {
+﻿
+$(".Mcontent").niceScroll({
+    cursorcolor: "#000",
+    cursorwidth: "6px",
+    background: "#DDD",
+    
+});
+
+$(function () {
     $(".seperator-input").simpleMoneyFormat();
     $(".seperator-input").on("keyup", function () {
         var name = $(this).attr("name").replace("_show", "");
