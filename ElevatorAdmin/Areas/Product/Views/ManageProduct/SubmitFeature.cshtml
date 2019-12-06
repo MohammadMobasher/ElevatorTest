@@ -40,7 +40,7 @@
                                         <td>
                                             <input type="hidden" name="vm.Items[@i].FeatureId" value="@item.FeatureId" />
 
-                                            <input required type="@(item.Feature.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint?"number":"text")" name="vm.Items[@i].FeatureValue" class="form-control" value="@(productFeatures.FirstOrDefault(a=>a.FeatureId == item.FeatureId)?.FeatureValue)" />
+                                            <input @(item.Feature.IsRequired?"required":"") type="@(item.Feature.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint?"number":"text")" name="vm.Items[@i].FeatureValue" class="form-control" value="@(productFeatures.FirstOrDefault(a=>a.FeatureId == item.FeatureId)?.FeatureValue)" />
                                         </td>
                                     </tr>
                                     i++;
