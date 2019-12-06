@@ -27,14 +27,18 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         private readonly ProductRepostitory _productRepostitory;
         private readonly ProductGroupRepository _productGroupRepository;
         private readonly ProductUnitRepository _productUnitRepository;
+        private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
+
         public ManageProductController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
             ProductGroupRepository productGroupRepository,
-            ProductUnitRepository productUnitRepository) : base(usersAccessRepository)
+            ProductUnitRepository productUnitRepository,
+            ProductGroupFeatureRepository productGroupFeatureRepository) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
             _productGroupRepository = productGroupRepository;
             _productUnitRepository = productUnitRepository;
+            _productGroupFeatureRepository = productGroupFeatureRepository;
         }
 
 
@@ -71,5 +75,31 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
+        public async Task<IActionResult> SubmitFeature()
+        {
+            return View();
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> SubmitFeature(List<>)
+        //{
+        //    return View();
+        //}
+
+        /// <summary>
+        /// ویژگی های محصولات بر اساس ویژگی های محصول
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AllowAccess]
+        public async Task<IActionResult> ProductFeatures(int id)
+        {
+            var model = await _productGroupFeatureRepository.TableNoTracking.Where(a => a.ProductGroupId == id).ToListAsync();
+
+            return PartialView(model);
+        }
+
     }
 }
