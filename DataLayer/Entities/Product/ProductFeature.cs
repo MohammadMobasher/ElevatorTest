@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataLayer.Entities.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -8,9 +9,8 @@ namespace DataLayer.Entities
     /// <summary>
     /// ویژگی محصولات
     /// </summary>
-    public class ProductFeature
+    public class ProductFeature : BaseEntity<int>
     {
-        public int Id { get; set; }
 
         public int FeatureId { get; set; }
 

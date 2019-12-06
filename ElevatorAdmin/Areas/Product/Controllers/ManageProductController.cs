@@ -28,17 +28,20 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         private readonly ProductGroupRepository _productGroupRepository;
         private readonly ProductUnitRepository _productUnitRepository;
         private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
+        private readonly ProductFeatureRepository _productFeatureRepository;
 
         public ManageProductController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
             ProductGroupRepository productGroupRepository,
             ProductUnitRepository productUnitRepository,
-            ProductGroupFeatureRepository productGroupFeatureRepository) : base(usersAccessRepository)
+            ProductGroupFeatureRepository productGroupFeatureRepository,
+            ProductFeatureRepository productFeatureRepository) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
             _productGroupRepository = productGroupRepository;
             _productUnitRepository = productUnitRepository;
             _productGroupFeatureRepository = productGroupFeatureRepository;
+            _productFeatureRepository = productFeatureRepository;
         }
 
 
@@ -65,28 +68,48 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductInsertViewModel vm,IFormFile file)
+        public async Task<IActionResult> Create(ProductInsertViewModel vm, IFormFile file)
         {
             vm.IndexPic = MFile.Save(file, FilePath.Product.GetDescription());
 
             await _productRepostitory.MapAddAsync(vm);
-                
+
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
             return RedirectToAction(nameof(Index));
         }
 
 
-        public async Task<IActionResult> SubmitFeature()
+        public async Task<IActionResult> SubmitFeature(int id)
         {
-            return View();
+            var groupId = await _productRepostitory.GetProductGroupIdbyProductId(id);
+
+            if(groupId == null)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("کالایی با این شناسه یافت نشد"));
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            var features =await _productGroupFeatureRepository.GetAllProductGroupFeature(groupId.Value);
+
+            var productFeatures = await _productFeatureRepository.GetAllProductFeatureByProductId(id);
+
+            ViewBag.ProductId = id;
+            ViewBag.ProductFeatures = productFeatures;
+
+            return View(features);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> SubmitFeature(List<>)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public async Task<IActionResult> SubmitFeature(ProductFeatureInsertViewModel vm)
+        {
+            var model = await _productFeatureRepository.AddFeatureRange(vm);
+
+            TempData.AddResult(model);
+
+            return RedirectToAction(nameof(Index));
+        }
 
         /// <summary>
         /// ویژگی های محصولات بر اساس ویژگی های محصول
