@@ -69,14 +69,16 @@ namespace Service.Repos.Product
         {
             // لیست ویژگی‌هایی که این گروه دارد
             var hasFeature = (from productGroupFeature in this.DbContext.ProductGroupFeature
-                       where productGroupFeature.ProductGroupId == productGroupId
-                       join feature in this.DbContext.Feature on productGroupFeature.FeatureId equals feature.Id
-                       orderby productGroupFeature.Id
-                       select feature.Id);
+                              where productGroupFeature.ProductGroupId == productGroupId
+                              join feature in this.DbContext.Feature on productGroupFeature.FeatureId equals feature.Id
+                              orderby productGroupFeature.Id
+                              select feature.Id);
 
             // لیست ویژگی‌هایی که این گروه ندارد
             var query = await (from feature_ in this.DbContext.Feature
-                               where !hasFeature.Contains(feature_.Id) select new FeatureIdTitleDTO {
+                               where !hasFeature.Contains(feature_.Id)
+                               select new FeatureIdTitleDTO
+                               {
                                    Id = feature_.Id,
                                    Title = feature_.Title
                                }).ToListAsync();
@@ -150,5 +152,14 @@ namespace Service.Repos.Product
 
         //    }
         //}
+
+        /// <summary>
+        /// تمامی ویژگی های گروه یک محصول
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ProductGroupFeature>> GetAllProductGroupFeature(int groupId)
+            => await TableNoTracking.Include(a=>a.Feature).Where(a => a.ProductGroupId == groupId).ToListAsync();
+
+
     }
 }

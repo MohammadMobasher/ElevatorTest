@@ -28,7 +28,7 @@ namespace Service
         public DbSet<FactorAndPackage> FactorAndPackage { get; set; }
         public DbSet<FactorItem> FactorItem { get; set; }
         public DbSet<Condition> Condition { get; set; }
-
+        public DbSet<ProductFeature> ProductFeature { get; set; }
         public DbSet<UsersAccess> UsersAccess { get; set; }
 
         #region News
