@@ -6,7 +6,7 @@ body {
 
 p, h1, a {
     font-family: 'Lalezar';
-    font-size: 24px;
+    
 }
 
 /*p {
@@ -37,14 +37,14 @@ p, h1, a {
             font-size: 165px;
             line-height: 46px;
             margin-bottom: 55px;
-            color: #EEE;
+            color: red;
         }
 
         .message-box p {
             font-size: 20px;
             font: bold;
             line-height: 46px;
-            margin-bottom: 53px;
+            margin-top:206px;
             color: #9c9999
         }
 
@@ -61,8 +61,13 @@ p, h1, a {
 
 @media (min-width: 1025px) and (max-width: 1280px) {
 
+    img {
+        padding-left: 180px;
+        height: 650px !important;
+    }
+
     .message-box {
-        margin-top: -465px;
+        margin-top: -480px;
         margin-left: 261px
     }
 
@@ -70,14 +75,14 @@ p, h1, a {
             font-size: 165px;
             line-height: 46px;
             margin-bottom: 55px;
-            color: #EEE;
+            color: red;
         }
 
         .message-box p {
             font-size: 20px;
             font: bold;
             line-height: 46px;
-            margin-bottom: 40px;
+            margin-top: 206px;
             color: #9c9999
         }
 
@@ -92,58 +97,31 @@ p, h1, a {
   ##Screen = B/w 768px to 1024px
 */
 
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 775px) {
+
+    img {
+        padding-left: 80px;
+        height: 610px !important;
+    }
 
     .message-box {
-        margin-top: -465px;
+        margin-top: -450px;
         margin-left: 261px
     }
 
         .message-box h1 {
-            font-size: 165px;
+            font-size: 150px;
             line-height: 46px;
             margin-bottom: 55px;
-            color: #EEE;
+            color: red;
         }
 
         .message-box p {
             font-size: 20px;
             font: bold;
             line-height: 46px;
-            margin-bottom: 40px;
-            color: #9c9999
-        }
-
-        .message-box a {
-            margin-top: 25px
-        }
-
-}
-
-/* 
-  ##Device = Tablets, Ipads (landscape)
-  ##Screen = B/w 768px to 1024px
-*/
-
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-
-    .message-box {
-        margin-top: -465px;
-        margin-left: 261px
-    }
-
-        .message-box h1 {
-            font-size: 165px;
-            line-height: 46px;
-            margin-bottom: 55px;
-            color: #EEE;
-        }
-
-        .message-box p {
-            font-size: 20px;
-            font: bold;
-            line-height: 46px;
-            margin-bottom: 40px;
+            margin-top: 185px;
+            margin-right: 10px;
             color: #9c9999
         }
 
@@ -151,6 +129,41 @@ p, h1, a {
             margin-top: 25px
         }
 }
+
+
+@media (min-width: 776px) and (max-width: 1025px) {
+
+    img {
+        padding-left: 80px;
+        height: 610px !important;
+    }
+
+    .message-box {
+        margin-top: -450px;
+        margin-left: 261px
+    }
+
+        .message-box h1 {
+            font-size: 130px;
+            line-height: 46px;
+            margin-bottom: 55px;
+            color: red;
+        }
+
+        .message-box p {
+            font-size: 20px;
+            font: bold;
+            line-height: 46px;
+            margin-top: 185px;
+            margin-right: 10px;
+            color: #9c9999
+        }
+
+        .message-box a {
+            margin-top: 25px
+        }
+}
+
 
 /* 
   ##Device = Low Resolution Tablets, Mobiles (Landscape)
@@ -158,31 +171,36 @@ p, h1, a {
 */
 
 @media (min-width: 481px) and (max-width: 767px) {
+    img {
+        padding-left: 18px;
+        height: 480px !important;
+    }
+
     .message-box {
-        margin-top: -470px;
-        margin-left: 220px
+        margin-top: -365px;
+        margin-left: 210px
     }
 
         .message-box h1 {
-            font-size: 130px;
+            font-size: 100px;
             line-height: 46px;
-            margin-bottom: 55px;    
-            color: #EEE;
+            margin-bottom: 55px;
+            color: red;
         }
 
         .message-box p {
-            width:100%;
-            font-size: 18px;
+            font-size: 16px;
             font: bold;
             line-height: 46px;
-            color: #9c9999;
-            margin-top:-16px;
+            margin-top: 145px;
+            margin-right: 10px;
+            margin-bottom:16px;
+            color: #9c9999
         }
 
         .message-box a {
-            margin-top: 28px
+            margin-bottom: 15px
         }
-
 }
 
 /* 
@@ -191,28 +209,35 @@ p, h1, a {
 */
 
 @media (min-width: 320px) and (max-width: 480px) {
+    img {
+        padding-left: 18px;
+        height: 350px !important;
+    }
+
     .message-box {
-        margin-top: -465px;
-        margin-left: 261px
+        margin-top: -260px;
+        margin-left: 140px
     }
 
         .message-box h1 {
-            font-size: 165px;
+            font-size: 65px;
             line-height: 46px;
-            margin-bottom: 55px;
-            color: #EEE;
+            
+            color: red;
         }
 
         .message-box p {
-            font-size: 20px;
+            font-size: 15px;
             font: bold;
-            line-height: 46px;
-            margin-bottom: 40px;
+            line-height: 20px;
+            margin-top: 72px;
             color: #9c9999
         }
 
         .message-box a {
-            margin-top: 25px
+            margin-top:-10px;
+            margin-bottom: 15px;
+            font-size:8px;
         }
 }
 
