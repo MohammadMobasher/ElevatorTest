@@ -46,7 +46,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
 
 
-        [ActionRole("صفحه کالاها")]
+        [ActionRole("صفحه لیست کالاها")]
         //[HasAccess]
         public IActionResult Index()
         {
@@ -79,7 +79,8 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
+        [ActionRole("ثبت ویژگی‌های کالا")]
+        [HasAccess]
         public async Task<IActionResult> SubmitFeature(int id)
         {
             var groupId = await _productRepostitory.GetProductGroupIdbyProductId(id);

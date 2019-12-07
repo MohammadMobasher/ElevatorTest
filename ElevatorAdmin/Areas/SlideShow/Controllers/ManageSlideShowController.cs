@@ -16,7 +16,7 @@ using WebFramework.Base;
 namespace ElevatorAdmin.Areas.SlideShow.Controllers
 {
     [Area("SlideShow")]
-    [ControllerRole("مدیریت اخبار")]
+    [ControllerRole("مدیریت اسلایدشو")]
     public class ManageSlideShowController : BaseAdminController
     {
         private readonly SlideShowRepository _slideShowRepository;
@@ -66,7 +66,7 @@ namespace ElevatorAdmin.Areas.SlideShow.Controllers
         #endregion
 
         #region ویرایش
-        [ActionRole("ویرایش اسلایدشو")]
+        [ActionRole("ویرایش آیتم")]
         [HasAccess]
         public async Task<IActionResult> Update(int Id)
         {
@@ -90,7 +90,7 @@ namespace ElevatorAdmin.Areas.SlideShow.Controllers
 
         #region حذف
 
-        [ActionRole("حذف واحد")]
+        [ActionRole("حذف آیتم")]
         [HasAccess]
         public async Task<IActionResult> Delete(int Id)
         {
