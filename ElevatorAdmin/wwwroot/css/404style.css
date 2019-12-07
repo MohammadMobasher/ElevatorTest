@@ -22,8 +22,14 @@ p, h1, a {
 */
 
 @media (min-width: 1281px) {
+
+    img{
+        padding-left:270px;
+        height:650px !important;
+    }
+
     .message-box {
-        margin-top: -465px;
+        margin-top: -480px;
         margin-left: 261px
     }
 
@@ -38,7 +44,7 @@ p, h1, a {
             font-size: 20px;
             font: bold;
             line-height: 46px;
-            margin-bottom: 40px;
+            margin-bottom: 53px;
             color: #9c9999
         }
 
