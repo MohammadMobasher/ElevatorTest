@@ -118,38 +118,38 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         #region ثبت ویژگی (خدابیامرز) منقضی 
 
-        //[ActionRole("ثبت ویژگی‌های کالا")]
-        //[HasAccess]
-        //public async Task<IActionResult> SubmitFeature(int id)
-        //{
-        //    var groupId = await _productRepostitory.GetProductGroupIdbyProductId(id);
+        [ActionRole("ثبت ویژگی‌های کالا")]
+        [HasAccess]
+        public async Task<IActionResult> SubmitFeature(int id)
+        {
+            var groupId = await _productRepostitory.GetProductGroupIdbyProductId(id);
 
-        //    if (groupId == null)
-        //    {
-        //        TempData.AddResult(SweetAlertExtenstion.Error("کالایی با این شناسه یافت نشد"));
+            if (groupId == null)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("کالایی با این شناسه یافت نشد"));
 
-        //        return RedirectToAction(nameof(Index));
-        //    }
+                return RedirectToAction(nameof(Index));
+            }
 
-        //    var features = await _productGroupFeatureRepository.GetAllProductGroupFeature(groupId.Value);
+            var features = await _productGroupFeatureRepository.GetAllProductGroupFeature(groupId.Value);
 
-        //    var productFeatures = await _productFeatureRepository.GetAllProductFeatureByProductId(id);
+            var productFeatures = await _productFeatureRepository.GetAllProductFeatureByProductId(id);
 
-        //    ViewBag.ProductId = id;
-        //    ViewBag.ProductFeatures = productFeatures;
+            ViewBag.ProductId = id;
+            ViewBag.ProductFeatures = productFeatures;
 
-        //    return View(features);
-        //}
+            return View(features);
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> SubmitFeature(ProductFeatureInsertViewModel vm)
-        //{
-        //    var model = await _productFeatureRepository.AddFeatureRange(vm);
+        [HttpPost]
+        public async Task<IActionResult> SubmitFeature(ProductFeatureInsertViewModel vm)
+        {
+            var model = await _productFeatureRepository.AddFeatureRange(vm);
 
-        //    TempData.AddResult(model);
+            TempData.AddResult(model);
 
-        //    return RedirectToAction(nameof(Index));
-        //}
+            return RedirectToAction(nameof(Index));
+        }
 
         #endregion
     }
