@@ -12,144 +12,218 @@
 
 
 
-<form class="form-horizontal" method="post" style="" enctype="multipart/form-data">
+@*<form id="commentForm" method="get" action="" class="form-horizontal">
+        <div id="rootwizard" class="pull-in">
+            <ul>
+                <li><a href="#first" data-toggle="tab">اولی</a></li>
+                <li><a href="#second" data-toggle="tab">دومی</a></li>
+                <li><a href="#third" data-toggle="tab">سومی</a></li>
+            </ul>
+            <div class="tab-content m-b-0 b-0">
+                <div class="tab-pane fade" id="first">
+                    <div class="control-group">
+                        <label class="control-label" for="emailfield">ایمیل</label>
+                        <div class="controls">
+                            <input type="text" id="emailfield" name="emailfield"
+                                   class="required email form-control">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="namefield">نام</label>
+                        <div class="controls">
+                            <input type="text" id="namefield" name="namefield"
+                                   class="required form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="second">
+                    <div class="control-group">
+                        <label class="control-label" for="urlfield">URL</label>
+                        <div class="controls">
+                            <input type="text" id="urlfield" name="urlfield"
+                                   class="required url form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="third">
+                    <div class="form-group clearfix">
+                        <div class="col-lg-12">
+                            <div class="checkbox checkbox-primary">
+                                <input id="checkbox-h3" type="checkbox">
+                                <label for="checkbox-h3">
+                                    بنده متن مقررات را خوانده و قبول دارم
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="pager m-b-0 wizard">
+                    <li class="previous"><a href="#" class="btn btn-primary waves-effect waves-light">قبلی</a></li>
+                    <li class="next"><a href="#" class="btn btn-primary waves-effect waves-light">بعدی</a></li>
+                </ul>
+            </div>
+        </div>
+    </form>*@
+
+
+
+<form class="form-horizontal" id="commentForm" method="post" style="" enctype="multipart/form-data">
 
     <div class="container">
-        <div id="progressbarwizard" class="pull-in" data-role="1">
-            <ul>
-                <li><a href="#ProductInfo-2" data-toggle="tab">اطلاعات کالا</a></li>
-                <li><a href="#Descriptor-2" data-toggle="tab">توضیحات</a></li>
-                <li><a href="#Gallery-2" data-toggle="tab">گالری تصاویر</a></li>
-                <li><a href="#Setting-2" data-toggle="tab">تنظیمات کالا</a></li>
-                @*<li><a href="#Feature-2" data-toggle="tab">ویژگی ها</a></li>*@
-            </ul>
 
-            <div class="tab-content b-0 m-b-0">
+            <div id="rootwizard" class="pull-in">
+                <ul>
+                    <li><a href="#ProductInfo-2" data-toggle="tab">اطلاعات کالا</a></li>
+                    <li><a href="#Descriptor-2" data-toggle="tab">توضیحات</a></li>
+                    <li><a href="#Gallery-2" data-toggle="tab">گالری تصاویر</a></li>
+                    <li><a href="#Setting-2" data-toggle="tab">تنظیمات کالا</a></li>
+                    <li><a href="#Feature-2" data-toggle="tab">ویژگی ها</a></li>
+                </ul>
 
-                <div id="bar" class="progress progress-striped progress-bar-primary-alt active">
-                    <div class="bar progress-bar progress-bar-success"></div>
-                </div>
-                <!--- اظلاعات کلی محصولات-->
-                <div class="tab-pane p-t-10 fade" id="ProductInfo-2">
-                    <div class="form-group">
-                        <label for="Title" class="control-label col-sm-2">عنوان کالا <i class="text-danger fa fa-star size-8"></i></label>
-                        <div class="col-sm-10">
-                            <input class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان کالا" />
-                        </div>
-                    </div>
+                <div class="tab-content b-0 m-b-0">
 
-                    <div class="form-group">
-                        <label for="Title" class="control-label col-sm-2">قیمت کالا <i class="text-danger fa fa-star size-8"></i></label>
-                        <div class="col-sm-10">
-                            <input class="form-control" required="required" name="Price" aria-describedby="Price" placeholder="قیمت کالا" />
-                        </div>
-                    </div>
-
-                    @if (Model == null)
-                    {
+                    @*<div id="bar" class="progress progress-striped progress-bar-primary-alt active">
+                        <div class="bar progress-bar progress-bar-success"></div>
+                    </div>*@
+                    <!--- اظلاعات کلی محصولات-->
+                    <div class="tab-pane p-t-10 fade" id="ProductInfo-2">
                         <div class="form-group">
-                            <label for="Title" class="control-label col-sm-2">گروه کالا <i class="text-danger fa fa-star size-8"></i></label>
+                            <label for="Title" class="control-label col-sm-2">عنوان کالا <i class="text-danger fa fa-star size-8"></i></label>
                             <div class="col-sm-10">
-                                <select class="form-control" name="ProductGroupId" required>
-                                    <option>--لطفا انتخاب کنید--</option>
-                                    @foreach (var item in groups)
-                                    {
-                                        <option value="@item.Id">@item.Title</option>
-                                    }
-                                </select>
+                                <input class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان کالا" />
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Title" class="control-label col-sm-2">قیمت کالا <i class="text-danger fa fa-star size-8"></i></label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" required="required" name="Price" aria-describedby="Price" placeholder="قیمت کالا" />
                             </div>
                         </div>
 
-                    }
-                    else
-                    {
-                        <input type="hidden" name="ProductGroupId" value="@Model" />
-                    }
+                        @if (Model == null)
+                        {
+                            <div class="form-group">
+                                <label for="Title" class="control-label col-sm-2">گروه کالا <i class="text-danger fa fa-star size-8"></i></label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="ProductGroupId" required="required">
+                                        <option value="">--لطفا انتخاب کنید--</option>
+                                        @foreach (var item in groups)
+                                        {
+                                            <option value="@item.Id">@item.Title</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <input type="hidden" name="ProductGroupId" value="@Model" />
+                        }
 
 
 
 
 
 
-                </div>
+                    </div>
 
-                <!--- توضیحات محصولات-->
-                <div class="tab-pane p-t-10 fade" id="Descriptor-2">
-                    <div class="form-group">
-                        <label for="Text" class="control-label col-sm-2">توضیح کلی <i class="text-danger fa fa-star size-8"></i></label>
-                        <div class="col-sm-10">
-                            <textarea name="Text" id="Text" class="form-control" aria-describedby="Text" required="required"></textarea>
+                    <!--- توضیحات محصولات-->
+                    <div class="tab-pane p-t-10 fade" id="Descriptor-2">
+                        <div class="form-group">
+                            <label for="Text" class="control-label col-sm-2">توضیح کلی <i class="text-danger fa fa-star size-8"></i></label>
+                            <div class="col-sm-10">
+                                <textarea name="Text" id="Text" class="form-control" aria-describedby="Text" required="required"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Text" class="control-label col-sm-2">توضیح مختصر <i class="text-danger fa fa-star size-8"></i></label>
+                            <div class="col-sm-10">
+                                <textarea name="ShortDescription" id="Description" class="form-control" aria-describedby="ShortDescription" required="required"></textarea>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="Text" class="control-label col-sm-2">توضیح مختصر <i class="text-danger fa fa-star size-8"></i></label>
-                        <div class="col-sm-10">
-                            <textarea name="ShortDescription" id="Description" class="form-control" aria-describedby="ShortDescription" required="required"></textarea>
+                    <!--- گالری تصاویر محصولات-->
+                    <div class="tab-pane p-t-10 fade" id="Gallery-2">
+                        <div class="form-group">
+                            <label for="Text" class="control-label col-sm-2">عکس کالا <i class="text-danger fa fa-star size-8"></i></label>
+                            <div class="col-sm-10">
+                                <input name="file"
+                                       required
+                                       type="file" class="dropify"
+                                       data-show-loader="true"
+                                       accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
+                                       id="ImageAddress" size="50">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Text" class="control-label col-sm-2">گالری تصاویر <i class="text-danger fa fa-star size-8"></i></label>
+                            <div class="col-sm-10">
+                                <input name="gallery"
+                                       required
+                                       type="file" multiple
+                                       data-show-loader="true"
+                                       accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
+                                       id="ImageAddress" size="50">
+
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="tab-pane p-t-10 fade" id="Setting-2">
 
-                <!--- گالری تصاویر محصولات-->
-                <div class="tab-pane p-t-10 fade" id="Gallery-2">
-                    <div class="form-group">
-                        <label for="Text" class="control-label col-sm-2">عکس کالا <i class="text-danger fa fa-star size-8"></i></label>
-                        <div class="col-sm-10">
-                            <input name="file"
-                                   required
-                                   type="file" class="dropify"
-                                   data-show-loader="true"
-                                   accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
-                                   id="ImageAddress" size="50">
-
+                        <div class="form-group">
+                            <label for="Tags" class="control-label col-sm-2">تگ‌های کالا </label>
+                            <div class="col-sm-10">
+                                <input type="text" value="" name="Tags" data-role="tagsinput" placeholder="افزودن تگ جدید" />
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="tab-pane p-t-10 fade" id="Setting-2">
-
-                    <div class="form-group">
-                        <label for="Tags" class="control-label col-sm-2">تگ‌های کالا <i class="text-danger fa fa-star size-8"></i></label>
-                        <div class="col-sm-10">
-                            <input type="text" required="required" value="" name="Tags" data-role="tagsinput" placeholder="افزودن تگ جدید" />
-                        </div>
-                    </div>
 
 
-                    <div class="form-group">
-                        <label for="Tags" class="control-label col-sm-2">واحد اندازه گیری کالا</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" name="ProductUnitId">
-                                <option>--انتخاب کنید--</option>
-                                @if (units != null)
-                                {
-                                    foreach (var item in units)
+                        <div class="form-group">
+                            <label for="Tags" class="control-label col-sm-2">واحد اندازه گیری کالا<i class="text-danger fa fa-star size-8"></i></label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="ProductUnitId" required>
+                                    <option value="">--انتخاب کنید--</option>
+                                    @if (units != null)
                                     {
-                                        <option value="@item.Id">@item.Name</option>
+                                        foreach (var item in units)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
                                     }
-                                }
-                            </select>
+                                </select>
+                            </div>
+
                         </div>
+                    </div>
+                    <!--- ویژگی محصولات-->
+                    <div class="tab-pane p-t-10 fade" id="Feature-2">
                         <button type="submit" class="btn btn-block btn-success">ثبت</button>
                     </div>
                 </div>
-                <!--- ویژگی محصولات-->
-                @*<div class="tab-pane p-t-10 fade" id="Feature-2">
-                 
-                </div>*@
-            </div>
-            <ul class="pager m-b-0 wizard">
-                <li class="previous first" style="display: none;">
-                    <a href="#">اول</a>
-                </li>
-                <li class="previous"><a href="#" class="btn btn-primary waves-effect waves-light">قبلی</a></li>
-                <li class="last" style="display: none;"><a href="#">آخر</a></li>
-                <li class="next" id="LastButton"><a href="#" class="btn btn-primary waves-effect waves-light">بعد</a></li>
+                <ul class="pager m-b-0 wizard">
+                    <li class="previous first" style="display: none;">
+                        <a href="#">اول</a>
+                    </li>
+                    <li class="previous"><a href="#" class="btn btn-primary waves-effect waves-light">قبلی</a></li>
+                    <li class="last" style="display: none;"><a href="#">آخر</a></li>
+                    <li class="next" id="LastButton"><a href="#" class="btn btn-primary waves-effect waves-light">بعد</a></li>
 
-            </ul>
-        </div>
+                </ul>
+            </div>
+
     </div>
 
 </form>
+
+
 <style>
     textarea {
         resize: none
@@ -175,4 +249,21 @@
         CKEDITOR.replace('Text');
 
     });
+</script>
+
+<script>
+    
+    $(function () {
+        $('[name="ProductGroupId"]').on("change", function () {
+            var val = $(this).val();
+
+            $.get("/Product/ManageProduct/ProductFeatures", { id: val }, function (result) {
+                $('#Feature-2').html(result);
+            })
+
+        })
+
+     
+    })
+
 </script>

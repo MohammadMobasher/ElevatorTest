@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core.Utilities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,17 @@ namespace Service.Repos
             if (product == null) return null;
 
             return product.ProductGroupId;
+        }
+
+        public async Task<int> SubmitProduct(DataLayer.ViewModels.Products.ProductInsertViewModel vm,IFormFile file)
+        {
+            vm.IndexPic = MFile.Save(file, FilePath.Product.GetDescription());
+
+            var mapModel = Map(vm);
+
+            await AddAsync(mapModel);
+
+            return mapModel.Id;
         }
     }
 }

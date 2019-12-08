@@ -9,5 +9,8 @@ namespace Core.Utilities
     {
         [Description("Uploads/Product")]
         Product,
+
+        [Description("Uploads/ProductGallery")]
+        ProductGallery,
     }
 }

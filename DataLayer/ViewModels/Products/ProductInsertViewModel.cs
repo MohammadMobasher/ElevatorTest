@@ -8,6 +8,7 @@ namespace DataLayer.ViewModels.Products
 {
     public class ProductInsertViewModel
     {
+
         [StringLength(150, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
         [Required]
         public string Title { get; set; }

@@ -1,0 +1,55 @@
+﻿@using DataLayer.Entities
+@model List<ProductGroupFeature>
+@{
+    ViewBag.Title = " ویژگی محصول";
+    var productFeatures = ViewBag.ProductFeatures as List<ProductFeature>;
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="row" style="margin-top: 50px; margin-bottom: 50px">
+            <div class="form-group clearfix" id="target">
+                @*<input type="hidden" name="vm.ProductId" value="@ViewBag.ProductId" />*@
+                <!---->
+                <div class="editable-responsive">
+                    <table class="table table-striped" id="datatable-editable">
+                        <thead>
+                            <tr>
+                                <th width="10">ردیف</th>
+                                <th width="200">
+                                    عنوان
+                                </th>
+                                <th width="200">
+                                    مقدار
+
+                                </th>
+                                @*<th width="100">
+                                        اقدامات
+                                    </th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int row = 1, i = 0;}
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@(row++)</td>
+                                    <td>@item.Feature.Title</td>
+                                    <td>
+                                        <input type="hidden" name="vm.Items[@i].FeatureId" value="@item.FeatureId" />
+
+                                        <input @(item.Feature.IsRequired ? "required" : "") type="@(item.Feature.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint?"number":"text")" name="vm.Items[@i].FeatureValue" class="form-control" value="@(productFeatures.FirstOrDefault(a=>a.FeatureId == item.FeatureId)?.FeatureValue)" />
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="submit" class="btn btn-block btn-success">ثبت</button>

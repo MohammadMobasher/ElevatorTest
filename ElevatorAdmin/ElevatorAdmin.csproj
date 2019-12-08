@@ -53,6 +53,7 @@
 	 <Folder Include="Areas\ProductGroup\Data\" />
     <Folder Include="Areas\ProductGroup\Models\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />
+    <Folder Include="wwwroot\Uploads\ProductGallery\" />
     <Folder Include="wwwroot\Uploads\SlideShow\" />
     <Folder Include="wwwroot\Uploads\Product\" />
     <Folder Include="wwwroot\Uploads\NewsImages\" />
