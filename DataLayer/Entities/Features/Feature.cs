@@ -28,5 +28,11 @@ namespace DataLayer.Entities
         /// آیا این فیلد به صورت ضروری است و باید پر شود
         /// </summary>
         public bool IsRequired { get; set; } = false;
+
+
+        /// <summary>
+        /// دسترسی مستقیم به داده های جدول
+        /// </summary>
+        public virtual ICollection<FeatureItem> Features { get; set; }
     }
 }
