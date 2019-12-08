@@ -22,10 +22,14 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
     public class ManageFeatureController : BaseAdminController
     {
         private readonly FeatureRepository _featureRepository;
+        private readonly FeatureItemRepository _featureItemRepository;
 
-        public ManageFeatureController(FeatureRepository featureRepository, UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
+        public ManageFeatureController(FeatureRepository featureRepository
+            , FeatureItemRepository featureItemRepository
+            , UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
         {
             _featureRepository = featureRepository;
+            _featureItemRepository = featureItemRepository;
         }
 
 
@@ -55,16 +59,22 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
         [HasAccess]
         public async Task<IActionResult> Insert()
         {
-            
+
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(FeatureInsertViewModel model)
+        public async Task<IActionResult> Insert(FeatureInsertViewModel model, FeatureItemsViewModel vm)
         {
+            if (model.FeatureType != DataLayer.SSOT.FeatureTypeSSOT.Fssot)
+            {
+                TempData.AddResult(await _featureRepository.Insert(model));
+                return RedirectToAction("Index");
+            }
             
-            TempData.AddResult(await _featureRepository.Insert(model));
-
+            var featureId = await _featureRepository.InsertFeature(model);
+            vm.FeatureId = featureId.Value;
+            TempData.AddResult(await _featureItemRepository.InsertFeatureItem(vm));
             return RedirectToAction("Index");
         }
 
@@ -101,7 +111,7 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
         public async Task<IActionResult> Delete(int Id)
         {
 
-            return View(new DeleteDTO { Id = Id});
+            return View(new DeleteDTO { Id = Id });
         }
 
         [HttpPost]

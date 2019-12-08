@@ -3,14 +3,14 @@
 @model List<FeatureFullDetailDTO>
 @{
     ViewData["Title"] = "لیست ویژگی‌ها";
-    
+
 }
 
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
 
     <TableBotton area="Feature" controller="ManageFeature" action="Insert"
                  isModal="true"
-                 modalTitle="ثبت جدید"
+                 modalTitle="ثبت جدید" 
                  title="ثبت"
                  icon="fa-plus"
                  buttonClass="btn-primary"></TableBotton>
@@ -34,7 +34,7 @@
     </span>
 
 
-    
+
 </div>
 
 
@@ -60,7 +60,7 @@
                     <td>
                         <select name="type" @*asp-for="@ViewBag.SearchModel.FeatureType" *@ asp-items="@Html.GetEnumSelectList<DataLayer.SSOT.FeatureTypeSSOT>()" class="form-control searchSelect">
                             <option value="">انتخاب نمایید...</option>
-                            
+
                         </select>
                     </td>
                     <input type="submit" class="hidden searchBtn" value="جستجو" />
@@ -93,5 +93,7 @@
     @Html.Partial("~/Views/Shared/_Pagination.cshtml")
 
 
-    
+
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>

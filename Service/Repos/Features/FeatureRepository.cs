@@ -73,6 +73,27 @@ namespace Service.Repos
         }
 
 
+        /// <summary>
+        /// ثبت اطلاعات در جدول مورد نظر 
+        /// </summary>
+        /// <param name="model">مدلی که باید به این تابع پاس داده شود  تا بتوان آن را ذخیره کرد</param>
+        /// <returns></returns>
+        public async Task<int?> InsertFeature(FeatureInsertViewModel model)
+        {
+            try
+            {
+                var entity = Mapper.Map<Feature>(model);
+
+
+                await AddAsync(entity);
+                return entity.Id;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<SweetAlertExtenstion> UpdateAsync(FeatureUpdateViewModel model)
         {
             try

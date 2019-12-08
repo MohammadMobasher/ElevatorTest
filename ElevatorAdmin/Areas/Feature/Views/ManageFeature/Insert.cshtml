@@ -4,7 +4,7 @@
 }
 
 
-<form action="/Feature/ManageFeature/Insert" class="form-horizontal" method="post" style="">
+<form id="frm" action="/Feature/ManageFeature/Insert" class="form-horizontal" method="post" style="">
 
     <div class="form-group">
         <label for="Title" class="control-label col-sm-3">عنوان ویژگی <i class="text-danger fa fa-star size-8"></i></label>
@@ -22,6 +22,33 @@
         </div>
     </div>
 
+
+    <div class="form-group hide" id="data-item">
+        <label for="Title" class="control-label col-sm-3">ایتم ها <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-9">
+            <div id="app">
+                <multi-text v-model="students" @@input="alert()">
+                    <multi-text />
+                    <p v-for="item in students">0</p>
+            </div>
+            <template type="text/x-template" id="multi-text-template">
+                <div class="multi-text">
+                    <div v-for="(item, index) in values">
+                        <div class="col-sm-9">
+                            <input type="text" @@input="updateValue()"
+                                   class="form-control multi-text-item" required="required"
+                                   placeholder="عنوان ویژگی" />
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="#" @@click="deleteValue(index)">x</a>
+                        </div>
+                    </div>
+                    <a href="#" @@click="addValue()">Add more</a>
+                </div>
+            </template>
+        </div>
+    </div>
+
     <div class="form-group">
         <label for="Title" class="control-label col-sm-3">آیا باید حتما پر شود؟ </label>
         <div class="col-sm-9">
@@ -35,12 +62,104 @@
         </div>
     </div>
 
+ 
 
 
-    <button type="submit" class="btn btn-block btn-success">ثبت</button>
+    <button type="submit" class="btn btn-block btn-success" id="sbtForm">ثبت</button>
 
 
     <script>
 
     </script>
 </form>
+
+<script>
+    Vue.component('multi-text', {
+        // can be a function to retrieve template from html
+        template: '#multi-text-template',
+        // get init value through prop 'value'
+        // either from parent v-model="some" or equivalently
+        // v-bind:value="some" v-on:input="some = $event.target.value">
+        props: ['value'],
+        // return empty data until init complete async
+        data: function () {
+            return { values: [] };
+        },
+        // init with ajax to server to get data
+        created: function () {
+            var v = Array.from(this.value);
+            this.values = v;
+        },
+        methods: {
+            updateValue: function () {
+               
+                //this.$emit('input', this.values);
+            },
+            deleteValue: function (index) {
+                this.values.splice(index, 1);
+                
+                //this.$emit('input', this.values);
+            },
+            addValue: function () {
+                this.values.push({});
+                //this.$emit('input', this.values);
+            }
+        }
+    })
+
+    new Vue({
+        el: '#app',
+        data: {
+            students: []
+        },
+        // methods: {
+        //   updateValue: function(index, value) {
+        //     this.values[index] = value;
+        //     this.$emit('input', this.values);
+        //   },
+        //   deleteItem: function(items, index) {
+        //     items.splice(index, 1);
+        //   },
+        //   addItem: function(items) {
+        //     var newVal = {};
+        //     for(var k in items[0]) newVal[k] = "";
+        //     items.push(newVal);
+        //   }
+        // }
+    });
+</script>
+
+<script>
+    $(function () {
+
+        var frm = $('form')
+
+        frm.submit(function (e) {
+
+            e.preventDefault();
+            var featueType = $('[name="FeatureType"]').val();
+            debugger;
+            if (featueType === "2") {
+                var inputs = $('.multi-text-item');
+                $.each(inputs, function (index, key) {
+                    var val = $(key).val();
+                    $('form').append("<input type='hidden' name='vm.Items[" + index + "]' value='" + val + "'>")
+                })
+            }
+            $('form').unbind('submit').submit();
+        });
+
+        $('[name="FeatureType"]').on("change", function () {
+            var valItem = $(this).val();
+
+            if (valItem === "2") {
+                $('#data-item').removeClass("hide");
+            }
+            else {
+                $('#data-item').addClass("hide");
+            }
+        })
+
+    })
+
+</script>
