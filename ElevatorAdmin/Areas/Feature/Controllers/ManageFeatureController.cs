@@ -89,6 +89,9 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
         public async Task<IActionResult> Update(int Id)
         {
             var result = await _featureRepository.GetByIdAsync(Id);
+
+            var getAllItem = await _featureItemRepository.GetAllFeatureItemByFeatureId(result.Id);
+
             return View(result);
         }
 

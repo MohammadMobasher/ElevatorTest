@@ -16,13 +16,13 @@ namespace Service.Repos
 {
     public class FeatureRepository : GenericRepository<Feature>
     {
-        
+
         public FeatureRepository(DatabaseContext dbContext) : base(dbContext)
         {
-            
+
         }
 
-        
+
 
 
         //TODO
@@ -62,7 +62,7 @@ namespace Service.Repos
             {
                 var entity = Mapper.Map<Feature>(model);
 
-                
+
                 await AddAsync(entity);
                 return SweetAlertExtenstion.Ok();
             }
@@ -102,12 +102,12 @@ namespace Service.Repos
 
                 entity = (Feature)Mapper.Map(model, entity, typeof(FeatureUpdateViewModel), typeof(Feature));
 
-                
+
 
                 await DbContext.SaveChangesAsync();
                 return SweetAlertExtenstion.Ok();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return SweetAlertExtenstion.Error();
             }
@@ -167,6 +167,9 @@ namespace Service.Repos
             }
 
         }
+
+        public async Task<List<Feature>> GetFeaturesByListFeatureId(List<int> featureIds)
+             => await TableNoTracking.Include(a => a.Features).Where(a => featureIds.Contains(a.Id)).ToListAsync();
 
     }
 }

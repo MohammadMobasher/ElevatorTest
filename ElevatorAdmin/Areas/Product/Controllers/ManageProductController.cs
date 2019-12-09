@@ -30,14 +30,15 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
         private readonly ProductFeatureRepository _productFeatureRepository;
         private readonly ProductGalleryRepository _productGalleryRepository;
-
+        private readonly FeatureRepository _featureRepository;
         public ManageProductController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
             ProductGroupRepository productGroupRepository,
             ProductUnitRepository productUnitRepository,
             ProductGroupFeatureRepository productGroupFeatureRepository,
             ProductFeatureRepository productFeatureRepository,
-            ProductGalleryRepository productGalleryRepository) : base(usersAccessRepository)
+            ProductGalleryRepository productGalleryRepository,
+            FeatureRepository featureRepository) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
             _productGroupRepository = productGroupRepository;
@@ -45,6 +46,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             _productGroupFeatureRepository = productGroupFeatureRepository;
             _productFeatureRepository = productFeatureRepository;
             _productGalleryRepository = productGalleryRepository;
+            _featureRepository = featureRepository;
         }
 
 
@@ -104,14 +106,16 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         [AllowAccess]
         public async Task<IActionResult> ProductFeatures(int id)
         {
-            var features = await _productGroupFeatureRepository.GetAllProductGroupFeature(id);
+            var groupFeature = await _productGroupFeatureRepository.GetAllProductGroupFeature(id);
 
             var productFeatures = await _productFeatureRepository.GetAllProductFeatureByProductId(id);
 
+            var feautreitem = await _featureRepository.GetFeaturesByListFeatureId(groupFeature.Select(a => a.FeatureId).ToList());
+
             ViewBag.ProductId = id;
             ViewBag.ProductFeatures = productFeatures;
-
-            return PartialView(features);
+          
+            return PartialView(feautreitem);
         }
 
 
