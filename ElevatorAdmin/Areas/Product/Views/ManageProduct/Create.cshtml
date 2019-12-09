@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var groups = ViewBag.Groups as List<ProductGroup>;
     var units = ViewBag.Units as List<ProductUnit>;
+ 
 }
 
 
@@ -72,152 +73,163 @@
 
     <div class="container">
 
-            <div id="rootwizard" class="pull-in">
-                <ul>
-                    <li><a href="#ProductInfo-2" data-toggle="tab">اطلاعات کالا</a></li>
-                    <li><a href="#Descriptor-2" data-toggle="tab">توضیحات</a></li>
-                    <li><a href="#Gallery-2" data-toggle="tab">گالری تصاویر</a></li>
-                    <li><a href="#Setting-2" data-toggle="tab">تنظیمات کالا</a></li>
-                    <li><a href="#Feature-2" data-toggle="tab">ویژگی ها</a></li>
-                </ul>
+        <div id="rootwizard" class="pull-in">
+            <ul>
+                <li><a href="#ProductInfo-2" data-toggle="tab">اطلاعات کالا</a></li>
+                <li><a href="#Descriptor-2" data-toggle="tab">توضیحات</a></li>
+                <li><a href="#Gallery-2" data-toggle="tab">گالری تصاویر</a></li>
+                <li><a href="#Setting-2" data-toggle="tab">تنظیمات کالا</a></li>
+                <li><a href="#Feature-2" data-toggle="tab">ویژگی ها</a></li>
+            </ul>
 
-                <div class="tab-content b-0 m-b-0">
+            <div class="tab-content b-0 m-b-0">
 
-                    @*<div id="bar" class="progress progress-striped progress-bar-primary-alt active">
+                @*<div id="bar" class="progress progress-striped progress-bar-primary-alt active">
                         <div class="bar progress-bar progress-bar-success"></div>
                     </div>*@
-                    <!--- اظلاعات کلی محصولات-->
-                    <div class="tab-pane p-t-10 fade" id="ProductInfo-2">
-                        <div class="form-group">
-                            <label for="Title" class="control-label col-sm-2">عنوان کالا <i class="text-danger fa fa-star size-8"></i></label>
-                            <div class="col-sm-10">
-                                <input class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان کالا" />
-                            </div>
-
+                <!--- اظلاعات کلی محصولات-->
+                <div class="tab-pane p-t-10 fade" id="ProductInfo-2">
+                    <div class="form-group">
+                        <label for="Title" class="control-label col-sm-2">عنوان کالا <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان کالا" />
                         </div>
-
-                        <div class="form-group">
-                            <label for="Title" class="control-label col-sm-2">قیمت کالا <i class="text-danger fa fa-star size-8"></i></label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" required="required" name="Price" aria-describedby="Price" placeholder="قیمت کالا" />
-                            </div>
-                        </div>
-
-                        @if (Model == null)
-                        {
-                            <div class="form-group">
-                                <label for="Title" class="control-label col-sm-2">گروه کالا <i class="text-danger fa fa-star size-8"></i></label>
-                                <div class="col-sm-10">
-                                    <select class="form-control" name="ProductGroupId" required="required">
-                                        <option value="">--لطفا انتخاب کنید--</option>
-                                        @foreach (var item in groups)
-                                        {
-                                            <option value="@item.Id">@item.Title</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-
-                        }
-                        else
-                        {
-                            <input type="hidden" name="ProductGroupId" value="@Model" />
-                        }
-
-
-
-
-
 
                     </div>
 
-                    <!--- توضیحات محصولات-->
-                    <div class="tab-pane p-t-10 fade" id="Descriptor-2">
-                        <div class="form-group">
-                            <label for="Text" class="control-label col-sm-2">توضیح کلی <i class="text-danger fa fa-star size-8"></i></label>
-                            <div class="col-sm-10">
-                                <textarea name="Text" id="Text" class="form-control" aria-describedby="Text" required="required"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="Text" class="control-label col-sm-2">توضیح مختصر <i class="text-danger fa fa-star size-8"></i></label>
-                            <div class="col-sm-10">
-                                <textarea name="ShortDescription" id="Description" class="form-control" aria-describedby="ShortDescription" required="required"></textarea>
-                            </div>
+                    <div class="form-group">
+                        <label for="Title" class="control-label col-sm-2">قیمت کالا <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" required="required" name="Price" aria-describedby="Price" placeholder="قیمت کالا" />
                         </div>
                     </div>
 
-                    <!--- گالری تصاویر محصولات-->
-                    <div class="tab-pane p-t-10 fade" id="Gallery-2">
+                    @if (Model == null)
+                    {
                         <div class="form-group">
-                            <label for="Text" class="control-label col-sm-2">عکس کالا <i class="text-danger fa fa-star size-8"></i></label>
+                            <label for="Title" class="control-label col-sm-2">گروه کالا <i class="text-danger fa fa-star size-8"></i></label>
                             <div class="col-sm-10">
-                                <input name="file"
-                                       required
-                                       type="file" class="dropify"
-                                       data-show-loader="true"
-                                       accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
-                                       id="ImageAddress" size="50">
-
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="Text" class="control-label col-sm-2">گالری تصاویر <i class="text-danger fa fa-star size-8"></i></label>
-                            <div class="col-sm-10">
-                                <input name="gallery"
-                                       required
-                                       type="file" multiple
-                                       data-show-loader="true"
-                                       accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
-                                       id="ImageAddress" size="50">
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane p-t-10 fade" id="Setting-2">
-
-                        <div class="form-group">
-                            <label for="Tags" class="control-label col-sm-2">تگ‌های کالا </label>
-                            <div class="col-sm-10">
-                                <input type="text" value="" name="Tags" data-role="tagsinput" placeholder="افزودن تگ جدید" />
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="Tags" class="control-label col-sm-2">واحد اندازه گیری کالا<i class="text-danger fa fa-star size-8"></i></label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="ProductUnitId" required>
-                                    <option value="">--انتخاب کنید--</option>
-                                    @if (units != null)
+                                <select class="form-control" name="ProductGroupId" required="required">
+                                    <option value="">--لطفا انتخاب کنید--</option>
+                                    @foreach (var item in groups)
                                     {
-                                        foreach (var item in units)
-                                        {
-                                            <option value="@item.Id">@item.Name</option>
-                                        }
+                                        <option value="@item.Id">@item.Title</option>
                                     }
                                 </select>
                             </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <input type="hidden" name="ProductGroupId" value="@Model.Value" />
+
+                        <script>
+
+                                $(function(){
+                                    var groupId = $('[name="ProductGroupId"]').val();
+                                    $.get("/Product/ManageProduct/ProductFeatures", { id : groupId }, function (result) {
+                                        $('#Feature-2').html(result);
+                                    })
+                                })
+
+                        </script>
+                            }
+
+
+
+
+
+
+                </div>
+
+                <!--- توضیحات محصولات-->
+                <div class="tab-pane p-t-10 fade" id="Descriptor-2">
+                    <div class="form-group">
+                        <label for="Text" class="control-label col-sm-2">توضیح کلی <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-sm-10">
+                            <textarea name="Text" id="Text" class="form-control" aria-describedby="Text" required="required"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Text" class="control-label col-sm-2">توضیح مختصر <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-sm-10">
+                            <textarea name="ShortDescription" id="Description" class="form-control" aria-describedby="ShortDescription" required="required"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!--- گالری تصاویر محصولات-->
+                <div class="tab-pane p-t-10 fade" id="Gallery-2">
+                    <div class="form-group">
+                        <label for="Text" class="control-label col-sm-2">عکس کالا <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-sm-10">
+                            <input name="file"
+                                   required
+                                   type="file" class="dropify"
+                                   data-show-loader="true"
+                                   accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
+                                   id="ImageAddress" size="50">
 
                         </div>
                     </div>
-                    <!--- ویژگی محصولات-->
-                    <div class="tab-pane p-t-10 fade" id="Feature-2">
-                        <button type="submit" class="btn btn-block btn-success">ثبت</button>
+
+                    <div class="form-group">
+                        <label for="Text" class="control-label col-sm-2">گالری تصاویر <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-sm-10">
+                            <input name="gallery"
+                                   required
+                                   type="file" multiple
+                                   data-show-loader="true"
+                                   accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
+                                   id="ImageAddress" size="50">
+
+                        </div>
                     </div>
                 </div>
-                <ul class="pager m-b-0 wizard">
-                    <li class="previous first" style="display: none;">
-                        <a href="#">اول</a>
-                    </li>
-                    <li class="previous"><a href="#" class="btn btn-primary waves-effect waves-light">قبلی</a></li>
-                    <li class="last" style="display: none;"><a href="#">آخر</a></li>
-                    <li class="next" id="LastButton"><a href="#" class="btn btn-primary waves-effect waves-light">بعد</a></li>
+                <div class="tab-pane p-t-10 fade" id="Setting-2">
 
-                </ul>
+                    <div class="form-group">
+                        <label for="Tags" class="control-label col-sm-2">تگ‌های کالا </label>
+                        <div class="col-sm-10">
+                            <input type="text" value="" name="Tags" data-role="tagsinput" placeholder="افزودن تگ جدید" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Tags" class="control-label col-sm-2">واحد اندازه گیری کالا<i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="ProductUnitId" required>
+                                <option value="">--انتخاب کنید--</option>
+                                @if (units != null)
+                                {
+                                    foreach (var item in units)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <!--- ویژگی محصولات-->
+                <div class="tab-pane p-t-10 fade" id="Feature-2">
+                    <button type="submit" class="btn btn-block btn-success">ثبت</button>
+                </div>
             </div>
+            <ul class="pager m-b-0 wizard">
+                <li class="previous first" style="display: none;">
+                    <a href="#">اول</a>
+                </li>
+                <li class="previous"><a href="#" class="btn btn-primary waves-effect waves-light">قبلی</a></li>
+                <li class="last" style="display: none;"><a href="#">آخر</a></li>
+                <li class="next" id="LastButton"><a href="#" class="btn btn-primary waves-effect waves-light">بعد</a></li>
+
+            </ul>
+        </div>
 
     </div>
 
@@ -252,7 +264,7 @@
 </script>
 
 <script>
-    
+
     $(function () {
         $('[name="ProductGroupId"]').on("change", function () {
             var val = $(this).val();
@@ -263,7 +275,7 @@
 
         })
 
-     
+
     })
 
 </script>

@@ -19,7 +19,6 @@ using WebFramework.Base;
 
 namespace ElevatorAdmin.Areas.Product.Controllers
 {
-
     [Area("Product")]
     [ControllerRole("مدیریت کالا‌ها")]
     public class ManageProductController : BaseAdminController
@@ -49,8 +48,6 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             _featureRepository = featureRepository;
         }
 
-
-
         [ActionRole("صفحه لیست کالاها")]
         //[HasAccess]
         public IActionResult Index()
@@ -67,6 +64,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             if (id != null) return View(id);
             ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
+
 
             return View();
         }
@@ -104,6 +102,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AllowAccess]
+
         public async Task<IActionResult> ProductFeatures(int id)
         {
             var groupFeature = await _productGroupFeatureRepository.GetAllProductGroupFeature(id);
