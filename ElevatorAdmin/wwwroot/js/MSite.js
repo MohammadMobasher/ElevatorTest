@@ -163,7 +163,7 @@ function AjaxCall(url, params, type, successCallback) {
 
 
     // نمایش لودینگ
-    $('.loading').removeClass("hide");
+    $('.loading').removeClass("hidden");
 
     timeOut = 6000;
 
@@ -184,6 +184,9 @@ function AjaxCall(url, params, type, successCallback) {
         success: successCallback,
         error: function (xhr, textStatus, errorThrown) {
             console.log(xhr.status);
+            console.log(textStatus);
+            console.log(errorThrown);
+            
             // درصورتی که کوکی شخص پریده باشد باید به صفحه لاگین هدایت شود
             // درصورتی که شماره status برابر 401 باشد باید به صفحه لاگین هدایت شود
             if (xhr.status == 401)
@@ -191,14 +194,14 @@ function AjaxCall(url, params, type, successCallback) {
 
             // درصورتی که کاربر به این اکشن دسترسی نداشته باشد
             if (xhr.status == 403) {
-                $("[name='NoAccess']").removeClass("hide");
+                $("[name='NoAccess']").removeClass("hidden");
                 $('#target_').html('');
             }
         }
     });
-
+    console.log("mohammad");
     // پنهان کردن لودینگ
-    $('.loading').addClass("hide");
+    $('.loading').addClass("hidden");
 }
 
 
@@ -206,7 +209,7 @@ function AjaxCall(url, params, type) {
 
     
     // نمایش لودینگ
-    $('.loading').removeClass("hide");
+    $('.loading').removeClass("hidden");
 
     timeOut = 6000;
     var returnData ;
@@ -238,14 +241,14 @@ function AjaxCall(url, params, type) {
 
             // درصورتی که کاربر به این اکشن دسترسی نداشته باشد
             if (xhr.status == 403) {
-                $("[name='NoAccess']").removeClass("hide");
+                $("[name='NoAccess']").removeClass("hidden");
                 $('#target_').html('');
             }
         }
     });
 
     // پنهان کردن لودینگ
-    $('.loading').addClass("hide");
+    $('.loading').addClass("hidden");
     return returnData;
 }
 
@@ -297,7 +300,7 @@ function AjaxCall(url, params, type) {
  */
 function AjaxCallWithUploadFile(url, params, type, successCallback) {
     // نمایش لودینگ
-    $('.loading').removeClass('hide');
+    $('.loading').removeClass('hidden');
 
     timeOut = 6000;
 
@@ -328,7 +331,7 @@ function AjaxCallWithUploadFile(url, params, type, successCallback) {
                 window.location.href = "/";
 
             if (xhr.status == 403) {
-                $("[name='NoAccess']").removeClass("hide");
+                $("[name='NoAccess']").removeClass("hidden");
                 $('#target_').html('');
             }
         }
@@ -337,7 +340,7 @@ function AjaxCallWithUploadFile(url, params, type, successCallback) {
 
     
     // پنهان کردن لودینگ
-    $('.loading').addClass('hide');
+    $('.loading').addClass('hidden');
 }
 
 

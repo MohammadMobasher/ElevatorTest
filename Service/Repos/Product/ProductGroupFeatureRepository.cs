@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using Core.Utilities;
 using DataLayer.DTO;
 using DataLayer.DTO.Feature;
+using DataLayer.DTO.FeatureItem;
 using DataLayer.DTO.ProductGroupFeature;
 using DataLayer.Entities;
 using DataLayer.ViewModels.ProductGroup;
@@ -86,6 +87,42 @@ namespace Service.Repos.Product
             return query;
         }
 
+
+
+        /// <summary>
+        /// در این تابع لیست ویژگی‌هایی برگردانده می‌شود که متعلق به یک گروه باشد
+        /// </summary>
+        /// <param name="productGroupId">شماره گروه مورد نظر</param>
+        /// <returns></returns>
+        public async Task<List<FeatureFullDetailDTO>> GetFeaturesByGroupId(int productGroupId)
+        {
+            // لیست ویژگی‌هایی که این گروه دارد
+            return await (from productGroupFeature in this.DbContext.ProductGroupFeature
+                              where productGroupFeature.ProductGroupId == productGroupId
+
+                              join feature in this.DbContext.Feature on productGroupFeature.FeatureId equals feature.Id
+
+                              //join featureItem in this.DbContext.FeatureItem on feature.Id equals featureItem.FeatureId
+
+                              //into temp from items in temp.DefaultIfEmpty()
+
+                              orderby productGroupFeature.Id
+
+                              select new FeatureFullDetailDTO {
+
+                                  Id = feature.Id,
+                                  Title = feature.Title,
+                                  FeatureType = feature.FeatureType,
+                                  IsRequired = feature.IsRequired,
+                                  FeatureItems = (from featureItem in this.DbContext.FeatureItem where featureItem.FeatureId == feature.Id
+                                                  select new FeatureItemDTO {
+                                                      Id = featureItem.Id,
+                                                      Value = featureItem.Value,
+                                                      FeatureId = feature.Id
+                                                  }).ToList()
+                              }).ToListAsync();
+        }
+        //.ProjectTo<FeatureFullDetailDTO>()
 
 
         /// <summary>

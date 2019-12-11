@@ -1,67 +1,59 @@
-﻿@using DataLayer.Entities
-@model List<Feature>
+﻿@using DataLayer.DTO
+@model List<FeatureFullDetailDTO>
 @{
     ViewBag.Title = " ویژگی محصول";
-    var productFeatures = ViewBag.ProductFeatures as List<ProductFeature>;
+    //var productFeatures = ViewBag.ProductFeatures as List<ProductFeature>;
 }
 
 
-<div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12">
-        <div class="row" style="margin-top: 50px; margin-bottom: 50px">
-            <div class="form-group clearfix" id="target">
-                @*<input type="hidden" name="vm.ProductId" value="@ViewBag.ProductId" />*@
-                <!---->
-                <div class="editable-responsive">
-                    <table class="table table-striped" id="datatable-editable">
-                        <thead>
-                            <tr>
-                                <th width="10">ردیف</th>
-                                <th width="200">
-                                    عنوان
-                                </th>
-                                <th width="200">
-                                    مقدار
+@{ int row = 1, i = 0;}
+@foreach (FeatureFullDetailDTO item in Model)
+{
+    <input type="hidden" name="vm.Items[@i].FeatureId" value="@item.Id" />
 
-                                </th>
-                                @*<th width="100">
-                                        اقدامات
-                                    </th>*@
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{ int row = 1, i = 0;}
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@(row++)</td>
-                                    <td>@item.Title</td>
-                                    <td>
-                                        <input type="hidden" name="vm.Items[@i].FeatureId" value="@item.Id" />
-                                        @if (item.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fssot)
-                                        {
-                                            <select class="form-control" @(item.IsRequired ? "required" : "") name="vm.Items[@i].FeatureValue">
-                                                <option value="">--لطفا انتخاب کنید--</option>
-                                                @foreach (var feature in item.Features)
-                                                {
-                                                    <option value="@feature.Id">@feature.Value</option>
-                                                }
-                                            </select>
-                                        }
-                                        else
-                                        {
-                                            <input @(item.IsRequired ? "required" : "") type="@(item.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint?"number":"text")" name="vm.Items[@i].FeatureValue" class="form-control" value="@(productFeatures.FirstOrDefault(a=>a.FeatureId == item.Id)?.FeatureValue)" />
-                                        }
-                                    </td>
-                                </tr>
-                                i++;
-                            }
-                        </tbody>
-                    </table>
-                </div>
+
+    @if (item.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fssot)
+    {
+
+        <div class="form-group">
+            <label for="Tags" class="control-label col-sm-2">
+                @item.Title
+                @if (item.IsRequired)
+                {
+                    <i class="text-danger fa fa-star size-8"></i>
+                }
+            </label>
+            <div class="col-sm-10">
+                <select class="form-control" @(item.IsRequired ? "required" : "") name="vm.Items[@i].FeatureValue">
+                    <option value="">--لطفا انتخاب کنید--</option>
+                    @foreach (DataLayer.DTO.FeatureItem.FeatureItemDTO feature in item.FeatureItems)
+                    {
+                        <option value="@feature.Id">@feature.Value</option>
+                    }
+                </select>
+            </div>
+
+        </div>
+
+        
+    }
+    else
+    {
+        <div class="form-group">
+            <label for="Text" class="control-label col-sm-2"> @item.Title 
+            @if (item.IsRequired)
+            {
+                <i class="text-danger fa fa-star size-8"></i>
+            }
+            </label>
+            <div class="col-sm-10">
+
+                <input @(item.IsRequired ? "required" : "") type="@(item.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint?"number":"text")" placeholder="@item.Title" aria-describedby="Text" name="vm.Items[@i].FeatureValue" class="form-control" />
             </div>
         </div>
-    </div>
-</div>
+    }
+    i++;
+}
+
 
 <button type="submit" class="btn btn-block btn-success">ثبت</button>
