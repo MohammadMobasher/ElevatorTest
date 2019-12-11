@@ -170,24 +170,24 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="tab-pane p-t-10 fade" id="Setting-2">
-
-                    
-                </div>*@
+                
                 <!--- ویژگی محصولات-->
                 <div class="tab-pane p-t-10 fade" id="Feature-2">
                     <button type="submit" class="btn btn-block btn-success">ثبت</button>
                 </div>
             </div>
-            <ul class="pager m-b-0 wizard">
-                <li class="previous first" style="display: none;">
-                    <a href="#">اول</a>
-                </li>
-                <li class="previous"><a href="#" class="btn btn-primary waves-effect waves-light">قبلی</a></li>
-                <li class="last" style="display: none;"><a href="#">آخر</a></li>
-                <li class="next" id="LastButton"><a href="#" class="btn btn-primary waves-effect waves-light">بعد</a></li>
 
-            </ul>
+            <div class="m-b-0 wizard col-lg-12 col-md-12 col-xl-12 col-sm-12">
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+                    <a href="#" class="btn btn-danger btn-block waves-effect waves-light">قبلی</a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+                    <a href="#" class="btn btn-primary btn-block waves-effect waves-light">بعد</a>
+                </div>
+
+            </div>
+
         </div>
 
     </div>
@@ -226,10 +226,7 @@
 
     $(function () {
         $('[name="ProductGroupId"]').on("change", function () {
-            var val = $(this).val();
-
-            $('#Feature-2').html(AjaxCall("/Product/ManageProduct/ProductFeatures", { id: val }, "POST"));
-            
+            $('#Feature-2').html(AjaxCall("/Product/ManageProduct/ProductFeatures", { id: $(this).val() }, "POST"));
         })
     })
 

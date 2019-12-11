@@ -63,6 +63,7 @@ namespace Service.Repos.Product
 
         /// <summary>
         /// در این تابع لیست ویژگی‌هایی برگردانده می‌شود که متعلق به یک گروه نباشد
+        /// لیستی که برمیگرداند حاوی شماره ویژگی به همراه عنوان ویژگی است
         /// </summary>
         /// <param name="productGroupId">شماره گروه مورد نظر</param>
         /// <returns></returns>
@@ -102,10 +103,6 @@ namespace Service.Repos.Product
 
                               join feature in this.DbContext.Feature on productGroupFeature.FeatureId equals feature.Id
 
-                              //join featureItem in this.DbContext.FeatureItem on feature.Id equals featureItem.FeatureId
-
-                              //into temp from items in temp.DefaultIfEmpty()
-
                               orderby productGroupFeature.Id
 
                               select new FeatureFullDetailDTO {
@@ -122,7 +119,8 @@ namespace Service.Repos.Product
                                                   }).ToList()
                               }).ToListAsync();
         }
-        //.ProjectTo<FeatureFullDetailDTO>()
+
+
 
 
         /// <summary>
