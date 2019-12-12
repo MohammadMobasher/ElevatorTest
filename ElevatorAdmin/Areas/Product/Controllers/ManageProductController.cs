@@ -102,18 +102,23 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         public async Task<IActionResult> ProductFeatures(int id)
         {
-            var groupFeature = await _productGroupFeatureRepository.GetAllProductGroupFeature(id);
+            var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(id);
 
-            var productFeatures = await _productFeatureRepository.GetAllProductFeatureByProductId(id);
+            //var productFeatures = await _productFeatureRepository.GetAllProductFeatureByProductId(id);
 
-            var feautreitem = await _featureRepository.GetFeaturesByListFeatureId(groupFeature.Select(a => a.FeatureId).ToList());
+            //var feautreitem = await _featureRepository.GetFeaturesByListFeatureId(groupFeature.Select(a => a.FeatureId).ToList());
 
-            ViewBag.ProductId = id;
-            ViewBag.ProductFeatures = productFeatures;
+            //ViewBag.ProductId = id;
+            //ViewBag.ProductGroupFeatures = groupFeature;
           
-            return PartialView(feautreitem);
+            return PartialView(groupFeature);
         }
 
+        [AllowAccess]
+        public  IActionResult mobasher()
+        {
+            return View();
+        }
 
 
         #region ثبت ویژگی (خدابیامرز) منقضی 

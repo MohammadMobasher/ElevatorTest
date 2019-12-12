@@ -24,6 +24,7 @@ namespace Service
         #region Tables
 
         public DbSet<Feature> Feature { get; set; }
+        public DbSet<FeatureItem> FeatureItem { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<FactorAndPackage> FactorAndPackage { get; set; }
         public DbSet<FactorItem> FactorItem { get; set; }
