@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using Core.CustomAttributes;
 using Core.Utilities;
-using DataLayer.DTO;
 using DataLayer.DTO.Products;
 using DataLayer.ViewModels.Products;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Service.Repos;
@@ -30,6 +28,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         private readonly ProductFeatureRepository _productFeatureRepository;
         private readonly ProductGalleryRepository _productGalleryRepository;
         private readonly FeatureRepository _featureRepository;
+
         public ManageProductController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
             ProductGroupRepository productGroupRepository,
@@ -61,10 +60,8 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         {
             ViewBag.Units = await _productUnitRepository.TableNoTracking.ToListAsync();
 
-
             if (id != null) return View(id);
             ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
-
 
             return View();
         }
