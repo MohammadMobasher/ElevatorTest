@@ -106,6 +106,22 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
 
         #endregion
 
+        #region Api
+
+        public async Task<IActionResult> GetAllFeatureByFeatureId(int id)
+        {
+            var getAllItem = await _featureItemRepository.GetAllFeatureItemByFeatureId(id);
+
+            var lstFeature = new List<FeatureItemListShowViewModel>();
+
+            getAllItem.ForEach(a => lstFeature.Add(new FeatureItemListShowViewModel()
+            {
+                feature = a.Value
+            }));
+
+            return Json(lstFeature);
+        }
+        #endregion
 
         #region حذف
 

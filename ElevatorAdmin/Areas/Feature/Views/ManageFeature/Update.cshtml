@@ -39,19 +39,21 @@
                     <div v-for="(item, index) in values">
                         <div class="col-sm-9">
                             <input type="text" @@input="updateValue()"
-                                   class="form-control multi-text-item" required="required"
-                                   placeholder="عنوان ویژگی" />
+                                   class="form-control multi-text-item" v-model="item.feature" required="required"
+                                   placeholder="" />
                         </div>
                         <div class="col-sm-3">
-                            <a href="#" @@click="deleteValue(index)">x</a>
+                            <a href="#" style="font-size:30px" @@click="deleteValue(index)" class="text-danger"><i class='fa fa-close btn-icon' aria-hidden='true'></i>&nbsp;&nbsp;</a>
                         </div>
                     </div>
-                    <a href="#" @@click="addValue()">Add more</a>
+                    <br />
+
+                    <a href="#" @@click="addValue()" style="font-size:30px;margin-right:4px"><i class='fa fa-plus-circle btn-icon' aria-hidden='true'></i>&nbsp;&nbsp;</a>
+
                 </div>
             </template>
         </div>
     </div>
-
 
 
     <div class="form-group">
@@ -115,22 +117,24 @@
     new Vue({
         el: '#app',
         data: {
-            students: []
+            students: [],
         },
-        // methods: {
-        //   updateValue: function(index, value) {
-        //     this.values[index] = value;
-        //     this.$emit('input', this.values);
-        //   },
-        //   deleteItem: function(items, index) {
-        //     items.splice(index, 1);
-        //   },
-        //   addItem: function(items) {
-        //     var newVal = {};
-        //     for(var k in items[0]) newVal[k] = "";
-        //     items.push(newVal);
-        //   }
-        // }
+         methods: {
+             GetFeature: function () {
+                 var id = @(Model.Id);
+                 $.get("/Feature/ManageFeature/GetAllFeatureByFeatureId/", { id: id }, function (result) {
+                     
+                     $.each(result, function (index, key) {
+                         this.students.push(key);
+                     })
+                     console.log(arr);
+                     this.students = arr;
+                 })
+             }
+        },
+        beforeMount() {
+            this.GetFeature()
+        },
     });
 </script>
 
