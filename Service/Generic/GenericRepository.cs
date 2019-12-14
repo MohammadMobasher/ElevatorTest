@@ -365,11 +365,9 @@ namespace Service
 
         public async Task MapUpdateAsync<TProject>(TProject project, int id, bool saveNow = true)
         {
-            var mapModel = Map(project);
-
             var oldEntity = GetById(id);
 
-            Mapper.Map(mapModel, oldEntity);
+            Mapper.Map(project, oldEntity);
 
             if (saveNow)
                 await DbContext.SaveChangesAsync();
