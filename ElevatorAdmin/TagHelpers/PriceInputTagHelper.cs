@@ -15,17 +15,19 @@ namespace ElevatorAdmin.TagHelpers
         public string Title { get; set; }
         [HtmlAttributeName("required")]
         public bool Required { get; set; }
-
+        [HtmlAttributeName("value")]
+        public string Value { get; set; }
 
 
         public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            string Input = @"<input name='" + this.Name + @"' type='hidden' >
-                        <input name='" + this.Name + @"_show' 
+            string Input = @"<input name='" + this.Name + $@"' type='hidden' value='{Value}'>
+                        <input name='" + this.Name + $@"_show' 
                                " + (this.Required ? "required='required'" : "") + @"
                                aria-describedby='" + this.Name + @"'
-                               placeholder='" + this.Title + @"' 
+                               placeholder='" + this.Title + $@"' 
                                type='text' 
+                               value='{Convert.ToDecimal(Value).ToString("n0")}'
                                class='form-control seperator-input'>";
 
             output.Content.AppendHtml(Input);

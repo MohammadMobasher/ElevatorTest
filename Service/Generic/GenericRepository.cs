@@ -66,7 +66,7 @@ namespace Service
         #endregion
 
         #region Async Method
-        
+
 
         /// <summary>
         /// گرفتن تمام اطلاعات به‌صورت یک جا
@@ -78,7 +78,7 @@ namespace Service
             Expression<Func<IDestination, bool>> condition = null)
         {
             var query = Entities
-                
+
                 .ProjectTo<IDestination>();
 
             if (condition != null)
@@ -91,7 +91,7 @@ namespace Service
                 query = query.Take(take);
 
 
-            
+
 
             return await query
                 .ToListAsync();
@@ -363,11 +363,16 @@ namespace Service
             await AddRangeAsync(mapModel, saveNow);
         }
 
-        public async Task MapUpdateAsync<TProject>(TProject project , bool saveNow = true)
+        public async Task MapUpdateAsync<TProject>(TProject project, int id, bool saveNow = true)
         {
             var mapModel = Map(project);
 
-            await UpdateAsync(mapModel, saveNow);
+            var oldEntity = GetById(id);
+
+            Mapper.Map(mapModel, oldEntity);
+
+            if (saveNow)
+                await DbContext.SaveChangesAsync();
         }
 
         public async Task MapUpdateRangeAsync<TProject>(List<TProject> project, bool saveNow = true)

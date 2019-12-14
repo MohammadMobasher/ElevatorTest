@@ -72,9 +72,9 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             , ProductFeatureInsertViewModel vm
             , ProductGalleryViewModel Pics)
         {
-           
+
             // ثبت محصول
-            var productId = await _productRepostitory.SubmitProduct(product,Pics.file);
+            var productId = await _productRepostitory.SubmitProduct(product, Pics.file);
 
             vm.ProductId = productId;
 
@@ -110,12 +110,32 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             //ViewBag.ProductId = id;
             //ViewBag.ProductGroupFeatures = groupFeature;
-          
+
             return PartialView(groupFeature);
         }
 
+        [ActionRole("ویرایش سریع قیمت")]
+        public async Task<IActionResult> FastPriceEdit(int id)
+        {
+            var model = await _productRepostitory.TableNoTracking
+                .ProjectTo<ProductPriceDTO>()
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FastPriceEdit(ProductFastPriceEditViewModel vm)
+        {
+            await _productRepostitory.MapUpdateAsync(vm, vm.Id);
+
+            TempData.AddResult(SweetAlertExtenstion.Ok());
+
+            return RedirectToAction(nameof(Index));
+        }
+
         [AllowAccess]
-        public  IActionResult mobasher()
+        public IActionResult mobasher()
         {
             return View();
         }
