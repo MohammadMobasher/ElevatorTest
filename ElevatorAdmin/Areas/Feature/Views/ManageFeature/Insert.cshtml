@@ -39,13 +39,13 @@
                                    class="form-control multi-text-item" required="required"
                                    placeholder="" />
                         </div>
-                        <div class="col-sm-3">
-                            <a href="#" @@click="deleteValue(index)">x</a>
+                        <div class="col-sm-3" >
+                            <a href="#" style="font-size:30px" @@click="deleteValue(index)" class="text-danger"><i class='fa fa-close btn-icon' aria-hidden='true'></i>&nbsp;&nbsp;</a>
                         </div>
                     </div>
                     <br />
                
-                        <a href="#" @@click="addValue()"><i class='fa fa-plus-circle btn-icon' aria-hidden='true'></i>&nbsp;&nbsp;</a>
+                        <a href="#" @@click="addValue()" style="font-size:30px;margin-right:4px" ><i class='fa fa-plus-circle btn-icon'  aria-hidden='true'></i>&nbsp;&nbsp;</a>
                   
                 </div>
             </template>
