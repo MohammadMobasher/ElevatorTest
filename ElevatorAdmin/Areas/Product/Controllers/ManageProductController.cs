@@ -78,8 +78,11 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             vm.ProductId = productId;
 
-            // آپلود گالری
-            await _productGalleryRepository.UploadGalley(Pics.gallery, productId);
+            if (Pics.gallery != null)
+            {
+                // آپلود گالری
+                await _productGalleryRepository.UploadGalley(Pics.gallery, productId);
+            }
 
             // ویژگی ها
             await _productFeatureRepository.AddFeatureRange(vm);
@@ -91,6 +94,26 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        [ActionRole("ویرایش محصولات")]
+        public async Task<IActionResult> Update(int id)
+        {
+            ViewBag.Units = await _productUnitRepository.TableNoTracking.ToListAsync();
+            ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
+
+            var model = await _productRepostitory
+                .TableNoTracking.Where(a => a.Id == id)
+                .ProjectTo<ProductFullDTO>()
+                .FirstOrDefaultAsync();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update()
+        {
+            return View();
+        }
 
 
         /// <summary>
