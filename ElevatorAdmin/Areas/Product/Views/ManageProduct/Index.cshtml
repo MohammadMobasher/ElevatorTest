@@ -60,7 +60,11 @@
                 <th width="8%">
                     ردیف
                 </th>
+                <th>عکس محصول</th>
                 <th>عنوان</th>
+                <th>مبلغ</th>
+                <th>گروه</th>
+                <th>مجموع نظرات</th>
                 @*<th width="10%">اقدامات</th>*@
             </tr>
         </thead>
@@ -92,7 +96,19 @@
                     <tr>
                         <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
                         <td>@(index++)</td>
+                        <td>
+                            <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200"/>
+                        </td>
                         <td>@item.Title</td>
+                        <td>
+                            @item.Price.ToString("n0")
+                        </td>
+                        <td>
+                            @item.ProductGroup.Title
+                        </td>
+                        <td>
+                            @(item.Like - item.DisLike)
+                        </td>
                         @*<td>
                                 <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
                                     <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
