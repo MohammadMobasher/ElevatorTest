@@ -48,9 +48,12 @@ namespace Service.Repos
         {
             if (file != null)
             {
-                var WebContent = _hostingEnvironment.WebRootPath;
+                if (vm.IndexPic != null)
+                {
+                    var WebContent = _hostingEnvironment.WebRootPath;
 
-                System.IO.File.Delete(WebContent+FilePath.Product.GetDescription());
+                    System.IO.File.Delete(WebContent + FilePath.Product.GetDescription());
+                }
 
                 vm.IndexPic = MFile.Save(file, FilePath.Product.GetDescription());
             }

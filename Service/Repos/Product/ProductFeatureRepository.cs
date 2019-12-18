@@ -39,6 +39,37 @@ namespace Service.Repos.Product
         }
 
         /// <summary>
+        /// افزودن گروهی ویژگی ها
+        /// </summary>
+        /// <param name="vm"></param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> UpdateFeatureRange(ProductFeatureInsertViewModel vm)
+        {
+            DeleteFeatures(vm.ProductId);
+
+            var lst = new List<ProductFeature>();
+
+            foreach (var item in vm.Items)
+            {
+                lst.Add(new ProductFeature()
+                {
+                    FeatureId = item.FeatureId,
+                    FeatureValue = item.FeatureValue,
+                    ProductId = vm.ProductId
+                });
+            }
+            await AddRangeAsync(lst);
+            return SweetAlertExtenstion.Ok();
+        }
+
+        void DeleteFeatures(int id)
+        {
+            var model = TableNoTracking.Where(a => a.ProductId == id).ToList();
+
+            DbContext.RemoveRange(model);
+        }
+
+        /// <summary>
         /// گرفتن اطلاعات ویژگی های محصولات بر اساس شناسه محصولات
         /// </summary>
         /// <param name="productId"></param>

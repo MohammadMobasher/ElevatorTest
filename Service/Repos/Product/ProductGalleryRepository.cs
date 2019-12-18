@@ -1,5 +1,6 @@
 ﻿using Core.Utilities;
 using DataLayer.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,10 @@ namespace Service.Repos
 {
     public class ProductGalleryRepository : GenericRepository<DataLayer.Entities.ProductGallery>
     {
-        public ProductGalleryRepository(DatabaseContext dbContext) : base(dbContext)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public ProductGalleryRepository(DatabaseContext dbContext,IHostingEnvironment hostingEnvironment) : base(dbContext)
         {
+            _hostingEnvironment = hostingEnvironment;
         }
 
         /// <summary>
@@ -40,7 +43,15 @@ namespace Service.Repos
         string UploadPic(IFormFile file)
             => MFile.Save(file, FilePath.ProductGallery.GetDescription());
 
+        public void DeletePic(List<string> path)
+        {
+            var WebAddress = _hostingEnvironment.WebRootPath;
 
+            foreach (var item in path)
+            {
+                System.IO.File.Delete(WebAddress +"\\"+ item);
+            }
+        }
         
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using Core.CustomAttributes;
 using Core.Utilities;
+using DataLayer.DTO.ProductFeatures;
 using DataLayer.DTO.Products;
 using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Mvc;
@@ -116,15 +117,19 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         {
             // ثبت محصول
             var productId = await _productRepostitory.UpdateProduct(product, Pics.file);
-
+            vm.ProductId = product.Id;
+            
             if (Pics.gallery != null)
             {
+                var getAllProductGallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == product.Id).Select(a=>a.Pic).ToListAsync();
+
+                _productGalleryRepository.DeletePic(getAllProductGallery);
                 // آپلود گالری
                 await _productGalleryRepository.UploadGalley(Pics.gallery, productId);
             }
 
             // ویژگی ها
-            await _productFeatureRepository.AddFeatureRange(vm);
+            await _productFeatureRepository.UpdateFeatureRange(vm);
 
             // نمایش پیغام
             TempData.AddResult(SweetAlertExtenstion.Ok());
@@ -151,6 +156,27 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             //ViewBag.ProductId = id;
             //ViewBag.ProductGroupFeatures = groupFeature;
+
+            return PartialView(groupFeature);
+        }
+
+        /// <summary>
+        /// ویژگی های محصولات بر اساس ویژگی های محصول
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AllowAccess]
+
+        public async Task<IActionResult> ProductFeaturesUpdate(int id,int productId)
+        {
+            var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(id);
+
+            var productFeature = await _productFeatureRepository.TableNoTracking
+                .Where(a => a.ProductId == productId)
+                .ProjectTo<ProductFeaturesFullDTO>()
+                .ToListAsync();
+
+            ViewBag.ProductFeature = productFeature;
 
             return PartialView(groupFeature);
         }
