@@ -110,9 +110,27 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update()
+        public async Task<IActionResult> Update(ProductUpdateViewModel product
+            , ProductFeatureInsertViewModel vm
+            , ProductGalleryViewModel Pics)
         {
-            return View();
+            // ثبت محصول
+            var productId = await _productRepostitory.UpdateProduct(product, Pics.file);
+
+            if (Pics.gallery != null)
+            {
+                // آپلود گالری
+                await _productGalleryRepository.UploadGalley(Pics.gallery, productId);
+            }
+
+            // ویژگی ها
+            await _productFeatureRepository.AddFeatureRange(vm);
+
+            // نمایش پیغام
+            TempData.AddResult(SweetAlertExtenstion.Ok());
+
+            // بازگشت به لیست محصولات
+            return RedirectToAction(nameof(Index));
         }
 
 

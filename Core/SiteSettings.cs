@@ -4,6 +4,7 @@
     {
         public string ElmahPath { get; set; }
         public IdentitySettings IdentitySettings { get; set; }
+        public SiteConfig SiteConfig { get; set; }
     }
 
     public class IdentitySettings
@@ -28,4 +29,9 @@
         public string Number { get; set; }
     }
    
+
+    public class SiteConfig
+    {
+        public string UrlAddress { get; set; }
+    }
 }

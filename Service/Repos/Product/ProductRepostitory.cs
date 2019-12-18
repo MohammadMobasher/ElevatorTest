@@ -1,4 +1,6 @@
-﻿using Core.Utilities;
+﻿using AutoMapper;
+using Core.Utilities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,8 +13,10 @@ namespace Service.Repos
 {
     public class ProductRepostitory : GenericRepository<DataLayer.Entities.Product>
     {
-        public ProductRepostitory(DatabaseContext dbContext) : base(dbContext)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public ProductRepostitory(DatabaseContext dbContext,IHostingEnvironment hostingEnvironment) : base(dbContext)
         {
+            _hostingEnvironment = hostingEnvironment;
         }
 
         /// <summary>
@@ -38,6 +42,26 @@ namespace Service.Repos
             await AddAsync(mapModel);
 
             return mapModel.Id;
+        }
+
+        public async Task<int> UpdateProduct(DataLayer.ViewModels.Products.ProductUpdateViewModel vm, IFormFile file)
+        {
+            if (file != null)
+            {
+                var WebContent = _hostingEnvironment.WebRootPath;
+
+                System.IO.File.Delete(WebContent+FilePath.Product.GetDescription());
+
+                vm.IndexPic = MFile.Save(file, FilePath.Product.GetDescription());
+            }
+
+            var model = GetById(vm.Id);
+
+            Mapper.Map(vm, model);
+
+            DbContext.SaveChanges();
+
+            return model.Id;
         }
     }
 }
