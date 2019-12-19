@@ -1,0 +1,92 @@
+﻿@model DataLayer.DTO.Products.ProductPriceDTO
+@using DataLayer.SSOT
+@{
+    Layout = null;
+}
+
+
+<form id="frm" asp-action="FastPriceEdit" class="form-horizontal" method="post" style="">
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">گروه کالا <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <select class="form-control" asp-items="@Html.GetEnumSelectList<ProductDiscountSSOT>()" name="DiscountType" required="required">
+                <option value="">--لطفا انتخاب کنید--</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group hide" id="Price">
+        <label for="Title" class="control-label col-sm-2">مبلغ <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            @*<input type="number" class="form-control" required="required" name="Price" aria-describedby="Price" placeholder="قیمت کالا" />*@
+            <priceInput name="PriceDiscount" title="" required="true"></priceInput>
+        </div>
+    </div>
+
+
+    <div class="form-group hide" id="percent">
+        <label for="Title" class="control-label col-sm-2">درصد کالا <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="number" name="PercentDicount" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group ">
+        <label for="Title" class="control-label col-sm-2">زمان شروع <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <PersianDateTimePicker name="StartDate" hastimepicker="true" required="true"></PersianDateTimePicker>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">زمان پایان <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <PersianDateTimePicker name="EndDate" hastimepicker="true" required="true"></PersianDateTimePicker>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-success" id="sbtForm">ثبت</button>
+
+
+
+</form>
+
+<script src="~/js/MSite.js"></script>
+
+<script>
+    $(function () {
+        $('[name="PercentDicount"]').on("change keyup", function () {
+            var val = $(this).val();
+
+            if (val < 0 || val > 100) {
+                //swal({
+                //    title: 'خطا',
+                //    text: "باید بین 0 تا 100 باشد",
+                //    type: "error",
+                //    confirmButtonText: "تایید",
+                //    html: true
+                //});
+
+                $(this).val('');
+            }
+        })
+    })
+
+    $(function () {
+        $('[name="DiscountType"]').on("change", function () {
+            var val = $(this).val();
+
+            if (val == "1") {
+                $('#percent').removeClass("hide");
+                $('#Price').addClass("hide");
+            }
+            if (val == "2") {
+                $('#Price').removeClass("hide");
+                $('#percent').addClass("hide");
+            }
+
+        })
+    })
+</script>

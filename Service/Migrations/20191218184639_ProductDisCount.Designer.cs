@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191218184639_ProductDisCount")]
+    partial class ProductDisCount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,21 +287,7 @@ namespace Service.Migrations
 
                     b.Property<decimal>("Discount");
 
-                    b.Property<int>("DiscountType");
-
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<int?>("ProductGroupId");
-
-                    b.Property<int?>("ProductId");
-
-                    b.Property<DateTime>("StartDate");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductGroupId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductDiscount");
                 });
@@ -688,17 +676,6 @@ namespace Service.Migrations
                     b.HasOne("DataLayer.Entities.ProductUnit", "ProductUnit")
                         .WithMany()
                         .HasForeignKey("ProductUnitId");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.ProductDiscount", b =>
-                {
-                    b.HasOne("DataLayer.Entities.ProductGroup", "ProductGroup")
-                        .WithMany()
-                        .HasForeignKey("ProductGroupId");
-
-                    b.HasOne("DataLayer.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.ProductFeature", b =>

@@ -16,12 +16,19 @@
                  icon="fa-plus"
                  buttonClass="btn-primary"></TableBotton>
 
+    <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="DiscountToAll"
+                 isModal="true"
+                 modalTitle="تخفیف روی تمامی کالا ها"
+                 title="ثبت تخفیف کلی"
+                 icon="fa-plus"
+                 buttonClass="btn-success"></TableBotton>
+
     <span class="hidden" data-role-table-btn-area-access="">
 
         @*<button data-role-href="/ProductGroup/ManageProductGroup/" modal-title="ویرایش آیتم" ismodal="true" class="btn btn-lg btn-warning data-role-table-btn" data-toggle="tooltip" title="ویرایش" data-role="confirm">
-            <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
-            ویژگی‌ها
-        </button>*@
+                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
+                ویژگی‌ها
+            </button>*@
 
         <TableBotton area="Product" controller="ManageProduct" action="Update"
                      title="ویرایش"
@@ -36,8 +43,8 @@
 
         <TableBotton area="Product" controller="ManageProduct" action="FastPriceEdit"
                      title="ویرایش سریع"
-                     icon="fa-cogs"
                      isModal="true"
+                     icon="fa-cogs"
                      modalTitle="ویرایش سریع"
                      buttonClass="btn-warning"></TableBotton>
 
@@ -46,6 +53,9 @@
                      title="ثبت ویژگی"
                      icon="fa-cogs"
                      buttonClass="btn-success"></TableBotton>
+
+
+
 
     </span>
 </div>

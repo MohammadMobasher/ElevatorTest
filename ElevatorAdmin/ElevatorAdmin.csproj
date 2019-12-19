@@ -50,6 +50,8 @@
 
 
   <ItemGroup>
+	 <Folder Include="Areas\ProductDiscount\Data\" />
+	 <Folder Include="Areas\ProductDiscount\Models\" />
 	 <Folder Include="Areas\ProductGroup\Data\" />
     <Folder Include="Areas\ProductGroup\Models\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />

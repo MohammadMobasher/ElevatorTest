@@ -49,6 +49,7 @@ namespace Service
         public DbSet<ProductGallery> Gallery { get; set; }
         public DbSet<SlideShow> SlideShow { get; set; }
 
+        public DbSet<ProductDiscount> ProductDiscount { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
