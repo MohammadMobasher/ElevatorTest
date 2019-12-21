@@ -1,7 +1,10 @@
 ﻿@model List<DataLayer.DTO.Products.ProductFullDTO>
-
+@using DataLayer.Entities
+@using DataLayer.ViewModels.Products
 @{
     ViewData["Title"] = "لیست کالاها";
+    var groups = ViewBag.Groups as List<ProductGroup>;
+    var search = ViewBag.SearchModel as ProductSearchViewModel;
 }
 
 
@@ -92,16 +95,20 @@
                     </td>
                     <td><input type="text" disabled class="form-control searchInput" /></td>
                     <td>
-                        <input type="text" name="Title" class="form-control searchInput" />
+                        <input type="text" name="Title" value="@search.Title" class="form-control searchInput" />
                     </td>
-                    <td>  <priceInput name="Price" title="قیمت کال" required="true"></priceInput></td>
+                    <td>  <priceInput name="Price" title="قیمت کالا" required="true" value="@search.Price"></priceInput></td>
                     <td>
                         <select name="ProductGroupId" class="form-control searchInput">
                             <option>--لطفا انتخاب کنید--</option>
+                            @foreach (var item in groups)
+                            {
+                                <!option value="@item.Id" @(search.ProductGroupId == item.Id?"search":"") x>@item.Title</!option>
+                            }
                         </select>
                     </td>
                     <td>
-                        <input type="text" name="Likes" class="form-control searchInput" />
+                        <input type="text" name="Likes" value="@search.Likes" class="form-control searchInput" />
                     </td>
                     <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
                 </form>

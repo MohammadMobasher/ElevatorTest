@@ -60,6 +60,8 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             this.TotalNumber = model.Item1;
 
+
+            ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
             ViewBag.SearchModel = searchModel;
 
             return View(model.Item2);
