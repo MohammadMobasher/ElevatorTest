@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 using Core.CustomAttributes;
 using Core.Utilities;
+using DataLayer.DTO.ProductDiscounts;
 using DataLayer.ViewModels.ProductDiscount;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Service.Repos.Product;
 using Service.Repos.User;
 using WebFramework.Base;
@@ -43,14 +46,17 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
 
             await _productDiscountRepository.MapAddAsync(vm);
-        
+
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
             return RedirectToAction("Index");
         }
 
-        public IActionResult ProductDiscount(int id)
+        public async Task<IActionResult> ProductDiscount(int id)
         {
+            if (await _productDiscountRepository.IsProductSubmited(id))
+                return RedirectToAction(nameof(ProductDiscountUpdate),new { id});
+
 
             return View(id);
         }
@@ -65,7 +71,28 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction("Index", "ManageProduct",new { area ="Product"});
+            return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
+        }
+
+        public async Task<IActionResult> ProductDiscountUpdate(int id)
+        {
+            var model = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
+                .ProjectTo<ProductDiscountDTO>().FirstOrDefaultAsync();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductDiscountUpdate(ProductDiscountUpdateViewModel vm, decimal PriceDiscount, decimal PercentDicount)
+        {
+            vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
+
+            await _productDiscountRepository.UpdateDiscount(vm);
+
+            TempData.AddResult(SweetAlertExtenstion.Ok());
+
+
+            return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
         }
     }
 }

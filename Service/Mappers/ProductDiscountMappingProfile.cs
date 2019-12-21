@@ -14,6 +14,7 @@ namespace Service.Mappers
         {
             CreateMap<ProductDiscountDTO, ProductDiscount>().ReverseMap();
             CreateMap<ProductDiscountInsertViewModel, ProductDiscount>().ReverseMap();
+            CreateMap<ProductDiscountUpdateViewModel, ProductDiscount>().ReverseMap();
         }
 
     }
