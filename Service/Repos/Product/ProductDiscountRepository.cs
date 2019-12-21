@@ -34,7 +34,16 @@ namespace Service.Repos.Product
         /// <returns></returns>
         public async Task<bool> IsProductSubmited(int id)
             => await GetByConditionAsync(a=>a.ProductId == id) != null;
-        
+
+        /// <summary>
+        /// آیا این تخفیف برای این گروه محصول قبلا ثبت شده است یا خیر 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> IsProductGroupSubmited(int id)
+            => await GetByConditionAsync(a => a.ProductGroupId == id) != null;
+
+
         public async Task UpdateDiscount(ProductDiscountUpdateViewModel vm)
         {
             var model =await GetByIdAsync(vm.Id);

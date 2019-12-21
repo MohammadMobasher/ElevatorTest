@@ -27,9 +27,9 @@
     <span class="hidden" data-role-table-btn-area-access="">
 
         @*<button data-role-href="/ProductGroup/ManageProductGroup/" modal-title="ویرایش آیتم" ismodal="true" class="btn btn-lg btn-warning data-role-table-btn" data-toggle="tooltip" title="ویرایش" data-role="confirm">
-                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
-                ویژگی‌ها
-            </button>*@
+            <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
+            ویژگی‌ها
+        </button>*@
 
         <TableBotton area="ProductGroup" controller="ManageProductGroup" action="Update"
                      isModal="true"
@@ -49,6 +49,14 @@
                      title="ثبت ویژگی"
                      icon="fa-cogs"
                      buttonClass="btn-success"></TableBotton>
+
+
+        <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ProductGroupDiscount"
+                     isModal="true"
+                     modalTitle="تخفیف روی گروه محصولات "
+                     title="ثبت تخفیف "
+                     icon="fa-plus"
+                     buttonClass="btn-info"></TableBotton>
 
     </span>
 </div>

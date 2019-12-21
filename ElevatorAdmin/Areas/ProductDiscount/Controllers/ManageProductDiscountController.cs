@@ -94,5 +94,64 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
             return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
         }
+
+
+
+        #region ProductGroupDiscount
+
+        public async Task<IActionResult> ProductGroupDiscount(int id)
+        {
+            if (await _productDiscountRepository.IsProductGroupSubmited(id))
+                return RedirectToAction(nameof(ProductGroupDiscountUpdate), new { id });
+
+            return View(id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductGroupDiscount(ProductDiscountInsertViewModel vm, decimal PriceDiscount, decimal PercentDicount)
+        {
+
+            vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
+
+            await _productDiscountRepository.MapAddAsync(vm);
+
+            TempData.AddResult(SweetAlertExtenstion.Ok());
+
+            return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
+        }
+
+        public async Task<IActionResult> ProductGroupDiscountUpdate(int id)
+        {
+            var model = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductGroupId == id)
+                .ProjectTo<ProductDiscountDTO>().FirstOrDefaultAsync();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductGroupDiscountUpdate(ProductDiscountUpdateViewModel vm, decimal PriceDiscount, decimal PercentDicount)
+        {
+            vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
+
+            await _productDiscountRepository.UpdateDiscount(vm);
+
+            TempData.AddResult(SweetAlertExtenstion.Ok());
+
+
+            return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
+        }
+
+
+        #endregion
+
+
+        public IActionResult DeleteAll()
+        {
+            var model = _productDiscountRepository.TableNoTracking.ToList();
+
+            _productDiscountRepository.DeleteRange(model);
+
+            return Json(true);
+        }
     }
 }
