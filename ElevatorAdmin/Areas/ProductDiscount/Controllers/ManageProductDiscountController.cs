@@ -42,7 +42,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         [HttpPost]
         public async Task<IActionResult> DiscountToAll(ProductDiscountInsertViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
-
+            
             vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
 
             await _productDiscountRepository.MapAddAsync(vm);
@@ -64,6 +64,11 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         [HttpPost]
         public async Task<IActionResult> ProductDiscount(ProductDiscountInsertViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
+            if(vm.StartDate <= vm.EndDate)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("تاریخ شروع تخفیف نمی تواند از تاریخ پایان آن کوچکتر باشد"));
+                return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
+            }
 
             vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
 
@@ -85,6 +90,13 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         [HttpPost]
         public async Task<IActionResult> ProductDiscountUpdate(ProductDiscountUpdateViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
+            if (vm.StartDate <= vm.EndDate)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("تاریخ شروع تخفیف نمی تواند از تاریخ پایان آن کوچکتر باشد"));
+                return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
+            }
+
+
             vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
 
             await _productDiscountRepository.UpdateDiscount(vm);
@@ -110,6 +122,11 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         [HttpPost]
         public async Task<IActionResult> ProductGroupDiscount(ProductDiscountInsertViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
+            if (vm.StartDate <= vm.EndDate)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("تاریخ شروع تخفیف نمی تواند از تاریخ پایان آن کوچکتر باشد"));
+                return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
+            }
 
             vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
 
@@ -131,6 +148,14 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         [HttpPost]
         public async Task<IActionResult> ProductGroupDiscountUpdate(ProductDiscountUpdateViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
+
+            if (vm.StartDate <= vm.EndDate)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("تاریخ شروع تخفیف نمی تواند از تاریخ پایان آن کوچکتر باشد"));
+                return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
+            }
+
+
             vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
 
             await _productDiscountRepository.UpdateDiscount(vm);
@@ -145,13 +170,13 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         #endregion
 
 
-        public IActionResult DeleteAll()
-        {
-            var model = _productDiscountRepository.TableNoTracking.ToList();
+        //public IActionResult DeleteAll()
+        //{
+        //    var model = _productDiscountRepository.TableNoTracking.ToList();
 
-            _productDiscountRepository.DeleteRange(model);
+        //    _productDiscountRepository.DeleteRange(model);
 
-            return Json(true);
-        }
+        //    return Json(true);
+        //}
     }
 }

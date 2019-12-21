@@ -21,9 +21,9 @@
     <span class="hidden" data-role-table-btn-area-access="">
 
         @*<button data-role-href="/ProductGroup/ManageProductGroup/" modal-title="ویرایش آیتم" ismodal="true" class="btn btn-lg btn-warning data-role-table-btn" data-toggle="tooltip" title="ویرایش" data-role="confirm">
-            <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
-            ویژگی‌ها
-        </button>*@
+                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
+                ویژگی‌ها
+            </button>*@
 
         <TableBotton area="Product" controller="ManageProduct" action="Update"
                      title="ویرایش"
@@ -90,8 +90,19 @@
                         ---
                         @*<input type="text" value="@ViewBag.SearchModel.Id" name="Id" class="form-control searchInput" />*@
                     </td>
-                    <td><input type="text"  name="Title" class="form-control searchInput" /></td>
-                    @*<td></td>*@
+                    <td><input type="text" disabled class="form-control searchInput" /></td>
+                    <td>
+                        <input type="text" name="Title" class="form-control searchInput" />
+                    </td>
+                    <td>  <priceInput name="Price" title="قیمت کال" required="true"></priceInput></td>
+                    <td>
+                        <select name="ProductGroupId" class="form-control searchInput">
+                            <option>--لطفا انتخاب کنید--</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="Likes" class="form-control searchInput" />
+                    </td>
                     <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
                 </form>
             </tr>
@@ -107,7 +118,7 @@
                         <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
                         <td>@(index++)</td>
                         <td>
-                            <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200"/>
+                            <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200" />
                         </td>
                         <td>@item.Title</td>
                         <td>

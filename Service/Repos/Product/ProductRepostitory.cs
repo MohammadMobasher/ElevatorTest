@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Core.Utilities;
+using DataLayer.DTO.Products;
+using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +21,52 @@ namespace Service.Repos
         {
             _hostingEnvironment = hostingEnvironment;
         }
+
+
+        public async Task<Tuple<int, List<ProductFullDTO>>> LoadAsyncCount(
+         int skip = -1,
+         int take = -1,
+         ProductSearchViewModel model = null)
+        {
+            var query = Entities.ProjectTo<ProductFullDTO>();
+
+
+            if (model.Id != null)
+                query = query.Where(x => x.Id == model.Id);
+
+            if (!string.IsNullOrEmpty(model.Title))
+                query = query.Where(x => x.Title.Contains(model.Title));
+
+            if(model.Price != null)
+            {
+                query = query.Where(x => x.Price == model.Price);
+            }
+
+            if (model.ProductGroupId != null)
+            {
+                query = query.Where(x => x.ProductGroupId == model.ProductGroupId.Value);
+            }
+
+            if (model.Likes != null)
+            {
+                query = query.Where(x => (x.Like - x.DisLike) == model.Likes.Value);
+            }
+
+
+            int Count = query.Count();
+
+            query = query.OrderByDescending(x => x.Id);
+
+
+            if (skip != -1)
+                query = query.Skip((skip - 1) * take);
+
+            if (take != -1)
+                query = query.Take(take);
+
+            return new Tuple<int, List<ProductFullDTO>>(Count, await query.ToListAsync());
+        }
+
 
         /// <summary>
         /// گرفتن اطلاعات گروه محصول بر اساس شناسه محصول

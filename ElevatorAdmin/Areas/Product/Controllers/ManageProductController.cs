@@ -50,10 +50,19 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         [ActionRole("صفحه لیست کالاها")]
         //[HasAccess]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(ProductSearchViewModel searchModel=null)
         {
-            var model = _productRepostitory.TableNoTracking.ProjectTo<ProductFullDTO>().ToList();
-            return View(model);
+            this.PageSize = 10;
+            var model = await _productRepostitory.LoadAsyncCount(
+                this.CurrentPage,
+                this.PageSize,
+                searchModel);
+
+            this.TotalNumber = model.Item1;
+
+            ViewBag.SearchModel = searchModel;
+
+            return View(model.Item2);
         }
 
         [ActionRole("ثبت کالای جدید")]
