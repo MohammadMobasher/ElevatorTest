@@ -5,10 +5,10 @@
 }
 
 
-<form id="frm" asp-area="ProductDiscount" asp-controller="ManageProductDiscount" asp-action="DiscountToAll" class="form-horizontal" method="post" style="">
+<form id="frm" asp-area="ProductDiscount" asp-controller="ManageProductDiscount" asp-action="ProductDiscount" class="form-horizontal" method="post" style="">
     @if (Model != null)
     {
-    <input type="hidden"  name="descountId" value="@Model.Id" />
+    <input type="hidden"  name="ProductId" value="@Model" />
     }
     <div class="form-group">
         <label for="Title" class="control-label col-sm-2">گروه کالا <i class="text-danger fa fa-star size-8"></i></label>
@@ -95,27 +95,12 @@
         })
     })
 
-    $(function () {
-        var typeId = $('[name="DiscountType"]').val();
-
-        if (typeId === "1") {
-            $('#percent').removeClass("hide");
-            $('#Price').addClass("hide");
-        }
-        else {
-            $('#Price').removeClass("hide");
-            $('#percent').addClass("hide");
-        }
-    })
 
 </script>
 <link href="~/Plugins/MdDateTimePicker/dist/jquery.md.bootstrap.datetimepicker.style.css" rel="stylesheet" />
 <script src="~/Plugins/MdDateTimePicker/dist/jquery.md.bootstrap.datetimepicker.js"></script>
 <script>
-    
 
-
-    console.log(startDate);
     $('#StartDate').MdPersianDateTimePicker({
         targetTextSelector: '#StartDate',
         targetDateSelector: '#StartDate',
