@@ -5,6 +5,7 @@ using AutoMapper.QueryableExtensions;
 using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.DTO.ProductDiscounts;
+using DataLayer.SSOT;
 using DataLayer.ViewModels.ProductDiscount;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         [HttpPost]
         public async Task<IActionResult> DiscountToAll(ProductDiscountInsertViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
-            
+
             vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
 
             await _productDiscountRepository.MapAddAsync(vm);
@@ -55,7 +56,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         public async Task<IActionResult> ProductDiscount(int id)
         {
             if (await _productDiscountRepository.IsProductSubmited(id))
-                return RedirectToAction(nameof(ProductDiscountUpdate),new { id});
+                return RedirectToAction(nameof(ProductDiscountUpdate), new { id });
 
 
             return View(id);
@@ -64,7 +65,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         [HttpPost]
         public async Task<IActionResult> ProductDiscount(ProductDiscountInsertViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
-            if(vm.StartDate <= vm.EndDate)
+            if (vm.StartDate >= vm.EndDate)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("تاریخ شروع تخفیف نمی تواند از تاریخ پایان آن کوچکتر باشد"));
                 return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
@@ -90,7 +91,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         [HttpPost]
         public async Task<IActionResult> ProductDiscountUpdate(ProductDiscountUpdateViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
-            if (vm.StartDate <= vm.EndDate)
+            if (vm.StartDate >= vm.EndDate)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("تاریخ شروع تخفیف نمی تواند از تاریخ پایان آن کوچکتر باشد"));
                 return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
@@ -122,7 +123,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         [HttpPost]
         public async Task<IActionResult> ProductGroupDiscount(ProductDiscountInsertViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
-            if (vm.StartDate <= vm.EndDate)
+            if (vm.StartDate >= vm.EndDate)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("تاریخ شروع تخفیف نمی تواند از تاریخ پایان آن کوچکتر باشد"));
                 return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
@@ -149,7 +150,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         public async Task<IActionResult> ProductGroupDiscountUpdate(ProductDiscountUpdateViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
 
-            if (vm.StartDate <= vm.EndDate)
+            if (vm.StartDate >= vm.EndDate)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("تاریخ شروع تخفیف نمی تواند از تاریخ پایان آن کوچکتر باشد"));
                 return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
@@ -169,6 +170,21 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
         #endregion
 
+
+        public async Task<IActionResult> CalculateDiscount(decimal price, int productId)
+        {
+            var discount = await _productDiscountRepository
+                                .TableNoTracking.FirstOrDefaultAsync(a => a.ProductId == productId);
+
+            if (discount == null) return Json(price);
+
+            if(discount.DiscountType == ProductDiscountSSOT.Percent)
+            {
+                var discountVal = (price * discount.Discount) / 100;
+                return Json(price - discountVal);
+            }
+            return Json(price - discount.Discount);
+        }
 
         //public IActionResult DeleteAll()
         //{

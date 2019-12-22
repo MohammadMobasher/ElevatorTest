@@ -29,6 +29,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         private readonly ProductFeatureRepository _productFeatureRepository;
         private readonly ProductGalleryRepository _productGalleryRepository;
         private readonly FeatureRepository _featureRepository;
+        private readonly ProductDiscountRepository _productDiscountRepository;
 
         public ManageProductController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
@@ -37,7 +38,8 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             ProductGroupFeatureRepository productGroupFeatureRepository,
             ProductFeatureRepository productFeatureRepository,
             ProductGalleryRepository productGalleryRepository,
-            FeatureRepository featureRepository) : base(usersAccessRepository)
+            FeatureRepository featureRepository,
+            ProductDiscountRepository productDiscountRepository) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
             _productGroupRepository = productGroupRepository;
@@ -46,6 +48,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             _productFeatureRepository = productFeatureRepository;
             _productGalleryRepository = productGalleryRepository;
             _featureRepository = featureRepository;
+            _productDiscountRepository = productDiscountRepository;
         }
 
         [ActionRole("صفحه لیست کالاها")]
@@ -255,5 +258,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         }
 
         #endregion
+
+       
     }
 }

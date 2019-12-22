@@ -76,6 +76,7 @@
                 <th>عکس محصول</th>
                 <th>عنوان</th>
                 <th>مبلغ</th>
+                <th>قیمت با تخفیف</th>
                 <th>گروه</th>
                 <th>مجموع نظرات</th>
                 @*<th width="10%">اقدامات</th>*@
@@ -97,7 +98,8 @@
                     <td>
                         <input type="text" name="Title" value="@search.Title" class="form-control searchInput" />
                     </td>
-                    <td>  <priceInput name="Price" title="قیمت کالا" required="true" value="@search.Price"></priceInput></td>
+                    <td>  <priceInput name="Price" title="قیمت کالا" required="true" ></priceInput></td>
+                    <td> --- </td>
                     <td>
                         <select name="ProductGroupId" class="form-control searchInput">
                             <option>--لطفا انتخاب کنید--</option>
@@ -121,32 +123,35 @@
 
                 foreach (var item in Model)
                 {
-                    <tr>
-                        <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
-                        <td>@(index++)</td>
-                        <td>
-                            <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200" />
-                        </td>
-                        <td>@item.Title</td>
-                        <td>
-                            @item.Price.ToString("n0")
-                        </td>
-                        <td>
-                            @item.ProductGroup.Title
-                        </td>
-                        <td>
-                            @(item.Like - item.DisLike)
-                        </td>
-                        @*<td>
-                                <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
-                                    <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
-                                </a>
+            <tr>
+                <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                <td>@(index++)</td>
+                <td>
+                    <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200" />
+                </td>
+                <td>@item.Title</td>
+                <td>
+                    @item.Price.ToString("n0")
+                </td>
+                <td data-role="Discount" data-Id="@item.Id" data-Price="@item.Price">
+                   
+                </td>
+                <td>
+                    @item.ProductGroup.Title
+                </td>
+                <td>
+                    @(item.Like - item.DisLike)
+                </td>
+                @*<td>
+            <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
+                <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
+            </a>
 
-                                <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
-                                    <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
-                                </a>
-                            </td>*@
-                    </tr>
+            <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
+                <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
+            </a>
+        </td>*@
+            </tr>
                 }
             }
         </tbody>
@@ -159,3 +164,21 @@
 
 
 
+<script>
+    $(function () {
+        var tds = $('[data-role="Discount"]');
+
+        $.each(tds, function (index, key) {
+
+            var productId = $(key).attr("data-Id");
+            var price = $(key).attr("data-Price");
+
+            $.get("/ProductDiscount/ManageProductDiscount/CalculateDiscount", { productId: productId, price: price }, function (res) {
+                $('[data-Id="' + productId+'"]').append(res);
+            })
+
+        })
+
+        
+    })
+</script>
