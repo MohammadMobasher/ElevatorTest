@@ -97,7 +97,6 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
                 return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
             }
 
-
             vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
 
             await _productDiscountRepository.UpdateDiscount(vm);
@@ -157,7 +156,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             }
 
 
-            vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
+            vm.Discount = vm.DiscountType == ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
 
             await _productDiscountRepository.UpdateDiscount(vm);
 
@@ -171,19 +170,24 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         #endregion
 
 
-        public async Task<IActionResult> CalculateDiscount(decimal price, int productId)
+        public async Task<IActionResult> CalculateDiscount(decimal price, int? productId, int? groupId)
         {
-            var discount = await _productDiscountRepository
-                                .TableNoTracking.FirstOrDefaultAsync(a => a.ProductId == productId);
+
+            var discount = await _productDiscountRepository.CalculatePrice(productId, groupId);
 
             if (discount == null) return Json(price);
 
-            if(discount.DiscountType == ProductDiscountSSOT.Percent)
+
+            if (discount.DiscountType == ProductDiscountSSOT.Percent)
             {
                 var discountVal = (price * discount.Discount) / 100;
                 return Json(price - discountVal);
             }
+
             return Json(price - discount.Discount);
+
+
+
         }
 
         //public IActionResult DeleteAll()

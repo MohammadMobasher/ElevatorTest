@@ -33,7 +33,7 @@ namespace Service.Repos.Product
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task<bool> IsProductSubmited(int id)
-            => await GetByConditionAsync(a=>a.ProductId == id) != null;
+            => await GetByConditionAsync(a => a.ProductId == id) != null;
 
         /// <summary>
         /// آیا این تخفیف برای این گروه محصول قبلا ثبت شده است یا خیر 
@@ -46,12 +46,37 @@ namespace Service.Repos.Product
 
         public async Task UpdateDiscount(ProductDiscountUpdateViewModel vm)
         {
-            var model =await GetByIdAsync(vm.Id);
+            var model = await GetByIdAsync(vm.Id);
 
             Mapper.Map(vm, model);
 
             await DbContext.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// محاسبه تخفیف
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        public async Task<ProductDiscount> CalculatePrice(int? productId, int? groupId)
+        {
+            if (productId != null) return await CulculateProduct(productId.Value);
+            else if (groupId != null) return await CalculateGroupProduct(groupId.Value);
+            return await CalculateAll();
+
+        }
+
+        public async Task<ProductDiscount> CulculateProduct(int productId)
+            => await TableNoTracking.FirstOrDefaultAsync(a => a.ProductId == productId);
+
+
+        public async Task<ProductDiscount> CalculateGroupProduct(int productGroupId)
+            => await TableNoTracking.FirstOrDefaultAsync(a => a.ProductGroupId == productGroupId);
+
+
+        public async Task<ProductDiscount> CalculateAll()
+            => await TableNoTracking.FirstOrDefaultAsync(a => a.ProductGroupId == null && a.ProductId == null);
 
     }
 }
