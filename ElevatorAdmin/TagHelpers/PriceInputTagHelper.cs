@@ -22,6 +22,7 @@ namespace ElevatorAdmin.TagHelpers
 
         public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
+            decimal e = string.IsNullOrEmpty(this.Value) ? 1 : decimal.Parse(Value, CultureInfo.InvariantCulture);
             string Input = @"<input name='" + this.Name + $@"' type='hidden' value='{Value}'>
                         <input name='" + this.Name + $@"_show' 
                                " + (this.Required ? "required='required'" : "") + @"

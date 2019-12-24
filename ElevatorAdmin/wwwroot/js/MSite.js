@@ -95,8 +95,9 @@ $(function () {
 
         var ladda = Ladda.create(this);
         ladda.start();
-
-        $(".loading").removeClass("hidden");
+        setTimeout(function () {
+            $(".loading").removeClass("hidden");
+        }, 500);
 
         var attr = $(this).attr('ismodal');
 
@@ -129,7 +130,9 @@ $(function () {
         else {
             reload(href);
         }
-        $(".loading").addClass("hidden");
+        setTimeout(function () {
+            $(".loading").addClass("hidden");
+        }, 500);
         ladda.stop();
 
     });
@@ -161,9 +164,10 @@ $(document).on("click", "[type='checkbox']", function (e) {
 // به صورت معمولی
 function AjaxCall(url, params, type, successCallback) {
 
-
-    // نمایش لودینگ
-    $('.loading').removeClass("hidden");
+    setTimeout(function () {
+        // نمایش لودینگ
+        $('.loading').removeClass("hidden");
+    }, 500);
 
     timeOut = 6000;
 
@@ -199,17 +203,20 @@ function AjaxCall(url, params, type, successCallback) {
             }
         }
     });
-    console.log("mohammad");
-    // پنهان کردن لودینگ
-    $('.loading').addClass("hidden");
+
+    setTimeout(function () {
+        // پنهان کردن لودینگ
+        $('.loading').addClass("hidden");
+    }, 500);
 }
 
 
 function AjaxCall(url, params, type) {
 
-    
-    // نمایش لودینگ
-    $('.loading').removeClass("hidden");
+    setTimeout(function () {
+        // نمایش لودینگ
+        $('.loading').removeClass("hidden");
+    }, 500);
 
     timeOut = 6000;
     var returnData ;
@@ -247,8 +254,10 @@ function AjaxCall(url, params, type) {
         }
     });
 
-    // پنهان کردن لودینگ
-    $('.loading').addClass("hidden");
+    setTimeout(function () {
+        // پنهان کردن لودینگ
+        $('.loading').addClass("hidden");
+    }, 500);
     return returnData;
 }
 
@@ -299,8 +308,10 @@ function AjaxCall(url, params, type) {
  * یا فرمو به سمت سرور بفرستیم و یا کلا در داخل صفحه فایل آپلود داشته باشیم استفاده می کنیم
  */
 function AjaxCallWithUploadFile(url, params, type, successCallback) {
-    // نمایش لودینگ
-    $('.loading').removeClass('hidden');
+    setTimeout(function () {
+        // نمایش لودینگ
+        $('.loading').removeClass('hidden');
+    }, 500);
 
     timeOut = 6000;
 
@@ -338,9 +349,10 @@ function AjaxCallWithUploadFile(url, params, type, successCallback) {
     });
 
 
-    
-    // پنهان کردن لودینگ
-    $('.loading').addClass('hidden');
+    setTimeout(function () {
+        // پنهان کردن لودینگ
+        $('.loading').addClass('hidden');
+    }, 500);
 }
 
 

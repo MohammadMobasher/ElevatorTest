@@ -15,6 +15,7 @@ using WebFramework.Base;
 namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 {
     [Area("ProductDiscount")]
+    [ControllerRole("مدیریت تخفیف‌ها")]
     public class ManageProductDiscountController : BaseAdminController
     {
         private readonly ProductDiscountRepository _productDiscountRepository;
@@ -53,6 +54,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             return RedirectToAction("Index");
         }
 
+        [ActionRole("تخفیف روی محصول")]
         public async Task<IActionResult> ProductDiscount(int id)
         {
             if (await _productDiscountRepository.IsProductSubmited(id))
@@ -80,6 +82,8 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
         }
 
+
+        [ActionRole("ویرایش تخفیف محصول")]
         public async Task<IActionResult> ProductDiscountUpdate(int id)
         {
             var model = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
@@ -112,6 +116,8 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
         #region ProductGroupDiscount
 
+
+        [ActionRole("تخفیف روی گروه")]
         public async Task<IActionResult> ProductGroupDiscount(int id)
         {
             if (await _productDiscountRepository.IsProductGroupSubmited(id))
@@ -138,6 +144,8 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
         }
 
+
+        [ActionRole("ویرایش تخفیف روی گروه محصولات")]
         public async Task<IActionResult> ProductGroupDiscountUpdate(int id)
         {
             var model = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductGroupId == id)
@@ -170,7 +178,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
         #endregion
 
-
+        [AllowAccess]
         public async Task<IActionResult> CalculateDiscount(decimal price, int productId)
         {
             var discount = await _productDiscountRepository
