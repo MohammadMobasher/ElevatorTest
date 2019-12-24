@@ -19,22 +19,19 @@
     <link href="~/LoginTemplate/assets/css/main.css" rel="stylesheet" />
 
 
-    <style>
-    body { 
-        background-image: url('~/wwwroot/uploads/userimage/photo_2019-08-17_21-10-42.jpg'); 
-
-    }
-    </style>
+    
 
 </head>
 
-<body>
+<body style="background-color:#EEE">
 
     
-    @Html.Partial("_Message.cshtml")
+    
+    <div >
+        @Html.Partial("_Message.cshtml")
 
-    @RenderBody()
-
+        @RenderBody()
+    </div>
     <!--   Core JS Files   -->
     <script src="~/LoginTemplate/assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
     <script src="~/LoginTemplate/assets/js/core/popper.min.js" type="text/javascript"></script>

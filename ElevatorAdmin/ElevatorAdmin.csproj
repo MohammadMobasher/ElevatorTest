@@ -36,6 +36,16 @@
     <None Remove="Areas\TestArea\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Views\Account\photo_2019-08-17_21-10-42.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Account\photo_2019-08-17_21-10-42.jpg">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
