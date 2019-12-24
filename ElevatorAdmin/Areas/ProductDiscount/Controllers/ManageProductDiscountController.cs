@@ -175,16 +175,16 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
             var discount = await _productDiscountRepository.CalculatePrice(productId, groupId);
 
-            if (discount == null) return Json(price);
+            if (discount == null) return Json(price.ToString("n0"));
 
 
             if (discount.DiscountType == ProductDiscountSSOT.Percent)
             {
                 var discountVal = (price * discount.Discount) / 100;
-                return Json(price - discountVal);
+                return Json((price - discountVal).ToString("n0"));
             }
 
-            return Json(price - discount.Discount);
+            return Json((price - discount.Discount).ToString("n0"));
 
 
 

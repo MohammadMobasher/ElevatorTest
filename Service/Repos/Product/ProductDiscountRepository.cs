@@ -61,22 +61,37 @@ namespace Service.Repos.Product
         /// <returns></returns>
         public async Task<ProductDiscount> CalculatePrice(int? productId, int? groupId)
         {
-            if (productId != null) return await CulculateProduct(productId.Value);
-            else if (groupId != null) return await CalculateGroupProduct(groupId.Value);
+            if (productId != null) return await CulculateProduct();
+            else if (groupId != null) return await CalculateGroupProduct();
             return await CalculateAll();
 
+            #region LocalMethods
+            // بررسی و اعمال تخفیف روی محصولات
+            async Task<ProductDiscount> CulculateProduct()
+            {
+                var model = await TableNoTracking.FirstOrDefaultAsync(a => a.ProductId == productId.Value);
+
+                if (model == null) return await CalculateGroupProduct();
+
+                return model;
+            }
+
+            // بررسی و اعمال تخفیف رو گروه مخحصولات
+            async Task<ProductDiscount> CalculateGroupProduct()
+            {
+                var model = await TableNoTracking.FirstOrDefaultAsync(a => a.ProductGroupId == groupId.Value);
+
+                if (model == null) return await CalculateAll();
+
+                return model;
+            }
+    
+            // بررسی و اعمال تخفیف رو تمامی محصولات
+            async Task<ProductDiscount> CalculateAll()
+               => await TableNoTracking.FirstOrDefaultAsync(a => a.ProductGroupId == null && a.ProductId == null);
+
+            #endregion
         }
-
-        public async Task<ProductDiscount> CulculateProduct(int productId)
-            => await TableNoTracking.FirstOrDefaultAsync(a => a.ProductId == productId);
-
-
-        public async Task<ProductDiscount> CalculateGroupProduct(int productGroupId)
-            => await TableNoTracking.FirstOrDefaultAsync(a => a.ProductGroupId == productGroupId);
-
-
-        public async Task<ProductDiscount> CalculateAll()
-            => await TableNoTracking.FirstOrDefaultAsync(a => a.ProductGroupId == null && a.ProductId == null);
 
     }
 }
