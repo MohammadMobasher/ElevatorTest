@@ -8,6 +8,6 @@ namespace DataLayer.ViewModels.Products
     {
         public int Id { get; set; }
 
-        public string Price { get; set; }
+        public long Price { get; set; }
     }
 }

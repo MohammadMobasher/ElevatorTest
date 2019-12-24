@@ -30,7 +30,7 @@ namespace DataLayer.Entities
         public string Text { get; set; }
 
         [Required(ErrorMessage = "لطفا مبلغ را وارد نمایید")]
-        public decimal Price { get; set; }
+        public long Price { get; set; }
 
         /// <summary>
         /// تصویر پیش فرض

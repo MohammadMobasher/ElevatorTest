@@ -9,7 +9,7 @@ namespace DataLayer.Entities
 {
     public class ProductDiscount : BaseEntity<int>
     {
-        public decimal Discount { get; set; }
+        public long Discount { get; set; }
 
         public int? ProductId { get; set; }
 

@@ -22,7 +22,7 @@ namespace DataLayer.DTO.Products
         /// </summary>
         public string Text { get; set; }
 
-        public decimal Price { get; set; }
+        public long Price { get; set; }
 
         /// <summary>
         /// تصویر پیش فرض
