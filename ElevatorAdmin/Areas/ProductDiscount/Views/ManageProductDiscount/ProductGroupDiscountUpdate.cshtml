@@ -86,14 +86,20 @@
             if (val == "1") {
                 $('#percent').removeClass("hide");
                 $('#Price').addClass("hide");
+                $('[name="PercentDicount"]').attr("required","required");
+                $('[name="PriceDiscount_show"]').removeAttr("required");
+            
             }
             if (val == "2") {
                 $('#Price').removeClass("hide");
                 $('#percent').addClass("hide");
+                $('[name="PriceDiscount_show"]').attr("required","required");
+                $('[name="PercentDicount"]').removeAttr("required");
             }
 
         })
     })
+
 
 
 </script>

@@ -33,7 +33,7 @@ namespace Service.Repos.Product
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task<bool> IsProductSubmited(int id)
-            => await GetByConditionAsync(a=>a.ProductId == id) != null;
+            => await GetByConditionAsync(a => a.ProductId == id) != null;
 
         /// <summary>
         /// آیا این تخفیف برای این گروه محصول قبلا ثبت شده است یا خیر 
@@ -46,11 +46,51 @@ namespace Service.Repos.Product
 
         public async Task UpdateDiscount(ProductDiscountUpdateViewModel vm)
         {
-            var model =await GetByIdAsync(vm.Id);
+            var model = await GetByIdAsync(vm.Id);
 
             Mapper.Map(vm, model);
 
             await DbContext.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// محاسبه تخفیف
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        public async Task<ProductDiscount> CalculatePrice(int? productId, int? groupId)
+        {
+            if (productId != null) return await CulculateProduct();
+            else if (groupId != null) return await CalculateGroupProduct();
+            return await CalculateAll();
+
+            #region LocalMethods
+            // بررسی و اعمال تخفیف روی محصولات
+            async Task<ProductDiscount> CulculateProduct()
+            {
+                var model = await TableNoTracking.FirstOrDefaultAsync(a => a.ProductId == productId.Value);
+
+                if (model == null) return await CalculateGroupProduct();
+
+                return model;
+            }
+
+            // بررسی و اعمال تخفیف رو گروه مخحصولات
+            async Task<ProductDiscount> CalculateGroupProduct()
+            {
+                var model = await TableNoTracking.FirstOrDefaultAsync(a => a.ProductGroupId == groupId.Value);
+
+                if (model == null) return await CalculateAll();
+
+                return model;
+            }
+    
+            // بررسی و اعمال تخفیف رو تمامی محصولات
+            async Task<ProductDiscount> CalculateAll()
+               => await TableNoTracking.FirstOrDefaultAsync(a => a.ProductGroupId == null && a.ProductId == null);
+
+            #endregion
         }
 
     }
