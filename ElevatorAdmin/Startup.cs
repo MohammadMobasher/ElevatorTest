@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Core;
@@ -18,6 +19,7 @@ namespace ElevatorAdmin
     {
         
         private readonly SiteSettings _siteSetting;
+        public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
@@ -26,11 +28,18 @@ namespace ElevatorAdmin
             _siteSetting = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
         }
 
-        public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //services.AddSingleton<IConfiguration>(new ConfigurationBuilder()
+            //    .SetBasePath(Directory.GetCurrentDirectory())
+            //    .AddJsonFile($"appsettings.json")
+            //    .Build());
+
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
