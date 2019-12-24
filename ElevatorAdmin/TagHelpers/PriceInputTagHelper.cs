@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@ namespace ElevatorAdmin.TagHelpers
                                aria-describedby='" + this.Name + @"'
                                placeholder='" + this.Title + $@"' 
                                type='text' 
-                               value='{Convert.ToDecimal(Value).ToString("n0")}'
+                               "+ (string.IsNullOrEmpty(this.Value) ? "" : "value='" + decimal.Parse(Value, CultureInfo.InvariantCulture).ToString("n0") + "'" )+ @"
                                class='form-control seperator-input'>";
 
             output.Content.AppendHtml(Input);
