@@ -9,7 +9,7 @@ namespace DataLayer.DTO.ProductDiscounts
     public class ProductDiscountDTO
     {
         public int Id { get; set; }
-        public decimal Discount { get; set; }
+        public long Discount { get; set; }
 
         public int? ProductId { get; set; }
 
