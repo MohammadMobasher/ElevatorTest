@@ -1,12 +1,59 @@
-﻿
-@if (ViewBag.HasAccess)
+﻿@using DataLayer.ViewModels.User
+@using DataLayer.ViewModels.SideBar
+@model List<SidebarViewModel>
+@{ List<UserAccessListViewModel> ListAccess = ViewBag.ListAccess; }
+
+
+@foreach (SidebarViewModel item in Model)
 {
-    <li>
-        <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" class="waves-effect sidebarActiveClass">
-        <i class="zmdi @ViewBag.Icon"></i> 
-            <span> 
-                @ViewBag.Title 
-            </span> 
-        </a>
-    </li>
+    @if (ListAccess.Where(x => x.Controller == item.Controller + "Controller" && x.Action == item.Action).SingleOrDefault() != null)
+    {
+
+        @if (item.Childs == null)
+        {
+            <li>
+                <a asp-action="@item.Action" asp-controller="@item.Controller" class="waves-effect sidebarActiveClass">
+                    <i class="zmdi @item.Icon"></i>
+                    <span>
+                        @item.Title
+                    </span>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="has_sub">
+                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi @item.Icon"></i> <span> @item.Title </span> <span class="menu-arrow"></span></a>
+                <ul class="list-unstyled">
+                    <li><a href="ui-buttons.html">دکمه ها</a></li>
+                    <li><a href="ui-cards.html">کارد</a></li>
+                    <li><a href="ui-draggable-cards.html">کارت های جابه جا شونده</a></li>
+                    <li><a href="ui-checkbox-radio.html">چک باکس ها</a></li>
+                    <li><a href="ui-material-icons.html">آیکون های طراحی متریال</a></li>
+                    <li><a href="ui-font-awesome-icons.html">فونت آسوم</a></li>
+                    <li><a href="ui-themify-icons.html">تم فی آیکون</a></li>
+                    <li><a href="ui-modals.html">مدل ها</a></li>
+                    <li><a href="ui-notification.html">اطلاعات</a></li>
+                    <li><a href="ui-range-slider.html">نوار تغیرات</a></li>
+                    <li><a href="ui-components.html">اجزا</a>
+                    <li><a href="ui-sweetalert.html">هشدار ها</a>
+                    <li><a href="ui-treeview.html">نمایش درختی</a>
+                    <li><a href="ui-widgets.html">ویجت ها</a></li>
+                </ul>
+            </li>   
+        }
+    }
 }
+
+@*@if (ListAccess.Where(x => x.Controller == ViewBag.Controller + "Controller" && x.Action == ViewBag.Action).SingleOrDefault() != null)
+    {
+        <li>
+            <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" class="waves-effect sidebarActiveClass">
+                <i class="zmdi @ViewBag.Icon"></i>
+                <span>
+                    @ViewBag.Title
+                </span>
+            </a>
+        </li>
+
+    }*@
