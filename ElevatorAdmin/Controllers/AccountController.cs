@@ -1,11 +1,14 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.Entities.Users;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Service.Repos.User;
 using WebFramework.Base;
 
@@ -62,6 +65,14 @@ namespace ElevatorAdmin.Controllers
 
             if (result.Succeeded)
             {
+                
+                var userInfo = await _userRepository.TableNoTracking.FirstOrDefaultAsync(a => a.UserName == userName);
+
+                var Principal = await _userRepository.SetUserClaims(userName);
+
+                var claimsPrincipal = new ClaimsPrincipal(Principal);
+                await Request.HttpContext.SignInAsync(".Elevator.Cookies", claimsPrincipal);
+
                 return RedirectToAction("Index", "Home");
 
             }

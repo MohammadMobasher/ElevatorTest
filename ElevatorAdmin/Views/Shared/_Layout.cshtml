@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Core.Utilities
+<!DOCTYPE html>
 <html lang="en" dir="rtl">
 <head>
     <meta charset="utf-8">
@@ -106,7 +107,7 @@
 
                         <h4 class="page-title " style="float:right">داشبورد</h4>
 
-                        <img style="float:left" src="~/Uploads/Product/0d47b6e2-e113-4174-9602-8197034969e3.jpg" alt="نام فرد" title="نام فرد" width="65" height="65" class="img-circle img-thumbnail img-responsive">
+                        <img style="float:left" src="~/@User.Identity.FindFirstValue("UserProfile")" alt="نام فرد" title="نام فرد" width="65" height="65" class="img-circle img-thumbnail img-responsive">
 
                         <h4 class="page-title " style="float:left">
                             <a asp-controller="Account" asp-action="Logout">

@@ -14,6 +14,7 @@ namespace DataLayer.Entities.Users
         }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string ProfilePic { get; set; }
 
         public DateTime? CreateDate { get; set; }
         public bool IsActive { get; set; }

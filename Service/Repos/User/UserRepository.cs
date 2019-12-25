@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -88,7 +89,7 @@ namespace Service.Repos.User
         {
             var phoneNumbers = GetUsers(filter);
 
-            return await phoneNumbers.Select(a=>a.PhoneNumber).ToListAsync();
+            return await phoneNumbers.Select(a => a.PhoneNumber).ToListAsync();
         }
 
 
@@ -117,6 +118,24 @@ namespace Service.Repos.User
                 return SweetAlertExtenstion.Error("خطای نامشخصی رخ داده است لطفا پس از چند لحظه دوباره امتحان کنید و در صورت برطرف نشدن مشکل با پشتیبانی تماس بگیرید");
             }
         }
+
+
+        public async Task<ClaimsIdentity> SetUserClaims(string username)
+        {
+            var userinfo = await GetByConditionAsync(a => a.UserName == username);
+
+            var claimsidentity = new ClaimsIdentity(new[]
+                {
+                        new Claim("FirstName", userinfo.FirstName),
+                        new Claim("LastName",  userinfo.LastName),
+                        new Claim("FullName",  userinfo.FirstName + " "+ userinfo.LastName),
+                        new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg")
+                        //...
+                }, ".Elevator.Cookies");
+
+            return claimsidentity;
+        }
+
 
     }
 }
