@@ -6,7 +6,7 @@
 
 @foreach (SidebarViewModel item in Model)
 {
-    @if (ListAccess.Where(x => x.Controller == item.Controller + "Controller" && x.Action == item.Action).SingleOrDefault() != null)
+    @if (ListAccess.Where(x => x.Controller == item.Controller + "Controller" && x.Action == item.Action).SingleOrDefault() != null || ListAccess.Any(a=>a.IsAdmin == true))
     {
 
         @if (item.Childs == null)
