@@ -1,4 +1,5 @@
 ﻿using Core.Utilities;
+using DataLayer.ViewModels.SideBar;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos.User;
 using System;
@@ -21,30 +22,23 @@ namespace ElevatorAdmin.ViewComponents
         }
 
 
-        public IViewComponentResult Invoke(string controller, string action, string title, string icon = "zmdi-view-dashboard")
+        public IViewComponentResult Invoke()
         {
-            var userId = User.Identity.FindFirstValue(ClaimTypes.NameIdentifier) != null 
-                ? int.Parse(User.Identity.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
+            List<SidebarViewModel> items = new List<SidebarViewModel>();
 
-            bool hassAccess = false;
+            items.Add(new SidebarViewModel { Controller = "Home", Action = "Index", Title = "صفحه اصلی" });
+            items.Add(new SidebarViewModel { Controller = "UserManage", Action = "Index", Title = "مدیریت کاربران", Icon = "zmdi-account-circle" });
+            items.Add(new SidebarViewModel { Controller = "RoleManage", Action = "Index", Title = "مدیریت نقش ها", Icon = "zmdi-settings" });
+            items.Add(new SidebarViewModel { Controller = "", Action = "", Title = "کالا", Icon = "zmdi-settings", Childs = new List<SidebarChildViewModel> {
+                new SidebarChildViewModel {Controller = "Home", Action = "Index", Title = "صفحه اصلی" }
+            } });
+            
+            //ViewBag.Controller = controller;
+            //ViewBag.Action = action;
+            //ViewBag.Icon = icon;
+            //ViewBag.Title = title;
 
-            if (userId != 0)
-            {
-                var role = _usersRoleRepository.TableNoTracking.FirstOrDefault(a => a.UserId == userId).RoleId;
-                hassAccess = _usersAccessRepository.HasAccess(role, controller, action);
-            }
-
-            // تصمیم گیری نهایی که برای ما سرعت مهم است یا امنیت
-            //var roleId = int.Parse(User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
-            //ViewBag.HasAccess = _usersAccessRepository.HasAccess(roleId, controller, action);
-
-            ViewBag.HasAccess = hassAccess;
-            ViewBag.Controller = controller;
-            ViewBag.Action = action;
-            ViewBag.Icon = icon;
-            ViewBag.Title = title;
-
-            return View();
+            return View(items);
         }
     }
 }
