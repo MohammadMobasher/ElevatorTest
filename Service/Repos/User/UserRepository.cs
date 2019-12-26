@@ -120,20 +120,20 @@ namespace Service.Repos.User
         }
 
 
-        public async Task<ClaimsIdentity> SetUserClaims(string username)
+        public async Task<ClaimsPrincipal> SetUserClaims(string username)
         {
             var userinfo = await GetByConditionAsync(a => a.UserName == username);
 
             var claimsidentity = new ClaimsIdentity(new[]
                 {
-                        new Claim("FirstName", userinfo.FirstName),
-                        new Claim("LastName",  userinfo.LastName),
-                        new Claim("FullName",  userinfo.FirstName + " "+ userinfo.LastName),
-                        new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg")
+                        new Claim("FirstName", userinfo.FirstName ?? "محمد", ClaimValueTypes.String),
+                        new Claim("LastName",  userinfo.LastName ?? "مبشر", ClaimValueTypes.String),
+                        new Claim("FullName",  userinfo.FirstName + " "+ userinfo.LastName, ClaimValueTypes.String),
+                        new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg", ClaimValueTypes.String)
                         //...
                 }, ".Elevator.Cookies");
 
-            return claimsidentity;
+            return new ClaimsPrincipal(claimsidentity);
         }
 
 

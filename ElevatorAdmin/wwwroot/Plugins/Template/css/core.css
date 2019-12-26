@@ -1021,6 +1021,7 @@ textarea.form-control {
 .tooltip-inner {
   border-radius: 1px;
   padding: 6px 10px;
+  
 }
 .jqstooltip {
   -webkit-box-sizing: content-box;

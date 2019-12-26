@@ -1,11 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.Entities.Users;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +24,17 @@ namespace ElevatorAdmin.Controllers
         private readonly SignInManager<Users> _signInManager;
         private readonly UserManager<Users> _userManager;
         private readonly RoleRepository _roleRepository;
+        private readonly HttpContext _httpContext;
+
+
+
         public AccountController(SignInManager<Users> signInManager,
             UserManager<Users> userManager,
             UserRepository userRepository,
             UsersRoleRepository usersRoleRepository,
             RoleRepository roleRepository,
-            UsersAccessRepository usersAccessRepository) : base (usersAccessRepository)
+            UsersAccessRepository usersAccessRepository
+            ) : base(usersAccessRepository)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -65,12 +73,12 @@ namespace ElevatorAdmin.Controllers
 
             if (result.Succeeded)
             {
-                
+
                 var userInfo = await _userRepository.TableNoTracking.FirstOrDefaultAsync(a => a.UserName == userName);
 
-                var Principal = await _userRepository.SetUserClaims(userName);
-
-                var claimsPrincipal = new ClaimsPrincipal(Principal);
+                
+                //ساخت اطلاعات مربوط به کاربر برای ارسال به صفحه
+                var claimsPrincipal = await _userRepository.SetUserClaims(userName);
                 await Request.HttpContext.SignInAsync(".Elevator.Cookies", claimsPrincipal);
 
                 return RedirectToAction("Index", "Home");

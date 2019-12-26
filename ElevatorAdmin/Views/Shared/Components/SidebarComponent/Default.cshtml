@@ -6,14 +6,14 @@
 
 @foreach (SidebarViewModel item in Model)
 {
-    @if (ListAccess.Where(x => x.Controller == item.Controller + "Controller" && x.Action == item.Action).SingleOrDefault() != null || ListAccess.Any(a=>a.IsAdmin == true))
+    @if ((item.Controller == "" && item.Action == "") || ListAccess.Where(x => x.Controller == item.Controller + "Controller" && x.Action == item.Action).SingleOrDefault() != null || ListAccess.Any(a => a.IsAdmin == true))
     {
 
         @if (item.Childs == null)
         {
             <li>
                 <a asp-action="@item.Action" asp-controller="@item.Controller" class="waves-effect sidebarActiveClass">
-                    <i class="zmdi @item.Icon"></i>
+                    <i class="@item.Icon"></i>
                     <span>
                         @item.Title
                     </span>
@@ -23,24 +23,20 @@
         else
         {
             <li class="has_sub">
-                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi @item.Icon"></i> <span> @item.Title </span> <span class="menu-arrow"></span></a>
+                <a href="javascript:void(0);" class="waves-effect"><i class="@item.Icon"></i> <span> @item.Title </span> <span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="ui-buttons.html">دکمه ها</a></li>
-                    <li><a href="ui-cards.html">کارد</a></li>
-                    <li><a href="ui-draggable-cards.html">کارت های جابه جا شونده</a></li>
-                    <li><a href="ui-checkbox-radio.html">چک باکس ها</a></li>
-                    <li><a href="ui-material-icons.html">آیکون های طراحی متریال</a></li>
-                    <li><a href="ui-font-awesome-icons.html">فونت آسوم</a></li>
-                    <li><a href="ui-themify-icons.html">تم فی آیکون</a></li>
-                    <li><a href="ui-modals.html">مدل ها</a></li>
-                    <li><a href="ui-notification.html">اطلاعات</a></li>
-                    <li><a href="ui-range-slider.html">نوار تغیرات</a></li>
-                    <li><a href="ui-components.html">اجزا</a>
-                    <li><a href="ui-sweetalert.html">هشدار ها</a>
-                    <li><a href="ui-treeview.html">نمایش درختی</a>
-                    <li><a href="ui-widgets.html">ویجت ها</a></li>
+                    @foreach (SidebarChildViewModel child in item.Childs)
+                    {
+                        @if (ListAccess.Where(x => x.Controller == child.Controller + "Controller" && x.Action == child.Action).SingleOrDefault() != null )
+                        {
+                            <li>
+                                <a asp-area="@child.Area" asp-controller="@child.Controller" asp-action="@child.Action">@child.Title</a>
+                            </li>
+                        }
+                    }
+
                 </ul>
-            </li>   
+            </li>
         }
     }
 }

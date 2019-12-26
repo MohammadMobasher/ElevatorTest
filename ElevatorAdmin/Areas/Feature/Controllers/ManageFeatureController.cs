@@ -33,7 +33,7 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
         }
 
 
-        [ActionRole("صفحه لیست کاربران")]
+        [ActionRole("صفحه لیست ویژگی‌ها")]
         [HasAccess]
         public async Task<IActionResult> Index(FeatureSearchViewModel searchModel)
         {

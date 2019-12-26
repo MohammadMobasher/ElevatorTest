@@ -52,7 +52,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         }
 
         [ActionRole("صفحه لیست کالاها")]
-        //[HasAccess]
+        [HasAccess]
         public async Task<IActionResult> Index(ProductSearchViewModel searchModel=null)
         {
             this.PageSize = 10;
@@ -71,6 +71,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         }
 
         [ActionRole("ثبت کالای جدید")]
+        [HasAccess]
         public async Task<IActionResult> Create(int? id)
         {
             ViewBag.Units = await _productUnitRepository.TableNoTracking.ToListAsync();
@@ -111,6 +112,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
 
         [ActionRole("ویرایش محصولات")]
+        [HasAccess]
         public async Task<IActionResult> Update(int id)
         {
             ViewBag.Units = await _productUnitRepository.TableNoTracking.ToListAsync();
@@ -196,6 +198,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         }
 
         [ActionRole("ویرایش سریع قیمت")]
+        [HasAccess]
         public async Task<IActionResult> FastPriceEdit(int id)
         {
             var model = await _productRepostitory.TableNoTracking

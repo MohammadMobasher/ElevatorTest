@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Core;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +40,8 @@ namespace ElevatorAdmin
             //    .AddJsonFile($"appsettings.json")
             //    .Build());
 
+            services.AddHttpClient();
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -47,10 +50,27 @@ namespace ElevatorAdmin
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.DatabaseConfiguration(Configuration);
-            services.AddAuthentication(options =>
+            
+
+
+            services.AddSession(options =>
             {
-                options.DefaultScheme = ".Elevator.Cookies";
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10000);
+                options.Cookie.HttpOnly = true;
+            });
+
+            services.DatabaseConfiguration(Configuration);
+            services.AddAuthentication(option =>
+            {
+                //options.DefaultScheme = ".Elevator.Cookies";
+                option.DefaultScheme = ".Elevator.Cookies";
+                option.DefaultChallengeScheme = ".Elevator.Cookies";
+                option.DefaultSignInScheme = ".Elevator.Cookies";
+                option.DefaultSignOutScheme = ".Elevator.Cookies";
+                option.DefaultAuthenticateScheme = ".Elevator.Cookies";
+                option.DefaultForbidScheme = ".Elevator.Cookies";
+
             }).AddCookie(".Elevator.Cookies", options =>
             {
                 options.Cookie.Name = ".Elevator.auth";
@@ -89,6 +109,9 @@ namespace ElevatorAdmin
           
             app.UseAuthentication();
 
+
+
+         
 
 
             app.UseMvc(routes =>
