@@ -227,7 +227,7 @@ File: Menu
     bottom: 0;
     margin-bottom: 0;
     margin-top: 0;
-    padding-bottom: 70px;
+    /*padding-bottom: 70px;*/
     position: fixed;
     box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0 0 rgba(0, 0, 0, 0.02);
 }
@@ -261,7 +261,7 @@ File: Menu
     }
 
 .sidebar-inner {
-    height: 100%;
+    height: 100% !important;
 }
 
 #sidebar-menu,
