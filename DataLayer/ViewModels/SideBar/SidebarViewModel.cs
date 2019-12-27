@@ -6,7 +6,7 @@ namespace DataLayer.ViewModels.SideBar
 {
     public class SidebarViewModel
     {
-
+        public string Area { get; set; } = string.Empty;
         public string Controller { get; set; }
         public string Action { get; set; }
         public string Title { get; set; }
@@ -18,7 +18,7 @@ namespace DataLayer.ViewModels.SideBar
 
     public class SidebarChildViewModel
     {
-
+        public string Area { get; set; } = string.Empty;
         public string Controller { get; set; }
         public string Action { get; set; }
         public string Title { get; set; }

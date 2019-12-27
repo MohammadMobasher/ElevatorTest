@@ -92,7 +92,8 @@ namespace ElevatorAdmin.TagHelpers
                             data-role-href='" + (!string.IsNullOrEmpty(this.Area) ? "/" + this.Area : "") + "/" + this.Controller + "/" + this.Action + @"' 
                             class='ladda-button btn btn-lg " + this.ButtonClass + @" data-role-table-btn'
                             data-toggle='tooltip'
-                            title='" + Title + @"'
+                            data-placement='bottom'
+                            title ='" + Title + @"'
                             " + (!string.IsNullOrEmpty(this.ModalTitle) ? "modal-title='" + this.ModalTitle + "'" : "") + @"
                             " + (this.IsModal ? "ismodal" : "") + @"
                             data-role='confirm'>

@@ -120,7 +120,7 @@ namespace Service.Repos.User
         }
 
 
-        public async Task<ClaimsIdentity> SetUserClaims(string username)
+        public async Task<ClaimsPrincipal> SetUserClaims(string username)
         {
             var userinfo = await GetByConditionAsync(a => a.UserName == username);
 
@@ -133,7 +133,7 @@ namespace Service.Repos.User
                         //...
                 }, ".Elevator.Cookies");
 
-            return claimsidentity;
+            return new ClaimsPrincipal(claimsidentity);
         }
 
 

@@ -60,6 +60,16 @@
             display: -ms-flexbox;
             display: flex
         }
+        .center-content-page {
+            height: auto;
+            background-image: url('/Images/elevatorBack (2).png');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            padding-top:18px;
+            height:100% !important
+        }
     </style>
 
 
@@ -69,7 +79,7 @@
 
 
 <body class="fixed-left" style="overflow:hidden">
-
+    
     <div class="loading hidden"></div>
     <!-- Begin page -->
     <div id="wrapper">
@@ -98,22 +108,25 @@
                             </li>
                         </ul>*@
 
-                    <div style="background-color:red">
+                    <div>
 
 
                         <button class="button-menu-mobile open-left " style="float:right">
                             <i class="zmdi zmdi-menu"></i>
                         </button>
 
-                        <h4 class="page-title " style="float:right"><a asp-controller="Home" asp-action="Index">داشبورد</a></h4>
+                        <h4 class="page-title " style="float:right">@ViewData["Title"]</h4>
+                        @*<h4 class="page-title " style="float:left">
+                            @ViewData["Title"]
+                        </h4>*@
 
-                        <img style="float:left" src="~/@User.Identity.FindFirstValue("UserProfile")" alt="نام فرد" title="نام فرد" width="65" height="65" class="img-circle img-thumbnail img-responsive">
+                            @*<img style="float:left" src="~/@User.Identity.FindFirstValue("UserProfile")" alt="@User.Identity.FindFirstValue("LastName")" title="نام فرد" width="65" height="65" class="img-circle img-thumbnail img-responsive">
 
-                        <h4 class="page-title " style="float:left">
-                            <a asp-controller="Account" asp-action="Logout">
-                                <i class="fa fa-power-off " style="font-size:25px; margin-left:20px" aria-hidden="true"></i>
-                            </a>
-                        </h4>
+            <h4 class="page-title " style="float:left">
+                <a asp-controller="Account" asp-action="Logout">
+                    <i class="fa fa-sign-out" style="font-size:25px; margin-left:20px" aria-hidden="true"></i>
+                </a>
+            </h4>*@
 
 
 
@@ -137,14 +150,28 @@
         <!-- Top Bar End -->
         <!-- ========== Left Sidebar Start ========== -->
         <div class="left side-menu">
-            <div class="sidebar-inner slimscrollleft" style="height:100% !important">
+            <div class="sidebar-inner slimscrollleft">
+
+                <div class="user-box">
+                    <div class="user-img">
+                        <img src="~/Uploads/UserImage/photo_2019-08-17_21-10-42.jpg" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
+                    </div>
+                    <h5><a href="#">علی یدالهی</a> </h5>
+                    <ul class="list-inline">
+                        <li>
+                            <a asp-controller="Account" asp-action="Logout" class="text-custom" data-toggle="tooltip" data-role="confirm" title="خروج">
+                                <i class="zmdi zmdi-power"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
                 <div id="sidebar-menu">
                     <ul>
                         <li class="text-muted menu-title">دسترسی‌ها</li>
                         @await Component.InvokeAsync("SidebarComponent")
                         @*@await Component.InvokeAsync("SidebarComponent", new { controller = "UserManage", action = "Index", title = "مدیریت کاربران", icon = "zmdi-account-circle" })
-                        @await Component.InvokeAsync("SidebarComponent", new { controller = "RoleManage", action = "Index", title = "مدیریت نقش ها", icon = "zmdi-settings" })*@
+                @await Component.InvokeAsync("SidebarComponent", new { controller = "RoleManage", action = "Index", title = "مدیریت نقش ها", icon = "zmdi-settings" })*@
 
                     </ul>
                     <div class="clearfix"></div>
@@ -170,9 +197,9 @@
         @Html.Partial("_Message.cshtml")
         <div class="content-page " style="">
             <!-- Start content -->
-            <div class="content Mcontent" style="margin-top:73px; overflow-y:auto; background-color:#FFF">
+            <div class="content Mcontent" style="margin-top:73px; overflow-y:auto; ">
                 <div style="border-top:2.5px solid #3d871d; position:fixed; z-index:100; width:100% !important"></div>
-                <div class="container" style=" background-color:#FFF;">
+                <div class="container center-content-page">
 
                     @* Custome Modal For LiftBazar *@
 
@@ -204,9 +231,9 @@
 
                     @* Custome Modal For LiftBazar *@
 
-                    <div class="form-horizontal pageTitle ">
+                    @*<div class="form-horizontal pageTitle ">
                         @ViewData["Title"]
-                    </div>
+                    </div>*@
 
                     @RenderBody()
                 </div>
@@ -404,7 +431,7 @@
         $(function () {
 
             $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height() + "px" });
-
+            $("div.slimScrollDiv").css({ "height": 100 + "%" });
         });
     </script>
 
