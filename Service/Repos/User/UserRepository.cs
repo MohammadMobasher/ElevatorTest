@@ -126,10 +126,10 @@ namespace Service.Repos.User
 
             var claimsidentity = new ClaimsIdentity(new[]
                 {
-                        new Claim("FirstName", userinfo.FirstName ?? "محمد", ClaimValueTypes.String),
-                        new Claim("LastName",  userinfo.LastName ?? "مبشر", ClaimValueTypes.String),
-                        new Claim("FullName",  userinfo.FirstName + " "+ userinfo.LastName, ClaimValueTypes.String),
-                        new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg", ClaimValueTypes.String)
+                        new Claim("FirstName", userinfo.FirstName ?? "1"),
+                        new Claim("LastName",  userinfo.LastName ?? "2"),
+                        new Claim("FullName",  userinfo.FirstName + " 3"+ userinfo.LastName),
+                        new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg")
                         //...
                 }, ".Elevator.Cookies");
 

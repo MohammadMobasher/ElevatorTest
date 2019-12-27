@@ -76,9 +76,21 @@ namespace ElevatorAdmin.Controllers
 
                 var userInfo = await _userRepository.TableNoTracking.FirstOrDefaultAsync(a => a.UserName == userName);
 
-                
-                //ساخت اطلاعات مربوط به کاربر برای ارسال به صفحه
-                var claimsPrincipal = await _userRepository.SetUserClaims(userName);
+                //var claimsidentity = await _userRepository.SetUserClaims(userName);
+
+
+                var userinfo = await _userRepository.GetByConditionAsync(a => a.UserName == userName);
+
+                var claimsidentity = new ClaimsIdentity(new[]
+                    {
+                        new Claim("FirstName", userinfo.FirstName ?? "1"),
+                        new Claim("LastName",  userinfo.LastName ?? "2"),
+                        new Claim("FullName",  userinfo.FirstName + " 3"+ userinfo.LastName),
+                        new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg")
+                        //...
+                }, ".Elevator.Cookies");
+
+                var claimsPrincipal = new ClaimsPrincipal(claimsidentity);
                 await Request.HttpContext.SignInAsync(".Elevator.Cookies", claimsPrincipal);
 
                 return RedirectToAction("Index", "Home");
