@@ -126,9 +126,9 @@ namespace Service.Repos.User
 
             var claimsidentity = new ClaimsIdentity(new[]
                 {
-                        new Claim("FirstName", userinfo.FirstName),
-                        new Claim("LastName",  userinfo.LastName),
-                        new Claim("FullName",  userinfo.FirstName + " "+ userinfo.LastName),
+                        new Claim("FirstName", userinfo.FirstName ?? "1"),
+                        new Claim("LastName",  userinfo.LastName ?? "2"),
+                        new Claim("FullName",  userinfo.FirstName + " 3"+ userinfo.LastName),
                         new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg")
                         //...
                 }, ".Elevator.Cookies");
