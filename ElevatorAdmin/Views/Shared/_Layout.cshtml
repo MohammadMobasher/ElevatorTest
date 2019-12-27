@@ -154,7 +154,7 @@
 
                 <div class="user-box">
                     <div class="user-img">
-                        <img src="~/Uploads/UserImage/photo_2019-08-17_21-10-42.jpg" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
+                        <img src="~/Uploads/UserImage/photo_2019-08-17_21-10-42.jpg" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive UserPicture">
                     </div>
                     <h5>علی یدالهی</h5>
                     <ul class="list-inline">
@@ -429,9 +429,14 @@
 
     <script>
         $(function () {
-
             $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height() + "px" });
             $("div.slimScrollDiv").css({ "height": 100 + "%" });
+
+            $(".UserPicture").click(function () {
+
+                CustomOpenModal("/UserManage/ChangeUserPic", "تغییر عکس");
+
+            });
         });
     </script>
 
