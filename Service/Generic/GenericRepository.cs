@@ -144,6 +144,15 @@ namespace Service
             return query.FirstOrDefaultAsync();
         }
 
+        public virtual Task<TEntity> GetByConditionAsyncTracked(Expression<Func<TEntity, bool>> where = null)
+        {
+            var query = Table;
+
+            if (where != null) query = query.Where(where);
+
+            return query.FirstOrDefaultAsync();
+        }
+
         public virtual async Task AddAsync(TEntity entity, bool saveNow = true)
         {
             Assert.NotNull(entity, nameof(entity));
@@ -202,6 +211,15 @@ namespace Service
         public TEntity GetByCondition(Expression<Func<TEntity, bool>> where = null)
         {
             var query = TableNoTracking;
+
+            if (where != null) query = query.Where(where);
+
+            return query.FirstOrDefault();
+        }
+
+        public TEntity GetByConditionTracked(Expression<Func<TEntity, bool>> where = null)
+        {
+            var query = Table;
 
             if (where != null) query = query.Where(where);
 

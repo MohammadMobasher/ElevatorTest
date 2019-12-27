@@ -1,4 +1,6 @@
-﻿@using Core.Utilities
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using Core.Utilities
 <!DOCTYPE html>
 <html lang="en" dir="rtl">
 <head>
@@ -60,6 +62,7 @@
             display: -ms-flexbox;
             display: flex
         }
+
         .center-content-page {
             height: auto;
             background-image: url('/Images/elevatorBack (2).png');
@@ -67,8 +70,8 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: cover;
-            padding-top:18px;
-            height:100% !important
+            padding-top: 18px;
+            height: 100% !important
         }
     </style>
 
@@ -79,7 +82,7 @@
 
 
 <body class="fixed-left" style="overflow:hidden">
-    
+
     <div class="loading hidden"></div>
     <!-- Begin page -->
     <div id="wrapper">
@@ -117,16 +120,16 @@
 
                         <h4 class="page-title " style="float:right">@ViewData["Title"]</h4>
                         @*<h4 class="page-title " style="float:left">
-                            @ViewData["Title"]
-                        </h4>*@
+                                @ViewData["Title"]
+                            </h4>*@
 
-                            @*<img style="float:left" src="~/@User.Identity.FindFirstValue("UserProfile")" alt="@User.Identity.FindFirstValue("LastName")" title="نام فرد" width="65" height="65" class="img-circle img-thumbnail img-responsive">
+                        @*<img style="float:left" src="~/@User.Identity.FindFirstValue("UserProfile")" alt="@User.Identity.FindFirstValue("LastName")" title="نام فرد" width="65" height="65" class="img-circle img-thumbnail img-responsive">
 
-            <h4 class="page-title " style="float:left">
-                <a asp-controller="Account" asp-action="Logout">
-                    <i class="fa fa-sign-out" style="font-size:25px; margin-left:20px" aria-hidden="true"></i>
-                </a>
-            </h4>*@
+                            <h4 class="page-title " style="float:left">
+                                <a asp-controller="Account" asp-action="Logout">
+                                    <i class="fa fa-sign-out" style="font-size:25px; margin-left:20px" aria-hidden="true"></i>
+                                </a>
+                            </h4>*@
 
 
 
@@ -151,12 +154,11 @@
         <!-- ========== Left Sidebar Start ========== -->
         <div class="left side-menu">
             <div class="sidebar-inner slimscrollleft">
-
                 <div class="user-box">
                     <div class="user-img">
-                        <img src="~/Uploads/UserImage/photo_2019-08-17_21-10-42.jpg" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
+                        <img src="@User.Identity.FindFirstValue("UserProfile")" width="200" height="200" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
                     </div>
-                    <h5><a href="#">علی یدالهی</a> </h5>
+                    <h5><a href="#"> عمران جدیدی </a> </h5>
                     <ul class="list-inline">
                         <li>
                             <a asp-controller="Account" asp-action="Logout" class="text-custom" data-toggle="tooltip" data-role="confirm" title="خروج">
@@ -171,7 +173,7 @@
                         <li class="text-muted menu-title">دسترسی‌ها</li>
                         @await Component.InvokeAsync("SidebarComponent")
                         @*@await Component.InvokeAsync("SidebarComponent", new { controller = "UserManage", action = "Index", title = "مدیریت کاربران", icon = "zmdi-account-circle" })
-                @await Component.InvokeAsync("SidebarComponent", new { controller = "RoleManage", action = "Index", title = "مدیریت نقش ها", icon = "zmdi-settings" })*@
+                            @await Component.InvokeAsync("SidebarComponent", new { controller = "RoleManage", action = "Index", title = "مدیریت نقش ها", icon = "zmdi-settings" })*@
 
                     </ul>
                     <div class="clearfix"></div>
@@ -232,8 +234,8 @@
                     @* Custome Modal For LiftBazar *@
 
                     @*<div class="form-horizontal pageTitle ">
-                        @ViewData["Title"]
-                    </div>*@
+                            @ViewData["Title"]
+                        </div>*@
 
                     @RenderBody()
                 </div>

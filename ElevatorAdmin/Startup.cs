@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Service;
 using WebFramework.Configurations;
 
@@ -50,35 +51,8 @@ namespace ElevatorAdmin
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            
-
-
-            services.AddSession(options =>
-            {
-                // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(10000);
-                options.Cookie.HttpOnly = true;
-            });
 
             services.DatabaseConfiguration(Configuration);
-            services.AddAuthentication(option =>
-            {
-                //options.DefaultScheme = ".Elevator.Cookies";
-                option.DefaultScheme = ".Elevator.Cookies";
-                option.DefaultChallengeScheme = ".Elevator.Cookies";
-                option.DefaultSignInScheme = ".Elevator.Cookies";
-                option.DefaultSignOutScheme = ".Elevator.Cookies";
-                option.DefaultAuthenticateScheme = ".Elevator.Cookies";
-                option.DefaultForbidScheme = ".Elevator.Cookies";
-
-            }).AddCookie(".Elevator.Cookies", options =>
-            {
-                options.Cookie.Name = ".Elevator.auth";
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.LoginPath = new PathString("/account/Login");
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(300000);
-          
-            });
 
             services.AddCustomIdentity(_siteSetting.IdentitySettings);
 
