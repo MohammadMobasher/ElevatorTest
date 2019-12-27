@@ -231,10 +231,10 @@ function AjaxCall(url, params, type, successCallback) {
 
 function AjaxCall(url, params, type) {
 
-    setTimeout(function () {
+    //setTimeout(function () {
         // نمایش لودینگ
         $('.loading').removeClass("hidden");
-    }, 500);
+    //}, 500);
 
     timeOut = 6000;
     var returnData ;

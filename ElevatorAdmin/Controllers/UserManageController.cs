@@ -12,6 +12,8 @@ using Service.Repos.User;
 using WebFramework.Authenticate;
 using WebFramework.Base;
 using WebFramework.SmsManage;
+using DataLayer.Entities.Users;
+using Microsoft.AspNetCore.Http;
 
 namespace ElevatorAdmin.Controllers
 {
@@ -162,7 +164,20 @@ namespace ElevatorAdmin.Controllers
         [AllowAccess]
         public async Task<IActionResult> ChangeUserPic()
         {
-            return View();
+            Users user = await _userRepository.GetByIdAsync(this.UserId);
+
+            return View(model:user.ProfilePic);
+        }
+
+        [HttpPost]
+        [AllowAccess]
+        public async Task<IActionResult> ChangeUserPic(IFormFile ProfilePic)
+        {
+            if (ProfilePic != null)
+            {
+                await _userRepository.UpdateProfilePic(this.UserId, ProfilePic);
+            }
+            return RedirectToAction("Index");
         }
     }
 }

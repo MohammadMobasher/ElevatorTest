@@ -1,31 +1,32 @@
-﻿@model DataLayer.Entities.ProductGroup
+﻿@model string
 
 @{
-    ViewData["Title"] = "ویرایش عکس";
-    Layout = "/";
+    ViewData["Title"] = "ChangeUserPic";
+    Layout = "~/Views/Shared/_ModalLayout.cshtml";
 }
 
+<form action="/UserManage/ChangeUserPic" class="form-horizontal" enctype="multipart/form-data" method="post">
 
-<form action="/UserManage/ChangeUserPic" class="form-horizontal" method="post">
 
-    
 
     <div class="form-group">
         <label for="Text" class="control-label col-sm-2">عکس <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
-            <input name="ImageFile"
+            <input name="ProfilePic"
+                   data-default-file="/@Model"
                    required
                    type="file" class="dropify"
                    data-show-loader="true"
                    accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
-                   id="ImageAddress" size="50">
+                   id="ProfilePic" size="50">
 
         </div>
     </div>
-
 
 
     <button type="submit" class="btn btn-block btn-success">ثبت</button>
 
 
 </form>
+
+

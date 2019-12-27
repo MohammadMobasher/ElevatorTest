@@ -1,5 +1,9 @@
-﻿.direction-ltr{
-    direction:ltr !important;
+﻿.UserPicture{
+    cursor:pointer;
+}
+
+.direction-ltr {
+    direction: ltr !important;
 }
 
 

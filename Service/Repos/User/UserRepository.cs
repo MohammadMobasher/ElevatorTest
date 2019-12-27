@@ -2,6 +2,7 @@
 using DataLayer.Entities.Users;
 using DataLayer.SSOT;
 using DataLayer.ViewModels.User;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -136,6 +137,27 @@ namespace Service.Repos.User
             return new ClaimsPrincipal(claimsidentity);
         }
 
+        /// <summary>
+        /// ویرایش عکس یک کاربر
+        /// </summary>
+        /// <param name="UserId">شماره کاربری</param>
+        /// <param name="profilePic">عکس جدید کاربر</param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> UpdateProfilePic(int UserId, IFormFile profilePic)
+        {
+            try
+            {
+                var entity = await GetByIdAsync(UserId);
+                MFile.Delete(entity.ProfilePic);
+                entity.ProfilePic = MFile.Save(profilePic, "Uploads/UserImage");
+                await DbContext.SaveChangesAsync();
+                return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
 
+        }
     }
 }
