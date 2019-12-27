@@ -1097,7 +1097,7 @@ File: Components
 .table {
   margin-bottom: 10px;
 }
-.table-striped > tbody > tr:nth-of-type(odd),
+.table-striped > tbody > tr,
 .table-hover > tbody > tr:hover,
 .table > thead > tr > td.active,
 .table > tbody > tr > td.active,

@@ -158,7 +158,7 @@
                     <div class="user-img">
                         <img src="@User.Identity.FindFirstValue("UserProfile")" width="200" height="200" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
                     </div>
-                    <h5><a href="#"> عمران جدیدی </a> </h5>
+                    <h5>علی یدالهی</h5>
                     <ul class="list-inline">
                         <li>
                             <a asp-controller="Account" asp-action="Logout" class="text-custom" data-toggle="tooltip" data-role="confirm" title="خروج">
@@ -431,9 +431,14 @@
 
     <script>
         $(function () {
-
             $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height() + "px" });
             $("div.slimScrollDiv").css({ "height": 100 + "%" });
+
+            $(".UserPicture").click(function () {
+
+                CustomOpenModal("/UserManage/ChangeUserPic", "تغییر عکس");
+
+            });
         });
     </script>
 

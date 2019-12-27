@@ -45,7 +45,7 @@ $(function () {
 
 
     $(".searchSelect").on("change", function (event) {
-
+        console.log("mohammad");
         $('.searchBtn').trigger('click');
 
     });
@@ -56,7 +56,7 @@ $(function () {
 
 
 // این قسمت مربوط به زمانی است که در داخل یک جدول یک سطر انتخاب می‌شود
-// و باید در ادامه این کارهایی انجام شود
+// و باید در ادامه این کارها انجام شود
 $(function () {
     // برای زمانی که دکمه برگشت زده می‌شود
     $("input[data-role-table-checkbox]").prop("checked", false);
@@ -82,6 +82,24 @@ $(function () {
             $("[name='selectedRowInTable']").val("");
         }
     });
+
+
+    //$("td").on("click", function () {
+
+    //    var tr_Parent = $(this).parent();
+    //    var checkBox = $(tr_Parent).find("input[data-role-table-checkbox]");
+    //    console.log($(tr_Parent).find("input[data-role-table-checkbox]").attr('data-role-table-checkbox'));
+    //    if ($(tr_Parent).hasClass("tr-selected")) {
+    //        $(tr_Parent).removeClass("tr-selected");
+    //        $("[name='selectedRowInTable']").val("");
+    //    }
+    //    else {
+            
+    //        $(tr_Parent).addClass("tr-selected");
+    //        $("[name='selectedRowInTable']").val($(checkBox).attr('data-role-table-checkbox'));
+    //    }
+
+    //});
 
 
 });
@@ -213,10 +231,10 @@ function AjaxCall(url, params, type, successCallback) {
 
 function AjaxCall(url, params, type) {
 
-    setTimeout(function () {
+    //setTimeout(function () {
         // نمایش لودینگ
         $('.loading').removeClass("hidden");
-    }, 500);
+    //}, 500);
 
     timeOut = 6000;
     var returnData ;

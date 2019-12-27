@@ -42,22 +42,22 @@
         <TableBotton area="Product" controller="ManageProduct" action="FastPriceEdit"
                      title="ویرایش سریع"
                      isModal="true"
-                     icon="fa-cogs"
+                     icon="fa-pencil-square-o"
                      modalTitle="ویرایش سریع"
                      buttonClass="btn-warning"></TableBotton>
 
 
         <TableBotton area="Product" controller="ManageProduct" action="SubmitFeature"
                      title="ثبت ویژگی"
-                     icon="fa-cogs"
-                     buttonClass="btn-success"></TableBotton>
+                     icon="fa-plus"
+                     buttonClass="btn-primary"></TableBotton>
 
         <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ProductDiscount"
                      isModal="true"
                      modalTitle="تخفیف روی کالا "
                      title="ثبت تخفیف "
                      icon="fa-plus"
-                     buttonClass="btn-info"></TableBotton>
+                     buttonClass="btn-primary"></TableBotton>
 
 
     </span>
@@ -98,14 +98,14 @@
                     <td>
                         <input type="text" name="Title" value="@search.Title" class="form-control searchInput" />
                     </td>
-                    <td>  <priceInput name="Price" title="قیمت کالا" required="true"></priceInput></td>
+                    <td>  <priceInput name="Price" title="قیمت کالا"></priceInput></td>
                     <td> --- </td>
                     <td>
-                        <select name="ProductGroupId" class="form-control searchInput">
+                        <select name="ProductGroupId" class="form-control searchSelect">
                             <option>--لطفا انتخاب کنید--</option>
                             @foreach (var item in groups)
                             {
-                                <!option value="@item.Id" @(search.ProductGroupId == item.Id ? "search" : "") x>@item.Title</!option>
+                                <!option value="@item.Id" @(search.ProductGroupId == item.Id ? "selected" : "") >@item.Title</!option>
                             }
                         </select>
                     </td>

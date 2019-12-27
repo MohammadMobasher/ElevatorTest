@@ -12,6 +12,8 @@ using Service.Repos.User;
 using WebFramework.Authenticate;
 using WebFramework.Base;
 using WebFramework.SmsManage;
+using DataLayer.Entities.Users;
+using Microsoft.AspNetCore.Http;
 
 namespace ElevatorAdmin.Controllers
 {
@@ -37,7 +39,7 @@ namespace ElevatorAdmin.Controllers
         }
 
         [ActionRole("صفحه مدیریت کاربران")]
-        //[HasAccess]
+        [HasAccess]
         public IActionResult Index()
         {
             var model = _userRepository
@@ -52,7 +54,7 @@ namespace ElevatorAdmin.Controllers
         #region دسترسی دادن به کاربران
 
         [ActionRole("دسترسی دادن به کاربر")]
-        //[HasAccess]
+        [HasAccess]
         public IActionResult SetRole(int id)
         {
             // لیست تمامی نقش های تعریف شده در سایت
@@ -79,6 +81,7 @@ namespace ElevatorAdmin.Controllers
         #region ویرایش رمز عبور
 
         [ActionRole("ویرایش رمز عبور")]
+        [HasAccess]
         public IActionResult EditPassword(int id) => View(id);
 
         [HttpPost]
@@ -96,6 +99,7 @@ namespace ElevatorAdmin.Controllers
         #region ارسال پیامک به کاربر
 
         [ActionRole("ارسال پیامک به کاربر")]
+        [HasAccess]
         public IActionResult SendSmsToUser(int id)
         {
             //var credit = _smsService.Credit();
@@ -119,6 +123,7 @@ namespace ElevatorAdmin.Controllers
         #region ارسال پیامک به تمامی کاربران
 
         [ActionRole("ارسال پیامک به تمامی کاربران")]
+        [HasAccess]
         public IActionResult SendSmsToUsers()
         {
             var countAllUser = _userRepository.CountUsers();
@@ -144,6 +149,7 @@ namespace ElevatorAdmin.Controllers
         #region فعال/غیرفعال کردن کاربر
 
         [ActionRole("فعال/غیرفعال کردن کاربر")]
+        [HasAccess]
         public async Task<IActionResult> UserChangeStatus(int userId)
         {
             var swMessage = await _userRepository.ChangeUserActivity(userId);
@@ -154,5 +160,24 @@ namespace ElevatorAdmin.Controllers
         }
 
         #endregion
+
+        [AllowAccess]
+        public async Task<IActionResult> ChangeUserPic()
+        {
+            Users user = await _userRepository.GetByIdAsync(this.UserId);
+
+            return View(model:user.ProfilePic);
+        }
+
+        [HttpPost]
+        [AllowAccess]
+        public async Task<IActionResult> ChangeUserPic(IFormFile ProfilePic)
+        {
+            if (ProfilePic != null)
+            {
+                await _userRepository.UpdateProfilePic(this.UserId, ProfilePic);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
