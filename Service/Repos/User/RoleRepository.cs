@@ -1,5 +1,8 @@
-﻿using Core.CustomAttributes;
+﻿using AutoMapper.QueryableExtensions;
+using Core.CustomAttributes;
 using Core.Utilities;
+using DataLayer.DTO.RolesDTO;
+using DataLayer.DTO.UserDTO;
 using DataLayer.Entities.Users;
 using DataLayer.ViewModels.Role;
 using DataLayer.ViewModels.User;
@@ -55,6 +58,45 @@ namespace Service.Repos.User
         //      => typeof(ControllerRoleAttribute).GetTypesHasAttribute(assemblies).ToList();
 
 
+
+        public async Task<Tuple<int, List<RoleManageDTO>>> LoadAsyncCount(
+        int skip = -1,
+        int take = -1,
+        RolesSearchViewModel model = null)
+        {
+            var query = Entities.Where(a => a.NormalizedName != ImportantNames.AdminNormalTitle()).ProjectTo<RoleManageDTO>();
+
+            
+
+            if (!string.IsNullOrEmpty(model.RoleTitle))
+                query = query.Where(x => x.RoleTitle.Contains(model.RoleTitle));
+
+
+            if (!string.IsNullOrEmpty(model.Name))
+                query = query.Where(x => x.Name.Contains(model.Name));
+
+            
+
+            int Count = query.Count();
+
+            query = query.OrderByDescending(x => x.Id);
+
+            
+            if (skip != -1)
+                query = query.Skip((skip - 1) * take);
+
+            if (take != -1)
+                query = query.Take(take);
+
+
+
+            return new Tuple<int, List<RoleManageDTO>>(Count, await query.ToListAsync());
+        }
+
+
+
+
+
         public string GetRoleNameByRoleId(int roleId)
               => TableNoTracking.FirstOrDefault(a => a.Id == roleId).NormalizedName;
 
@@ -102,5 +144,8 @@ namespace Service.Repos.User
         /// <returns></returns>
         public bool IsAdmin(int roleId)
             => TableNoTracking.FirstOrDefault(a => a.Id == roleId).NormalizedName == ImportantNames.AdminNormalTitle();
+
+
+        
     }
 }

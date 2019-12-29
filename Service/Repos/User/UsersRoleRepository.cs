@@ -1,4 +1,6 @@
-﻿using Core.Utilities;
+﻿using AutoMapper.QueryableExtensions;
+using Core.Utilities;
+using DataLayer.DTO.UserRoleDTO;
 using DataLayer.Entities.Users;
 using DataLayer.SSOT;
 using DataLayer.ViewModels.User;
@@ -24,23 +26,40 @@ namespace Service.Repos.User
         /// <returns></returns>
         public SweetAlertExtenstion SetRole(SetUserRoleViewModel vm)
         {
-            var userRole = TableNoTracking.FirstOrDefault(a => a.UserId == vm.UserId);
 
-            return ResetRole();
+            try
+            {
+                this.Entities.Add(new UserRoles {
+                    RoleId = vm.RoleId,
+                    UserId = vm.UserId
+                });
+
+                DbContext.SaveChanges();
+
+                return SweetAlertExtenstion.Ok();
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
+
+            //var userRole = TableNoTracking.FirstOrDefault(a => a.UserId == vm.UserId);
+
+            //return ResetRole();
 
             #region LocalMethod
 
-            SweetAlertExtenstion ResetRole()
-            {
-                if (userRole == null) MapAdd(vm, false); 
-                else
-                {
-                    Delete(userRole);
-                    MapAdd(vm, false);
-                }
+            //SweetAlertExtenstion ResetRole()
+            //{
+            //    if (userRole == null) MapAdd(vm, false); 
+            //    else
+            //    {
+            //        Delete(userRole);
+            //        MapAdd(vm, false);
+            //    }
 
-                return Save();
-            }
+            //    return Save();
+            //}
 
             #endregion
         }
@@ -51,6 +70,19 @@ namespace Service.Repos.User
 
         public async Task<UserRoles> GetRoleByUserIdAsync(int userId)
            =>await GetByConditionAsync(a => a.UserId == userId);
+
+
+        public List<UserRoleDetailDTO> GetRolesByUserId(int userId)
+        {
+
+            return (from userRole in DbContext.UserRoles 
+                    join role in DbContext.Roles on userRole.RoleId equals role.Id
+                    select new UserRoleDetailDTO {
+                        RoleTitle = role.RoleTitle,
+                        UserId = userRole.UserId,
+                        RoleId = userRole.RoleId
+                    }).ToList();
+        }
 
     }
 }

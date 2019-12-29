@@ -14,6 +14,7 @@ using WebFramework.Base;
 using WebFramework.SmsManage;
 using DataLayer.Entities.Users;
 using Microsoft.AspNetCore.Http;
+using DataLayer.DTO.RolesDTO;
 
 namespace ElevatorAdmin.Controllers
 {
@@ -40,34 +41,52 @@ namespace ElevatorAdmin.Controllers
 
         [ActionRole("صفحه مدیریت کاربران")]
         [HasAccess]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(UsersSearchViewModel searchModel)
         {
-            var model = _userRepository
-                .TableNoTracking
-                .ProjectTo<UsersManageDTO>()
-                .ToList();
+            this.PageSize = 15;
+            var model = await _userRepository.LoadAsyncCount(
+                this.CurrentPage,
+                this.PageSize,
+                searchModel);
 
+            this.TotalNumber = model.Item1;
 
+            ViewBag.SearchModel = searchModel;
 
-            return View(model);
+            return View(model.Item2);
+            
         }
         #region دسترسی دادن به کاربران
 
-        [ActionRole("دسترسی دادن به کاربر")]
+        [ActionRole("نقش دادن به کاربر")]
         [HasAccess]
         public IActionResult SetRole(int id)
         {
             // لیست تمامی نقش های تعریف شده در سایت
             ViewBag.Roles = _roleRepository.TableNoTracking.ToList();
-            //  نقش کاربر انتخاب شده
-            var userRole = _usersRoleRepository.TableNoTracking.FirstOrDefault(a => a.UserId == id);
+            // شماره کاربری 
+            ViewBag.UserId = id;
 
+            //  نقش کاربر انتخاب شده
+            var userRole = _usersRoleRepository.GetRolesByUserId(id);
 
             return View(userRole);
         }
 
+        
+
+        [ActionRole("ثبت نقش جدید برای کاربر")]
+        [HasAccess]
+        public async Task<IActionResult> SetRoleInsert(int UserId)
+        {
+            // لیست تمامی نقش های تعریف شده در سایت
+            ViewBag.Roles = await _roleRepository.LoadAsync<RolesDTO>();
+
+            return View(UserId);
+        }
+
         [HttpPost]
-        public IActionResult SetRole(SetUserRoleViewModel vm)
+        public async Task<IActionResult> SetRoleInsert(SetUserRoleViewModel vm)
         {
             var swMessage = _usersRoleRepository.SetRole(vm);
 

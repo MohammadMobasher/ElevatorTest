@@ -1,4 +1,61 @@
-﻿.UserPicture{
+﻿.vertical-center {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    vertical-align: middle !important;
+}
+
+.display-inherit {
+    display: inherit
+}
+
+.input-group-prepend {
+    display: -ms-flexbox;
+    display: flex
+}
+
+.center-content-page {
+    height: auto;
+    background-image: url('/Images/elevatorBack (2).png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    padding-top: 10px;
+    height: 100% !important
+}
+
+thead > tr:nth-child(2) > th {
+    background-color: #FFF !important;
+    color: #000 !important;
+}
+
+
+.bodycontainer {
+    max-height: 395px;
+    min-height: 395px;
+    width: 100%;
+    margin: 0;
+    overflow-y: auto;
+    background-color: #FFF;
+}
+
+.table-scrollable {
+    margin: 0;
+    padding: 0;
+}
+
+.tableFixHead {
+    overflow-y: auto;
+    height: 100px;
+}
+
+    .tableFixHead thead th {
+        position: sticky;
+        top: 0;
+    }
+
+
+.UserPicture{
     cursor:pointer;
 }
 

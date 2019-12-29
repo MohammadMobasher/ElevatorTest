@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("13981007172030_add_Id_Field_To_UserRole")]
+    partial class add_Id_Field_To_UserRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -527,7 +529,11 @@ namespace Service.Migrations
 
                     b.Property<int>("RoleId");
 
+                    b.Property<int>("Id");
+
                     b.HasKey("UserId", "RoleId");
+
+                    b.HasAlternateKey("Id");
 
                     b.HasIndex("RoleId");
 

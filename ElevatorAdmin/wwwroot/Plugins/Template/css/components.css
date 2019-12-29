@@ -1094,9 +1094,7 @@ File: Components
 /* =============
    Tables
 ============= */
-.table {
-  margin-bottom: 10px;
-}
+
 .table-striped > tbody > tr,
 .table-hover > tbody > tr:hover,
 .table > thead > tr > td.active,

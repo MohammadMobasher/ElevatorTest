@@ -17,17 +17,18 @@ File: Menu
         border-top: 3px solid #71b6f9;
         float: right;
         text-align: center;
-        height: 73px;
+        height: 60px;
         position: relative;
         width: 250px;
         z-index: 1;
     }
 
         .topbar .topbar-left .logo {
-            line-height: 70px;
+            line-height: 60px;
         }
 
 .navbar-default {
+    height:60px !important;
     background-color: #ebeff2;
     border-radius: 0px;
     border: none;
@@ -220,7 +221,7 @@ File: Menu
 }
 
 .side-menu {
-    top: 70px;
+    top: 60px;
     width: 250px;
     z-index: 10;
     background: #ffffff;
@@ -252,7 +253,7 @@ File: Menu
     border: none;
     color: #435966;
     font-size: 21px;
-    line-height: 68px;
+    line-height: 60px;
     padding: 0 12px;
 }
 
