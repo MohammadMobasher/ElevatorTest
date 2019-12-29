@@ -19,13 +19,17 @@ namespace Service.Repos.User
     public class UserRepository : GenericRepository<Users>
     {
         private readonly UserManager<Users> _userManager;
+        private readonly UserClaimsRepository _userClaimsRepository;
         public UserRepository(DatabaseContext db) : base(db)
         {
 
         }
-        public UserRepository(DatabaseContext db, UserManager<Users> userManager) : base(db)
+        public UserRepository(DatabaseContext db
+            , UserManager<Users> userManager
+            , UserClaimsRepository userClaimsRepository) : base(db)
         {
             _userManager = userManager;
+            _userClaimsRepository = userClaimsRepository;
         }
 
         /// <summary>
@@ -179,20 +183,23 @@ namespace Service.Repos.User
         }
 
 
-        public async Task<ClaimsPrincipal> SetUserClaims(string username)
+        public async Task SetUserClaims(string username)
         {
-            var userinfo = await GetByConditionAsync(a => a.UserName == username);
+            var userinfo = await GetByConditionAsyncTracked(a => a.UserName == username);
 
-            var claimsidentity = new ClaimsIdentity(new[]
+            var claimsidentity = new List<Claim>()
                 {
-                        new Claim("FirstName", userinfo.FirstName ?? "1"),
-                        new Claim("LastName",  userinfo.LastName ?? "2"),
-                        new Claim("FullName",  userinfo.FirstName + " 3"+ userinfo.LastName),
+                        new Claim("FirstName", userinfo.FirstName ?? ""),
+                        new Claim("LastName",  userinfo.LastName ?? ""),
+                        new Claim("FullName",  userinfo.FirstName + " "+ userinfo.LastName),
                         new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg")
                         //...
-                }, ".Elevator.Cookies");
+                };
 
-            return new ClaimsPrincipal(claimsidentity);
+
+            await _userClaimsRepository.RemoveClamsByUserId(userinfo.Id);
+            await _userManager.AddClaimsAsync(userinfo, claimsidentity);
+
         }
 
         /// <summary>

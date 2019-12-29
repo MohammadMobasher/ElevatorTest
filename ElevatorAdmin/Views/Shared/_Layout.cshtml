@@ -1,4 +1,6 @@
-﻿@using Core.Utilities
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using Core.Utilities
 <!DOCTYPE html>
 <html lang="en" dir="rtl">
 <head>
@@ -109,8 +111,15 @@
             top: 0;
         }
 
-        table {
-            border-collapse: collapse;
+        .center-content-page {
+            height: auto;
+            background-image: url('/Images/elevatorBack (2).png');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            padding-top: 18px;
+            height: 100% !important
         }
 
 
@@ -206,10 +215,9 @@
         <!-- ========== Left Sidebar Start ========== -->
         <div class="left side-menu">
             <div class="sidebar-inner slimscrollleft">
-
                 <div class="user-box">
                     <div class="user-img">
-                        <img src="~/Uploads/UserImage/photo_2019-08-17_21-10-42.jpg" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive UserPicture">
+                        <img src="@User.Identity.FindFirstValue("UserProfile")" width="200" height="200" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
                     </div>
                     <h5>علی یدالهی</h5>
                     <ul class="list-inline">

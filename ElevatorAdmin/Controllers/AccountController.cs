@@ -24,9 +24,7 @@ namespace ElevatorAdmin.Controllers
         private readonly SignInManager<Users> _signInManager;
         private readonly UserManager<Users> _userManager;
         private readonly RoleRepository _roleRepository;
-        private readonly HttpContext _httpContext;
-
-
+        
 
         public AccountController(SignInManager<Users> signInManager,
             UserManager<Users> userManager,
@@ -73,25 +71,8 @@ namespace ElevatorAdmin.Controllers
 
             if (result.Succeeded)
             {
+                await _userRepository.SetUserClaims(userName);
 
-                var userInfo = await _userRepository.TableNoTracking.FirstOrDefaultAsync(a => a.UserName == userName);
-
-                //var claimsidentity = await _userRepository.SetUserClaims(userName);
-
-
-                var userinfo = await _userRepository.GetByConditionAsync(a => a.UserName == userName);
-
-                var claimsidentity = new ClaimsIdentity(new[]
-                    {
-                        new Claim("FirstName", userinfo.FirstName ?? "1"),
-                        new Claim("LastName",  userinfo.LastName ?? "2"),
-                        new Claim("FullName",  userinfo.FirstName + " 3"+ userinfo.LastName),
-                        new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg")
-                        //...
-                }, ".Elevator.Cookies");
-
-                var claimsPrincipal = new ClaimsPrincipal(claimsidentity);
-                await Request.HttpContext.SignInAsync(".Elevator.Cookies", claimsPrincipal);
 
                 return RedirectToAction("Index", "Home");
 
