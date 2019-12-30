@@ -166,13 +166,6 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         {
             var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(id);
 
-            //var productFeatures = await _productFeatureRepository.GetAllProductFeatureByProductId(id);
-
-            //var feautreitem = await _featureRepository.GetFeaturesByListFeatureId(groupFeature.Select(a => a.FeatureId).ToList());
-
-            //ViewBag.ProductId = id;
-            //ViewBag.ProductGroupFeatures = groupFeature;
-
             return PartialView(groupFeature);
         }
 

@@ -55,6 +55,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         }
 
         [ActionRole("تخفیف روی محصول")]
+
         public async Task<IActionResult> ProductDiscount(int id)
         {
             if (await _productDiscountRepository.IsProductSubmited(id))

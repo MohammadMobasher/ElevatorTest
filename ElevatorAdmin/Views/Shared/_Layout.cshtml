@@ -280,7 +280,7 @@
                         </div>
                     </div>
 
-                    <div class="container">
+                    <div class="container Mcontent1" >
                         <div class="row Mcontent" style="background-color:#FFF; border-radius:6px; padding-top:10px;
 -webkit-box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
 -moz-box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
@@ -484,7 +484,9 @@ box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
 
     <script>
         $(function () {
-            $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height() - 8 + "px" });
+            $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height() - 15 + "px" });
+            $(".Mcontent1").css({ "height": $(window).height() - $(".Mtopbar").height() + "px" });
+            
             $("div.slimScrollDiv").css({ "height": 100 + "%" });
 
             $(".UserPicture").click(function () {
@@ -493,8 +495,14 @@ box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
 
             });
 
+            var btntable = $('.btn-table').height()
 
+            var Mcontent = $('.Mcontent').height()
 
+            var tablefirst = $('.table-first').height()
+
+            var paginationdiv = $('.pagination-div').height()
+            $(".bodycontainer").css({ "min-height": (Mcontent - btntable - tablefirst - paginationdiv) - 45 + "px" });
 
         });
 
