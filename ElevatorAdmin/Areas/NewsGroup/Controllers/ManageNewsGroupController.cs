@@ -32,7 +32,7 @@ namespace ElevatorAdmin.Areas.NewsGroup.Controllers
         [HasAccess]
         public async Task<IActionResult> Index(NewsGroupSearchViewModel searchModel)
         {
-            this.PageSize = 15;
+            this.PageSize = 10;
             var model = await _newsGroupRepository.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize, 

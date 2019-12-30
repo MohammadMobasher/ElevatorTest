@@ -197,6 +197,8 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             return PartialView(groupFeature);
         }
 
+
+        #region ویرایش سریع قیمت
         [ActionRole("ویرایش سریع قیمت")]
         [HasAccess]
         public async Task<IActionResult> FastPriceEdit(int id)
@@ -218,6 +220,8 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        #endregion
+
         [AllowAccess]
         public IActionResult mobasher()
         {
@@ -225,35 +229,23 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         }
 
 
-        #region ثبت ویژگی (خدابیامرز) منقضی 
+        #region تغییر ویژگی 
 
-        [ActionRole("ثبت ویژگی‌های کالا")]
+        [ActionRole("تغییر ویژگی‌های کالا")]
         [HasAccess]
         public async Task<IActionResult> SubmitFeature(int id)
         {
-            var groupId = await _productRepostitory.GetProductGroupIdbyProductId(id);
-
-            if (groupId == null)
-            {
-                TempData.AddResult(SweetAlertExtenstion.Error("کالایی با این شناسه یافت نشد"));
-
-                return RedirectToAction(nameof(Index));
-            }
-
-            var features = await _productGroupFeatureRepository.GetAllProductGroupFeature(groupId.Value);
-
-            var productFeatures = await _productFeatureRepository.GetAllProductFeatureByProductId(id);
+            var model = await _productRepostitory.GetFeaturesValuesByProductId(id);
 
             ViewBag.ProductId = id;
-            ViewBag.ProductFeatures = productFeatures;
 
-            return View(features);
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> SubmitFeature(ProductFeatureInsertViewModel vm)
         {
-            var model = await _productFeatureRepository.AddFeatureRange(vm);
+            var model = await _productFeatureRepository.UpdateFeatureRange(vm);
 
             TempData.AddResult(model);
 

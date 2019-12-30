@@ -99,26 +99,33 @@ namespace Service.Repos.Product
         {
             // لیست ویژگی‌هایی که این گروه دارد
             return await (from productGroupFeature in this.DbContext.ProductGroupFeature
-                              where productGroupFeature.ProductGroupId == productGroupId
+                          where productGroupFeature.ProductGroupId == productGroupId
 
-                              join feature in this.DbContext.Feature on productGroupFeature.FeatureId equals feature.Id
+                          join feature in this.DbContext.Feature on productGroupFeature.FeatureId equals feature.Id
 
-                              orderby productGroupFeature.Id
+                          orderby productGroupFeature.Id
 
-                              select new FeatureFullDetailDTO {
+                          select new FeatureFullDetailDTO
+                          {
 
-                                  Id = feature.Id,
-                                  Title = feature.Title,
-                                  FeatureType = feature.FeatureType,
-                                  IsRequired = feature.IsRequired,
-                                  FeatureItems = (from featureItem in this.DbContext.FeatureItem where featureItem.FeatureId == feature.Id
-                                                  select new FeatureItemDTO {
-                                                      Id = featureItem.Id,
-                                                      Value = featureItem.Value,
-                                                      FeatureId = feature.Id
-                                                  }).ToList()
-                              }).ToListAsync();
+                              Id = feature.Id,
+                              Title = feature.Title,
+                              FeatureType = feature.FeatureType,
+                              IsRequired = feature.IsRequired,
+                              FeatureItems = (from featureItem in this.DbContext.FeatureItem
+                                              where featureItem.FeatureId == feature.Id
+                                              select new FeatureItemDTO
+                                              {
+                                                  Id = featureItem.Id,
+                                                  Value = featureItem.Value,
+                                                  FeatureId = feature.Id
+                                              }).ToList()
+                          }).ToListAsync();
         }
+
+
+        /// <summary>
+        
 
 
 
@@ -193,7 +200,7 @@ namespace Service.Repos.Product
         /// </summary>
         /// <returns></returns>
         public async Task<List<ProductGroupFeature>> GetAllProductGroupFeature(int groupId)
-            => await TableNoTracking.Include(a=>a.Feature).Where(a => a.ProductGroupId == groupId).ToListAsync();
+            => await TableNoTracking.Include(a => a.Feature).Where(a => a.ProductGroupId == groupId).ToListAsync();
 
 
     }

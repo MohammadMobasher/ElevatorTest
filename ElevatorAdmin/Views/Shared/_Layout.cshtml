@@ -260,7 +260,7 @@
         @Html.Partial("_Message.cshtml")
         <div class="content-page " style="">
             <!-- Start content -->
-            <div class="content Mcontent" style="margin-top:60px; overflow-y:auto;">
+            <div class="content" style="margin-top:60px; overflow-y:auto;">
                 <div style="border-top:2.5px solid #3d871d; position:fixed; z-index:100; width:100% !important"></div>
                 <div class="container center-content-page">
 
@@ -281,7 +281,7 @@
                     </div>
 
                     <div class="container">
-                        <div class="row" style="background-color:#FFF; border-radius:6px; padding-top:10px;;
+                        <div class="row Mcontent" style="background-color:#FFF; border-radius:6px; padding-top:10px;
 -webkit-box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
 -moz-box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
 box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
@@ -484,7 +484,7 @@ box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
 
     <script>
         $(function () {
-            $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height() + "px" });
+            $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height() - 8 + "px" });
             $("div.slimScrollDiv").css({ "height": 100 + "%" });
 
             $(".UserPicture").click(function () {

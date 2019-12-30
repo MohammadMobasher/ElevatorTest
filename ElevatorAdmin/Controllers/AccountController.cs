@@ -63,7 +63,12 @@ namespace ElevatorAdmin.Controllers
             if (model == null)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این نام کاربری یافت نشد!"));
+                return RedirectToAction("Login");
+            }
 
+            if (model.IsActive == false)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("شما فعال نیستید!"));
                 return RedirectToAction("Login");
             }
 
@@ -72,10 +77,7 @@ namespace ElevatorAdmin.Controllers
             if (result.Succeeded)
             {
                 await _userRepository.SetUserClaims(userName);
-
-
                 return RedirectToAction("Index", "Home");
-
             }
             TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور یا نام کاربری نادرست است"));
             return RedirectToAction("Index");
@@ -85,9 +87,7 @@ namespace ElevatorAdmin.Controllers
         [AllowAnonymous()]
         public async Task<IActionResult> Logout()
         {
-
             await _signInManager.SignOutAsync();
-
             return Redirect("/");
         }
     }

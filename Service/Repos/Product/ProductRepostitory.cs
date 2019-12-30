@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Core.Utilities;
+using DataLayer.DTO.Feature;
+using DataLayer.DTO.FeatureItem;
 using DataLayer.DTO.Products;
 using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,6 +117,51 @@ namespace Service.Repos
             DbContext.SaveChanges();
 
             return model.Id;
+        }
+
+
+        /// در این تابع لیست ویژگی‌هایی برگردانده می‌شود که متعلق به یک محول است
+        /// </summary>
+        /// <param name="productId">شماره محصول</param>
+        /// <returns></returns>
+        public async Task<List<FeatureValueFullDetailDTO>> GetFeaturesValuesByProductId(int productId)
+        {
+
+            return await (from product in this.DbContext.Product
+                          where product.Id == productId
+
+                          // ارتباط با ویژگی‌های مربوط به گروه این کالا
+                          // با این جدول به این جهت ارتباط میدهیم تا اگر یک ویژگی به این گروه اضافه شده باشد
+                          // بتواند به عنوان ویژگی‌ جدید به کاربر نمایش دهیم
+                          join productGroupFeature in this.DbContext.ProductGroupFeature on product.ProductGroupId equals productGroupFeature.ProductGroupId
+
+                          
+                          //join productFeature in this.DbContext.ProductFeature on product.Id equals productFeature.ProductId
+
+                          // برای این منظور با این جدول ارتباط میدهیم که بتوانیم اسم ویژگی و نوع آن را به دست آوریم
+                          join feature in this.DbContext.Feature on productGroupFeature.FeatureId equals feature.Id
+
+                          select new FeatureValueFullDetailDTO
+                          {
+                              Id = feature.Id,
+                              Title = feature.Title,
+                              FeatureType = feature.FeatureType,
+                              IsRequired = feature.IsRequired,
+                              FeatureItems = (from featureItem in this.DbContext.FeatureItem
+                                              where featureItem.FeatureId == feature.Id
+                                              select new FeatureItemDTO
+                                              {
+                                                  Id = featureItem.Id,
+                                                  Value = featureItem.Value,
+                                                  FeatureId = feature.Id
+                                              }).ToList(),
+
+                              //// با این جدول به این جهت که بتوان مقادیر ویژگی‌ها را به دست آورد ارتباط میدهیم
+                              Value = (from productFeature in this.DbContext.ProductFeature
+                                       where productFeature.FeatureId == feature.Id && productFeature.ProductId == productId
+                                       select productFeature.FeatureValue).SingleOrDefault()
+
+                          }).ToListAsync();
         }
     }
 }

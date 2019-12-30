@@ -42,7 +42,7 @@ namespace ElevatorAdmin.Controllers
         [ActionRole("صفحه مدیریت کاربران")]
         [HasAccess]
         public async Task<IActionResult> Index(UsersSearchViewModel searchModel)
-        {
+       {
             this.PageSize = 15;
             var model = await _userRepository.LoadAsyncCount(
                 this.CurrentPage,
@@ -56,6 +56,7 @@ namespace ElevatorAdmin.Controllers
             return View(model.Item2);
             
         }
+
         #region دسترسی دادن به کاربران
 
         [ActionRole("نقش دادن به کاربر")]
@@ -169,9 +170,10 @@ namespace ElevatorAdmin.Controllers
 
         [ActionRole("فعال/غیرفعال کردن کاربر")]
         [HasAccess]
-        public async Task<IActionResult> UserChangeStatus(int userId)
+        
+        public async Task<IActionResult> UserChangeStatus(int id)
         {
-            var swMessage = await _userRepository.ChangeUserActivity(userId);
+            var swMessage = await _userRepository.ChangeUserActivity(id);
 
             TempData.AddResult(swMessage);
 
@@ -179,6 +181,8 @@ namespace ElevatorAdmin.Controllers
         }
 
         #endregion
+
+        #region تغییر عکس کاربر
 
         [AllowAccess]
         public async Task<IActionResult> ChangeUserPic()
@@ -198,5 +202,9 @@ namespace ElevatorAdmin.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        #endregion
+
+        
     }
 }

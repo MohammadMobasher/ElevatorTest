@@ -21,12 +21,20 @@
                  buttonClass="btn-primary"></TableBotton>
 
     <span class="hidden" data-role-table-btn-area-access="">
+        <TableBotton controller="UserManage" action="UserChangeStatus"
+                     isModal="false"
+                     modalTitle="تغییر وضعیت"
+                     title="تغییر وضعیت"
+                     icon="fa-ban"
+                     buttonClass="btn-warning"></TableBotton>
+
         <TableBotton controller="UserManage" action="EditPassword"
                      isModal="true"
                      modalTitle="تغییر رمز عبور"
                      title="تغییر رمز عبور"
                      icon="fa-key"
                      buttonClass="btn-warning"></TableBotton>
+
 
         <TableBotton controller="UserManage" action="SetRole"
                      title="نقش"
@@ -55,7 +63,8 @@
                     <th>نام</th>
                     <th>نام خانوادگی</th>
                     <th>نام کاربری</th>
-                    <th>ایمیل</th>
+                    <th width="25%">ایمیل</th>
+                    <th width="70px">وضعیت</th>
                     <th>شماره تماس</th>
                     <th>تاریخ ثبت نام</th>
                 </tr>
@@ -67,6 +76,32 @@
                         <th><input type="text" name="LastName" value="@ViewBag.SearchModel.LastName" class="form-control searchInput" /></th>
                         <th><input type="text" name="UserName" value="@ViewBag.SearchModel.UserName" class="form-control searchInput" /></th>
                         <th><input type="text" name="Email" value="@ViewBag.SearchModel.Email" class="form-control searchInput" /></th>
+                        <th>
+                            <select name="IsActive" class="form-control searchSelect">
+                                <option>--لطفا انتخاب کنید--</option>
+
+                                @if (ViewBag.SearchModel.IsActive != null)
+                                {
+
+                                    if (ViewBag.SearchModel.IsActive)
+                                    {
+                                        <option selected value="true">فعال</option>
+                                        <option value="false">غیرفعال</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="true">فعال</option>
+                                        <option selected value="false">غیرفعال</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="true">فعال</option>
+                                    <option value="false">غیرفعال</option>
+                                }
+
+                            </select>
+                        </th>
                         <th><input type="text" name="PhoneNumber" value="@ViewBag.SearchModel.PhoneNumber" class="form-control searchInput" /></th>
                         <th><input type="text" name="CreateDate" value="@ViewBag.SearchModel.CreateDate" class="form-control searchInput" /></th>
                         <input type="submit" class="hidden searchBtn" value="جستجو" />
@@ -87,9 +122,10 @@
                         <td>@item.LastName</td>
                         <td>@item.UserName</td>
                         <td>@item.Email</td>
+                        <td>@(item.IsActive ? "فعال" : "غیرفعال")</td>
                         <td>@item.PhoneNumber</td>
                         <td>@item.CreateDate</td>
-                        
+
                     </tr>
                     }
                 </tbody>
