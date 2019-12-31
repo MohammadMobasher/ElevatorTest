@@ -11,11 +11,10 @@
     <input type="hidden" name="Id" value="@Model.Id" />
 
     <div class="form-group">
-        <label for="Title" class="control-label col-sm-2">گروه کالا <i class="text-danger fa fa-star size-8"></i></label>
+        <label for="Title" class="control-label col-sm-2">نوع تخفیف <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
             <select class="form-control" asp-items="@Html.GetEnumSelectList<ProductDiscountSSOT>()" asp-for="DiscountType" required="required">
                 <option value="">--لطفا انتخاب کنید--</option>
-
             </select>
         </div>
     </div>
@@ -24,7 +23,7 @@
         <label for="Title" class="control-label col-sm-2">مبلغ <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
             @*<input type="number" class="form-control" required="required" name="Price" aria-describedby="Price" placeholder="قیمت کالا" />*@
-            <priceInput name="PriceDiscount" title="" required="true" value="@(Model.DiscountType == ProductDiscountSSOT.Price? Model.Discount: 0)"></priceInput>
+            @*<priceInput name="PriceDiscount" title="" required="true" value="@(Model.DiscountType == ProductDiscountSSOT.Price? Model.Discount: 0)"></priceInput>*@
         </div>
     </div>
 

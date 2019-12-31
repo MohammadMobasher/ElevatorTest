@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DataLayer.DTO.RolesDTO;
 using DataLayer.DTO.UserDTO;
 using DataLayer.Entities.Users;
 using System;
@@ -12,6 +13,7 @@ namespace Service.Mappers
         public RoleMappingProfile()
         {
             CreateMap<Roles, RoleManageDTO>().ReverseMap();
+            CreateMap<Roles, RolesDTO>().ReverseMap();
         }
     }
 }

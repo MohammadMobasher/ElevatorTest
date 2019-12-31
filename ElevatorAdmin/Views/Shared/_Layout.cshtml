@@ -48,19 +48,67 @@
 
 
     <style>
-        .vertical-center {
-            margin-top: auto !important;
-            margin-bottom: auto !important;
-            vertical-align: middle !important;
-        }
 
-        .display-inherit {
-            display: inherit
-        }
 
-        .input-group-prepend {
+
+
+
+
+
+        /*.table-wrapper {
+            max-height: 480px;
+            width:100%;
+            overflow: auto;
+            display: inline-block;
+        }*/
+
+        /*thead {
+            width: calc(100% - 17px);
+            width: -webkit-calc(100% - 17px);
+            width: -moz-calc(100% - 17px);
+        }
+        tbody, thead {
+            display: -webkit-box;
             display: -ms-flexbox;
-            display: flex
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        tr {
+            -ms-flex-preferred-size: 100%;
+            flex-basis: 100%;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        th, td {
+            -webkit-box-flex: 1;
+            -ms-flex: 1;
+            flex: 2;
+            text-align: center;
+        }
+
+        tbody {
+            max-height: 380px;
+            overflow-y: auto;
+        }
+
+
+        thead > tr:nth-child(2) > th {
+            background-color: #FFF !important;
+            color: #000 !important;
+        }*/
+
+        /*tbody {
+            max-height: 380px;
+            overflow-y: auto;
+        }
+
+        thead tr th {
+            position: sticky;
+            top: 0;
         }
 
         .center-content-page {
@@ -73,6 +121,19 @@
             padding-top: 18px;
             height: 100% !important
         }
+
+
+        th {
+            padding: 16px;
+            padding-left: 15px;
+            border-left: 1px dotted rgba(200, 209, 224, 0.6);
+            border-bottom: 1px solid #e8e8e8;
+            background: #ffc491;
+            text-align: left;
+            box-shadow: 0px 0px 0 1px #e8e8e8;
+        }*/
+
+
     </style>
 
 
@@ -199,21 +260,11 @@
         @Html.Partial("_Message.cshtml")
         <div class="content-page " style="">
             <!-- Start content -->
-            <div class="content Mcontent" style="margin-top:73px; overflow-y:auto; ">
+            <div class="content" style="margin-top:60px; overflow-y:auto;">
                 <div style="border-top:2.5px solid #3d871d; position:fixed; z-index:100; width:100% !important"></div>
                 <div class="container center-content-page">
 
-                    @* Custome Modal For LiftBazar *@
-
-                    @*<button href="#LiftBazarModal" class="hidden" data-animation="fadein" data-plugin="custommodal"
-                                data-overlaySpeed="100" data-overlayColor="#36404a">
-                            Rotate
-                        </button>*@
-
-
                     <button class="btn btn-primary waves-effect waves-light hidden" data-toggle="modal" data-target="#LiftBazarModal">نمونه 1</button>
-
-
                     <div id="LiftBazarModal" class="modal " tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
                         <div class="modal-dialog" style="width:55%;">
                             <div class="modal-content">
@@ -229,15 +280,17 @@
                         </div>
                     </div>
 
+                    <div class="container Mcontent1" >
+                        <div class="row Mcontent" style="background-color:#FFF; border-radius:6px; padding-top:10px;
+-webkit-box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
+-moz-box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
+box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
+">
 
+                            @RenderBody()
+                        </div>
+                    </div>
 
-                    @* Custome Modal For LiftBazar *@
-
-                    @*<div class="form-horizontal pageTitle ">
-                            @ViewData["Title"]
-                        </div>*@
-
-                    @RenderBody()
                 </div>
             </div>
 
@@ -431,7 +484,9 @@
 
     <script>
         $(function () {
-            $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height() + "px" });
+            $(".Mcontent").css({ "height": $(window).height() - $(".Mtopbar").height() - 15 + "px" });
+            $(".Mcontent1").css({ "height": $(window).height() - $(".Mtopbar").height() + "px" });
+            
             $("div.slimScrollDiv").css({ "height": 100 + "%" });
 
             $(".UserPicture").click(function () {
@@ -439,7 +494,13 @@
                 CustomOpenModal("/UserManage/ChangeUserPic", "تغییر عکس");
 
             });
+
+            
+
         });
+
+
+
     </script>
 
 

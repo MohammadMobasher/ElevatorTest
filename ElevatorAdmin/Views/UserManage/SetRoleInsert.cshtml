@@ -1,0 +1,45 @@
+﻿@model int
+@using DataLayer.DTO.RolesDTO;
+
+@{
+    var roles = ViewBag.Roles as List<RolesDTO>;
+}
+
+@{
+    ViewData["Title"] = "SetRoleInsert";
+    Layout = "~/Views/Shared/_ModalLayout.cshtml";
+}
+
+<form asp-action="SetRoleInsert" method="post">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-box p-b-0">
+
+                <div class="row">
+                    <div class="card-box">
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-2">نقش</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="RoleId" data-role="select2">
+                                    <option>-- لطفا انتخاب کنید --</option>
+                                    @foreach (var item in roles)
+                                    {
+                                        <option value="@item.Id">@item.RoleTitle</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="@Model" name="UserId"/>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-block btn-primary ">ثبت</button>
+        </div>
+    </div>
+</form>
+

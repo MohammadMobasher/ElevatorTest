@@ -1,4 +1,6 @@
-﻿using Core.Utilities;
+﻿using AutoMapper.QueryableExtensions;
+using Core.Utilities;
+using DataLayer.DTO.UserDTO;
 using DataLayer.Entities.Users;
 using DataLayer.SSOT;
 using DataLayer.ViewModels.User;
@@ -29,6 +31,62 @@ namespace Service.Repos.User
             _userManager = userManager;
             _userClaimsRepository = userClaimsRepository;
         }
+
+        /// <summary>
+        /// لود اطلاعات برای نمایش در گیرید
+        /// </summary>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<Tuple<int, List<UsersManageDTO>>> LoadAsyncCount(
+            int skip = -1,
+            int take = -1,
+            UsersSearchViewModel model = null)
+        {
+            var query = Entities.ProjectTo<UsersManageDTO>();
+
+            // نام کاربری
+            if (!string.IsNullOrEmpty(model.UserName))
+                query = query.Where(x => x.UserName.Contains(model.UserName));
+
+            // ایمیل
+            if (!string.IsNullOrEmpty(model.Email))
+                query = query.Where(x => x.Email.Contains(model.Email));
+
+            // شماره موبایل
+            if (!string.IsNullOrEmpty(model.PhoneNumber))
+                query = query.Where(x => x.PhoneNumber.Contains(model.PhoneNumber));
+
+
+            // نام
+            if (!string.IsNullOrEmpty(model.FirstName))
+                query = query.Where(x => x.FirstName.Contains(model.FirstName));
+
+            // نام خانوادگی
+            if (!string.IsNullOrEmpty(model.LastName))
+                query = query.Where(x => x.LastName.Contains(model.LastName));
+
+            // فعال / غیرفعال
+            if (model.IsActive != null)
+                query = query.Where(x => x.IsActive == model.IsActive);
+
+            int Count = query.Count();
+
+            query = query.OrderByDescending(x => x.Id);
+
+
+            if (skip != -1)
+                query = query.Skip((skip - 1) * take);
+
+            if (take != -1)
+                query = query.Take(take);
+
+            
+            return new Tuple<int, List<UsersManageDTO>>(Count, await query.ToListAsync());
+        }
+
+
 
         /// <summary>
         /// گرفتن کاربران شرایط خاص

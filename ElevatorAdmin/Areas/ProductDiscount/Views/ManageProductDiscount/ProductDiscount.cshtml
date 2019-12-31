@@ -8,10 +8,10 @@
 <form id="frm" asp-area="ProductDiscount" asp-controller="ManageProductDiscount" asp-action="ProductDiscount" class="form-horizontal" method="post" style="">
     @if (Model != null)
     {
-    <input type="hidden"  name="ProductId" value="@Model" />
+        <input type="hidden"  name="ProductId" value="@Model" />
     }
     <div class="form-group">
-        <label for="Title" class="control-label col-sm-2">گروه کالا <i class="text-danger fa fa-star size-8"></i></label>
+        <label for="Title" class="control-label col-sm-2">نوع تخفیف <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
             <select class="form-control" asp-items="@Html.GetEnumSelectList<ProductDiscountSSOT>()" name="DiscountType" required="required">
                 <option value="">--لطفا انتخاب کنید--</option>

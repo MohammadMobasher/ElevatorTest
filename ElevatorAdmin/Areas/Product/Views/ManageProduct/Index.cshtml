@@ -10,7 +10,7 @@
 
 
 
-<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 btn-table">
 
 
 
@@ -48,13 +48,13 @@
 
 
         <TableBotton area="Product" controller="ManageProduct" action="SubmitFeature"
-                     title="ثبت ویژگی"
-                     icon="fa-plus"
-                     buttonClass="btn-primary"></TableBotton>
+                     title="تغییر ویژگی‌های کالا"
+                     icon="fa-pencil-square-o"
+                     buttonClass="btn-warning"></TableBotton>
 
         <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ProductDiscount"
                      isModal="true"
-                     modalTitle="تخفیف روی کالا "
+                     modalTitle="تخفیف روی کالا"
                      title="ثبت تخفیف "
                      icon="fa-plus"
                      buttonClass="btn-primary"></TableBotton>
@@ -66,7 +66,7 @@
 
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
 
-    <table class="table table-responsive table-striped rounded table-hover table-bordered ">
+    <table class="table-first table-condensed table table-responsive tableWrap table-striped rounded table-hover table-bordered ">
         <thead>
             <tr>
                 <th width="3%"></th>
@@ -79,85 +79,92 @@
                 <th>قیمت با تخفیف</th>
                 <th>گروه</th>
                 <th>مجموع نظرات</th>
-                @*<th width="10%">اقدامات</th>*@
+
             </tr>
-        </thead>
-        <tbody>
             <tr>
                 <form method="post">
-                    <td>
+                    <th>
                         ---
                         @*<input  type="checkbox" data-toggle="tooltip" title="انتخاب همه" data-role="confirm">*@
 
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         ---
                         @*<input type="text" value="@ViewBag.SearchModel.Id" name="Id" class="form-control searchInput" />*@
-                    </td>
-                    <td> --- </td>
-                    <td>
+                    </th>
+                    <th> --- </th>
+                    <th>
                         <input type="text" name="Title" value="@search.Title" class="form-control searchInput" />
-                    </td>
-                    <td>  <priceInput name="Price" title="قیمت کالا"></priceInput></td>
-                    <td> --- </td>
-                    <td>
+                    </th>
+                    <th>  <priceInput name="Price" title="قیمت کالا"></priceInput></th>
+                    <th> --- </th>
+                    <th>
                         <select name="ProductGroupId" class="form-control searchSelect">
                             <option>--لطفا انتخاب کنید--</option>
                             @foreach (var item in groups)
                             {
-                                <!option value="@item.Id" @(search.ProductGroupId == item.Id ? "selected" : "") >@item.Title</!option>
+                                <!option value="@item.Id" @(search.ProductGroupId == item.Id ? "selected" : "")>@item.Title</!option>
                             }
                         </select>
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         <input type="text" name="Likes" value="@search.Likes" class="form-control searchInput" />
-                    </td>
+                    </th>
                     <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
                 </form>
             </tr>
-
-
-            @{var index = 1;}
-            @if (Model != null)
-            {
-
-                foreach (var item in Model)
-                {
-                    <tr>
-                        <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
-                        <td>@(index++)</td>
-                        <td>
-                            <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200" />
-                        </td>
-                        <td>@item.Title</td>
-                        <td>
-                            @item.Price.ToString("n0")
-                        </td>
-                        <td data-role="Discount" data-Id="@item.Id" data-group-Id="@item.ProductGroupId" data-Price="@item.Price"></td>
-                        <td>
-                            @item.ProductGroup.Title
-                        </td>
-                        <td>
-                            @(item.Like - item.DisLike)
-                        </td>
-                        @*<td>
-                                <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
-                                    <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
-                                </a>
-
-                                <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
-                                    <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
-                                </a>
-                            </td>*@
-                    </tr>
-                }
-            }
-        </tbody>
+        </thead>
     </table>
+    <div class="bodycontainer scrollable ">
+        <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
+            <tbody>
+                
 
-    @Html.Partial("~/Views/Shared/_Pagination.cshtml")
 
+                @{var index = 1;}
+                @if (Model != null)
+                {
 
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                            <td>@(index++)</td>
+                            <td>
+                                <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200" />
+                            </td>
+                            <td>@item.Title</td>
+                            <td>
+                                @item.Price.ToString("n0")
+                            </td>
+                            <td data-role="Discount" data-Id="@item.Id" data-group-Id="@item.ProductGroupId" data-Price="@item.Price"></td>
+                            <td>
+                                @item.ProductGroup.Title
+                            </td>
+                            <td>
+                                @(item.Like - item.DisLike)
+                            </td>
+                            @*<td>
+                                    <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
+                                        <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
+                                    </a>
+
+                                    <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
+                                        <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
+                                    </a>
+                                </td>*@
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <table class="table table-hover table-striped">
+        <tfoot>
+            @Html.Partial("~/Views/Shared/_Pagination.cshtml")
+        </tfoot>
+    </table>
 </div>
 
 
