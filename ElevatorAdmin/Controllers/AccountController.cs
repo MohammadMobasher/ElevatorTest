@@ -76,7 +76,7 @@ namespace ElevatorAdmin.Controllers
 
             if (result.Succeeded)
             {
-                await _userRepository.SetUserClaims(userName);
+                //await _userRepository.SetUserClaims(userName);
                 return RedirectToAction("Index", "Home");
             }
             TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور یا نام کاربری نادرست است"));

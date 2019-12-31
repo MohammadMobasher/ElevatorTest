@@ -183,24 +183,24 @@ namespace Service.Repos.User
         }
 
 
-        public async Task SetUserClaims(string username)
-        {
-            var userinfo = await GetByConditionAsyncTracked(a => a.UserName == username);
+        //public async Task SetUserClaims(string username)
+        //{
+        //    var userinfo = await GetByConditionAsyncTracked(a => a.UserName == username);
 
-            var claimsidentity = new List<Claim>()
-                {
-                        new Claim("FirstName", userinfo.FirstName ?? ""),
-                        new Claim("LastName",  userinfo.LastName ?? ""),
-                        new Claim("FullName",  userinfo.FirstName + " "+ userinfo.LastName),
-                        new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg")
-                        //...
-                };
+        //    var claimsidentity = new List<Claim>()
+        //        {
+        //                new Claim("FirstName", userinfo.FirstName ?? ""),
+        //                new Claim("LastName",  userinfo.LastName ?? ""),
+        //                new Claim("FullName",  userinfo.FirstName + " "+ userinfo.LastName),
+        //                new Claim("UserProfile" , userinfo.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg")
+        //                //...
+        //        };
 
 
-            await _userClaimsRepository.RemoveClamsByUserId(userinfo.Id);
-            await _userManager.AddClaimsAsync(userinfo, claimsidentity);
+        //    await _userClaimsRepository.RemoveClamsByUserId(userinfo.Id);
+        //    await _userManager.AddClaimsAsync(userinfo, claimsidentity);
 
-        }
+        //}
 
         /// <summary>
         /// ویرایش عکس یک کاربر
