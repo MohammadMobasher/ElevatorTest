@@ -35,7 +35,6 @@ namespace ElevatorAdmin.Areas.ProductGroupFeature.Controllers
         [HasAccess]
         public async Task<IActionResult> Index(int Id, ProductGroupFeatureSearchViewModel searchModel = null)
         {
-            this.PageSize = 10;
             ViewBag.ProductGroup = await _productGroupRepository.GetByIdAsync(Id);
 
             var model = await _productGroupFeatureRepository.LoadAsyncCount(Id, this.CurrentPage,

@@ -31,7 +31,6 @@ namespace ElevatorAdmin.Areas.SlideShow.Controllers
         [HasAccess]
         public async Task<IActionResult> Index(SlideShowSearchViewModel searchModel)
         {
-            //this.PageSize = 10;
             var model = await _slideShowRepository.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize,
