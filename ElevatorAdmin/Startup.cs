@@ -58,6 +58,7 @@ namespace ElevatorAdmin
 
             services.SmsConfiguration();
 
+            services.ClaimFactoryConfiguration();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
