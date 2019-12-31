@@ -41,7 +41,7 @@ namespace ElevatorAdmin.Controllers
         [HasAccess]
         public async Task<IActionResult> Index(RolesSearchViewModel searchModel)
         {
-            this.PageSize = 15;
+            
             var model = await _roleRepository.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize,

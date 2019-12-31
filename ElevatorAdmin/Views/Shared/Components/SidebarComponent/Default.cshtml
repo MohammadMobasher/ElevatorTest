@@ -12,7 +12,7 @@
         @if (item.Childs == null)
         {
             <li>
-                <a asp-action="@item.Action" asp-controller="@item.Controller" class="waves-effect sidebarActiveClass">
+                <a asp-area="@item.Area" asp-action="@item.Action" asp-controller="@item.Controller" class="waves-effect sidebarActiveClass">
                     <i class="@item.Icon"></i>
                     <span>
                         @item.Title

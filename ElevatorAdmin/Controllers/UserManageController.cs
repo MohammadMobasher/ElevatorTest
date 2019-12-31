@@ -43,7 +43,7 @@ namespace ElevatorAdmin.Controllers
         [HasAccess]
         public async Task<IActionResult> Index(UsersSearchViewModel searchModel)
        {
-            this.PageSize = 15;
+            
             var model = await _userRepository.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize,

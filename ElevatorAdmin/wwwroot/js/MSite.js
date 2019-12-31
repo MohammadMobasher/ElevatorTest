@@ -1,5 +1,37 @@
 ﻿
-//==================================================================
+// Read a page's GET URL variables and return them as an associative array.
+function getUrlVars() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+//================================================================================
+
+// برای تغییر ارتفاع صفحه
+function resize_heigth_BodyContainer() {
+    
+    var btntable = $('.btn-table').height();
+
+    var Mcontent = $('.Mcontent').height();
+
+    var tablefirst = $('.table-first').height();
+
+    var paginationdiv = $('.pagination-div').height();
+
+    paginationdiv += parseFloat($('.pagination-div').css("padding-top")) + parseFloat($('.pagination-div').css("padding-bottom"));
+    paginationdiv += parseFloat($('.pagination-div').css("margin-top")); + parseFloat($('.pagination-div').css("margin-bottom"));
+
+    $(".bodycontainer").css({ "max-height": (Mcontent - btntable - tablefirst - paginationdiv)  + "px" });
+    $(".bodycontainer").css({ "min-height": (Mcontent - btntable - tablefirst - paginationdiv)  + "px" });
+}
+resize_heigth_BodyContainer();
+
+//================================================================================
 
 // برای اندازه کردن هر سلول در هر سطر
 function resize_td_table_to_th() {
@@ -25,7 +57,7 @@ $(window).resize(function () {
 $(function () {
 //    $('.nicescroll-rails').css({ "top": parseInt($('.nicescroll-rails').css("top").replace("px", "")) + $(".table-first > thead > tr:nth-child(2)").height() + 7 + "px" });
 })
-//==================================================================
+//================================================================================
 
 
 $('.dropify').dropify({
@@ -36,7 +68,7 @@ $('.dropify').dropify({
         'error': 'خطایی رخ داده است'
     }
 });
-
+//================================================================================
 
 /// از این اسکیریپت برای اسکورول دادن به صفحه استفاده می شود
 $(function () {
@@ -46,7 +78,7 @@ $(function () {
         background: "#DDD"
     });
 });
-
+//================================================================================
 
 /// این اسکیریپت برای قیمت استفاده می شود 
 $(function () {
@@ -56,14 +88,14 @@ $(function () {
         $("[name='" + name + "']").attr("value", $(this).val().replace(/,/g, ""));
     });
 });
-
+//================================================================================
 function reload(href) {
     if (href != undefined)
         window.location = href;
     else
         location.reload();
 }
-
+//================================================================================
 // این قسمت مربوط به جستجو در قسمت جداول هست
 $(function () {
     $('.searchInput').on("keypress", function (event) {
@@ -80,7 +112,7 @@ $(function () {
     });
 });
 
-
+//================================================================================
 // این قسمت مربوط به زمانی است که در داخل یک جدول یک سطر انتخاب می‌شود
 // و باید در ادامه این کارها انجام شود
 $(function () {
@@ -129,7 +161,7 @@ $(function () {
 
 
 });
-
+//================================================================================
 
 // این قسمت مربوط به بخش دکمه های بالا جداول است
 // وقتی روی دکمه ایی زد، شماره آیتم انتخاب شده به انتحای آدرسی که در دکمه قرار دارد
@@ -180,7 +212,7 @@ $(function () {
     });
 });
 
-
+//================================================================================
 /// در این سامانه 
 // هروقت یک فیلد از نوع 
 //checkbox
@@ -200,7 +232,7 @@ $(document).on("click", "[type='checkbox']", function (e) {
     }
 });
 
-
+//================================================================================
 
 //  ajax
 // به صورت معمولی
@@ -252,7 +284,7 @@ function AjaxCall(url, params, type, successCallback) {
     }, 500);
 }
 
-
+//================================================================================
 function AjaxCall(url, params, type) {
 
     //setTimeout(function () {
@@ -396,7 +428,7 @@ function AjaxCallWithUploadFile(url, params, type, successCallback) {
         $('.loading').addClass('hidden');
     }, 500);
 }
-
+//================================================================================
 
 // از این تابع باز کردن مودال و قرار دادن یک صفحه در آن استفاده می شود
 // برای استفاده از این تابع باید ابتدا آدرس صفحه ای که باید لود شود داده شده
@@ -425,7 +457,7 @@ $(function () {
 
 });
 
-
+//================================================================================
 
 $(".btn").click(function () {
 
