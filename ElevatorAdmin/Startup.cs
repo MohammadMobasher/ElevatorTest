@@ -85,10 +85,10 @@ namespace ElevatorAdmin
             app.UseCookiePolicy();
           
             app.UseAuthentication();
-            app.UseSignalR(route =>
-            {
-                route.MapHub<UserOnlineCountHub>("/");
-            });
+            //app.UseSignalR(route =>
+            //{
+            //    route.MapHub<UserOnlineCountHub>("/");
+            //});
 
 
 
