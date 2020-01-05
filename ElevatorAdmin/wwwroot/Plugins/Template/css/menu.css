@@ -19,7 +19,7 @@ File: Menu
         text-align: center;
         height: 60px;
         position: relative;
-        width: 250px;
+        width: 225px;
         z-index: 1;
     }
 
@@ -222,7 +222,7 @@ File: Menu
 
 .side-menu {
     top: 60px;
-    width: 250px;
+    width: 225px;
     z-index: 10;
     background: #ffffff;
     bottom: 0;
@@ -238,7 +238,7 @@ File: Menu
     }
 
 .content-page {
-    margin-right: 250px;
+    margin-right: 225px;
     overflow: hidden;
 }
 

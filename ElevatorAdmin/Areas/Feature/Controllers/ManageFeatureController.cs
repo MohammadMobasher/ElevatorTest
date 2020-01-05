@@ -38,7 +38,6 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
         public async Task<IActionResult> Index(FeatureSearchViewModel searchModel)
         {
 
-            this.PageSize = 10;
             var model = await _featureRepository.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize,

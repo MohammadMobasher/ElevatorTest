@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Core;
+using ElevatorAdmin.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -57,6 +58,7 @@ namespace ElevatorAdmin
             services.AddCustomIdentity(_siteSetting.IdentitySettings);
 
             services.SmsConfiguration();
+            services.AddSignalR();
 
             services.ClaimFactoryConfiguration();
 
@@ -83,10 +85,13 @@ namespace ElevatorAdmin
             app.UseCookiePolicy();
           
             app.UseAuthentication();
+            //app.UseSignalR(route =>
+            //{
+            //    route.MapHub<UserOnlineCountHub>("/");
+            //});
 
 
 
-         
 
 
             app.UseMvc(routes =>

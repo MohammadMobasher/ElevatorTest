@@ -55,7 +55,6 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         [HasAccess]
         public async Task<IActionResult> Index(ProductSearchViewModel searchModel = null)
         {
-            this.PageSize = 10;
             var model = await _productRepostitory.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize,

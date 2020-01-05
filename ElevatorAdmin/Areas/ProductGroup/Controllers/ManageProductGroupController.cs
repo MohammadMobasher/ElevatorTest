@@ -32,7 +32,6 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         [HasAccess]
         public async Task<IActionResult> Index(ProductGroupSearchViewModel searchModel)
         {
-            this.PageSize = 10;
             var model = await _productGroupRepository.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize,
