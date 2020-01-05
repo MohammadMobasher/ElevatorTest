@@ -32,6 +32,6 @@ namespace DataLayer.Entities.Warehouse
 
         public bool IsActivity { get; set; }
 
-      
+        
     }
 }
