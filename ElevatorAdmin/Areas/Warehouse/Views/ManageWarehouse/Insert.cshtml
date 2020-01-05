@@ -1,0 +1,62 @@
+﻿@using DNTPersianUtils.Core
+
+@{
+    ViewData["Title"] = "ثبت انبار جدید";
+    Layout = null;
+}
+
+
+
+
+<form action="/Warehouse/ManageWarehouse/Insert" class="form-horizontal" method="post" style="">
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">نام انبار <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="نام انبار" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">درباره انبار <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <textarea type="text" class="form-control" required="required" name="Description" aria-describedby="Description" placeholder="درباره انبار"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">منطقه <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <select class="form-control" name="Region" data-role="select2">
+                <option value="">--لطفا انتخاب کنید--</option>
+                @for (int i = 1; i <= 22; i++)
+                {
+                    <option value="@i">منطقه @i.ToString().ToPersianNumbers()</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">آدرس <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <textarea type="text" class="form-control" required="required" name="Address" aria-describedby="Address" placeholder="درباره انبار"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">شماره تماس <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" 
+                   onkeypress='this.value = this.value.substring(0, 10); return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 45 || event.charCode == 40 || event.charCode == 41 || event.charCode == 44'
+                   class="form-control" required="required" name="PhoneNumber" aria-describedby="Title" placeholder="شماره تماس" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-success">ثبت</button>
+
+
+</form>
+
+
+
+
+

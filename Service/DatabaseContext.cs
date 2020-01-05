@@ -2,6 +2,7 @@
 using DataLayer.Entities;
 using DataLayer.Entities.Common;
 using DataLayer.Entities.Users;
+using DataLayer.Entities.Warehouse;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace Service
         public DbSet<Feature> Feature { get; set; }
         public DbSet<FeatureItem> FeatureItem { get; set; }
         public DbSet<Product> Product { get; set; }
+        public DbSet<Warehouse> Warehouse { get; set; }
         public DbSet<FactorAndPackage> FactorAndPackage { get; set; }
         public DbSet<FactorItem> FactorItem { get; set; }
         public DbSet<Condition> Condition { get; set; }

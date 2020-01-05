@@ -53,7 +53,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         [ActionRole("صفحه لیست کالاها")]
         [HasAccess]
-        public async Task<IActionResult> Index(ProductSearchViewModel searchModel=null)
+        public async Task<IActionResult> Index(ProductSearchViewModel searchModel = null)
         {
             var model = await _productRepostitory.LoadAsyncCount(
                 this.CurrentPage,
@@ -133,10 +133,10 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             // ثبت محصول
             var productId = await _productRepostitory.UpdateProduct(product, Pics.file);
             vm.ProductId = product.Id;
-            
+
             if (Pics.gallery != null)
             {
-                var getAllProductGallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == product.Id).Select(a=>a.Pic).ToListAsync();
+                var getAllProductGallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == product.Id).Select(a => a.Pic).ToListAsync();
 
                 _productGalleryRepository.DeletePic(getAllProductGallery);
                 // آپلود گالری
@@ -175,7 +175,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         /// <returns></returns>
         [AllowAccess]
 
-        public async Task<IActionResult> ProductFeaturesUpdate(int id,int productId)
+        public async Task<IActionResult> ProductFeaturesUpdate(int id, int productId)
         {
             var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(id);
 
@@ -246,6 +246,6 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         #endregion
 
-       
+
     }
 }
