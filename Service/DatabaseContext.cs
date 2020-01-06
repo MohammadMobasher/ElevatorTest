@@ -28,6 +28,7 @@ namespace Service
         public DbSet<FeatureItem> FeatureItem { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Warehouse> Warehouse { get; set; }
+        public DbSet<WarehouseProductCheck> WarehouseProductCheck { get; set; }
         public DbSet<FactorAndPackage> FactorAndPackage { get; set; }
         public DbSet<FactorItem> FactorItem { get; set; }
         public DbSet<Condition> Condition { get; set; }

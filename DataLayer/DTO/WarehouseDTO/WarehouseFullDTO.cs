@@ -8,7 +8,6 @@ namespace DataLayer.DTO.WarehouseDTO
     public class WarehouseFullDTO
     {
         public int Id { get; set; }
-        public int ProductId { get; set; }
 
         /// <summary>
         /// عنوان

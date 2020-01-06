@@ -334,6 +334,14 @@ namespace Service
 
         #region SyncMapping
 
+        public virtual List<TProject> GetAllMap<TProject>(Expression<Func<TEntity, bool>> where = null)
+        {
+            return TableNoTracking.WhereIf(where != null, where).ProjectTo<TProject>().ToList();
+        }
+
+     
+
+
         public virtual void MapAdd<TProject>(TProject mapEntity, bool saveNow = true)
         {
             var mapModel = Map(mapEntity);
