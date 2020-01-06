@@ -7,8 +7,6 @@
 
 
 @* Start SlideShow *@
-@*@Html.("_SlideShow")*@
-
 @await Component.InvokeAsync("SlideShow")
 @* End SlideShow *@
 
@@ -19,30 +17,30 @@
 <main class="page-content">
 
     <!-- Features Area -->
-    <div class="ho-section features-area bg-white pt-30">
+    <div class="ho-section features-area bg-grey pt-30">
         <div class="container">
             <div class="row">
-
+                <div class="col-lg-1"></div>
                 <!-- Single Feature -->
-                <div class="col-lg-3 col-md-6 col-12">
+                <div class="col-lg-2 col-md-6 col-12 text-center">
                     <div class="featurebox">
                         <i class="flaticon-shipped"></i>
-                        <h5>حمل و نقل رایگان</h5>
-                        <p>ارسال رایگان به کلیه سفارشات یا سفارشات فوق در خارج از کشور</p>
+                        <h5>حمل و نقل سریع</h5>
+                        <p>ارسال سریع کلیه سفارشات به تمام کشور</p>
                     </div>
                 </div>
                 <!--// Single Feature -->
                 <!-- Single Feature -->
-                <div class="col-lg-3 col-md-6 col-12">
+                <div class="col-lg-2 col-md-6 col-12 text-center">
                     <div class="featurebox">
                         <i class="flaticon-support-1"></i>
                         <h5>پشتیبانی 24/7</h5>
-                        <p>24 ساعته و 7 روز شبانه روز آماده ی پاسخگویی هستیم</p>
+                        <p>24 ساعته و 7 روز شبانه روز آماده‌ی پاسخگویی هستیم</p>
                     </div>
                 </div>
                 <!--// Single Feature -->
                 <!-- Single Feature -->
-                <div class="col-lg-3 col-md-6 col-12">
+                <div class="col-lg-2 col-md-6 col-12 text-center">
                     <div class="featurebox">
                         <i class="flaticon-money-back"></i>
                         <h5>ضمانت بازگشت 7 روزه</h5>
@@ -51,15 +49,23 @@
                 </div>
                 <!--// Single Feature -->
                 <!-- Single Feature -->
-                <div class="col-lg-3 col-md-6 col-12">
+                <div class="col-lg-2 col-md-6 col-12 text-center">
                     <div class="featurebox">
                         <i class="flaticon-credit-card"></i>
-                        <h5>پرداخت 100% امن</h5>
-                        <p>درگاه پرداخت بانک ملت با امنیت کامل</p>
+                        <h5>پرداخت امن</h5>
+                        <p>درگاه پرداخت بانک</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-12 text-center">
+                    <div class="featurebox">
+                        <i class="flaticon-certification"></i>
+                        <h5>ضمانت اصل</h5>
+                        <p>ضمانت اصل بودن کالا</p>
                     </div>
                 </div>
                 <!--// Single Feature -->
-
+                <div class="col-lg-1"></div>
             </div>
         </div>
     </div>
@@ -86,7 +92,7 @@
                         </a>
                     </div>
                 </div>
-                <!--// Single Banner -->
+                <!--// Single Banner
                 <!-- Single Banner -->
                 <div class="col-md-4">
                     <div class="imgbanner mt-30">
@@ -100,9 +106,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4">
-        <persiandatetimepicker defaultvalue="@DateTime.Now" name="mmm"></persiandatetimepicker>
-    </div>
+
     <!--// Banners Area -->
     <!-- Deal Of The Day Area -->
     <div class="ho-section deal-of-the-day-area bg-white ptb-30">

@@ -16,7 +16,7 @@ namespace Elevator.Controllers
         /// <summary>
         /// شماره صفحه فعلی
         /// </summary>
-        public int PageNumber { get; set; } = 0;
+        public int CurrentPage { get; set; } = 0;
 
 
         /// <summary>
@@ -54,8 +54,9 @@ namespace Elevator.Controllers
         {
             base.OnActionExecuting(context);
 
-           
-            this.PageNumber = Request.Query["pageNumber"].Count != 0 ? Convert.ToInt32(Request.Query["pageNumber"][0]) : 0;
+
+            this.CurrentPage = Request.Query["currentPage"].Count != 0 ? Convert.ToInt32(Request.Query["currentPage"][0]) : 1;
+            this.PageSize = Request.Query["pageSize"].Count != 0 ? Convert.ToInt32(Request.Query["pageSize"][0]) : 10;
 
         }
 
@@ -70,7 +71,7 @@ namespace Elevator.Controllers
             base.OnActionExecuted(context);
 
 
-            ViewBag.pageNumber = this.PageNumber;
+            ViewBag.pageNumber = this.CurrentPage;
             ViewBag.pageSize = this.PageSize;
             
 

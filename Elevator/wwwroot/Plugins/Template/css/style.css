@@ -1211,7 +1211,7 @@ blockquote {
 
 /* Background Color */
 .bg-theme {
-  background: #0B88EE !important;
+  /*background: #0B88EE !important;*/
 }
 
 .bg-secondary {
@@ -2240,10 +2240,12 @@ blockquote {
 
 .ho-buttongroup .ho-button:not(:last-child) {
   margin-left: 10px;
+  
 }
 
 .ho-readmore {
-  color: #454545;
+    color: #454545;
+    font-size: 13px;
 }
 
 .ho-readmore:hover {
@@ -3688,20 +3690,20 @@ blockquote {
  */
 .featurebox {
   position: relative;
-  padding-right: 70px;
+  /*padding-right: 70px;
   padding-top: 20px;
+  max-width: 320px;*/
   padding-bottom: 15px;
-  max-width: 320px;
 }
 
 .featurebox i {
-  position: absolute;
-  right: 0;
+  /*position: absolute;
+  right: 0;*/
   top: 17px;
   font-size: 55px;
-  display: inline-block;
+  /*display: inline-block;
   height: auto;
-  height: 70px;
+  height: 70px;*/
   vertical-align: middle;
   color: #aaaaaa;
 }
@@ -4913,12 +4915,16 @@ only screen and (max-width: 767px) {
 }
 
 .blogitem2-content {
-  padding-top: 30px;
+  padding-top: 20px;
+  border-bottom:1px solid #EEE;
+  margin-bottom:8px;
+  padding-bottom:8px;
 }
 
 .blogitem2-content h4,
 .blogitem2-content h2 {
   margin-bottom: 7px;
+  font-size:19px;
 }
 
 .blogitem2-content h4 a,
@@ -4932,7 +4938,7 @@ only screen and (max-width: 767px) {
 }
 
 .blogitem2-content p {
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .blogitem2-meta {
@@ -4941,6 +4947,7 @@ only screen and (max-width: 767px) {
 
 .blogitem2-meta span {
   color: #7e7e7e;
+  font-size:10px;
 }
 
 .blogitem2-meta span:after {
@@ -8292,11 +8299,13 @@ h5.compare-product-name a:hover {
 
 .footer-widget ul li {
   list-style: none;
+  font-size:14px;
 }
 
 .footer-widget-title {
   text-transform: uppercase;
   margin-bottom: 25px;
+  font-size:16px;
 }
 
 .footer-widget.widget-info {
@@ -8381,9 +8390,14 @@ h5.compare-product-name a:hover {
   border-top: 1px solid #e5e5e5;
   padding: 20px 0;
 }
+.copyright{
+    font-size:12px;
+    color:#848484;
+}
 
 .footer-copyright .copyright {
-  margin-bottom: 0;
+    margin-bottom: 0;
+    text-align: center !important;
 }
 
 .footer-copyright .copyright a {

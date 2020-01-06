@@ -2,7 +2,7 @@
 @using DNTPersianUtils.Core
 
 @{
-    ViewData["Title"] = "بلاگ";
+    ViewData["Title"] = "خبرنامه";
 }
 
 <div class="breadcrumb-area bg-grey">
@@ -40,13 +40,16 @@
                                     <div class="blogitem2-content">
                                         <h4><a href="/Blog/NewsDetail/@item.Id">@item.Title</a></h4>
                                         <div class="blogitem2-meta">
-                                            @*<span>از: <a href="blog-rightsidebar.html">Admin</a></span>*@
-                                            <span>@item.Date.ToFriendlyPersianDateTextify()</span>
+                                            <span>
+                                                <i class="ion ion-md-calendar"></i>
+                                                @item.Date.ToPersianDateTextify()
+                                            </span>
                                             @*<span><a href="blog-rightsidebar.html">آموزشی</a></span>*@
                                         </div>
-                                        <p>@item.SummeryNews</p>
-
-                                        <a href="/Blog/NewsDetail/@item.Id" class="ho-readmore">ادامه ی مطلب</a>
+                                        <p>@Html.Raw(item.SummeryNews)</p>
+                                        <div class="col-12 text-center" style="padding-top:8px">
+                                            <a href="/Blog/NewsDetail/@item.Id" class="ho-readmore">ادامه‌ی مطلب</a>
+                                        </div>
                                     </div>
                                 </article>
                             </div>
@@ -86,10 +89,10 @@
                     <!--// Single Widget -->
 
                     <!-- Single Widget -->
-                    <div class="single-widget widget-tags">
+                    @*<div class="single-widget widget-tags">
                         <h3 class="widget-title">برچسب ها</h3>
                         @await Component.InvokeAsync("NewsTagsVC")
-                    </div>
+                    </div>*@
                     <!--// Single Widget -->
 
                 </div>

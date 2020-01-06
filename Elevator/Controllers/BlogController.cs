@@ -8,6 +8,7 @@ using DNTPersianUtils.Core;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using AutoMapper;
+using DataLayer.ViewModels.News;
 
 namespace Elevator.Controllers
 {
@@ -25,11 +26,15 @@ namespace Elevator.Controllers
 
         public async Task<IActionResult> Index(string searchKey = "")
         {
-            this.PageSize = 2;
+            //=========================================================================
+                NewsSearchViewModel searchModel = new NewsSearchViewModel();
+                searchModel.Title = searchKey;
+            //=========================================================================
 
-            var result = !String.IsNullOrEmpty(searchKey) ?
-            await _newsRepository.LoadAsyncCount<NewsDTO>(this.PageNumber, this.PageSize, x => x.Title.Contains(searchKey)) :
-            await _newsRepository.LoadAsyncCount<NewsDTO>(this.PageNumber, this.PageSize);
+            var result = await _newsRepository.LoadAsyncCount(
+                this.CurrentPage,
+                this.PageSize,
+                searchModel);
 
             this.TotalNumber = result.Item1;
             return View(result.Item2);
