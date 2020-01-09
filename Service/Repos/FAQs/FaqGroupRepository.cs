@@ -1,56 +1,34 @@
-﻿using DataLayer.Entities;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using DataLayer.DTO;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
-using DataLayer.ViewModels.SlideShow;
-using System.Threading.Tasks;
-using System;
 using Core.Utilities;
-using AutoMapper;
+using DataLayer.DTO.FAQs;
+using DataLayer.Entities.FAQs;
+using DataLayer.ViewModels.FaqGroup;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Service.Repos
+namespace Service.Repos.FAQs
 {
-    public class SlideShowRepository : GenericRepository<SlideShow>
+    public class FaqGroupRepository : GenericRepository<FaqGroup>
     {
-        private readonly DatabaseContext _context;   
-
-        public SlideShowRepository(DatabaseContext db) : base(db)
+        public FaqGroupRepository(DatabaseContext dbContext) : base(dbContext)
         {
-            this._context = db;
         }
 
 
-
-        /// <summary>
-        /// گرفتن 5 آیتم آخر این جدول
-        /// </summary>
-        /// <param name="count"></param>
-        public List<SlideShowDTO> GetLastItems(int count = 5)
-        {
-            
-            return this._context.SlideShow.Where(x => x.IsActive == true)
-                .ProjectTo<SlideShowDTO>()
-                .ToList();
-
-
-
-        }
-
-
-
-        public async Task<Tuple<int, List<SlideShowDTO>>> LoadAsyncCount(
+        public async Task<Tuple<int, List<FaqGroupDTO>>> LoadAsyncCount(
            int skip = -1,
            int take = -1,
-           SlideShowSearchViewModel model = null)
+           FaqGroupSearchViewModel model = null)
         {
-            var query = Entities.ProjectTo<SlideShowDTO>();
+            var query = Entities.ProjectTo<FaqGroupDTO>();
 
             if (!string.IsNullOrEmpty(model.Title))
                 query = query.Where(x => x.Title.Contains(model.Title));
-
             
 
             int Count = query.Count();
@@ -64,7 +42,7 @@ namespace Service.Repos
             if (take != -1)
                 query = query.Take(take);
 
-            return new Tuple<int, List<SlideShowDTO>>(Count, await query.ToListAsync());
+            return new Tuple<int, List<FaqGroupDTO>>(Count, await query.ToListAsync());
         }
 
 
@@ -74,19 +52,12 @@ namespace Service.Repos
         /// </summary>
         /// <param name="model">مدلی که از سمت کلاینت در حال پاس دادن آن هستیم</param>
         /// <returns></returns>
-        public async Task<SweetAlertExtenstion> AddAsync(SlideShowInsertViewModel model)
+        public async Task<SweetAlertExtenstion> AddAsync(FaqGroupInsertViewModel model)
         {
 
             try
             {
-                var entity = Mapper.Map<SlideShow>(model);
-
-                #region ذخیره فایل مورد نظر
-
-                entity.ImgAddress = MFile.Save(model.ImageFile, "Uploads/SlideShow");
-
-                #endregion
-
+                var entity = Mapper.Map<FaqGroup>(model);
                 await AddAsync(entity);
                 return SweetAlertExtenstion.Ok();
             }
@@ -98,31 +69,18 @@ namespace Service.Repos
         }
 
 
+
         /// <summary>
         /// ثبت یک آیتم در جدول مورد نظر
         /// </summary>
         /// <param name="model">مدلی که از سمت کلاینت در حال پاس دادن آن هستیم</param>
         /// <returns></returns>
-        public async Task<SweetAlertExtenstion> UpdateAsync(SlideShowUpdateViewModel model)
+        public async Task<SweetAlertExtenstion> UpdateAsync(FaqGroupUpdateViewModel model)
         {
 
             try
             {
-                var entity = Mapper.Map<SlideShow>(model);
-
-                #region ذخیره فایل مورد نظر
-
-                if (model.ImageFile != null)
-                {
-                    //حذف فایل قبلی
-                    MFile.Delete(entity.ImgAddress);
-                    // ذخیره فایل جدید
-                    entity.ImgAddress = MFile.Save(model.ImageFile, "Uploads/SlideShow");
-
-                }
-
-                #endregion
-
+                var entity = Mapper.Map<FaqGroup>(model);
                 await UpdateAsync(entity);
                 return SweetAlertExtenstion.Ok();
             }
@@ -145,7 +103,6 @@ namespace Service.Repos
             try
             {
                 var entity = await GetByIdAsync(Id);
-                MFile.Delete(entity.ImgAddress);
                 await DeleteAsync(entity);
                 return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
             }
@@ -155,7 +112,5 @@ namespace Service.Repos
             }
 
         }
-
-
     }
 }

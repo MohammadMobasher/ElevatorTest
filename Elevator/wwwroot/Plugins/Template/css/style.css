@@ -6329,6 +6329,7 @@ only screen and (max-width: 767px) {
 
 .ho-navigation ul li a {
   color: #454545;
+
 }
 
 .ho-navigation>ul {
@@ -6348,7 +6349,7 @@ only screen and (max-width: 767px) {
   margin: 0 2px;
   padding: 5px 20px;
   height: 40px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: white;
   background: transparent;

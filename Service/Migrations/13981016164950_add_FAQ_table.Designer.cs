@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("13981016164950_add_FAQ_table")]
+    partial class add_FAQ_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,7 +71,7 @@ namespace Service.Migrations
                     b.ToTable("Dependency");
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.FAQs.FAQ", b =>
+            modelBuilder.Entity("DataLayer.Entities.FAQ", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,33 +79,13 @@ namespace Service.Migrations
 
                     b.Property<string>("AnswerText");
 
-                    b.Property<int>("FaqGroupId");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("QuestionText");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FaqGroupId");
-
                     b.ToTable("FAQ");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.FAQs.FaqGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Icon")
-                        .HasMaxLength(60);
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FaqGroup");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.FactorAndPackage", b =>
@@ -726,14 +708,6 @@ namespace Service.Migrations
                     b.HasOne("DataLayer.Entities.Condition", "Condition")
                         .WithMany()
                         .HasForeignKey("ConditionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.FAQs.FAQ", b =>
-                {
-                    b.HasOne("DataLayer.Entities.FAQs.FaqGroup", "FaqGroup")
-                        .WithMany()
-                        .HasForeignKey("FaqGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

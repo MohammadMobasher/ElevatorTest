@@ -1,5 +1,6 @@
 ﻿using Core.Utilities;
 using DataLayer.Entities;
+using DataLayer.Entities.FAQs;
 using DataLayer.Entities.Common;
 using DataLayer.Entities.Users;
 using DataLayer.Entities.Warehouse;
@@ -25,6 +26,8 @@ namespace Service
         #region Tables
 
         public DbSet<Feature> Feature { get; set; }
+        public DbSet<FAQ> FAQ { get; set; }
+        public DbSet<FaqGroup> FaqGroup { get; set; }
         public DbSet<FeatureItem> FeatureItem { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Warehouse> Warehouse { get; set; }

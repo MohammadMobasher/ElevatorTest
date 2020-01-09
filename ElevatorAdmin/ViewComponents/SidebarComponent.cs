@@ -30,6 +30,7 @@ namespace ElevatorAdmin.ViewComponents
             items.Add(new SidebarViewModel { Controller = "UserManage", Action = "Index", Title = "مدیریت کاربران", Icon = "fa fa-user" });
             items.Add(new SidebarViewModel { Controller = "RoleManage", Action = "Index", Title = "مدیریت نقش ها", Icon = "fa fa-users" });
             items.Add(new SidebarViewModel { Area = "SlideShow", Controller = "ManageSlideShow", Action = "Index", Title = "مدیریت اسلایدشو", Icon = "fa fa-sliders" });
+            
             items.Add(new SidebarViewModel { Controller = "", Action = "", Title = "مدیریت محصولات", Icon = "fa fa-cubes",
                 Childs = new List<SidebarChildViewModel> {
                     new SidebarChildViewModel {Area = "ProductGroup", Controller = "ManageProductGroup", Action = "Index", Title = "مدیریت گروه‌ها" },
@@ -45,7 +46,23 @@ namespace ElevatorAdmin.ViewComponents
                     }
                 }
                 );
-            
+
+            items.Add(
+                new SidebarViewModel
+                {
+                    Controller = "",
+                    Action = "",
+                    Title = "سوالات پرتکرار",
+                    Icon = "fa fa-question",
+                    Childs = new List<SidebarChildViewModel> {
+                        new SidebarChildViewModel {Area = "FAQ", Controller = "ManageFAQ", Action = "Index", Title = "مدیریت سوالات" },
+                        new SidebarChildViewModel {Area = "FaqGroup", Controller = "ManageFaqGroup", Action = "Index", Title = "مدیریت گروه‌ها" },
+                        
+                    }
+                }
+                );
+
+
             //ViewBag.Controller = controller;
             //ViewBag.Action = action;
             //ViewBag.Icon = icon;

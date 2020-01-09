@@ -1,0 +1,25 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<form id="frm" action="/FaqGroup/ManageFaqGroup/Insert" class="form-horizontal" method="post" style="">
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-3">عنوان گروه <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان گروه" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Icon" class="control-label col-sm-3">آیکون <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" required="required" name="Icon" aria-describedby="Icon" placeholder="آیکون" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-success" id="sbtForm">ثبت</button>
+
+</form>
