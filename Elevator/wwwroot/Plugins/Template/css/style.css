@@ -2582,7 +2582,7 @@ blockquote {
  */
 .ho-breadcrumb ul {
   display: inline-block;
-  padding: 15px 0;
+  padding: 13px 0;
   margin-bottom: 0;
   padding-right: 0;
   font-size: 0;
@@ -2592,7 +2592,7 @@ blockquote {
   color: #454545;
   display: inline-block;
   padding: 8px 0;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .ho-breadcrumb ul li::after {
@@ -8300,13 +8300,13 @@ h5.compare-product-name a:hover {
 
 .footer-widget ul li {
   list-style: none;
-  font-size:14px;
+  font-size:13px;
 }
 
 .footer-widget-title {
   text-transform: uppercase;
   margin-bottom: 25px;
-  font-size:16px;
+  font-size:15px;
 }
 
 .footer-widget.widget-info {

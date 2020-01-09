@@ -10,7 +10,7 @@
 
 <style>
 
-    .ddd {
+    .title-FaqGroup {
     }
 </style>
 
@@ -46,8 +46,8 @@
                                 <div class="col-lg-8 col-md-8 col-sm-8">
                                     <input type="text" class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="پرسش خود را جستجو کنید" />
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:5px">
-                                    <input type="button" class="btn btn-success" value="جستجو" />
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <input type="button" class="btn btn-success" value="جستجو" style="height: 50px;" />
                                 </div>
                             </div>
                         </div>
@@ -61,8 +61,13 @@
         </div>
 
         <div class="col-lg-12 border" style=" margin-bottom:30px; padding-top:30px">
-            <div class="col-lg-12 col-md-12 col-xs-12 col-xl-12">
-                <h5>دسته بندی سوالات</h5>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-xs-4 col-xl-2 border-bottom border-danger pb-3">
+                        <h5>دسته بندی سوالات</h5>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-xs-8 col-xl-10 border-bottom pb-10"></div>
+                </div>
             </div>
             <div class="row" style=" padding-bottom:30px">
                 @foreach (FaqGroupDTO item in Model)
