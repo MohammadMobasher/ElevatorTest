@@ -61,6 +61,11 @@ namespace DataLayer.Entities
         /// تگ
         /// </summary>
         public string Tags { get; set; }
+
+        /// <summary>
+        /// فعال  / غیرفعال
+        /// </summary>
+        public bool? IsActive { get; set; }
         #region Join
 
         [ForeignKey(nameof(ProductGroupId))]

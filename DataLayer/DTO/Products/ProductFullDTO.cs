@@ -53,6 +53,8 @@ namespace DataLayer.DTO.Products
         /// تگ
         /// </summary>
         public string Tags { get; set; }
+
+        public bool? IsActive { get; set; }
         #region Join
 
         public virtual ProductGroup ProductGroup { get; set; }
