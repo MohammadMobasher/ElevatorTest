@@ -163,5 +163,14 @@ namespace Service.Repos
 
                           }).ToListAsync();
         }
+
+
+        public async Task ChangeStateProduct(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            model.IsActive = !model.IsActive;
+            await UpdateAsync(model);
+        }
     }
 }

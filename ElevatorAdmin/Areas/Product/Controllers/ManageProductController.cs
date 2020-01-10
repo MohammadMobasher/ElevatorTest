@@ -246,6 +246,15 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         #endregion
 
+        #region فعال / غیرفعال
 
+        public async Task<IActionResult> ChangeState(int id)
+        {
+            await _productRepostitory.ChangeStateProduct(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        #endregion
     }
 }

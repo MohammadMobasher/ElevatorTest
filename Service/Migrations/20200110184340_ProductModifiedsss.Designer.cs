@@ -3,19 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200110184340_ProductModifiedsss")]
+    partial class ProductModifiedsss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -67,43 +69,6 @@ namespace Service.Migrations
                     b.HasIndex("ConditionId");
 
                     b.ToTable("Dependency");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.FAQs.FAQ", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AnswerText");
-
-                    b.Property<int>("FaqGroupId");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<string>("QuestionText");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FaqGroupId");
-
-                    b.ToTable("FAQ");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.FAQs.FaqGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Icon")
-                        .HasMaxLength(60);
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FaqGroup");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.FactorAndPackage", b =>
@@ -282,8 +247,6 @@ namespace Service.Migrations
                     b.Property<int>("DisLike");
 
                     b.Property<string>("IndexPic");
-
-                    b.Property<bool>("IsActive");
 
                     b.Property<int>("Like");
 
@@ -573,21 +536,6 @@ namespace Service.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.Users.UserTokens", b =>
-                {
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("LoginProvider");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens");
-                });
-
             modelBuilder.Entity("DataLayer.Entities.Users.Users", b =>
                 {
                     b.Property<int>("Id")
@@ -669,6 +617,21 @@ namespace Service.Migrations
                     b.ToTable("UsersAccess");
                 });
 
+            modelBuilder.Entity("DataLayer.Entities.Users.UserTokens", b =>
+                {
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
             modelBuilder.Entity("DataLayer.Entities.Warehouse.Warehouse", b =>
                 {
                     b.Property<int>("Id")
@@ -728,14 +691,6 @@ namespace Service.Migrations
                     b.HasOne("DataLayer.Entities.Condition", "Condition")
                         .WithMany()
                         .HasForeignKey("ConditionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.FAQs.FAQ", b =>
-                {
-                    b.HasOne("DataLayer.Entities.FAQs.FaqGroup", "FaqGroup")
-                        .WithMany()
-                        .HasForeignKey("FaqGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -875,19 +830,19 @@ namespace Service.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.Users.UserTokens", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Users.Users")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("DataLayer.Entities.Users.UsersAccess", b =>
                 {
                     b.HasOne("DataLayer.Entities.Users.Roles", "Roles")
                         .WithMany()
                         .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Users.UserTokens", b =>
+                {
+                    b.HasOne("DataLayer.Entities.Users.Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
