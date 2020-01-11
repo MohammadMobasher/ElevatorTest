@@ -76,7 +76,7 @@ namespace Service.Repos.User
         {
             foreach (var item in vm)
             {
-                if (!string.IsNullOrEmpty(item.Controller))
+                if (!string.IsNullOrEmpty(item.Controller) && item.Actions!=null)
                 {
                     Add(new UsersAccess()
                     {
@@ -112,7 +112,7 @@ namespace Service.Repos.User
 
             foreach (var item in vm)
             {
-                if (!string.IsNullOrEmpty(item.Controller))
+                if (!string.IsNullOrEmpty(item.Controller) && item.Actions !=null)
                 {
                     Add(new UsersAccess()
                     {
