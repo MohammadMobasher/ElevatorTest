@@ -55,7 +55,6 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
 
 
         [ActionRole("ثبت ویژگی جدید")]
-        [HasAccess]
         public async Task<IActionResult> Insert()
         {
 
@@ -84,7 +83,6 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
 
 
         [ActionRole("ویرایش ویژگی")]
-        [HasAccess]
         public async Task<IActionResult> Update(int Id)
         {
             var result = await _featureRepository.GetByIdAsync(Id);
