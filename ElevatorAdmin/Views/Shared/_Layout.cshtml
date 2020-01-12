@@ -217,9 +217,9 @@
             <div class="sidebar-inner slimscrollleft">
                 <div class="user-box">
                     <div class="user-img">
-                        <img src="/@User.Identity.FindFirstValue("UserProfile")"  alt="user-profile" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
+                        <img src="/@User.Identity.FindFirstValue("UserProfile")"  alt="user-profile" title="Mat Helme" class="img-circle img-thumbnail img-responsive UserPicture">
                     </div>
-                    <h5>علی یدالهی</h5>
+                    <h5>@User.Identity.FindFirstValue("FullName")</h5>
                     <ul class="list-inline">
                         <li>
                             <a asp-controller="Account" asp-action="Logout" class="text-custom" data-toggle="tooltip" data-role="confirm" title="خروج">

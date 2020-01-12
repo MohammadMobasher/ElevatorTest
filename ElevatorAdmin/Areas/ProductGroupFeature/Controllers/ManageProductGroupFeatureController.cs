@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.CustomAttributes;
 using Core.Utilities;
+using DataLayer.DTO;
+using DataLayer.ViewModels;
 using DataLayer.ViewModels.ProductGroupFeature;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos.Product;
@@ -68,6 +70,29 @@ namespace ElevatorAdmin.Areas.ProductGroupFeature.Controllers
             TempData.AddResult(await _productGroupFeatureRepository.AddAsync(model));
 
             return RedirectToAction("Index", new { Id = model.ProductGroupId });
+        }
+
+        #endregion
+
+
+        #region حذف
+
+        [ActionRole("حذف واحد")]
+        [HasAccess]
+        public async Task<IActionResult> Delete(int Id, int GroupId)
+        {
+            ViewBag.GroupId = GroupId;
+            return View(new DeleteDTO { Id = Id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteViewModel model)
+        {
+
+            var result = await _productGroupFeatureRepository.DeleteAsync(model.Id);
+            TempData.AddResult(result);
+
+            return RedirectToAction("Index", new { Id = model.GroupId});
         }
 
         #endregion

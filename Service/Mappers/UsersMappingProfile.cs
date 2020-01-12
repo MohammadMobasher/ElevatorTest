@@ -14,6 +14,7 @@ namespace Service.Mappers
         public UsersMappingProfile()
         {
             CreateMap<Users, RegisterViewModel>().ReverseMap();
+            CreateMap<Users, RegisterUserAdminViewModel>().ReverseMap();
             CreateMap<Users, UsersManageDTO>().ReverseMap();
 
             CreateMap<UserRoles, SetUserRoleViewModel>().ReverseMap();

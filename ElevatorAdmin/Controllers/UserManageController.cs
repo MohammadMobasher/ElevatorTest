@@ -15,6 +15,7 @@ using WebFramework.SmsManage;
 using DataLayer.Entities.Users;
 using Microsoft.AspNetCore.Http;
 using DataLayer.DTO.RolesDTO;
+using System;
 
 namespace ElevatorAdmin.Controllers
 {
@@ -22,18 +23,22 @@ namespace ElevatorAdmin.Controllers
     public class UserManageController : BaseAdminController
     {
         private readonly UserRepository _userRepository;
+        private readonly UserManager<Users> _userManager;
         private readonly UsersRoleRepository _usersRoleRepository;
         private readonly RoleRepository _roleRepository;
         private readonly SmsService _smsService;
 
         public UserManageController
-            (UserRepository userRepository
+            (UserRepository userRepository,
+            UserManager<Users> userManager
+
             , UsersRoleRepository usersRoleRepository
             , RoleRepository roleRepository
             , SmsService smsService
             , UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
         {
             _userRepository = userRepository;
+            _userManager = userManager;
             _usersRoleRepository = usersRoleRepository;
             _roleRepository = roleRepository;
             _smsService = smsService;
@@ -56,6 +61,73 @@ namespace ElevatorAdmin.Controllers
             return View(model.Item2);
             
         }
+
+        #region ثبت کاربر جدید 
+        [ActionRole("ثبت کاربر جدید")]
+        [HasAccess]
+        public async Task<IActionResult> NewUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NewUser(RegisterUserAdminViewModel vm)
+        {
+
+            if(vm.Password != vm.RePassword)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور با تکرار آن یکسان نیست"));
+                return RedirectToAction("Index");
+            }
+
+            var user = AutoMapper.Mapper.Map<Users>(vm);
+            user.CreateDate = DateTime.Now;
+            user.IsActive = true;
+
+            
+
+            // درصورتی که چنین کاربری از قبل وجود نداشته باشد
+            var userResult = await _userRepository.GetByConditionAsync(x => x.UserName == vm.UserName);
+            
+
+            if (userResult == null)
+            {
+                var userResultPhoneNumber = await _userRepository.GetByConditionAsync(x => x.PhoneNumber == vm.PhoneNumber);
+                if (userResultPhoneNumber == null)
+                {
+                    var resultCreatUser = await _userManager.CreateAsync(user, vm.Password);
+                    // درصورتیکه کاربر مورد نظر با موفقیت ثبت شد آن را لاگین میکنیم
+                    if (resultCreatUser.Succeeded)
+                    {
+                        TempData.AddResult(SweetAlertExtenstion.Ok());
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این شماره تلفن از قبل وجود دارد"));
+                    return RedirectToAction("Index");
+                }
+                //else
+                //{
+                //    if (resultCreatUser.Errors.Any(a => a.Code.Contains("DuplicateEmail")))
+                //    {
+                //        ViewBag.ErrorMessages = "ایمیل وارد شده تکراری می باشد";
+                //    }
+
+                //    TempData.AddResult(SweetAlertExtenstion.Error("عملیات با خطا مواجه شد لطفا مجددا تلاش نمایید"));
+                //    return View(model);
+                //}
+            }
+            else
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("چنین کاربری از قبل وجود دارد"));
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
+
+        #endregion
 
         #region دسترسی دادن به کاربران
 

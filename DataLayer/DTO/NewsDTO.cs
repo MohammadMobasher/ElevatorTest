@@ -37,6 +37,8 @@ namespace DataLayer.DTO
         /// </summary>
         public int ViewCount { get; set; } = 0;
 
+        public string ImageAddress { get; set; }
+
 
         /// <summary>
         /// برچسب‌های خبر

@@ -104,8 +104,8 @@ namespace Elevator.Controllers
 
                 var user = AutoMapper.Mapper.Map<Users>(model);
 
-                var userResult = await _userRepository.GetByConditionAsync(x => x.UserName == model.UserName);
                 // درصورتی که چنین کاربری از قبل وجود نداشته باشد
+                var userResult = await _userRepository.GetByConditionAsync(x => x.UserName == model.UserName);
 
                 if (userResult == null)
                 {

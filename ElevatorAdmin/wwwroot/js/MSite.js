@@ -1,4 +1,12 @@
-﻿
+﻿//برای زمانی که روی دکمه ایی میزنیم تا یک مودال باز شود استفاده می شود
+// بعد از این اون عنوان دیگر نمایش داده نمی شود
+$(function () {
+    $('[data-toggle="tooltip"]').click(function () {
+        $(this).tooltip("hide");
+
+    });
+});
+//=================================================================================
 // Read a page's GET URL variables and return them as an associative array.
 function getUrlVars() {
     var vars = [], hash;

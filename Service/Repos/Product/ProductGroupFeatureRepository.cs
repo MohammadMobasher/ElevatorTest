@@ -50,6 +50,7 @@ namespace Service.Repos.Product
 
             int Count = query.Count();
 
+            query = query.OrderByDescending(x => x.Id);
 
             if (skip != -1)
                 query = query.Skip((skip - 1) * take);
@@ -86,6 +87,26 @@ namespace Service.Repos.Product
                                }).ToListAsync();
 
             return query;
+        }
+
+
+        /// <summary>
+        /// حذف یک آیتم از این جدول
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> DeleteAsync(int id)
+        {
+            try
+            {
+                var entity = new ProductGroupFeature { Id = id };
+                await DeleteAsync(entity);
+                return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
         }
 
 

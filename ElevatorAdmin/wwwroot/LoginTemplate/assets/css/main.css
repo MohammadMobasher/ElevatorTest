@@ -1950,7 +1950,8 @@ footer.main-footer .copyright p {
     color: #717171;
     font-size: 14px;
     line-height: 1.571;
-    padding: 11px 12px;
+    padding: 11px 50px;
+    padding-left : 0px !important;
     width: 100%;
     letter-spacing: -.8px;
     text-align: left;

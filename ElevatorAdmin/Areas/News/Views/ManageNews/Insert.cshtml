@@ -13,77 +13,74 @@
 
 <form class="form-horizontal" method="post" style="" enctype="multipart/form-data">
 
-    <div class="form-group">
-        <label for="Title" class="control-label col-sm-2">عنوان خبر <i class="text-danger fa fa-star size-8"></i></label>
-        <div class="col-sm-10">
-            <textarea class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان خبر"></textarea>
+    <div class="col-12">
+        <div class="container">
+
+            <div class="form-group">
+                <label for="Title" class="control-label col-sm-2">عنوان خبر <i class="text-danger fa fa-star size-8"></i></label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان خبر"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Text" class="control-label col-sm-2">متن خبر <i class="text-danger fa fa-star size-8"></i></label>
+                <div class="col-sm-10">
+                    <textarea name="Description" id="Description" class="form-control" placeholder="متن خبر" aria-describedby="Description" required="required"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SummeryNews" class="control-label col-sm-2">خلاصه خبر <i class="text-danger fa fa-star size-8"></i></label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" required="required" name="SummeryNews" aria-describedby="Title" placeholder="خلاصه خبر"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Text" class="control-label col-sm-2">دسته بندی خبر <i class="text-danger fa fa-star size-8"></i></label>
+                <div class="col-sm-10">
+                    <select name="NewsGroupId" required="required" class="form-control form-control-lg">
+                        <option>لطفا انتخاب کنید</option>
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.Id">@item.Title</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Text" class="control-label col-sm-2">عکس خبر <i class="text-danger fa fa-star size-8"></i></label>
+                <div class="col-sm-10">
+                    <input name="ImageFile"
+                           required
+                           type="file" class="dropify"
+                           data-show-loader="true"
+                           accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
+                           id="ImageAddress" size="50">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Tags" class="control-label col-sm-2">تگ‌های خبر <i class="text-danger fa fa-star size-8"></i></label>
+                <div class="col-sm-10">
+                    <input type="text" required="required" value="" name="Tags" data-role="tagsinput" placeholder="افزودن تگ جدید" />
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-block btn-success">ثبت</button>
+
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    CKEDITOR.replace('Description');
+
+                });
+            </script>
         </div>
     </div>
-
-    <div class="form-group">
-        <label for="Text" class="control-label col-sm-2">متن خبر <i class="text-danger fa fa-star size-8"></i></label>
-        <div class="col-sm-10">
-            <textarea name="Description" id="Description" class="form-control" placeholder="متن خبر" aria-describedby="Description" required="required"></textarea>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="SummeryNews" class="control-label col-sm-2">خلاصه خبر <i class="text-danger fa fa-star size-8"></i></label>
-        <div class="col-sm-10">
-            <textarea class="form-control" required="required" name="SummeryNews" aria-describedby="Title" placeholder="خلاصه خبر"></textarea>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="Text" class="control-label col-sm-2">دسته بندی خبر <i class="text-danger fa fa-star size-8"></i></label>
-        <div class="col-sm-10">
-            <select name="NewsGroupId" required="required" class="form-control form-control-lg">
-                <option>لطفا انتخاب کنید</option>
-                @foreach (var item in Model)
-                {
-                    <option value="@item.Id">@item.Title</option>
-                }
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="Text" class="control-label col-sm-2">عکس خبر <i class="text-danger fa fa-star size-8"></i></label>
-        <div class="col-sm-10">
-            <input name="ImageFile"
-                   required 
-                   type="file" class="dropify"
-                   data-show-loader="true"
-                   accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
-                   id="ImageAddress" size="50">
-
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="Tags" class="control-label col-sm-2">تگ‌های خبر <i class="text-danger fa fa-star size-8"></i></label>
-        <div class="col-sm-10">
-            <input type="text" required="required" value="" name="Tags" data-role="tagsinput" placeholder="افزودن تگ جدید" />
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-block btn-success">ثبت</button>
-
-
-    <script>
-        
-
-
-
-    </script>
-
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            CKEDITOR.replace('Description');
-
-        });
-    </script>
 </form>
 
 
