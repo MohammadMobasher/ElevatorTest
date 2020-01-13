@@ -119,6 +119,28 @@ namespace Service.Repos.Product
         /// <summary>
         /// حذف یک آیتم بر اساس شماره ویژگی و شماره محصول
         /// </summary>
+        /// <param name="FeatureId"></param>
+        /// <param name="ProductId"></param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> DeleteAsync(int FeatureId)
+        {
+            try
+            {
+                var entity = await Entities.Where(x=> x.FeatureId == FeatureId).ToListAsync();
+                await DeleteRangeAsync(entity);
+                return SweetAlertExtenstion.Ok();
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
+
+
+
+        /// <summary>
+        /// حذف یک آیتم بر اساس شماره ویژگی و شماره محصول
+        /// </summary>
         /// <param name="items"></param>
         /// <returns></returns>
         public async Task<SweetAlertExtenstion> DeleteAsync(List<ProductFeatureDeleteFeatureIdProductId> items)
