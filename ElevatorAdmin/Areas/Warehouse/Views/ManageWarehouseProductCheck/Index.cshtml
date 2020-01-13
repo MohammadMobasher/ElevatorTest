@@ -1,5 +1,6 @@
-﻿@model List<DataLayer.DTO.WarehouseDTO.WarehouseFullDTO>
+﻿@model List<DataLayer.DTO.WarehouseProductCheckDTO.WarehouseProductCheckFullDTO>
 @using Core.Utilities
+@using DNTPersianUtils.Core
 @{
     ViewData["Title"] = "لیست گروه‌های کالا";
 }
@@ -9,21 +10,19 @@
 
 
 
-    <TableBotton area="Warehouse" controller="ManageWarehouse" action="Insert"
+    <TableBotton area="Warehouse" controller="ManageWarehouseProductCheck" action="Insert"
                  isModal="true"
                  modalTitle="ثبت جدید"
                  title="ثبت"
                  icon="fa-plus"
+                 querystring="id=@ViewBag.WarehouseId"
                  buttonClass="btn-primary"></TableBotton>
 
     <span class="hidden" data-role-table-btn-area-access="">
 
-        <TableBotton area="Warehouse" controller="ManageWarehouseProductCheck" action="Index"
-                     title="جزئیات"
-                     icon="fa-pencil-square-o"
-                     buttonClass="btn-success"></TableBotton>
 
-        <TableBotton area="Warehouse" controller="ManageWarehouse" action="Update"
+
+        @*<TableBotton area="Warehouse" controller="ManageWarehouse" action="Update"
                      isModal="true"
                      modalTitle="ویرایش آیتم"
                      title="ویرایش"
@@ -38,7 +37,7 @@
         <TableBotton area="ProductGroup" controller="ManageProductGroup" action="Delete"
                      title="ارسال پیامک به انبار"
                      icon="fa-paper-plane"
-                     buttonClass="btn-primary"></TableBotton>
+                     buttonClass="btn-primary"></TableBotton>*@
 
     </span>
 </div>
@@ -54,8 +53,10 @@
                     ردیف
                 </th>
                 <th>عنوان انبار</th>
-                <th>منطقه</th>
-                <th>شماره تماس</th>
+                <th>عنوان محصول</th>
+                <th>ورودی/خروجی</th>
+                <th>تعداد</th>
+                <th width="200">تاریخ</th>
             <tr>
                 <form method="post">
                     <th>
@@ -65,8 +66,10 @@
                         ---
                     </th>
                     <th><input type="text"  name="Title" class="form-control searchInput" /></th>
-                    <th><input type="text" name="Region" class="form-control searchInput" /></th>
-                    <th><input type="text" name="PhoneNumber" class="form-control searchInput" /></th>
+                    <th><input type="text" name="ProductTitle" class="form-control searchInput" /></th>
+                    <th><input type="text" name="TypeSSOt" class="form-control searchInput" /></th>
+                    <th><input type="text" name="Count" class="form-control searchInput" /></th>
+                    <th>---</th>
                     <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
                 </form>
             </tr>
@@ -88,18 +91,12 @@
                         <tr>
                             <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
                             <td>@(index++)</td>
-                            <td>@item.Title</td>
-                            <td>منطقه @item.Region.ToString().En2Fa()</td>
-                            <td>@item.PhoneNumber.En2Fa()</td>
-                            @*<td>
-                                    <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
-                                        <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
-                                    </a>
-
-                                    <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
-                                        <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
-                                    </a>
-                                </td>*@
+                            <td>@item.Warehouse.Title</td>
+                            <td>@item.Product.Title</td>
+                            <td>@item.TypeSSOt.ToDisplay()</td>
+                            <td>@item.Count.ToString().En2Fa()</td>
+                            <td>@item.Date.ToPersianDateTextify()</td>
+                   
                         </tr>
                     }
                 }

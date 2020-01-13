@@ -7,6 +7,10 @@ namespace DataLayer.ViewModels.WarehouseProductChecks
 {
     public class WarehouseProductCheckInsertViewModel
     {
+        public WarehouseProductCheckInsertViewModel()
+        {
+            Date = DateTime.Now;
+        }
         public int WarehouseId { get; set; }
 
         public int ProductId { get; set; }
