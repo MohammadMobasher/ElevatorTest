@@ -100,16 +100,26 @@ namespace Service.Repos
             }
         }
 
+        /// <summary>
+        /// ویرایش یک ویژگی 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="vmItems"></param>
+        /// <returns></returns>
         public async Task<SweetAlertExtenstion> UpdateAsync(FeatureUpdateViewModel model, FeatureItemsViewModel vmItems)
         {
             try
             {
                 var entity = await GetByIdAsync(model.Id);
                 entity = (Feature)Mapper.Map(model, entity, typeof(FeatureUpdateViewModel), typeof(Feature));
-                //ویرایش آیتم‌‌ها
-                await _featureItemRepository.UpdateAsync(model.Id, vmItems.Items);
-                // حذف این ویژگی برای تمام محصولات
-                await _productFeatureRepository.DeleteAsync(model.Id);
+
+                if (vmItems != null && vmItems.Items.Count > 0)
+                {
+                    //ویرایش آیتم‌‌ها
+                    await _featureItemRepository.UpdateAsync(model.Id, vmItems.Items);
+                    // حذف این ویژگی برای تمام محصولات
+                    await _productFeatureRepository.DeleteAsync(model.Id);
+                }
 
                 await DbContext.SaveChangesAsync();
                 return SweetAlertExtenstion.Ok();
