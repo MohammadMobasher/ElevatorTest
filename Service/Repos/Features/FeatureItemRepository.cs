@@ -35,6 +35,51 @@ namespace Service.Repos
         }
 
 
+        /// <summary>
+        /// ویرایش آیتم‌های یک ویژگی 
+        /// ابتدا مقادیر قبلی را حذف 
+        /// سپس مقادیر جدید را ثبت میکنیم 
+        /// </summary>
+        /// <param name="featureId">شماره ویژگی </param>
+        /// <param name="Items">ایتم‌های جدید</param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> UpdateAsync(int featureId, List<string> Items)
+        {
+            try
+            {
+                var featureItems = await Entities.Where(x => x.FeatureId == featureId).ToListAsync();
+                DbContext.RemoveRange(featureItems);
+                // درصورتی که آیتمی را دوباره برای ثبت کاربر ارسال کرده باشد
+                if (Items != null && Items.Count > 0)
+                {
+                    //==========================================
+                    List<FeatureItem> newItems = new List<FeatureItem>();
+                    //==========================================
+
+                    foreach (var item in Items)
+                    {
+                        newItems.Add(new FeatureItem()
+                        {
+                            FeatureId = featureId,
+                            Value = item
+                        });
+                    }
+
+                    await AddRangeAsync(newItems);
+                }
+
+                return SweetAlertExtenstion.Ok();
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
+
+
+
+
+
         public async Task<List<FeatureItem>> GetAllFeatureItemByFeatureId(int featureId)
             => await TableNoTracking.Where(a => a.FeatureId == featureId).ToListAsync();
         

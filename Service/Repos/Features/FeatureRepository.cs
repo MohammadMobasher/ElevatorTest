@@ -16,10 +16,12 @@ namespace Service.Repos
 {
     public class FeatureRepository : GenericRepository<Feature>
     {
+        private readonly FeatureItemRepository _featureItemRepository;
 
-        public FeatureRepository(DatabaseContext dbContext) : base(dbContext)
+        public FeatureRepository(DatabaseContext dbContext,
+            FeatureItemRepository featureItemRepository)  : base(dbContext)
         {
-
+            _featureItemRepository = featureItemRepository;
         }
 
 
@@ -94,16 +96,15 @@ namespace Service.Repos
             }
         }
 
-        public async Task<SweetAlertExtenstion> UpdateAsync(FeatureUpdateViewModel model)
+        public async Task<SweetAlertExtenstion> UpdateAsync(FeatureUpdateViewModel model, FeatureItemsViewModel vmItems)
         {
             try
             {
                 var entity = await GetByIdAsync(model.Id);
-
                 entity = (Feature)Mapper.Map(model, entity, typeof(FeatureUpdateViewModel), typeof(Feature));
-
-
-
+                //ویرایش آیتم‌‌ها
+                await _featureItemRepository.UpdateAsync(model.Id, vmItems.Items);
+                
                 await DbContext.SaveChangesAsync();
                 return SweetAlertExtenstion.Ok();
             }

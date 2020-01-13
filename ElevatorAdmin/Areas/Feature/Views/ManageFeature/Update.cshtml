@@ -70,16 +70,12 @@
     </div>
 
 
-
     <button type="submit" class="btn btn-block btn-success">ثبت</button>
 
+    <input type="hidden" name="d" value="@ViewBag.FeatureItems"/>
 
-    <script>
-
-    </script>
 </form>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
     Vue.component('multi-text', {
         // can be a function to retrieve template from html
@@ -94,7 +90,14 @@
         },
         // init with ajax to server to get data
         created: function () {
-            var v = Array.from(this.value);
+            var v = [];
+            $.get("/Feature/ManageFeature/GetAllFeatureByFeatureId/" + @(Model.Id)).then(function (response) {
+                     for (var i = 0; i < response.length; i++) {
+                         v.push({ "feature": response[i]["feature"]});
+                     }
+                     if (v.length > 0)
+                         $('#data-item').removeClass("hide");
+                 });
             this.values = v;
         },
         methods: {
@@ -118,22 +121,15 @@
         el: '#app',
         data: {
             students: [],
+            message: "mohammad mobasher"
+            //[{ "feature": "T3" }, { "feature": "T6" }, { "feature": "T9" }]
         },
          methods: {
-             GetFeature: function () {
-                 var id = @(Model.Id);
-                 $.get("/Feature/ManageFeature/GetAllFeatureByFeatureId/", { id: id }, function (result) {
-                     
-                     $.each(result, function (index, key) {
-                         this.students.push(key);
-                     })
-                     console.log(arr);
-                     this.students = arr;
-                 })
-             }
+             
         },
         beforeMount() {
-            this.GetFeature()
+
+
         },
     });
 </script>
@@ -147,7 +143,7 @@
 
             e.preventDefault();
             var featueType = $('[name="FeatureType"]').val();
-            debugger;
+
             if (featueType === "2") {
                 var inputs = $('.multi-text-item');
                 $.each(inputs, function (index, key) {

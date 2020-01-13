@@ -217,7 +217,7 @@
             <div class="sidebar-inner slimscrollleft">
                 <div class="user-box">
                     <div class="user-img">
-                        <img src="/@User.Identity.FindFirstValue("UserProfile")"  alt="user-profile" title="Mat Helme" class="img-circle img-thumbnail img-responsive UserPicture">
+                        <img src="/@User.Identity.FindFirstValue("UserProfile")"  alt="user-profile" title="@User.Identity.FindFirstValue("FullName")" data-toggle='tooltip' data-placement='bottom' class="img-circle img-thumbnail img-responsive UserPicture">
                     </div>
                     <h5>@User.Identity.FindFirstValue("FullName")</h5>
                     <ul class="list-inline">
@@ -254,7 +254,7 @@
         <script src="~/lib/laddaButton/spin.min.js"></script>
         <script src="~/lib/laddaButton/ladda.min.js"></script>
         <script src="~/lib/simple.money.format.js"></script>
-
+        <script src="~/lib/vue.js"></script>
         <input type="hidden" name="selectedRowInTable" />
 
         @Html.Partial("_Message.cshtml")
