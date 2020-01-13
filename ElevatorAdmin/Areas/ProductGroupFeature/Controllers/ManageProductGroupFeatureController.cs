@@ -23,13 +23,16 @@ namespace ElevatorAdmin.Areas.ProductGroupFeature.Controllers
 
         private readonly ProductGroupRepository _productGroupRepository;
         private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
+        private readonly ProductFeatureRepository _productFeatureRepository;
 
         public ManageProductGroupFeatureController(UsersAccessRepository usersAccessRepository,
             ProductGroupRepository productGroupRepository,
-            ProductGroupFeatureRepository productGroupFeatureRepository) : base(usersAccessRepository)
+            ProductGroupFeatureRepository productGroupFeatureRepository,
+            ProductFeatureRepository productFeatureRepository) : base(usersAccessRepository)
         {
             _productGroupRepository = productGroupRepository;
             _productGroupFeatureRepository = productGroupFeatureRepository;
+            _productFeatureRepository = productFeatureRepository;
         }
 
 
@@ -82,6 +85,17 @@ namespace ElevatorAdmin.Areas.ProductGroupFeature.Controllers
         public async Task<IActionResult> Delete(int Id, int GroupId)
         {
             ViewBag.GroupId = GroupId;
+
+            var item = await _productGroupFeatureRepository.GetByIdAsync(Id);
+
+            // تعداد گروه‌هایی که این ویژگی را دارند
+            // برای نمایش به کاربر برای اطمینان از حدف این آیتم
+            ViewBag.GroupNumHasFeature = await _productGroupFeatureRepository.NumberGroupHasFeature(item.FeatureId);
+
+            // تعداد محصولاتی که این ویژگی را دارند
+            // برای نمایش به کاربر برای اطمینان از حذف این آیتم
+            ViewBag.ProductNumHasFeatuer = await _productFeatureRepository.NumberProductHasFeature(item.FeatureId);
+            
             return View(new DeleteDTO { Id = Id });
         }
 

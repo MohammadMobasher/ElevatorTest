@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
+using DataLayer.Entities;
 using Core.Utilities;
 using DataLayer.DTO;
 using DataLayer.DTO.Feature;
 using DataLayer.DTO.FeatureItem;
 using DataLayer.DTO.ProductGroupFeature;
-using DataLayer.Entities;
+
 using DataLayer.ViewModels.ProductGroup;
 using DataLayer.ViewModels.ProductGroupFeature;
 using Microsoft.EntityFrameworkCore;
@@ -14,14 +14,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataLayer.ViewModels.Products;
 
 namespace Service.Repos.Product
 {
     public class ProductGroupFeatureRepository : GenericRepository<ProductGroupFeature>
     {
-        public ProductGroupFeatureRepository(DatabaseContext dbContext) : base(dbContext)
-        {
+        private readonly ProductFeatureRepository _productFeatureRepository;
+        private readonly ProductRepostitory _productRepostitory;
 
+        public ProductGroupFeatureRepository(DatabaseContext dbContext,
+            ProductFeatureRepository productFeatureRepository,
+            ProductRepostitory productRepostitory) : base(dbContext)
+        {
+            _productFeatureRepository = productFeatureRepository;
+            _productRepostitory = productRepostitory;
         }
 
         public async Task<Tuple<int, List<ProductGroupFeatureDTO>>> LoadAsyncCount(
@@ -99,14 +106,52 @@ namespace Service.Repos.Product
         {
             try
             {
-                var entity = new ProductGroupFeature { Id = id };
-                await DeleteAsync(entity);
+                //==============================================================================
+                // برای حذف ابتدا باید از داخل جدولی مقادیر مربوط به ویژگی‌ها برای محصولات است را 
+                // واکشی کرده وسپس پاک کنیم
+                // محصولاتی که اولا مربوط به آن گروه باشد دوما دارای آن ویژگی باشد
+                List<ProductFeatureDeleteFeatureIdProductId> ItemsForDelete = new List<ProductFeatureDeleteFeatureIdProductId>();
+                //==============================================================================
+
+                var entity = await GetByIdAsync(id);
+
+
+                // شماره محصولاتی که در این گروه قرار میگیرند
+                List<int> products = await _productRepostitory.GetProductIdsByGroupId(entity.ProductGroupId);
+                if(products != null)
+                {
+                    foreach (var item in products)
+                        ItemsForDelete.Add(new ProductFeatureDeleteFeatureIdProductId { ProductId = item, FeatureId = entity.FeatureId });
+                    var result = await _productFeatureRepository.DeleteAsync(ItemsForDelete);
+                    if (result.Succeed == true)
+                        await DeleteAsync(entity);
+                    else
+                        return SweetAlertExtenstion.Error();
+                }
+                
                 return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
             }
             catch
             {
                 return SweetAlertExtenstion.Error();
             }
+        }
+
+
+        /// <summary>
+        /// تعداد گروه‌هایی که یک ویژگی‌ خاص را دارند
+        /// </summary>
+        /// <param name="id">شماره ویژگی مورد نظر</param>
+        /// <returns></returns>
+        public async Task<int> NumberGroupHasFeature(int FeatureId)
+        {
+
+            var Groups = await Entities.Where(x => x.FeatureId == FeatureId).ToListAsync();
+            if (Groups == null)
+                return 0;
+            else
+                return Groups.Count;
+
         }
 
 
@@ -146,7 +191,7 @@ namespace Service.Repos.Product
 
 
         /// <summary>
-        
+
 
 
 

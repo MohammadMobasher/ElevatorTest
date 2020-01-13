@@ -11,15 +11,21 @@ using DataLayer.ViewModels.News;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using DataLayer.ViewModels.Feature;
+using Service.Repos.Product;
 
 namespace Service.Repos
 {
     public class FeatureRepository : GenericRepository<Feature>
     {
+        private readonly FeatureItemRepository _featureItemRepository;
+        private readonly ProductFeatureRepository _productFeatureRepository;
 
-        public FeatureRepository(DatabaseContext dbContext) : base(dbContext)
+        public FeatureRepository(DatabaseContext dbContext,
+            FeatureItemRepository featureItemRepository,
+            ProductFeatureRepository productFeatureRepository)  : base(dbContext)
         {
-
+            _featureItemRepository = featureItemRepository;
+            _productFeatureRepository = productFeatureRepository;
         }
 
 
@@ -94,15 +100,16 @@ namespace Service.Repos
             }
         }
 
-        public async Task<SweetAlertExtenstion> UpdateAsync(FeatureUpdateViewModel model)
+        public async Task<SweetAlertExtenstion> UpdateAsync(FeatureUpdateViewModel model, FeatureItemsViewModel vmItems)
         {
             try
             {
                 var entity = await GetByIdAsync(model.Id);
-
                 entity = (Feature)Mapper.Map(model, entity, typeof(FeatureUpdateViewModel), typeof(Feature));
-
-
+                //ویرایش آیتم‌‌ها
+                await _featureItemRepository.UpdateAsync(model.Id, vmItems.Items);
+                // حذف این ویژگی برای تمام محصولات
+                await _productFeatureRepository.DeleteAsync(model.Id);
 
                 await DbContext.SaveChangesAsync();
                 return SweetAlertExtenstion.Ok();

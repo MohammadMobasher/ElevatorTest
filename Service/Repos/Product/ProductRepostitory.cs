@@ -172,5 +172,16 @@ namespace Service.Repos
             model.IsActive = !model.IsActive;
             await UpdateAsync(model);
         }
+
+
+        /// <summary>
+        /// شماره محصولاتی که در یک گروه قرار دارد
+        /// </summary>
+        /// <param name="productGroupId">شماره گروه مورد نظر</param>
+        /// <returns></returns>
+        public async Task<List<int>> GetProductIdsByGroupId(int productGroupId)
+        {
+            return await Entities.Where(x => x.ProductGroupId == productGroupId).Select(x=> x.Id).ToListAsync();
+        }
     }
 }
