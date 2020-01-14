@@ -115,5 +115,14 @@ namespace Service.Repos.Product
             }
 
         }
+
+        /// <summary>
+        /// گرفتن تمام اطلاعات
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ProductGroupDTO>> GetAll()
+        {
+            return await Entities.AsNoTracking().ProjectTo<ProductGroupDTO>().ToListAsync();
+        }
     }
 }

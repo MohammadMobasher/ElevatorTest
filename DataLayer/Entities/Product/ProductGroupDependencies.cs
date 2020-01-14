@@ -7,13 +7,13 @@ using System.Text;
 
 namespace DataLayer.Entities
 {
-    public class Dependency : BaseEntity<int>
+    public class ProductGroupDependencies : BaseEntity<int>
     {
 
         /// <summary>
         /// عنوان وابستگی
         /// </summary>
-        [StringLength(100, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
+        [StringLength(300, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
         [Required]
         public string Title { get; set; }
 
@@ -36,9 +36,7 @@ namespace DataLayer.Entities
         /// شرط بین این دو برای وابستگی
         /// </summary>
         public int ConditionId { get; set; }
-
-
-
+        
         #region Join
 
         //[ForeignKey(nameof(GroupId1))]
@@ -58,5 +56,7 @@ namespace DataLayer.Entities
 
 
         #endregion
+
+        
     }
 }

@@ -1,0 +1,191 @@
+﻿@using DataLayer.DTO
+@using DataLayer.DTO.Feature
+@using DataLayer.DTO.ProductGroupDependencies
+@model List<ProductGroupDependenciesFullDTO>
+
+
+@{
+    ViewData["Title"] = "لیست وابستگی‌ها";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<ProductGroupDTO> ProductGroups = ViewBag.ProductGroups;
+    List<FeatureIdTitleDTO> Features = ViewBag.Products;
+}
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 btn-table">
+
+    <TableBotton area="ProductGroupDependency" controller="ManageProductGroupDependency" action="Insert"
+                 isModal="true"
+                 modalTitle="ثبت جدید"
+                 title="ثبت"
+                 icon="fa-plus"
+                 buttonClass="btn-primary"></TableBotton>
+
+
+    <span class="hidden" data-role-table-btn-area-access="">
+
+        <TableBotton area="Feature" controller="ManageFeature" action="Update"
+                     isModal="true"
+                     modalTitle="ویرایش آیتم"
+                     title="ویرایش"
+                     icon="fa-pencil-square-o"
+                     buttonClass="btn-warning"></TableBotton>
+
+        <TableBotton area="Feature" controller="ManageFeature" action="Delete"
+                     isModal="true"
+                     modalTitle="حذف آیتم"
+                     title="حذف"
+                     icon="fa-trash-o"
+                     buttonClass="btn-danger"></TableBotton>
+    </span>
+
+
+
+</div>
+
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+
+    <table class="table-first table-condensed table table-responsive tableWrap table-striped rounded table-hover table-bordered ">
+        <thead>
+            <tr>
+                <th width="3%"></th>
+                <th width="50px">ردیف</th>
+                <th>عنوان</th>
+                <th>نام گروه وابسته</th>
+                <th>ویژگی گروه وابسته</th>
+                <th>مقدار ویژگی گروه وابسته</th>
+                <th>نام گروه وابستگی</th>
+                <th>ویژگی گروه وابستگی</th>
+                <th>مقدار ویژگی گروه وابستگی</th>
+            </tr>
+            <tr>
+                <form method="post">
+                    <th>---</th>
+                    <th>---</th>
+                    <th><input type="text" name="Title" class="form-control searchInput" /></th>
+                    <th>
+                        <select name="Group1" class="form-control searchSelect">
+                            <option value="">انتخاب نمایید...</option>
+                            @foreach (ProductGroupDTO item in ProductGroups)
+                            {
+                                if (ViewBag.SearchModel.GroupId1 == item.Id)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+
+                            }
+                        </select>
+                    </th>
+                    <th>
+                        <select name="Feature1" class="select2 searchSelect">
+                            <option value="">انتخاب نمایید...</option>
+                            @foreach (var item in Features)
+                            {
+                                if (ViewBag.SearchModel.Feature1 == item.Id)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+                            }
+                        </select>
+                    </th>
+                    <th>---</th>
+                    <th>
+                        <select name="Group2" class="form-control searchSelect">
+                            <option value="">انتخاب نمایید...</option>
+                            @foreach (ProductGroupDTO item in ProductGroups)
+                            {
+                                if (ViewBag.SearchModel.GroupId2 == item.Id)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+
+                            }
+                        </select>
+                    </th>
+                    <th>
+                        <select name="Feature2" class="select2 searchSelect">
+                            <option value="">انتخاب نمایید...</option>
+                            @foreach (var item in Features)
+                            {
+                                if (ViewBag.SearchModel.Feature2 == item.Id)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+                            }
+                        </select>
+                    </th>
+                    <th>---</th>
+                    <input type="submit" class="hidden searchBtn" value="جستجو" />
+                </form>
+            </tr>
+        </thead>
+    </table>
+    <div class="bodycontainer scrollable ">
+        <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
+            <tbody>
+
+                @{var index = 1;}
+                @if (Model != null && Model.Count != 0)
+                {
+                    @foreach (ProductGroupDependenciesFullDTO item in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                            <td>@(index++)</td>
+                            <td>@item.Title</td>
+                            <td>@item.GroupId1Title</td>
+                            <td>@item.Feature1Title</td>
+                            <td>@item.Value1</td>
+                            <td>@item.GroupId2Title</td>
+                            <td>@item.Feature2Title</td>
+                            <td>@item.Value2</td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-danger">رکوردی یافت نشد</td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <table class="table table-hover table-striped">
+        <tfoot>
+            @Html.Partial("~/Views/Shared/_Pagination.cshtml")
+        </tfoot>
+    </table>
+</div>
+
+
+<script>
+        jQuery(document).ready(function() {
+            // Select2
+                $(".select2").select2();
+
+            });
+
+
+
+</script>

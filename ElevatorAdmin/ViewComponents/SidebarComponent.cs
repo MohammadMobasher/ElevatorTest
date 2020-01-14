@@ -36,7 +36,9 @@ namespace ElevatorAdmin.ViewComponents
                     new SidebarChildViewModel {Area = "ProductGroup", Controller = "ManageProductGroup", Action = "Index", Title = "مدیریت گروه‌ها" },
                     new SidebarChildViewModel {Area = "Feature", Controller = "ManageFeature", Action = "Index" , Title = "مدیریت ویژگی‌ها" },
                     new SidebarChildViewModel {Area = "ProductUnit", Controller = "ManageProductUnit", Action = "Index" , Title = "مدیریت واحد کالا‌ها" },
-                    new SidebarChildViewModel {Area = "Product", Controller = "ManageProduct", Action = "Index" , Title = "مدیریت محصولات" }
+                    new SidebarChildViewModel {Area = "Product", Controller = "ManageProduct", Action = "Index" , Title = "مدیریت محصولات" },
+                    new SidebarChildViewModel {Area = "ProductGroupDependency", Controller = "ManageProductGroupDependency", Action = "Index" , Title = "مدیریت وابستگی‌ها" },
+                    new SidebarChildViewModel {Area = "Condition", Controller = "ManageCondition", Action = "Index" , Title = "مدیریت شروط" }
             } });
             items.Add(
                 new SidebarViewModel {Controller = "", Action = "", Title = "مدیریت اخبار", Icon = "fa fa-newspaper-o",

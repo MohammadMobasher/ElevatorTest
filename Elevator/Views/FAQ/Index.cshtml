@@ -41,16 +41,18 @@
                         height: 600px !important;
                         padding-top:280px">
                         @*<img src="~/images/FAQ.jpg" />*@
-                        <div class="container text-center">
-                            <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8">
-                                    <input type="text" class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="پرسش خود را جستجو کنید" />
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                    <input type="button" class="btn btn-success" value="جستجو" style="height: 50px;" />
+                        <form asp-action="Search" asp-controller="FAQ">
+                            <div class="container text-center">
+                                <div class="row">
+                                    <div class="col-lg-8 col-md-8 col-sm-8">
+                                        <input type="text" class="form-control" required="required" name="text" aria-describedby="text" placeholder="پرسش خود را جستجو کنید" />
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <input type="submit" class="btn btn-success" value="جستجو" style="height: 50px;" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <div class="col-lg-2 col-md-2 col-xl-2 col-xs-3"></div>
                 </div>

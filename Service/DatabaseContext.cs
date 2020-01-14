@@ -50,7 +50,7 @@ namespace Service
         public DbSet<ProductGroup> ProductGroup { get; set; }
         public DbSet<ProductUnit> ProductUnit { get; set; }
         public DbSet<StoreRoom> StoreRoom { get; set; }
-        public DbSet<Dependency> Dependency { get; set; }
+        public DbSet<ProductGroupDependencies> ProductGroupDependencies { get; set; }
         public DbSet<ProductGroupFeature> ProductGroupFeature { get; set; }
         public DbSet<ProductGallery> Gallery { get; set; }
         public DbSet<SlideShow> SlideShow { get; set; }

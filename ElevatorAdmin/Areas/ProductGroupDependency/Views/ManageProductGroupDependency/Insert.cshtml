@@ -1,0 +1,133 @@
+﻿@using DataLayer.DTO
+@using DataLayer.DTO.Feature
+
+@{
+    ViewData["Title"] = "ثبت آیتم جدید";
+    Layout = "~/Views/Shared/_ModalLayout.cshtml";
+
+    List<ProductGroupDTO> ProductGroups = ViewBag.ProductGroups;
+    List<FeatureIdTitleDTO> Features = ViewBag.Products;
+
+}
+
+
+<form action="/ProductGroupDependency/ManageProductGroupDependency/Insert" class="form-horizontal" method="post" style="">
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">عنوان وابستگی <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان وابستگی" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="ConditionId" class="control-label col-sm-2">شرط <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+
+
+            @*<input type="text" class="form-control" required="required" name="ConditionId" aria-describedby="ConditionId" placeholder="شرط" />*@
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-6 col-md-6 col-xl-6 col-xs-6">
+                <div class="form-group">
+                    <label for="Title" class="control-label col-sm-6">گروه وابسته <i class="text-danger fa fa-star size-8"></i></label>
+                    <div class="col-sm-12">
+                        <select name="Group1" data-role="Group1" class="select2">
+                            <option value="">انتخاب نمایید...</option>
+                            @foreach (ProductGroupDTO item in ProductGroups)
+                            {
+                                <option value="@item.Id">@item.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Title" class="control-label col-sm-6">ویژگی <i class="text-danger fa fa-star size-8"></i></label>
+                    <div class="col-sm-12">
+                        <select name="Feature1" data-role="Feature1" class="select2">
+                            <option value="">انتخاب نمایید...</option>
+                            @foreach (FeatureIdTitleDTO item in Features)
+                            {
+                                <option value="@item.Id">@item.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Title" class="control-label col-sm-6">مقدار</label>
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" name="Title" aria-describedby="Title" placeholder="عنوان واحد" />
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-6 col-md-6 col-xl-6 col-xs-6">
+
+                <div class="form-group">
+                    <label for="Title" class="control-label col-sm-6">گروه وابستگی <i class="text-danger fa fa-star size-8"></i></label>
+                    <div class="col-sm-12">
+                        <select name="Group2" data-role="Group2" class="select2">
+                            <option value="">انتخاب نمایید...</option>
+                            @foreach (ProductGroupDTO item in ProductGroups)
+                            {
+                                <option value="@item.Id">@item.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Title" class="control-label col-sm-6">ویژگی <i class="text-danger fa fa-star size-8"></i></label>
+                    <div class="col-sm-12">
+                        <select name="Feature2" data-role="Feature2" class="select2">
+                            <option value="">انتخاب نمایید...</option>
+                            @foreach (FeatureIdTitleDTO item in Features)
+                            {
+                                <option value="@item.Id">@item.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Title" class="control-label col-sm-6">مقدار</label>
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" name="Title" aria-describedby="Title" placeholder="عنوان واحد" />
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-success">ثبت</button>
+
+
+</form>
+
+
+
+<script>
+        jQuery(document).ready(function() {
+            // Select2
+                $("[data-role='Group1']").select2();
+                $("[data-role='Feature1']").select2();
+                $("[data-role='Group2']").select2();
+                $("[data-role='Feature2']").select2();
+
+            });
+
+
+
+</script>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataLayer.DTO;
+using DataLayer.DTO.Feature;
 using DataLayer.Entities;
 using DataLayer.ViewModels.Feature;
 using DataLayer.ViewModels.News;
@@ -16,6 +17,7 @@ namespace Service.Mappers
         {
             
             CreateMap<Feature, FeatureFullDetailDTO>();
+            CreateMap<Feature, FeatureIdTitleDTO>();
             CreateMap<Feature, FeatureFullDetailDTO>().ReverseMap();
             CreateMap<FeatureInsertViewModel, Feature>().ReverseMap();
             CreateMap<FeatureUpdateViewModel, Feature>().ReverseMap();

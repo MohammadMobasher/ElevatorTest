@@ -4,14 +4,39 @@
     Layout = "~/Views/Shared/_Login.cshtml";
 }
 
+
+<style>
+    .fullscreen-bg {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: fixed;
+        background-position: 70% 40%;
+        background: url('/images/ElevatorBack2.jpg') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        background-position: center;
+        min-width: 100%;
+        min-height: 100%;
+    }
+
+    html {
+    }
+</style>
+
+<div class="fullscreen-bg">
+
+</div>
+
 <div class="wrapper default">
     <div class="container">
         <div class="row">
             <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
                 <div class="account-box">
-                    <a href="#" class="logo">
-                        <img src="~/images/logo.png" alt="Lift Bazar" />
-                    </a>
+                    
                     <div class="account-box-title text-center">ثبت‌نام در تاپ کالا</div>
                     @if (ViewBag.ErrorMessages != null)
                     {
@@ -52,7 +77,7 @@
 
                             <div class="form-account-agree">
                                 <label class="checkbox-form checkbox-primary">
-                                    <input asp-for="IsAccept" type="checkbox" >
+                                    <input asp-for="IsAccept" type="checkbox">
                                     <span class="checkbox-check"></span>
                                 </label>
                                 <label for="agree">

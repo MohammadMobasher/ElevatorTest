@@ -70,6 +70,8 @@ namespace Service.Repos
             return new Tuple<int, List<ProductFullDTO>>(Count, await query.ToListAsync());
         }
 
+        
+
 
         /// <summary>
         /// گرفتن اطلاعات گروه محصول بر اساس شناسه محصول

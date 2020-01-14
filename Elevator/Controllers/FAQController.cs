@@ -37,9 +37,10 @@ namespace Elevator.Controllers
 
 
 
-        public async Task<IActionResult> Detail(int id)
+        public async Task<IActionResult> Search(string text)
         {
-            return View();
+            var model = await _fAQRepository.Search(text);
+            return View(model);
         }
 
     }

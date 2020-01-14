@@ -137,6 +137,30 @@ namespace Service.Repos.Product
             }
         }
 
+        /// <summary>
+        // حذف یک ویژگی از تمام گروه‌ها
+        /// </summary>
+        /// <param name="id">شماره ویژگی مورد نظر</param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> DeleteFeatureFromAllGroup(int FeatureId)
+        {
+
+            var Groups = await Entities.Where(x => x.FeatureId == FeatureId).ToListAsync();
+            try
+            {
+                if (Groups == null)
+                    await DeleteRangeAsync(Groups);
+                return SweetAlertExtenstion.Ok();
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
+
+
+        }
+
+
 
         /// <summary>
         /// تعداد گروه‌هایی که یک ویژگی‌ خاص را دارند

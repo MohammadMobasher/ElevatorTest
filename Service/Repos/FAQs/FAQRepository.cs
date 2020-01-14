@@ -59,7 +59,7 @@ namespace Service.Repos.FAQs
         /// <returns></returns>
         public async Task<List<FAQDTO>> GetItemsByGroupId(int id)
         {
-            return await Entities.ProjectTo<FAQDTO>().Where(x => x.FaqGroupId == id).ToListAsync();
+            return await Entities.ProjectTo<FAQDTO>().Where(x => x.FaqGroupId == id).OrderByDescending(x=> x.Id).ToListAsync();
         }
 
 
@@ -128,6 +128,17 @@ namespace Service.Repos.FAQs
                 return SweetAlertExtenstion.Error();
             }
 
+        }
+
+        /// <summary>
+        /// جستجو در بین سوالات پر تکرار
+        /// از این تابع برای صفحه اصلی موجود در سوالات پر تکرار استفاده می شود
+        /// </summary>
+        /// <param name="text">متنی که باید مورد جسجتو قرار بگیرد</param>
+        /// <returns></returns>
+        public async Task<List<FAQDTO>> Search(string text)
+        {
+            return await Entities.ProjectTo<FAQDTO>().Where(x => x.QuestionText.Contains(text) || x.AnswerText.Contains(text)).ToListAsync();
         }
 
     }

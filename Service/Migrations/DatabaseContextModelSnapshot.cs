@@ -38,37 +38,6 @@ namespace Service.Migrations
                     b.ToTable("Condition");
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.Dependency", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ConditionId");
-
-                    b.Property<int>("Feature1");
-
-                    b.Property<int>("Feature2");
-
-                    b.Property<int>("GroupId1");
-
-                    b.Property<int>("GroupId2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Value1");
-
-                    b.Property<string>("Value2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ConditionId");
-
-                    b.ToTable("Dependency");
-                });
-
             modelBuilder.Entity("DataLayer.Entities.FAQs.FAQ", b =>
                 {
                     b.Property<int>("Id")
@@ -283,7 +252,7 @@ namespace Service.Migrations
 
                     b.Property<string>("IndexPic");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool?>("IsActive");
 
                     b.Property<int>("Like");
 
@@ -394,6 +363,37 @@ namespace Service.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductGroup");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.ProductGroupDependencies", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ConditionId");
+
+                    b.Property<int>("Feature1");
+
+                    b.Property<int>("Feature2");
+
+                    b.Property<int>("GroupId1");
+
+                    b.Property<int>("GroupId2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(300);
+
+                    b.Property<string>("Value1");
+
+                    b.Property<string>("Value2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConditionId");
+
+                    b.ToTable("ProductGroupDependencies");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.ProductGroupFeature", b =>
@@ -723,14 +723,6 @@ namespace Service.Migrations
                     b.ToTable("WarehouseProductCheck");
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.Dependency", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Condition", "Condition")
-                        .WithMany()
-                        .HasForeignKey("ConditionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("DataLayer.Entities.FAQs.FAQ", b =>
                 {
                     b.HasOne("DataLayer.Entities.FAQs.FaqGroup", "FaqGroup")
@@ -822,6 +814,14 @@ namespace Service.Migrations
                     b.HasOne("DataLayer.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.ProductGroupDependencies", b =>
+                {
+                    b.HasOne("DataLayer.Entities.Condition", "Condition")
+                        .WithMany()
+                        .HasForeignKey("ConditionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

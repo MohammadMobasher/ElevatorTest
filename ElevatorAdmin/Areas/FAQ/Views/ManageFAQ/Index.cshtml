@@ -126,8 +126,8 @@
                         <tr>
                             <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
                             <td>@(index++)</td>
-                            <td>@item.QuestionText</td>
-                            <td>@item.AnswerText</td>
+                            <td>@(item.QuestionText.Length > 40 ? item.QuestionText.Substring(0, 40).ToString() + "..." : item.QuestionText)</td>
+                            <td>@(item.AnswerText.Length > 40 ? item.AnswerText.Substring(0, 40).ToString() + "..." : item.AnswerText)</td>
                             <td>@item.FaqGroup.Title</td>
                             <td>@(item.IsActive ? "فعال" : "غیرفعال")</td>
                         </tr>

@@ -12,6 +12,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using DataLayer.ViewModels.Feature;
 using Service.Repos.Product;
+using DataLayer.DTO.Feature;
 
 namespace Service.Repos
 {
@@ -19,13 +20,16 @@ namespace Service.Repos
     {
         private readonly FeatureItemRepository _featureItemRepository;
         private readonly ProductFeatureRepository _productFeatureRepository;
+        private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
 
         public FeatureRepository(DatabaseContext dbContext,
             FeatureItemRepository featureItemRepository,
-            ProductFeatureRepository productFeatureRepository)  : base(dbContext)
+            ProductFeatureRepository productFeatureRepository,
+            ProductGroupFeatureRepository productGroupFeatureRepository)  : base(dbContext)
         {
             _featureItemRepository = featureItemRepository;
             _productFeatureRepository = productFeatureRepository;
+            _productGroupFeatureRepository = productGroupFeatureRepository;
         }
 
 
@@ -55,8 +59,6 @@ namespace Service.Repos
             return result;
         }
 
-
-
         /// <summary>
         /// ثبت اطلاعات در جدول مورد نظر 
         /// </summary>
@@ -77,7 +79,6 @@ namespace Service.Repos
                 return SweetAlertExtenstion.Error();
             }
         }
-
 
         /// <summary>
         /// ثبت اطلاعات در جدول مورد نظر 
@@ -164,9 +165,9 @@ namespace Service.Repos
 
 
         /// <summary>
-        /// ثبت یک آیتم در جدول مورد نظر
+        /// حذف یک آیتم در جدول مورد نظر
         /// </summary>
-        /// <param name="Id">شماره خبر</param>
+        /// <param name="Id">شماره آیتم</param>
         /// <returns></returns>
         public async Task<SweetAlertExtenstion> DeleteAsync(int Id)
         {
@@ -175,6 +176,13 @@ namespace Service.Repos
             {
                 var entity = await GetByIdAsync(Id);
 
+                // removing ProductFeature
+                await _productFeatureRepository.DeleteAsync(Id);
+                // remove this feature from ProductGroupFeature
+                await _productGroupFeatureRepository.DeleteFeatureFromAllGroup(Id);
+                //TODO
+                // باید از وابستگی‌ها هم حذف بشه
+
                 await DeleteAsync(entity);
                 return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
             }
@@ -182,11 +190,19 @@ namespace Service.Repos
             {
                 return SweetAlertExtenstion.Error();
             }
-
         }
 
         public async Task<List<Feature>> GetFeaturesByListFeatureId(List<int> featureIds)
              => await TableNoTracking.Include(a => a.Features).Where(a => featureIds.Contains(a.Id)).ToListAsync();
 
+
+        /// <summary>
+        /// گرفتن تمام آیتم‌ها
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<FeatureIdTitleDTO>> GetAll()
+        {
+            return await Entities.ProjectTo<FeatureIdTitleDTO>().ToListAsync();
+        }
     }
 }
