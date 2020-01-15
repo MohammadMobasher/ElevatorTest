@@ -137,5 +137,90 @@ namespace Service.Repos.Product
             }
 
         }
+
+
+        /// <summary>
+        /// به روز رسانی یک آیتم در این جدول
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> UpdateAsync(ProductGroupDependenciesUpdateViewModel model)
+        {
+            try
+            {
+                var entity = Mapper.Map<ProductGroupDependencies>(model);
+                await UpdateAsync(entity);
+
+                return SweetAlertExtenstion.Ok();
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
+
+
+        /// <summary>
+        /// ثبت یک آیتم در جدول مورد نظر
+        
+        /// </summary>
+        /// <param name="model">مدلی که از سمت کلاینت در حال پاس دادن آن هستیم</param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> DeleteAsync(int Id)
+        {
+            try
+            {
+                var entity = await GetByIdAsync(Id);
+                await DeleteAsync(entity);
+                return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
+
+        /// <summary>
+        /// حذف یک آیتم در جدول مورد نظر
+        ///  با استفاده شماره ویژگی مورد نظر
+        /// </summary>
+        /// <param name="model">مدلی که از سمت کلاینت در حال پاس دادن آن هستیم</param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> DeleteByFeatureIdAsync(int FeatureId)
+        {
+            try
+            {
+                var entities = await Entities.Where(x => x.Feature1 == FeatureId || x.Feature2 == FeatureId).ToListAsync();
+                await DeleteRangeAsync(entities);
+                return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
+
+
+        /// <summary>
+        /// حذف یک آیتم در جدول مورد نظر
+        ///  با استفاده شماره ویژگی مورد نظر
+        /// </summary>
+        /// <param name="model">مدلی که از سمت کلاینت در حال پاس دادن آن هستیم</param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> DeleteByFeatureIdAndGroupIdAsync(int FeatureId, int GroupId)
+        {
+            try
+            {
+                var entities = await Entities.Where(x => (x.Feature1 == FeatureId && x.GroupId1 == GroupId) 
+                    || (x.Feature2 == FeatureId && x.GroupId2 == GroupId)).ToListAsync();
+                await DeleteRangeAsync(entities);
+                return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
+
     }
 }

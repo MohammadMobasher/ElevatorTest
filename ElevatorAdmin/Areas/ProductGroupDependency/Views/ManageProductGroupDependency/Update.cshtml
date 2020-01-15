@@ -1,8 +1,10 @@
 ﻿@using DataLayer.DTO
 @using DataLayer.DTO.Feature
 @using DataLayer.DTO.Condition
+
+@model DataLayer.Entities.ProductGroupDependencies
 @{
-    ViewData["Title"] = "ثبت آیتم جدید";
+    ViewData["Title"] = "ویرایش آیتم";
     Layout = "~/Views/Shared/_ModalLayout.cshtml";
 
     List<ProductGroupDTO> ProductGroups = ViewBag.ProductGroups;
@@ -11,12 +13,14 @@
 }
 
 
-<form action="/ProductGroupDependency/ManageProductGroupDependency/Insert" class="form-horizontal" method="post" style="">
+<form action="/ProductGroupDependency/ManageProductGroupDependency/Update" class="form-horizontal" method="post" style="">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
 
     <div class="form-group">
         <label for="Title" class="control-label col-sm-2">عنوان وابستگی <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان وابستگی" />
+            <input type="text" class="form-control" required="required" value="@Model.Title" name="Title" aria-describedby="Title" placeholder="عنوان وابستگی" />
         </div>
     </div>
 
@@ -31,7 +35,14 @@
                 {
                     foreach (ConditionDTO item in Conditions)
                     {
-                        <option value="@item.Id">@item.Title (@item.Name)</option>
+                        if (Model.ConditionId == item.Id)
+                        {
+                            <option selected value="@item.Id">@item.Title (@item.Name)</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Title (@item.Name)</option>
+                        }
                     }
                 }
             </select>
@@ -51,7 +62,14 @@
                             <option value="">انتخاب نمایید...</option>
                             @foreach (ProductGroupDTO item in ProductGroups)
                             {
-                                <option value="@item.Id">@item.Title</option>
+                                if (Model.GroupId1 == item.Id)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
                             }
                         </select>
                     </div>
@@ -64,7 +82,14 @@
                             <option value="">انتخاب نمایید...</option>
                             @foreach (FeatureIdTitleDTO item in Features)
                             {
-                                <option value="@item.Id">@item.Title</option>
+                                if (Model.Feature1 == item.Id)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
                             }
                         </select>
                     </div>
@@ -73,7 +98,7 @@
                 <div class="form-group">
                     <label for="Value1" class="control-label col-sm-6">مقدار</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" name="Value1" aria-describedby="Value1" placeholder="مقدار" />
+                        <input type="text" value="@Model.Value1" class="form-control" name="Value1" aria-describedby="Value1" placeholder="مقدار" />
                     </div>
                 </div>
             </div>
@@ -89,7 +114,17 @@
                             <option value="">انتخاب نمایید...</option>
                             @foreach (ProductGroupDTO item in ProductGroups)
                             {
-                                <option value="@item.Id">@item.Title</option>
+
+
+                                if (Model.GroupId2 == item.Id)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+
                             }
                         </select>
                     </div>
@@ -102,7 +137,14 @@
                             <option value="">انتخاب نمایید...</option>
                             @foreach (FeatureIdTitleDTO item in Features)
                             {
-                                <option value="@item.Id">@item.Title</option>
+                                if (Model.Feature2 == item.Id)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
                             }
                         </select>
                     </div>
@@ -111,7 +153,7 @@
                 <div class="form-group">
                     <label for="Value2" class="control-label col-sm-6">مقدار</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" name="Value2" aria-describedby="Value2" placeholder="عنوان واحد" />
+                        <input type="text" value="@Model.Value2" class="form-control" name="Value2" aria-describedby="Value2" placeholder="عنوان واحد" />
                     </div>
                 </div>
 
@@ -134,9 +176,6 @@
                 $("[data-role='Feature1']").select2();
                 $("[data-role='Group2']").select2();
                 $("[data-role='Feature2']").select2();
-
             });
-
-
 
 </script>

@@ -120,7 +120,7 @@ namespace Service.Repos.Product
         /// گرفتن تمام اطلاعات
         /// </summary>
         /// <returns></returns>
-        public async Task<List<ProductGroupDTO>> GetAll()
+        public async Task<List<ProductGroupDTO>> GetAllAsync()
         {
             return await Entities.AsNoTracking().ProjectTo<ProductGroupDTO>().ToListAsync();
         }

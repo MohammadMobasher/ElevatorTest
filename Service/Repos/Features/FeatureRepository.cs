@@ -21,15 +21,18 @@ namespace Service.Repos
         private readonly FeatureItemRepository _featureItemRepository;
         private readonly ProductFeatureRepository _productFeatureRepository;
         private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
+        private readonly ProductGroupDependenciesRepository _productGroupDependenciesRepository;
 
         public FeatureRepository(DatabaseContext dbContext,
             FeatureItemRepository featureItemRepository,
             ProductFeatureRepository productFeatureRepository,
-            ProductGroupFeatureRepository productGroupFeatureRepository)  : base(dbContext)
+            ProductGroupFeatureRepository productGroupFeatureRepository,
+            ProductGroupDependenciesRepository productGroupDependenciesRepository)  : base(dbContext)
         {
             _featureItemRepository = featureItemRepository;
             _productFeatureRepository = productFeatureRepository;
             _productGroupFeatureRepository = productGroupFeatureRepository;
+            _productGroupDependenciesRepository = productGroupDependenciesRepository;
         }
 
 
@@ -180,8 +183,9 @@ namespace Service.Repos
                 await _productFeatureRepository.DeleteAsync(Id);
                 // remove this feature from ProductGroupFeature
                 await _productGroupFeatureRepository.DeleteFeatureFromAllGroup(Id);
-                //TODO
+
                 // باید از وابستگی‌ها هم حذف بشه
+                await _productGroupDependenciesRepository.DeleteByFeatureIdAsync(Id);
 
                 await DeleteAsync(entity);
                 return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
@@ -200,7 +204,7 @@ namespace Service.Repos
         /// گرفتن تمام آیتم‌ها
         /// </summary>
         /// <returns></returns>
-        public async Task<List<FeatureIdTitleDTO>> GetAll()
+        public async Task<List<FeatureIdTitleDTO>> GetAllAsync()
         {
             return await Entities.ProjectTo<FeatureIdTitleDTO>().ToListAsync();
         }

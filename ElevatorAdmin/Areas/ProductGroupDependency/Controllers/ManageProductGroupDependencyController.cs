@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.CustomAttributes;
 using Core.Utilities;
+using DataLayer.DTO;
+using DataLayer.ViewModels;
 using DataLayer.ViewModels.ProductGroupDependencies;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
@@ -21,17 +23,19 @@ namespace ElevatorAdmin.Areas.ProductGroupDependency.Controllers
         private readonly ProductGroupDependenciesRepository _productGroupDependenciesRepository;
         private readonly ProductGroupRepository _productGroupRepository;
         private readonly FeatureRepository _featureRepository;
+        private readonly ConditionRepository _conditionRepository;
 
         public ManageProductGroupDependencyController(UsersAccessRepository usersAccessRepository,
             ProductGroupDependenciesRepository productGroupDependenciesRepository,
             ProductGroupRepository productGroupRepository,
-            FeatureRepository featureRepository
-            //,ConditionRepository conditionRepository
+            FeatureRepository featureRepository,
+            ConditionRepository conditionRepository
             ) : base(usersAccessRepository)
         {
             _productGroupDependenciesRepository = productGroupDependenciesRepository;
             _productGroupRepository = productGroupRepository;
             _featureRepository = featureRepository;
+            _conditionRepository = conditionRepository;
         }
 
 
@@ -49,8 +53,8 @@ namespace ElevatorAdmin.Areas.ProductGroupDependency.Controllers
             ViewBag.SearchModel = searchModel;
 
 
-            ViewBag.ProductGroups = await _productGroupRepository.GetAll();
-            ViewBag.Products = await _featureRepository.GetAll();
+            ViewBag.ProductGroups = await _productGroupRepository.GetAllAsync();
+            ViewBag.Products = await _featureRepository.GetAllAsync();
 
             return View(model.Item2);
         }
@@ -63,8 +67,11 @@ namespace ElevatorAdmin.Areas.ProductGroupDependency.Controllers
         [HasAccess]
         public async Task<IActionResult> Insert()
         {
-            ViewBag.ProductGroups = await _productGroupRepository.GetAll();
-            ViewBag.Products = await _featureRepository.GetAll();
+            ViewBag.ProductGroups = await _productGroupRepository.GetAllAsync();
+            ViewBag.Products = await _featureRepository.GetAllAsync();
+            ViewBag.Conditions = await _conditionRepository.GetAllAsync();
+
+
             return View();
         }
 
@@ -79,5 +86,50 @@ namespace ElevatorAdmin.Areas.ProductGroupDependency.Controllers
         #endregion
 
 
+        #region ثبت
+
+        [ActionRole("ویرایش وابستگی")]
+        [HasAccess]
+        public async Task<IActionResult> Update(int id)
+        {
+            ViewBag.ProductGroups = await _productGroupRepository.GetAllAsync();
+            ViewBag.Products = await _featureRepository.GetAllAsync();
+            ViewBag.Conditions = await _conditionRepository.GetAllAsync();
+
+            var model = await _productGroupDependenciesRepository.GetByIdAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(ProductGroupDependenciesUpdateViewModel model)
+        {
+
+            TempData.AddResult(await _productGroupDependenciesRepository.UpdateAsync(model));
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+
+        #region حذف
+
+        [ActionRole("حذف آیتم")]
+        [HasAccess]
+        public async Task<IActionResult> Delete(int Id)
+        {
+
+            return View(new DeleteDTO { Id = Id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteViewModel model)
+        {
+
+            var result = await _productGroupDependenciesRepository.DeleteAsync(model.Id);
+            TempData.AddResult(result);
+            return RedirectToAction("Index");
+        }
+        #endregion
     }
 }

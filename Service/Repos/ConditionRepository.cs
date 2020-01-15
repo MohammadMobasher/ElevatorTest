@@ -103,7 +103,6 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<SweetAlertExtenstion> DeleteAsync(int Id)
         {
-
             try
             {
                 var entity = await GetByIdAsync(Id);
@@ -114,7 +113,8 @@ namespace Service.Repos
             {
                 return SweetAlertExtenstion.Error();
             }
-
         }
+
+
     }
 }

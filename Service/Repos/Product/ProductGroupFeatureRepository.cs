@@ -22,13 +22,16 @@ namespace Service.Repos.Product
     {
         private readonly ProductFeatureRepository _productFeatureRepository;
         private readonly ProductRepostitory _productRepostitory;
+        private readonly ProductGroupDependenciesRepository _productGroupDependenciesRepository;
 
         public ProductGroupFeatureRepository(DatabaseContext dbContext,
             ProductFeatureRepository productFeatureRepository,
-            ProductRepostitory productRepostitory) : base(dbContext)
+            ProductRepostitory productRepostitory,
+            ProductGroupDependenciesRepository productGroupDependenciesRepository) : base(dbContext)
         {
             _productFeatureRepository = productFeatureRepository;
             _productRepostitory = productRepostitory;
+            _productGroupDependenciesRepository = productGroupDependenciesRepository;
         }
 
         public async Task<Tuple<int, List<ProductGroupFeatureDTO>>> LoadAsyncCount(
@@ -128,6 +131,9 @@ namespace Service.Repos.Product
                     else
                         return SweetAlertExtenstion.Error();
                 }
+
+                // حذف از جدول وابستگی‌ها
+                await _productGroupDependenciesRepository.DeleteByFeatureIdAndGroupIdAsync(entity.FeatureId, entity.ProductGroupId);
                 
                 return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
             }

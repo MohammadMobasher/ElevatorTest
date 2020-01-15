@@ -14,6 +14,7 @@ namespace Service.Mappers
         {
             CreateMap<ProductGroupDependencies, ProductGroupDependenciesFullDTO>();
             CreateMap<ProductGroupDependenciesInsertViewModel, ProductGroupDependencies>();
+            CreateMap<ProductGroupDependenciesUpdateViewModel, ProductGroupDependencies>();
         }
     }
 }
