@@ -90,5 +90,6 @@ namespace ElevatorAdmin.Controllers
             await _signInManager.SignOutAsync();
             return Redirect("/");
         }
+
     }
 }
