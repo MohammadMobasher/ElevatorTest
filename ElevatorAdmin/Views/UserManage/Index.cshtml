@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<DataLayer.DTO.UserDTO.UsersManageDTO>
-
+@using DNTPersianUtils.Core
 @{
     ViewBag.Title = "مدیریت کاربران";
 }
@@ -129,7 +129,7 @@
                             <td>@item.Email</td>
                             <td>@(item.IsActive ? "فعال" : "غیرفعال")</td>
                             <td>@item.PhoneNumber</td>
-                            <td>@item.CreateDate</td>
+                            <td>@item.CreateDate.ToPersianDateTextify()</td>
 
                         </tr>
                     }

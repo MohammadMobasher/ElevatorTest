@@ -16,7 +16,6 @@ using DataLayer.Entities.Users;
 using Microsoft.AspNetCore.Http;
 using DataLayer.DTO.RolesDTO;
 using System;
-
 namespace ElevatorAdmin.Controllers
 {
     [ControllerRole("مدیریت کاربران")]
@@ -300,7 +299,7 @@ namespace ElevatorAdmin.Controllers
                     if (resultCreatUser.Succeeded)
                     {
                         TempData.AddResult(SweetAlertExtenstion.Ok());
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "UserManage");
                     }
                     else
                     {
