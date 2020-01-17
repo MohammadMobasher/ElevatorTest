@@ -109,10 +109,11 @@ namespace Elevator.Controllers
 
                 if (userResult == null)
                 {
-                    var resultCreatUser = await _userManager.CreateAsync(user, model.Password);
                     var isPhoneNumberExist = await _userRepository.GetByConditionAsync(x => x.PhoneNumber == model.PhoneNumber);
                     if (isPhoneNumberExist == null)
                     {
+                        var resultCreatUser = await _userManager.CreateAsync(user, model.Password);
+
                         // درصورتیکه کاربر مورد نظر با موفقیت ثبت شد آن را لاگین میکنیم
                         if (resultCreatUser.Succeeded)
                         {
