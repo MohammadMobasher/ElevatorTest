@@ -55,6 +55,11 @@ namespace DataLayer.DTO.Products
         public string Tags { get; set; }
 
         public bool? IsActive { get; set; }
+
+        /// <summary>
+        /// تاریخ ثبت محصول
+        /// </summary>
+        public DateTime? CreateDate { get; set; }
         #region Join
 
         public virtual ProductGroup ProductGroup { get; set; }

@@ -63,6 +63,11 @@ namespace DataLayer.Entities
         public string Tags { get; set; }
 
         /// <summary>
+        /// تاریخ ثبت محصول
+        /// </summary>
+        public DateTime? CreateDate { get; set; }
+
+        /// <summary>
         /// فعال  / غیرفعال
         /// </summary>
         public bool? IsActive { get; set; }

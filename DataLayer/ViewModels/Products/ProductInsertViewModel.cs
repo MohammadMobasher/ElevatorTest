@@ -9,6 +9,11 @@ namespace DataLayer.ViewModels.Products
     public class ProductInsertViewModel
     {
 
+        public ProductInsertViewModel()
+        {
+            CreateDate = DateTime.Now;
+        }
+
         [StringLength(150, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
         [Required]
         public string Title { get; set; }
@@ -48,5 +53,10 @@ namespace DataLayer.ViewModels.Products
         /// واحد اندازه گیری محصول
         /// </summary>
         public int? ProductUnitId { get; set; }
+
+        /// <summary>
+        /// تاریخ ثبت محصول
+        /// </summary>
+        public DateTime? CreateDate { get; set; }
     }
 }
