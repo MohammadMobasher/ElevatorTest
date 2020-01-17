@@ -72,6 +72,7 @@
                     <th width="70px">وضعیت</th>
                     <th>شماره تماس</th>
                     <th>تاریخ ثبت نام</th>
+                    <th>نوغ کاربر</th>
                 </tr>
                 <tr>
                     <form method="post">
@@ -109,6 +110,16 @@
                         </th>
                         <th><input type="text" name="PhoneNumber" value="@ViewBag.SearchModel.PhoneNumber" class="form-control searchInput" /></th>
                         <th><input type="text" name="CreateDate" value="@ViewBag.SearchModel.CreateDate" class="form-control searchInput" /></th>
+
+                        <th>
+                            <select name="IsModerator" class="form-control searchSelect">
+                                <option>--لطفا انتخاب کنید--</option>
+                                <!option value="false" @(ViewBag.SearchModel.IsModerator == false?"selected":"") >کاربر عادی</!option>
+                                <!option value="true" @(ViewBag.SearchModel.IsModerator == true?"selected":"")>کاربر مدیریتی</!option>
+
+                            </select>
+                        </th>
+
                         <input type="submit" class="hidden searchBtn" value="جستجو" />
                     </form>
                 </tr>
@@ -130,7 +141,7 @@
                             <td>@(item.IsActive ? "فعال" : "غیرفعال")</td>
                             <td>@item.PhoneNumber</td>
                             <td>@item.CreateDate.ToPersianDateTextify()</td>
-
+                            <td>@(item.IsModerator ? "کاربر مدیریتی":"کاربر عادی")</td>
                         </tr>
                     }
                 </tbody>
