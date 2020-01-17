@@ -143,9 +143,9 @@ namespace Elevator.Controllers
                     return View(model);
                 }
             }
-            ViewBag.ErrorMessages = ModelState.ExpressionsMessages();
+            var errorMessage = ModelState.ExpressionsMessages();
 
-            TempData.AddResult(SweetAlertExtenstion.Error("لطفا اطلاعات را به درستی وارد نمایید"));
+            TempData.AddResult(SweetAlertExtenstion.Error(errorMessage));
             return View(model);
         }
 
