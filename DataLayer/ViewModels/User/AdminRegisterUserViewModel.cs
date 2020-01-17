@@ -18,7 +18,7 @@ namespace DataLayer.ViewModels.User
         [RegularExpression(@"[A-Za-z0-9]+", ErrorMessage = "برای نام کاربری حتما باید از کاراکتر های لاتین استفاده کنید")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "لطفا ایمیل را وارد نمایید")]
+        //[Required(ErrorMessage = "لطفا ایمیل را وارد نمایید")]
         [StringLength(500,ErrorMessage = "تعداد کاراکتر ها بیشتر از حد مجاز می باشد")]
         [EmailAddress(ErrorMessage = "لطفا ایمیل خود را با فرمت صحیح وارد کنید")]
         public string Email { get; set; }
@@ -30,5 +30,8 @@ namespace DataLayer.ViewModels.User
         public string LastName { get; set; }
 
         public bool IsModerator { get; set; }
+
+        [Required(ErrorMessage = "لطفا شماره موبایل خود را وارد کنید")]
+        public string PhoneNumber { get; set; }
     }
 }

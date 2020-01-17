@@ -290,25 +290,34 @@ namespace ElevatorAdmin.Controllers
             {
                 var user = AutoMapper.Mapper.Map<Users>(model);
 
-                var userResult = await _userRepository.GetByConditionAsync(x => x.UserName == model.UserName);
+                var userResult = await _userRepository.GetByConditionAsync(x => x.UserName == model.UserName );
+                var isPhoneNumberExist = await _userRepository.GetByConditionAsync(x => x.PhoneNumber == model.PhoneNumber);
 
                 if (userResult == null)
                 {
-                    var resultCreatUser = await _userManager.CreateAsync(user, "liftbazar123");
-                    // درصورتیکه کاربر مورد نظر با موفقیت ثبت شد آن را لاگین میکنیم
-                    if (resultCreatUser.Succeeded)
+                    if (isPhoneNumberExist == null)
                     {
-                        TempData.AddResult(SweetAlertExtenstion.Ok());
-                        return RedirectToAction("Index", "UserManage");
+                        var resultCreatUser = await _userManager.CreateAsync(user, "liftbazar123");
+                        // درصورتیکه کاربر مورد نظر با موفقیت ثبت شد آن را لاگین میکنیم
+                        if (resultCreatUser.Succeeded)
+                        {
+                            TempData.AddResult(SweetAlertExtenstion.Ok());
+                            return RedirectToAction("Index", "UserManage");
+                        }
+                        else
+                        {
+                            if (resultCreatUser.Errors.Any(a => a.Code.Contains("DuplicateEmail")))
+                            {
+                                ViewBag.ErrorMessages = "ایمیل وارد شده تکراری می باشد";
+                            }
+
+                            TempData.AddResult(SweetAlertExtenstion.Error("ایمیل وارد شده تکراری می باشد"));
+                            return View(model);
+                        }
                     }
                     else
                     {
-                        if (resultCreatUser.Errors.Any(a => a.Code.Contains("DuplicateEmail")))
-                        {
-                            ViewBag.ErrorMessages = "ایمیل وارد شده تکراری می باشد";
-                        }
-
-                        TempData.AddResult(SweetAlertExtenstion.Error("ایمیل وارد شده تکراری می باشد"));
+                        TempData.AddResult(SweetAlertExtenstion.Error("شماره تلفن وارد شده تکراری می باشد"));
                         return View(model);
                     }
                 }
