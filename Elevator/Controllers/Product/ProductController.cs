@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Elevator.Models;
 using Service.Repos;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Elevator.Controllers
 {
@@ -25,10 +26,20 @@ namespace Elevator.Controllers
             return View();
         }
 
+
+        /// <summary>
+        /// نمایش اخرین محصولات ثبت شده
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> ShowLastProduct()
         {
+            var model = await productRepostitory.TableNoTracking
+                .Where(a => a.IsActive == true)
+                .OrderByDescending(a => a.CreateDate)
+                .Take(7)
+                .ToListAsync();
 
-            return View();
+            return PartialView(model);
         }
     }
 }
