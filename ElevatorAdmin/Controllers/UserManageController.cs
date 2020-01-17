@@ -328,7 +328,9 @@ namespace ElevatorAdmin.Controllers
                 }
             }
 
-            TempData.AddResult(SweetAlertExtenstion.Error("لطفا اطلاعات را به درستی وارد نمایید"));
+            var errorMessage = ModelState.ExpressionsMessages();
+
+            TempData.AddResult(SweetAlertExtenstion.Error(errorMessage));
             return View(model);
         }
 
