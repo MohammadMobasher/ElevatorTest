@@ -16,7 +16,6 @@ using DataLayer.Entities.Users;
 using Microsoft.AspNetCore.Http;
 using DataLayer.DTO.RolesDTO;
 using System;
-
 namespace ElevatorAdmin.Controllers
 {
     [ControllerRole("مدیریت کاربران")]
@@ -47,8 +46,8 @@ namespace ElevatorAdmin.Controllers
         [ActionRole("صفحه مدیریت کاربران")]
         [HasAccess]
         public async Task<IActionResult> Index(UsersSearchViewModel searchModel)
-       {
-            
+        {
+
             var model = await _userRepository.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize,
@@ -59,7 +58,7 @@ namespace ElevatorAdmin.Controllers
             ViewBag.SearchModel = searchModel;
 
             return View(model.Item2);
-            
+
         }
 
         #region ثبت کاربر جدید 
@@ -74,7 +73,7 @@ namespace ElevatorAdmin.Controllers
         public async Task<IActionResult> NewUser(RegisterUserAdminViewModel vm)
         {
 
-            if(vm.Password != vm.RePassword)
+            if (vm.Password != vm.RePassword)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور با تکرار آن یکسان نیست"));
                 return RedirectToAction("Index");
@@ -84,11 +83,11 @@ namespace ElevatorAdmin.Controllers
             user.CreateDate = DateTime.Now;
             user.IsActive = true;
 
-            
+
 
             // درصورتی که چنین کاربری از قبل وجود نداشته باشد
             var userResult = await _userRepository.GetByConditionAsync(x => x.UserName == vm.UserName);
-            
+
 
             if (userResult == null)
             {
@@ -146,7 +145,7 @@ namespace ElevatorAdmin.Controllers
             return View(userRole);
         }
 
-        
+
 
         [ActionRole("ثبت نقش جدید برای کاربر")]
         [HasAccess]
@@ -242,7 +241,7 @@ namespace ElevatorAdmin.Controllers
 
         [ActionRole("فعال/غیرفعال کردن کاربر")]
         [HasAccess]
-        
+
         public async Task<IActionResult> UserChangeStatus(int id)
         {
             var swMessage = await _userRepository.ChangeUserActivity(id);
@@ -261,7 +260,7 @@ namespace ElevatorAdmin.Controllers
         {
             Users user = await _userRepository.GetByIdAsync(this.UserId);
 
-            return View(model:user.ProfilePic);
+            return View(model: user.ProfilePic);
         }
 
         [HttpPost]
@@ -277,6 +276,64 @@ namespace ElevatorAdmin.Controllers
 
         #endregion
 
-        
+        #region ایجاد کاربر
+
+        public async Task<IActionResult> CreateUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(AdminRegisterUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = AutoMapper.Mapper.Map<Users>(model);
+
+                var userResult = await _userRepository.GetByConditionAsync(x => x.UserName == model.UserName );
+                var isPhoneNumberExist = await _userRepository.GetByConditionAsync(x => x.PhoneNumber == model.PhoneNumber);
+
+                if (userResult == null)
+                {
+                    if (isPhoneNumberExist == null)
+                    {
+                        var resultCreatUser = await _userManager.CreateAsync(user, "liftbazar123");
+                        // درصورتیکه کاربر مورد نظر با موفقیت ثبت شد آن را لاگین میکنیم
+                        if (resultCreatUser.Succeeded)
+                        {
+                            TempData.AddResult(SweetAlertExtenstion.Ok());
+                            return RedirectToAction("Index", "UserManage");
+                        }
+                        else
+                        {
+                            if (resultCreatUser.Errors.Any(a => a.Code.Contains("DuplicateEmail")))
+                            {
+                                ViewBag.ErrorMessages = "ایمیل وارد شده تکراری می باشد";
+                            }
+
+                            TempData.AddResult(SweetAlertExtenstion.Error("ایمیل وارد شده تکراری می باشد"));
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        TempData.AddResult(SweetAlertExtenstion.Error("شماره تلفن وارد شده تکراری می باشد"));
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("چنین کاربری از قبل وجود دارد"));
+                    return View(model);
+                }
+            }
+
+            var errorMessage = ModelState.ExpressionsMessages();
+
+            TempData.AddResult(SweetAlertExtenstion.Error(errorMessage));
+            return View(model);
+        }
+
+        #endregion
     }
 }

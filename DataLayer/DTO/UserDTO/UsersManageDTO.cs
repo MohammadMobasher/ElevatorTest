@@ -21,5 +21,7 @@ namespace DataLayer.DTO.UserDTO
         public string LastName { get; set; }
 
         public bool IsActive { get; set; }
+
+        public bool IsModerator { get; set; }
     }
 }

@@ -18,5 +18,9 @@ namespace DataLayer.Entities.Users
 
         public DateTime? CreateDate { get; set; }
         public bool IsActive { get; set; }
+        /// <summary>
+        /// ایا کاربر مدیریتی است
+        /// </summary>
+        public bool IsModerator { get; set; }
     }
 }

@@ -109,21 +109,31 @@ namespace Elevator.Controllers
 
                 if (userResult == null)
                 {
-                    var resultCreatUser = await _userManager.CreateAsync(user, model.Password);
-                    // درصورتیکه کاربر مورد نظر با موفقیت ثبت شد آن را لاگین میکنیم
-                    if (resultCreatUser.Succeeded)
+                    var isPhoneNumberExist = await _userRepository.GetByConditionAsync(x => x.PhoneNumber == model.PhoneNumber);
+                    if (isPhoneNumberExist == null)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Index", "Home");
+                        var resultCreatUser = await _userManager.CreateAsync(user, model.Password);
+
+                        // درصورتیکه کاربر مورد نظر با موفقیت ثبت شد آن را لاگین میکنیم
+                        if (resultCreatUser.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            if (resultCreatUser.Errors.Any(a => a.Code.Contains("DuplicateEmail")))
+                            {
+                                ViewBag.ErrorMessages = "ایمیل وارد شده تکراری می باشد";
+                            }
+
+                            TempData.AddResult(SweetAlertExtenstion.Error("عملیات با خطا مواجه شد لطفا مجددا تلاش نمایید"));
+                            return View(model);
+                        }
                     }
                     else
                     {
-                        if (resultCreatUser.Errors.Any(a => a.Code.Contains("DuplicateEmail")))
-                        {
-                            ViewBag.ErrorMessages = "ایمیل وارد شده تکراری می باشد";
-                        }
-
-                        TempData.AddResult(SweetAlertExtenstion.Error("عملیات با خطا مواجه شد لطفا مجددا تلاش نمایید"));
+                        TempData.AddResult(SweetAlertExtenstion.Error("شماره تلفن وارد شده تکراری می باشد"));
                         return View(model);
                     }
                 }
@@ -133,9 +143,9 @@ namespace Elevator.Controllers
                     return View(model);
                 }
             }
-            ViewBag.ErrorMessages = ModelState.ExpressionsMessages();
+            var errorMessage = ModelState.ExpressionsMessages();
 
-            TempData.AddResult(SweetAlertExtenstion.Error("لطفا اطلاعات را به درستی وارد نمایید"));
+            TempData.AddResult(SweetAlertExtenstion.Error(errorMessage));
             return View(model);
         }
 

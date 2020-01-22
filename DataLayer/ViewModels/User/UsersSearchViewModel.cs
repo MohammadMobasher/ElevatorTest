@@ -21,5 +21,6 @@ namespace DataLayer.ViewModels.User
 
         public bool? IsActive { get; set; }
 
+        public bool IsModerator { get; set; }
     }
 }
