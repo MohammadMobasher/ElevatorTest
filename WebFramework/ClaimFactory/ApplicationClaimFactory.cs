@@ -24,7 +24,7 @@ namespace WebFramework.ClaimFactory
                  new Claim("FirstName", user.FirstName ?? ""),
                  new Claim("LastName",  user.LastName ?? ""),
                  new Claim("FullName",  user.FirstName + " " + user.LastName),
-                 new Claim("UserProfile" , user.ProfilePic ?? "/Uploads/UserImage/NoPhoto.jpg")
+                 new Claim("UserProfile" , user.ProfilePic ?? "Uploads/UserImage/NoPhoto.jpg")
             });
 
             return principal;

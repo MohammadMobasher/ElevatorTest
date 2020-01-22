@@ -44,16 +44,33 @@ resize_heigth_BodyContainer();
 // برای اندازه کردن هر سلول در هر سطر
 function resize_td_table_to_th() {
     var th_tableFirst = $('.table-first > thead > tr:nth-child(2) > th');
+    var tr_tableSecond = $('.table-second > tbody > tr');
     var th_tableSecond = $('.table-second > tbody > tr > td');
 
-    for (i = 0; i < th_tableFirst.length; i++) {
+    for (var j = 0; j < tr_tableSecond.length; j++) {
+        var tds = $(tr_tableSecond[j]).find('td');
+        for (i = 0; i < th_tableFirst.length; i++) {
 
-        var width = parseFloat($(th_tableFirst[i]).width());
-        width += parseFloat($(th_tableFirst[i]).css("padding-left")) + parseFloat($(th_tableFirst[i]).css("padding-right")); //Total Padding Width
-        width += parseFloat($(th_tableFirst[i]).css("margin-left")) + parseFloat($(th_tableFirst[i]).css("margin-right")); //Total Margin Width
-        width += parseFloat($(th_tableFirst[i]).css("borderLeftWidth")) + parseFloat($(th_tableFirst[i]).css("borderRightWidth")); //Total Border Width
-        $(th_tableSecond[i]).css({ "width": width + 1 + "px" })
+            var width = parseFloat($(th_tableFirst[i]).width());
+            width += parseFloat($(th_tableFirst[i]).css("padding-left")) + parseFloat($(th_tableFirst[i]).css("padding-right")); //Total Padding Width
+            width += parseFloat($(th_tableFirst[i]).css("margin-left")) + parseFloat($(th_tableFirst[i]).css("margin-right")); //Total Margin Width
+            width += parseFloat($(th_tableFirst[i]).css("borderLeftWidth")) + parseFloat($(th_tableFirst[i]).css("borderRightWidth")); //Total Border Width
+            $(tds[i]).css({ "width": width + "px" })
+            $(tds[i]).css({ "max-width": width  + "px" })
+            $(tds[i]).css({ "white-space": "nowrap", "text-overflow": "ellipsis", "overflow": "hidden" })
+        }
     }
+
+    //for (i = 0; i < th_tableFirst.length; i++) {
+
+    //    var width = parseFloat($(th_tableFirst[i]).width());
+    //    width += parseFloat($(th_tableFirst[i]).css("padding-left")) + parseFloat($(th_tableFirst[i]).css("padding-right")); //Total Padding Width
+    //    width += parseFloat($(th_tableFirst[i]).css("margin-left")) + parseFloat($(th_tableFirst[i]).css("margin-right")); //Total Margin Width
+    //    width += parseFloat($(th_tableFirst[i]).css("borderLeftWidth")) + parseFloat($(th_tableFirst[i]).css("borderRightWidth")); //Total Border Width
+    //    $(th_tableSecond[i]).css({ "width": width + 1 + "px" })
+    //    $(th_tableSecond[i]).css({ "max-width": width + 1 + "px" })
+    //    $(th_tableSecond[i]).css({"white-space": "nowrap", "text-overflow": "ellipsis", "overflow": "hidden" })
+    //}
 }
 
 resize_td_table_to_th();
@@ -81,6 +98,15 @@ $('.dropify').dropify({
 /// از این اسکیریپت برای اسکورول دادن به صفحه استفاده می شود
 $(function () {
     $(".Mcontent").niceScroll({
+        cursorcolor: "#000",
+        cursorwidth: "6px",
+        background: "#DDD"
+    });
+});
+
+
+$(function () {
+    $(".bodycontainer").niceScroll({
         cursorcolor: "#000",
         cursorwidth: "6px",
         background: "#DDD"
