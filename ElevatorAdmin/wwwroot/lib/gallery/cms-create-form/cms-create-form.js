@@ -1,4 +1,5 @@
 function checkFile(el) {
+    debugger;
     console.log(el)
     let fileFormat = getExtension($(el).val()).toLowerCase();
     var url = URL.createObjectURL(el.files[0]);
@@ -42,12 +43,13 @@ function checkFile(el) {
 }
 
 function addFile() {
+ 
     oldInput = $('.fileDiv:last input');
     $('.fileDiv:last .fa-plus').addClass('hide')
     $('.fileDiv:last').clone().appendTo(".inputs");
     let newInput = $('.fileDiv:last input');
     newInput.val("").attr('input-id', parseInt(newInput.attr("input-id")) + 1)
-    let inputNum = oldInput.attr("name") == "mainImage" ? 0 : $('.fileDiv').length - 2;
+    let inputNum = oldInput.attr("name") == "file" ? 0 : $('.fileDiv').length - 2;
     newInput.attr('name', `galleryImage[${inputNum}]`);
     $('.fileDiv:last label').text('گالری');
     $('.fileDiv:last .fa-plus').addClass('hide');
@@ -72,6 +74,7 @@ function removeFile(el) {
 }
 
 function addGalleryItem(url, el, isVideo) {
+    debugger;
     $('.gallery').removeClass('hide')
     $('.gallery-item:last').clone().appendTo('.gallery-images');
     let newItem = $('.gallery-item:last');
@@ -95,6 +98,7 @@ function addVideo(item, url, isChange = false) {
 }
 
 function addImage(item, url, isChange = false) {
+    debugger;
     if (isChange) {
         item[0].outerHTML = `<img class="gallery-item" 
         img-id="${parseInt(item.attr("img-id"))}"
