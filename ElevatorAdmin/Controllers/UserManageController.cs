@@ -271,7 +271,7 @@ namespace ElevatorAdmin.Controllers
             {
                 await _userRepository.UpdateProfilePic(this.UserId, ProfilePic);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         #endregion
