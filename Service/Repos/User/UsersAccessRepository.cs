@@ -135,6 +135,7 @@ namespace Service.Repos.User
             if (userId != 0)
             {
                 var role = _usersRoleRepository.GetRoleByUserId(userId);
+                if (role == null) return null;
 
                 if (!_roleRepository.IsAdmin(role.RoleId))
                 {
