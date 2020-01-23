@@ -93,10 +93,10 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             vm.ProductId = productId;
 
-            if (Pics.gallery != null)
+            if (Pics.galleryImage != null)
             {
                 // آپلود گالری
-                await _productGalleryRepository.UploadGalley(Pics.gallery, productId);
+                await _productGalleryRepository.UploadGalley(Pics.galleryImage, productId);
             }
 
             // ویژگی ها
@@ -134,13 +134,13 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             var productId = await _productRepostitory.UpdateProduct(product, Pics.file);
             vm.ProductId = product.Id;
 
-            if (Pics.gallery != null)
+            if (Pics.galleryImage != null)
             {
                 var getAllProductGallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == product.Id).Select(a => a.Pic).ToListAsync();
 
                 _productGalleryRepository.DeletePic(getAllProductGallery);
                 // آپلود گالری
-                await _productGalleryRepository.UploadGalley(Pics.gallery, productId);
+                await _productGalleryRepository.UploadGalley(Pics.galleryImage, productId);
             }
 
             // ویژگی ها
