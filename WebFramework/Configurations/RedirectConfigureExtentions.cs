@@ -12,7 +12,7 @@ namespace WebFramework.Configurations
             app.Use(async (context, next) =>
             {
                 await next();
-                if (context.Response.StatusCode == 400)
+                if (context.Response.StatusCode == 403)
                 {
                     context.Request.Path = "/Home/Error403";
                     await next();

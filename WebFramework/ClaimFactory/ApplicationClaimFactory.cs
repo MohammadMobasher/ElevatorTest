@@ -19,6 +19,12 @@ namespace WebFramework.ClaimFactory
         public override async Task<ClaimsPrincipal> CreateAsync(Users user)
         {
             var principal = await base.CreateAsync(user);
+
+            ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("FirstName"));
+            ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("LastName"));
+            ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("FullName"));
+            ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("UserProfile"));
+
             ((ClaimsIdentity)principal.Identity).AddClaims(new[]
             {
                  new Claim("FirstName", user.FirstName ?? ""),
