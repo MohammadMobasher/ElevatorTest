@@ -22,21 +22,27 @@
         }
         else
         {
-            <li class="has_sub">
-                <a href="javascript:void(0);" class="waves-effect"><i class="@item.Icon"></i> <span> @item.Title </span> <span class="menu-arrow"></span></a>
-                <ul class="list-unstyled">
-                    @foreach (SidebarChildViewModel child in item.Childs)
-                    {
-                        @if (ListAccess.Where(x => x.Controller == child.Controller + "Controller" && x.Action == child.Action).SingleOrDefault() != null )
-                        {
-                            <li>
-                                <a asp-area="@child.Area" asp-controller="@child.Controller" asp-action="@child.Action">@child.Title</a>
-                            </li>
-                        }
-                    }
+            var hasAcessToThisItem = item.Childs.Where(x => ListAccess.Any(xx => xx.Controller == x.Controller + "Controller" && xx.Action == x.Action)).ToList();
 
-                </ul>
-            </li>
+
+            if (hasAcessToThisItem != null && hasAcessToThisItem.Count > 0)
+            {
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="@item.Icon"></i> <span> @item.Title </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled">
+                        @foreach (SidebarChildViewModel child in item.Childs)
+                        {
+                            @if (ListAccess.Where(x => x.Controller == child.Controller + "Controller" && x.Action == child.Action).SingleOrDefault() != null)
+                            {
+                                <li>
+                                    <a asp-area="@child.Area" asp-controller="@child.Controller" asp-action="@child.Action">@child.Title</a>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                </li>
+            }
         }
     }
 }
