@@ -71,6 +71,9 @@ namespace Service.Repos.User
             if (model.IsActive != null)
                 query = query.Where(x => x.IsActive == model.IsActive);
 
+            if (model.IsModerator != null)
+                query = query.Where(x => x.IsModerator == model.IsModerator);
+
             int Count = query.Count();
 
             query = query.OrderByDescending(x => x.Id);
