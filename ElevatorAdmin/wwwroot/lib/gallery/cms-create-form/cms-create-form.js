@@ -47,7 +47,7 @@ function addFile() {
     $('.fileDiv:last').clone().appendTo(".inputs");
     let newInput = $('.fileDiv:last input');
     newInput.val("").attr('input-id', parseInt(newInput.attr("input-id")) + 1)
-    let inputNum = oldInput.attr("name") == "mainImage" ? 0 : $('.fileDiv').length - 2;
+    let inputNum = oldInput.attr("name") == "gallery" ? 0 : $('.fileDiv').length - 2;
     newInput.attr('name', `galleryImage[${inputNum}]`);
     $('.fileDiv:last label').text('گالری');
     $('.fileDiv:last .fa-plus').addClass('hide');
