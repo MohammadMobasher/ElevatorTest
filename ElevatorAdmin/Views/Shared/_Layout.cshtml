@@ -162,15 +162,15 @@
 
                     <!-- Page title -->
                     @*<ul class="nav navbar-nav navbar-left">
-                            <li>
-                                <button class="button-menu-mobile open-left">
-                                    <i class="zmdi zmdi-menu"></i>
-                                </button>
-                            </li>
-                            <li>
-                                <h4 class="page-title">داشبورد</h4>
-                            </li>
-                        </ul>*@
+                        <li>
+                            <button class="button-menu-mobile open-left">
+                                <i class="zmdi zmdi-menu"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <h4 class="page-title">داشبورد</h4>
+                        </li>
+                    </ul>*@
 
                     <div>
 
@@ -181,43 +181,45 @@
 
                         <h4 class="page-title " style="float:right">@ViewData["Title"]</h4>
                         @*<h4 class="page-title " style="float:left">
-                                @ViewData["Title"]
-                            </h4>*@
+                            @ViewData["Title"]
+                        </h4>*@
 
                         @*<img style="float:left" src="~/@User.Identity.FindFirstValue("UserProfile")" alt="@User.Identity.FindFirstValue("LastName")" title="نام فرد" width="65" height="65" class="img-circle img-thumbnail img-responsive">
 
-                            <h4 class="page-title " style="float:left">
-                                <a asp-controller="Account" asp-action="Logout">
-                                    <i class="fa fa-sign-out" style="font-size:25px; margin-left:20px" aria-hidden="true"></i>
-                                </a>
-                            </h4>*@
+                        <h4 class="page-title " style="float:left">
+                            <a asp-controller="Account" asp-action="Logout">
+                                <i class="fa fa-sign-out" style="font-size:25px; margin-left:20px" aria-hidden="true"></i>
+                            </a>
+                        </h4>*@
 
 
 
                     </div>
                     @*<ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <i class="fa fa-power-off " style="background-color:red" aria-hidden="true"></i>
-                            </li>
+                        <li>
+                            <i class="fa fa-power-off " style="background-color:red" aria-hidden="true"></i>
+                        </li>
 
-                            <li>
-                                <div class="">
+                        <li>
+                            <div class="">
 
-                                </div>
-                            </li>
+                            </div>
+                        </li>
 
-                        </ul>*@
+                    </ul>*@
 
                 </div><!-- end container -->
             </div><!-- end navbar -->
         </div>
         <!-- Top Bar End -->
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="left side-menu menuLiftBazar">
-            <div class="sidebar-inner ">
+        @*menuLiftBazar*@
+        @*slimscrollleft*@
+        <div class="left side-menu ">
+            <div class="sidebar-inner slimscrollleft">
                 <div class="user-box">
                     <div class="user-img">
-                        <img src="/@User.Identity.FindFirstValue("UserProfile")"  alt="user-profile" title="@User.Identity.FindFirstValue("FullName")" data-toggle='tooltip' data-placement='bottom' class="img-circle img-thumbnail img-responsive UserPicture">
+                        <img src="/@User.Identity.FindFirstValue("UserProfile")" alt="user-profile" title="@User.Identity.FindFirstValue("FullName")" data-toggle='tooltip' data-placement='bottom' class="img-circle img-thumbnail img-responsive UserPicture">
                     </div>
                     <h5>@User.Identity.FindFirstValue("FullName")</h5>
                     <ul class="list-inline">
@@ -234,7 +236,7 @@
                         <li class="text-muted menu-title">دسترسی‌ها</li>
                         @await Component.InvokeAsync("SidebarComponent")
                         @*@await Component.InvokeAsync("SidebarComponent", new { controller = "UserManage", action = "Index", title = "مدیریت کاربران", icon = "zmdi-account-circle" })
-                            @await Component.InvokeAsync("SidebarComponent", new { controller = "RoleManage", action = "Index", title = "مدیریت نقش ها", icon = "zmdi-settings" })*@
+                        @await Component.InvokeAsync("SidebarComponent", new { controller = "RoleManage", action = "Index", title = "مدیریت نقش ها", icon = "zmdi-settings" })*@
 
                     </ul>
                     <div class="clearfix"></div>
@@ -281,7 +283,7 @@
                         </div>
                     </div>
 
-                    <div class="container Mcontent1" >
+                    <div class="container Mcontent1">
                         <div class="row Mcontent" style="background-color:#FFF; border-radius:6px; padding-top:10px;
 -webkit-box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
 -moz-box-shadow: 4px 5px 5px 3px rgba(0,0,0,0.41);
