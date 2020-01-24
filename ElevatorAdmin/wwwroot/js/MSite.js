@@ -112,6 +112,18 @@ $(function () {
         background: "#DDD"
     });
 });
+
+$(function () {
+    $(".menuLiftBazar").niceScroll({
+        cursorcolor: "#000",
+        cursorwidth: "6px",
+        background: "#DDD"
+    });
+});
+
+
+
+
 //================================================================================
 
 /// این اسکیریپت برای قیمت استفاده می شود 
