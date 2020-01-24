@@ -1,6 +1,5 @@
 ﻿@using DataLayer.Entities.Users;
-@using DataLayer.DTO.UserRoleDTO;
-@model List<UserRoleDetailDTO>
+@model UserRoles
 @{
     var roles = ViewBag.Roles as List<Roles>;
 }
@@ -12,75 +11,38 @@
         list-style-type: none;
     }
 </style>
-
-
-<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
-    <TableBotton controller="UserManage" action="SetRoleInsert"
-                 isModal="true"
-                 querystring="UserId=@ViewBag.UserId"
-                 modalTitle="ثبت جدید"
-                 title="ثبت"
-                 icon="fa-plus"
-                 buttonClass="btn-primary"></TableBotton>
-</div>
-
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
 
+    <form asp-action="SetRole" method="post">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-box p-b-0">
 
+                    <div class="row">
+                        <div class="card-box">
+                            <div class="form-group clearfix">
+                                <label class="control-label col-md-2">نقش</label>
+                                <div class="col-md-10">
+                                    <select class="form-control" asp-for="RoleId" data-role="select2">
+                                        <option>-- لطفا انتخاب کنید --</option>
+                                        @foreach (var item in roles)
+                                        {
+                                            <option value="@item.Id">@item.RoleTitle</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
 
-
-
-    
-
-
-    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
-
-        <table class="table table-responsive table-striped rounded table-hover table-bordered ">
-            <thead>
-                <tr>
-                    <th width="3%"></th>
-                    <th width="8%">
-                        ردیف
-                    </th>
-                    <th>عنوان</th>
-
-                </tr>
-                <tr>
-                    <form method="post">
-                        <th>---</th>
-                        <th>
-                            ---
-                        </th>
-                        <th><input type="text" name="Title" class="form-control searchInput" /></th>
-                        <input type="submit" class="hidden searchBtn" value="جستجو" />
-                    </form>
-                </tr>
-            </thead>
-            <tbody>
-
-
-
-                @{var index = 1;}
-                @if (Model != null)
-                {
-
-                    @foreach (UserRoleDetailDTO item in Model)
-                    {
-                        <tr>
-                            <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
-                            <th>@(index++)</th>
-                            <td>@item.RoleTitle</td>
-
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-
-        @Html.Partial("~/Views/Shared/_Pagination.cshtml")
-
-
-    </div>
-
-
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="UserId" value="@ViewBag.UserId" />
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-block btn-primary ">ثبت</button>
+            </div>
+        </div>
+    </form>
 </div> <!-- container -->
