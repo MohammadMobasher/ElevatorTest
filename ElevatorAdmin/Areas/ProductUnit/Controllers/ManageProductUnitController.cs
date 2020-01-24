@@ -9,6 +9,7 @@ using DataLayer.DTO.ProductUnit;
 using DataLayer.ViewModels;
 using DataLayer.ViewModels.ProductUnit;
 using Microsoft.AspNetCore.Mvc;
+using Service.Repos;
 using Service.Repos.Product;
 using Service.Repos.User;
 using WebFramework.Authenticate;
@@ -21,10 +22,14 @@ namespace ElevatorAdmin.Areas.ProductUnit.Controllers
     public class ManageProductUnitController : BaseAdminController
     {
         private readonly ProductUnitRepository _productUnitRepository;
+        private readonly ProductRepostitory _productRepostitory;
+
         public ManageProductUnitController(UsersAccessRepository usersAccessRepository,
-            ProductUnitRepository productUnitRepository) : base(usersAccessRepository)
+            ProductUnitRepository productUnitRepository,
+            ProductRepostitory productRepostitory) : base(usersAccessRepository)
         {
             _productUnitRepository = productUnitRepository;
+            _productRepostitory = productRepostitory;
         }
 
         [ActionRole("صفحه لیست واحد‌ها")]
@@ -95,6 +100,7 @@ namespace ElevatorAdmin.Areas.ProductUnit.Controllers
         public async Task<IActionResult> Delete(int Id)
         {
 
+            ViewBag.NumProductByProductUnitId = await _productRepostitory.NumProductByProductUnitId(Id);
             return View(new DeleteDTO { Id = Id });
         }
 

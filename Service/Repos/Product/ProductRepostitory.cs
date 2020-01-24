@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Service.Repos.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,14 @@ namespace Service.Repos
     public class ProductRepostitory : GenericRepository<DataLayer.Entities.Product>
     {
         private readonly IHostingEnvironment _hostingEnvironment;
-        public ProductRepostitory(DatabaseContext dbContext,IHostingEnvironment hostingEnvironment) : base(dbContext)
+        private readonly ProductDiscountRepository _productDiscountRepository;
+
+        public ProductRepostitory(DatabaseContext dbContext,
+            IHostingEnvironment hostingEnvironment,
+            ProductDiscountRepository productDiscountRepository) : base(dbContext)
         {
             _hostingEnvironment = hostingEnvironment;
+            _productDiscountRepository = productDiscountRepository;
         }
 
 
@@ -184,6 +190,46 @@ namespace Service.Repos
         public async Task<List<int>> GetProductIdsByGroupId(int productGroupId)
         {
             return await Entities.Where(x => x.ProductGroupId == productGroupId).Select(x=> x.Id).ToListAsync();
+        }
+
+
+
+        /// <summary>
+        /// تعداد کالاهایی که دارای یک واحد میباشند
+        /// </summary>
+        /// <param name="productUnitId">شماره واحد مورد نظر</param>
+        /// <returns></returns>
+        public async Task<int> NumProductByProductUnitId(int productUnitId)
+        {
+            var result = await Entities.Where(x => x.ProductUnitId == productUnitId).ToListAsync();
+            if (result != null && result.Count > 0)
+                return result.Count;
+            return 0;
+
+        }
+
+        /// <summary>
+        /// تعداد کالاهایی که دارای یک واحد میباشند
+        /// </summary>
+        /// <param name="productUnitId">شماره واحد مورد نظر</param>
+        /// <returns></returns>
+        public async Task<bool> DeleteByProductUnitId(int productUnitId)
+        {
+            try
+            {
+                var result = await Entities.Where(x => x.ProductUnitId == productUnitId).ToListAsync();
+
+                if (await _productDiscountRepository.DeleteByProductIds(result.Select(x => x.Id).ToList()))
+                    await DeleteRangeAsync(result);
+                else
+                    return false;
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+
         }
     }
 }
