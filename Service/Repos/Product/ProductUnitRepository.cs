@@ -17,9 +17,12 @@ namespace Service.Repos.Product
 {
     public class ProductUnitRepository : GenericRepository<ProductUnit>
     {
-        public ProductUnitRepository(DatabaseContext dbContext) : base(dbContext)
-        {
+        private readonly ProductRepostitory _productRepostitory;
 
+        public ProductUnitRepository(DatabaseContext dbContext,
+            ProductRepostitory productRepostitory) : base(dbContext)
+        {
+            _productRepostitory = productRepostitory;
         }
 
         public async Task<Tuple<int, List<ProductUnitDTO>>> LoadAsyncCount(
@@ -106,11 +109,15 @@ namespace Service.Repos.Product
             try
             {
                 var entity = new ProductUnit { Id = Id };
-                await DeleteAsync(entity);
+                if(await _productRepostitory.DeleteByProductUnitId(Id))
+                    await DeleteAsync(entity);
+                else
+                    return SweetAlertExtenstion.Error();
                 return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
             }
-            catch
+            catch(Exception e)
             {
+
                 return SweetAlertExtenstion.Error();
             }
 

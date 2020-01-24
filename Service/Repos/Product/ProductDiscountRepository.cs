@@ -85,7 +85,7 @@ namespace Service.Repos.Product
 
                 return model;
             }
-    
+
             // بررسی و اعمال تخفیف رو تمامی محصولات
             async Task<ProductDiscount> CalculateAll()
                => await TableNoTracking.FirstOrDefaultAsync(a => a.ProductGroupId == null && a.ProductId == null);
@@ -93,5 +93,25 @@ namespace Service.Repos.Product
             #endregion
         }
 
+
+        /// <summary>
+        /// حذف با استفاده از لیست شماره محصولات
+        /// </summary>
+        /// <param name="productIds">شماره محصولاتی که تخفیف‌‌های مربوط به آنها باید از بین برود</param>
+        /// <returns></returns>
+        public async Task<bool> DeleteByProductIds(List<int> productIds)
+        {
+            try
+            {
+                var result = await Entities.Where(x => productIds.Contains(x.ProductId.Value)).ToListAsync();
+                await DeleteRangeAsync(result);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
     }
 }
