@@ -20,10 +20,17 @@ namespace WebFramework.ClaimFactory
         {
             var principal = await base.CreateAsync(user);
 
-            ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("FirstName"));
-            ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("LastName"));
-            ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("FullName"));
-            ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("UserProfile"));
+            if(principal.FindFirst("FirstName") != null)
+                ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("FirstName"));
+
+            if (principal.FindFirst("LastName") != null)
+                ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("LastName"));
+
+            if (principal.FindFirst("FullName") != null)
+                ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("FullName"));
+
+            if (principal.FindFirst("UserProfile") != null)
+                ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("UserProfile"));
 
             ((ClaimsIdentity)principal.Identity).AddClaims(new[]
             {
