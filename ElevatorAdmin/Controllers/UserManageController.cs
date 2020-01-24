@@ -130,35 +130,23 @@ namespace ElevatorAdmin.Controllers
 
         #region دسترسی دادن به کاربران
 
-        [ActionRole("نقش دادن به کاربر")]
+
+        [ActionRole("دسترسی دادن به کاربر")]
         [HasAccess]
         public IActionResult SetRole(int id)
         {
             // لیست تمامی نقش های تعریف شده در سایت
             ViewBag.Roles = _roleRepository.TableNoTracking.ToList();
-            // شماره کاربری 
-            ViewBag.UserId = id;
-
             //  نقش کاربر انتخاب شده
-            var userRole = _usersRoleRepository.GetRolesByUserId(id);
+            var userRole = _usersRoleRepository.TableNoTracking.FirstOrDefault(a => a.UserId == id);
+
+            ViewBag.UserId = id;
 
             return View(userRole);
         }
 
-
-
-        [ActionRole("ثبت نقش جدید برای کاربر")]
-        [HasAccess]
-        public async Task<IActionResult> SetRoleInsert(int UserId)
-        {
-            // لیست تمامی نقش های تعریف شده در سایت
-            ViewBag.Roles = await _roleRepository.LoadAsync<RolesDTO>();
-
-            return View(UserId);
-        }
-
         [HttpPost]
-        public async Task<IActionResult> SetRoleInsert(SetUserRoleViewModel vm)
+        public IActionResult SetRole(SetUserRoleViewModel vm)
         {
             var swMessage = _usersRoleRepository.SetRole(vm);
 
@@ -166,6 +154,7 @@ namespace ElevatorAdmin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
 
         #endregion
 

@@ -26,43 +26,27 @@ namespace Service.Repos.User
         /// <returns></returns>
         public SweetAlertExtenstion SetRole(SetUserRoleViewModel vm)
         {
+            var userRole = TableNoTracking.FirstOrDefault(a => a.UserId == vm.UserId);
 
-            try
-            {
-                this.Entities.Add(new UserRoles {
-                    RoleId = vm.RoleId,
-                    UserId = vm.UserId
-                });
-
-                DbContext.SaveChanges();
-
-                return SweetAlertExtenstion.Ok();
-            }
-            catch
-            {
-                return SweetAlertExtenstion.Error();
-            }
-
-            //var userRole = TableNoTracking.FirstOrDefault(a => a.UserId == vm.UserId);
-
-            //return ResetRole();
+            return ResetRole();
 
             #region LocalMethod
 
-            //SweetAlertExtenstion ResetRole()
-            //{
-            //    if (userRole == null) MapAdd(vm, false); 
-            //    else
-            //    {
-            //        Delete(userRole);
-            //        MapAdd(vm, false);
-            //    }
+            SweetAlertExtenstion ResetRole()
+            {
+                if (userRole == null) MapAdd(vm, false);
+                else
+                {
+                    Delete(userRole);
+                    MapAdd(vm, false);
+                }
 
-            //    return Save();
-            //}
+                return Save();
+            }
 
             #endregion
         }
+
 
         public UserRoles GetRoleByUserId(int userId)
             => GetByCondition(a => a.UserId == userId);
