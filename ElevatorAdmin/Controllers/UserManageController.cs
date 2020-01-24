@@ -277,7 +277,7 @@ namespace ElevatorAdmin.Controllers
         #endregion
 
         #region ایجاد کاربر
-
+        [ActionRole("ایجاد کاربر جدید")]
         public async Task<IActionResult> CreateUser()
         {
             return View();
