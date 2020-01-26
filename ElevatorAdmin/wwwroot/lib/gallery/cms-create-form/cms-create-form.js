@@ -50,7 +50,7 @@ function addFile() {
     let newInput = $('.fileDiv:last input');
     newInput.val("").attr('input-id', parseInt(newInput.attr("input-id")) + 1)
     let inputNum = oldInput.attr("name") == "file" ? 0 : $('.fileDiv').length - 2;
-    newInput.attr('name', `galleryImage[${inputNum}]`);
+    newInput.attr('name', `galleryImage`);
     $('.fileDiv:last label').text('گالری');
     $('.fileDiv:last .fa-plus').addClass('hide');
     newInput.on('change', () => {
