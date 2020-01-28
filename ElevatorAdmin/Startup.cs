@@ -45,24 +45,29 @@ namespace ElevatorAdmin
             services.AddHttpClient();
 
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
 
 
             services.DatabaseConfiguration(Configuration);
-
             services.AddCustomIdentity(_siteSetting.IdentitySettings);
 
             services.SmsConfiguration();
             services.AddSignalR();
-
             services.ClaimFactoryConfiguration();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMemoryCache();
+            services.AddSession();
+
+            services.AddResponseCaching();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddSessionStateTempDataProvider();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,7 +88,7 @@ namespace ElevatorAdmin
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-          
+            app.UseSession();
             app.UseAuthentication();
             //app.UseSignalR(route =>
             //{
