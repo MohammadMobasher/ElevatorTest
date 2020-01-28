@@ -89,6 +89,7 @@ namespace ElevatorAdmin
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
+            app.UseResponseCaching();
             app.UseAuthentication();
             //app.UseSignalR(route =>
             //{
