@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Elevator.Models;
 using Service.Repos;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper.QueryableExtensions;
+using DataLayer.DTO.Products;
 
 namespace Elevator.Controllers
 {
@@ -15,17 +18,29 @@ namespace Elevator.Controllers
 
         private readonly SlideShowRepository _slideShowRepository;
         private readonly NewsGroupRepository _newsGroupRepository;
-
+        private readonly ProductRepostitory productRepostitory;
         public HomeController(SlideShowRepository slideShowRepository,
-            NewsGroupRepository newsGroupRepository)
+            NewsGroupRepository newsGroupRepository,
+            ProductRepostitory productRepostitory)
         {
             _slideShowRepository = slideShowRepository;
             _newsGroupRepository = newsGroupRepository;
+            this.productRepostitory = productRepostitory;
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
+            var specialProduct = await productRepostitory.TableNoTracking
+                .Where(a => a.IsSpecialSell && a.IsActive == true)
+                .ProjectTo<ProductFullDTO>()
+                .OrderByDescending(a => a.CreateDate)
+                .Take(12)
+                .ToListAsync();
+
+
+            ViewBag.SpecialProduct = specialProduct;
             return View();
         }
 

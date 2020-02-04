@@ -70,6 +70,11 @@
                      buttonClass="btn-info"></TableBotton>
 
 
+        <TableBotton area="Product" controller="ManageProduct" action="ChangeSpecialSell"
+                     title="محصول ویژه"
+                     icon="fa-star"
+                     buttonClass="btn-success"></TableBotton>
+
     </span>
 </div>
 
@@ -89,6 +94,7 @@
                 <th>قیمت با تخفیف</th>
                 <th>گروه</th>
                 <th>فعال/غیرفعال</th>
+                <th>محصول ویژه؟</th>
                 <th>مجموع نظرات</th>
                 <th>تاریخ ثبت</th>
             </tr>
@@ -117,6 +123,9 @@
                                 <!option value="@item.Id" @(search.ProductGroupId == item.Id ? "selected" : "")>@item.Title</!option>
                             }
                         </select>
+                    </th>
+                    <th>
+                        ----
                     </th>
                     <th>
                         ----
@@ -159,7 +168,10 @@
                         @item.ProductGroup.Title
                     </td>
                     <td>
-                        @(item.IsActive == true?"فعال":"غیر فعال")
+                        @(item.IsActive == true ? "فعال" : "غیر فعال")
+                    </td>
+                    <td>
+                        @(item.IsSpecialSell == true ? " ویژه" : " عادی")
                     </td>
                     <td>
                         @(item.Like - item.DisLike)

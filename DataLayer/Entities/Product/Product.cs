@@ -68,6 +68,11 @@ namespace DataLayer.Entities
         public DateTime? CreateDate { get; set; }
 
         /// <summary>
+        /// آیا این محصول جز فروش ویژه است؟
+        /// </summary>
+        public bool IsSpecialSell { get; set; }
+
+        /// <summary>
         /// فعال  / غیرفعال
         /// </summary>
         public bool? IsActive { get; set; }

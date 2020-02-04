@@ -177,10 +177,19 @@ namespace Service.Repos
         {
             var model = await GetByIdAsync(id);
 
-            model.IsActive = !model.IsActive;
+            model.IsActive = model.IsActive ==null ?true : !model.IsActive;
             await UpdateAsync(model);
         }
 
+
+        public async Task ChangeSpecial(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            model.IsSpecialSell = !model.IsSpecialSell;
+
+            await UpdateAsync(model);
+        }
 
         /// <summary>
         /// شماره محصولاتی که در یک گروه قرار دارد

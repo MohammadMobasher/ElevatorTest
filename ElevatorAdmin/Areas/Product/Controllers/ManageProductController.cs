@@ -143,9 +143,11 @@ namespace ElevatorAdmin.Areas.Product.Controllers
                 await _productGalleryRepository.UploadGalley(Pics.galleryImage, productId);
             }
 
-            // ویژگی ها
-            await _productFeatureRepository.UpdateFeatureRange(vm);
-
+            if (vm.Items != null)
+            {
+                // ویژگی ها
+                await _productFeatureRepository.UpdateFeatureRange(vm);
+            }
             // نمایش پیغام
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
@@ -248,9 +250,22 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         #region فعال / غیرفعال
 
+        [ActionRole("فعال / غیر فعال کردن محصول")]
         public async Task<IActionResult> ChangeState(int id)
         {
             await _productRepostitory.ChangeStateProduct(id);
+
+            TempData.AddResult(SweetAlertExtenstion.Ok());
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [ActionRole("تغییر محصول عادی به محصول ویژه")]
+        public async Task<IActionResult> ChangeSpecialSell(int id)
+        {
+            await _productRepostitory.ChangeSpecial(id);
+
+            TempData.AddResult(SweetAlertExtenstion.Ok());
 
             return RedirectToAction(nameof(Index));
         }

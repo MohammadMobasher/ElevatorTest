@@ -55,6 +55,10 @@ namespace DataLayer.DTO.Products
         public string Tags { get; set; }
 
         public bool? IsActive { get; set; }
+        /// <summary>
+        /// آیا این محصول جز فروش ویژه است؟
+        /// </summary>
+        public bool IsSpecialSell { get; set; }
 
         /// <summary>
         /// تاریخ ثبت محصول
@@ -65,6 +69,8 @@ namespace DataLayer.DTO.Products
         public virtual ProductGroup ProductGroup { get; set; }
 
         public virtual DataLayer.Entities.ProductUnit ProductUnit { get; set; }
+
+        public virtual ProductDiscount ProductDiscount { get; set; }
         #endregion
     }
 }
