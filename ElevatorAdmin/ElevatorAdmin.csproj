@@ -54,6 +54,7 @@
 	 <Folder Include="Areas\ProductDiscount\Models\" />
 	 <Folder Include="Areas\ProductGroup\Data\" />
     <Folder Include="Areas\ProductGroup\Models\" />
+    <Folder Include="Areas\ProductPackage\Views\" />
     <Folder Include="Areas\Warehouse\Data\" />
     <Folder Include="Areas\Warehouse\Models\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />

@@ -54,6 +54,9 @@ namespace Service
         public DbSet<ProductGroupFeature> ProductGroupFeature { get; set; }
         public DbSet<ProductGallery> Gallery { get; set; }
         public DbSet<SlideShow> SlideShow { get; set; }
+        public DbSet<ProductPackage> ProductPackage { get; set; }
+        public DbSet<ProductPackageGallery> ProductPackageGallery { get; set; }
+        public DbSet<ProductPackageDetails> ProductPackageDetails { get; set; }
 
         public DbSet<ProductDiscount> ProductDiscount { get; set; }
         #endregion
