@@ -19,16 +19,16 @@
                         <li><a href="#" class="quickview-trigger"><i class="lnr lnr-eye"></i></a></li>
                         <li><a href="#"><i class="lnr lnr-heart"></i></a></li>
                     </ul>
-                    <ul class="hoproduct-flags">
+                    <ul class="hoproduct-flags discountProduct" data-id="@item.Id">
                         <li class="flag-pack">جدید</li>
-                        <li class="flag-discount">-15%</li>
+                        @*<li class="flag-discount">-15%</li>*@
                     </ul>
                 </div>
                 <div class="hoproduct-countdown countdown" data-countdown="2020/12/12"></div>
                 <div class="hoproduct-content">
                     <h5 class="hoproduct-title"><a href="product-details.html">@item.Title</a></h5>
                     <div class="hoproduct-rattingbox">
-                        <h6>بازدید 1</h6>
+                        <h6>@item.Visit بازدید</h6>
                         <div class="rattingbox">
                             <span class="active"><i class="ion ion-ios-star"></i></span>
                             <span class="active"><i class="ion ion-ios-star"></i></span>
@@ -37,12 +37,12 @@
                             <span class="active"><i class="ion ion-ios-star"></i></span>
                         </div>
                     </div>
-                    <div class="hoproduct-pricebox">
+                    <div class="hoproduct-pricebox ">
                         <div class="pricebox">
                             <del class="oldprice">@item.Price</del>
-                            <span class="price">@item.Price</span>
+                            <span class="price DiscountPrice_@item.Id">@item.Price تومان</span>
                         </div>
-                        <span class="discount">-5%</span>
+                        <span class="dicountValue_@item.Id"></span>
                     </div>
                 </div>
             </article>
@@ -54,3 +54,4 @@
 
 
 </div>
+
