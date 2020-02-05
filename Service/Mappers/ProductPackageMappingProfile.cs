@@ -15,6 +15,7 @@ namespace Service.Mappers
         {
             CreateMap<ProductPackage, ProductPackageUpdateViewModel>().ReverseMap();
             CreateMap<ProductPackage, ProductPackageUpdateViewModel>().ReverseMap();
+            CreateMap<ProductPackageDetails, ProductPackageDetailFullDTO>().ReverseMap();
             CreateMap<ProductPackage, ProductPackageFullDTO>().ReverseMap();
         }
 

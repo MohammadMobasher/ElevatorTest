@@ -30,6 +30,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         private readonly ProductGalleryRepository _productGalleryRepository;
         private readonly FeatureRepository _featureRepository;
         private readonly ProductDiscountRepository _productDiscountRepository;
+        private readonly ProductPackageRepostitory _productPackageRepostitory;
 
         public ManageProductPackageController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
@@ -39,7 +40,8 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             ProductFeatureRepository productFeatureRepository,
             ProductGalleryRepository productGalleryRepository,
             FeatureRepository featureRepository,
-            ProductDiscountRepository productDiscountRepository) : base(usersAccessRepository)
+            ProductDiscountRepository productDiscountRepository,
+            ProductPackageRepostitory productPackageRepostitory) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
             _productGroupRepository = productGroupRepository;
@@ -49,13 +51,13 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             _productGalleryRepository = productGalleryRepository;
             _featureRepository = featureRepository;
             _productDiscountRepository = productDiscountRepository;
+            _productPackageRepostitory = productPackageRepostitory;
         }
 
-        [ActionRole("صفحه لیست کالاها")]
-        [HasAccess]
-        public async Task<IActionResult> Index(ProductSearchViewModel searchModel = null)
+        [ActionRole("صفحه لیست پکیج ها")]
+        public async Task<IActionResult> Index(ProductPackageSearchViewModel searchModel = null)
         {
-            var model = await _productRepostitory.LoadAsyncCount(
+            var model = await _productPackageRepostitory.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize,
                 searchModel);

@@ -29,6 +29,10 @@ namespace DataLayer.Entities
 
         public int DisLike { get; set; }
 
+        public bool IsSpecialPackage { get; set; }
+
         public DateTime CreateDate { get; set; }
+
+        public virtual ICollection<ProductPackageDetails> ProductPackageDetails { get; set; }
     }
 }

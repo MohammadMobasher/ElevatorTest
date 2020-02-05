@@ -60,13 +60,21 @@ namespace ElevatorAdmin
             services.AddSignalR();
             services.ClaimFactoryConfiguration();
 
-            services.AddMemoryCache();
-            services.AddSession();
+            services.AddDistributedMemoryCache();
 
-            services.AddResponseCaching();
+         
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddSessionStateTempDataProvider();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(1000);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
 
         }
 
@@ -87,10 +95,9 @@ namespace ElevatorAdmin
             app.UseRedirectConfigure();
 
             app.UseStaticFiles();
-            app.UseCookiePolicy();
-            app.UseSession();
-            app.UseResponseCaching();
             app.UseAuthentication();
+
+
             //app.UseSignalR(route =>
             //{
             //    route.MapHub<UserOnlineCountHub>("/");
@@ -98,7 +105,7 @@ namespace ElevatorAdmin
 
 
 
-
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

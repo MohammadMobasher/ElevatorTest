@@ -30,6 +30,10 @@ namespace DataLayer.DTO.Products
 
         public int DisLike { get; set; }
 
+        public bool IsSpecialPackage { get; set; }
+
         public DateTime CreateDate { get; set; }
+
+        public ICollection<ProductPackageDetailFullDTO> ProductPackageDetails { get; set; }
     }
 }
