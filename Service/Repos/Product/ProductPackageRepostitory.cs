@@ -129,7 +129,7 @@ namespace Service.Repos
         {
             var model = await GetByIdAsync(id);
 
-            model.IsSpecialSell = !model.IsSpecialSell;
+            model.IsSpecialPackage = !model.IsSpecialPackage;
 
             await UpdateAsync(model);
         }

@@ -67,14 +67,14 @@
                 <th width="8%">
                     ردیف
                 </th>
-                <th>تصویر</th>
+                <th width="200">تصویر</th>
                 <th>عنوان پکیج</th>
+                <th width="200">تاریخ ثبت</th>
                 <th>قیمت کلی</th>
                 <th>قیمت با تخفیف</th>
                 <th>فعال/غیرفعال</th>
                 <th>پکیج ویژه؟</th>
                 <th>مجموع نظرات</th>
-                <th>تاریخ ثبت</th>
             </tr>
             <tr>
                 <form method="post">
@@ -82,9 +82,9 @@
                     <th> --- </th>
                     <th> --- </th>
                     <th>
-                        <input type="text" name="Title" value="@search?.Title" class="form-control searchInput" />
+                        ---
                     </th>
-                    <th>  <priceInput name="Price" title="قیمت کلی پکیج" value="@search?.Price"></priceInput></th>
+                    <th>  --- </th>
                     <th> --- </th>
 
                     <th>
@@ -94,7 +94,10 @@
                         ----
                     </th>
                     <th>
-                        <input type="text" name="Likes" value="@search?.Likes" class="form-control searchInput" />
+                        ----
+                    </th>
+                    <th>
+                        ----
                     </th>
                     <th>
                         ----
@@ -123,6 +126,9 @@
                                 <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200" />
                             </td>
                             <td>@item.Title</td>
+                            <td>
+                                @item.CreateDate.ToPersianDateTextify()
+                            </td>
                             <td data-price="@item.Id"></td>
                             <td data-role="Discount"></td>
                             <td>
@@ -133,9 +139,6 @@
                             </td>
                             <td>
                                 @(item.Like - item.DisLike)
-                            </td>
-                            <td>
-                                @item.CreateDate.ToPersianDateTextify()
                             </td>
                             @*<td>
                                     <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
