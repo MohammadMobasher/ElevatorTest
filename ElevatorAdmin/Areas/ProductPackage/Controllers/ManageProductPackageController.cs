@@ -154,9 +154,10 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [AllowAccess]
         public async Task<IActionResult> PackagePrice(int id)
         {
-            var model =await _productPackageDetailsRepostitory.CalculatePrice(id);
+            var model = await _productPackageDetailsRepostitory.CalculatePrice(id);
 
             if (model == null) return Json(false);
 
@@ -165,8 +166,23 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         #endregion
 
+        /// <summary>
+        /// ثبت محصول برای پکیج
+        /// </summary>
+        /// <param name="id">PackageId</param>
+        /// <returns></returns>
+        public async Task<IActionResult> SubmitProductForPackage(int id)
+        {
+            var model = await _productPackageDetailsRepostitory.TableNoTracking
+                .Include(a => a.Product)
+                .Where(a => a.PackageId == id)
+                .ToListAsync();
+
+            return View(model);
+        }
 
 
+        [AllowAccess]
         public async Task<IActionResult> ProductList(ProductSearchViewModel search)
         {
             var model = await _productRepostitory.LoadAsyncCount(
