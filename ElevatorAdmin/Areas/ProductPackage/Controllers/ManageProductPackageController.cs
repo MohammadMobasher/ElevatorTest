@@ -215,6 +215,11 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         public async Task<IActionResult> SubmitProduct(int productId, int packageId)
         {
+            if(await _productPackageDetailsRepostitory.IsExist(packageId, productId))
+            {
+                return Json(false);
+            }
+
             _productPackageDetailsRepostitory.Add(new ProductPackageDetails()
             {
                 PackageId = packageId,

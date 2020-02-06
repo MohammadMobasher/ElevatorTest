@@ -30,7 +30,7 @@ namespace Service.Repos
             _productDiscountRepository = productDiscountRepository;
         }
 
-        
+
         /// <summary>
         /// محاسبه قیمت کلی محصول
         /// </summary>
@@ -40,7 +40,7 @@ namespace Service.Repos
         {
             try
             {
-                var model =await TableNoTracking.Include(a => a.Product).Where(a => a.PackageId == packageId)
+                var model = await TableNoTracking.Include(a => a.Product).Where(a => a.PackageId == packageId)
                         .SumAsync(a => a.Product.Price);
 
                 return model.ToString("n0");
@@ -51,5 +51,9 @@ namespace Service.Repos
                 return null;
             }
         }
+
+        public async Task<bool> IsExist(int packageId, int productId)
+         =>await TableNoTracking.AnyAsync(a => a.ProductId == productId && a.PackageId == packageId);
+
     }
 }
