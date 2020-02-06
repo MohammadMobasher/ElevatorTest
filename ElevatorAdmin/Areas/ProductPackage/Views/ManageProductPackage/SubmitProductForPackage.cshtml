@@ -5,60 +5,28 @@
 @{
     ViewData["Title"] = "لیست محصولات پکیج";
 }
-
-<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
-
-    <table class="table-first table-condensed table table-responsive tableWrap table-striped rounded table-hover table-bordered ">
-        <thead>
-            <tr>
-                <th width="3%"></th>
-                <th width="8%">
-                    ردیف
-                </th>
-                <th width="200">تصویر</th>
-                <th>عنوان محصول</th>
-                <th width="200">تاریخ ثبت</th>
-                <th>قیمت کلی</th>
-            </tr>
-        </thead>
-    </table>
-    <div class="bodycontainer scrollable ">
-        <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
-            <tbody>
-
-
-
-                @{var index = 1;}
-                @if (Model != null)
-                {
-
-                    foreach (var item in Model)
-                    {
-                        <tr>
-                            <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
-                            <td>@(index++)</td>
-                            <td>
-                                <img src="~/@item.Product.IndexPic" class="img-responsive" width="200" height="200" />
-                            </td>
-                            <td>@item.Product.Title</td>
-                            <td>
-                                @item.Product.CreateDate.ToPersianDateTextify()
-                            </td>
-                            <td data-price="@item.Id">@item.Product.Price.ToString("n0").ToPersianNumbers()</td>
-                            @*<td>
-                                    <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
-                                        <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
-                                    </a>
-
-                                    <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
-                                        <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
-                                    </a>
-                                </td>*@
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
+<div id="ProductShow" data-id="@ViewBag.PackageId" style="margin-bottom:80px">
 
 </div>
+
+<div style="margin-top:80px" id="ProductPackageShow">
+</div>
+<script>
+    $(function () {
+        var id = $('#ProductShow').attr("data-id");
+        $.get("/ProductPackage/ManageProductPackage/ProductList/", function (result) {
+            $('#ProductShow').html(result);
+        })
+    })
+
+
+    $(function () {
+        var id = $('#ProductShow').attr("data-id");
+        $.get("/ProductPackage/ManageProductPackage/ProductPackageDetail/", {id:id}, function (result) {
+            $('#ProductPackageShow').html(result);
+        })
+    })
+
+    
+
+</script>

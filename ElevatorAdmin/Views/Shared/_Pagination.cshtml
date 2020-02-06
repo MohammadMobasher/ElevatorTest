@@ -46,8 +46,8 @@
                         queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
 
                     }
-                    <li class="page-item">
-                        <a class="page-link" href="?@queryString">
+                    <li class="page-item" data-FFW="1">
+                        <a class="page-link" data-page="1" href="?@queryString">
                             <span aria-hidden="true">&laquo;&laquo;</span>
                         </a>
                     </li>
@@ -62,8 +62,8 @@
 
                     }
 
-                    <li class="page-item">
-                        <a class="page-link" href="?@queryString">
+                    <li class="page-item" data-FFW="1">
+                        <a class="page-link" data-page="1" href="?@queryString">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -82,7 +82,7 @@
 
                         }
                         <li class="page-item">
-                            <a class="page-link" href="?@queryString">
+                            <a class="page-link" data-page="@i" href="?@queryString">
                                 <span aria-hidden="true">@i</span>
                             </a>
                         </li>
@@ -116,7 +116,7 @@
                         }
 
                         <li class="page-item">
-                            <a class="page-link" href="?@queryString">
+                            <a class="page-link" data-page="@i" href="?@queryString">
                                 <span aria-hidden="true">@i</span>
                             </a>
                         </li>
@@ -134,8 +134,8 @@
                         queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
 
                     }
-                    <li class="page-item">
-                        <a class="page-link" href="?@queryString">
+                    <li class="page-item" data-FFW="1">
+                        <a class="page-link" data-page="@queryString.Replace("currentPage=","")" href="?@queryString">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -149,8 +149,8 @@
                         queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
 
                     }
-                    <li class="page-item">
-                        <a class="page-link" href="?@queryString">
+                    <li class="page-item" data-FFW="1">
+                        <a class="page-link" data-page="@queryString.Replace("currentPage=","")" href="?@queryString">
                             <span aria-hidden="true">&raquo;&raquo;</span>
                         </a>
                     </li>

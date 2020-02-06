@@ -7,6 +7,8 @@ using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.DTO.ProductFeatures;
 using DataLayer.DTO.Products;
+using DataLayer.Entities;
+using DataLayer.ViewModels;
 using DataLayer.ViewModels.ProductPackage;
 using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Http;
@@ -173,28 +175,59 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         /// <returns></returns>
         public async Task<IActionResult> SubmitProductForPackage(int id)
         {
-            var model = await _productPackageDetailsRepostitory.TableNoTracking
-                .Include(a => a.Product)
-                .Where(a => a.PackageId == id)
-                .ToListAsync();
-
-            return View(model);
+            ViewBag.PackageId = id;
+            return View();
         }
 
 
         [AllowAccess]
-        public async Task<IActionResult> ProductList(ProductSearchViewModel search)
+        public async Task<IActionResult> ProductList(ProductSearchViewModel search, PaginationViewModel page)
         {
             var model = await _productRepostitory.LoadAsyncCount(
-                this.CurrentPage,
-                this.PageSize,
+                page.CurrentPage,
+                page.PageSize,
                 search);
 
             this.TotalNumber = model.Item1;
 
+            ViewBag.SearchModel = search;
 
-            return PartialView();
+            return PartialView(model.Item2);
         }
 
+
+
+        [AllowAccess]
+        public async Task<IActionResult> ProductPackageDetail(int id)
+        {
+            var model = await _productPackageDetailsRepostitory.TableNoTracking
+                    .Include(a => a.Product)
+                    .Where(a => a.PackageId == id)
+                    .ToListAsync();
+
+            ViewBag.PackageId = id;
+
+
+            return PartialView(model);
+        }
+
+
+
+        public async Task<IActionResult> SubmitProduct(int productId, int packageId)
+        {
+            _productPackageDetailsRepostitory.Add(new ProductPackageDetails()
+            {
+                PackageId = packageId,
+                ProductId = productId
+            });
+
+            var model = await _productPackageDetailsRepostitory.TableNoTracking
+                .Include(a => a.Product)
+                .Where(a => a.PackageId == packageId)
+                .ToListAsync();
+
+            ViewBag.PackageId = packageId;
+            return PartialView("ProductPackageDetail",model);
+        }
     }
 }

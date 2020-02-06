@@ -1,0 +1,124 @@
+﻿@model List<DataLayer.DTO.Products.ProductFullDTO>
+@using DNTPersianUtils.Core
+@using DataLayer.ViewModels.Products
+@{
+    var search = ViewBag.SearchModel as ProductSearchViewModel;
+}
+
+<h2 style="margin-right:63px">محصولات</h2>
+<hr />
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+
+    <table class="table-first table-condensed table table-responsive tableWrap table-striped rounded table-hover table-bordered ">
+        <thead>
+            <tr>
+                <th >
+                    ردیف
+                </th>
+                <th width="200">تصویر</th>
+                <th>عنوان محصول</th>
+                <th width="200">تاریخ ثبت</th>
+                <th>قیمت کلی</th>
+            </tr>
+            <tr>
+                <form method="post">
+
+                    <th>
+                    </th>
+                    <th> --- </th>
+                    <th>
+                        <input type="text" name="Title" value="@search.Title" class="form-control searchInput" />
+                    </th>
+                    <th> --- </th>
+                    <th>  <priceInput name="Price" title="قیمت کالا"></priceInput></th>
+                    <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
+                </form>
+            </tr>
+        </thead>
+    </table>
+    <div class="bodycontainer scrollable ">
+        <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
+            <tbody>
+
+                @{var indexs = 1;}
+                @if (Model != null)
+                {
+
+                    foreach (var item in Model)
+                    {
+                <tr>
+                    <td>@(indexs++)</td>
+                    <td>
+                        <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200" />
+                    </td>
+                    <td>@item.Title</td>
+                    <td>
+                        @item.CreateDate.ToPersianDateTextify()
+                    </td>
+                    <td data-price="@item.Id">@item.Price.ToString("n0").ToPersianNumbers()</td>
+                    <td>
+                        <a data-toggle="tooltip" data-SbtProduct="@item.Id" title="ثبت" style="cursor:pointer" >
+                            <i class="fa fa-plus text-success pe-1x" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <table class="table table-hover table-striped">
+        <tfoot>
+            @Html.Partial("~/Views/Shared/_Pagination.cshtml")
+        </tfoot>
+    </table>
+</div>
+
+
+
+<script>
+    $(function(){
+       var pagesLinks =  $('.page-link');
+        $.each(pagesLinks,function(index,key){
+            var finds = $(key).parent().attr("data-FFW");
+            console.log($(key).parent());
+            if(finds == "1"){
+                $(key).parent().addClass("hide");
+            }
+            $(key).removeAttr("href");
+            $(key).css("cursor","pointer");
+            
+        })
+    })
+
+    $('.page-link').on("click",function(){
+        debugger;
+        $('.page-link').parent().removeClass("active");
+        var pageId = $(this).attr("data-page");
+        $(this).parent().addClass("active");
+        
+        $.get("/ProductPackage/ManageProductPackage/ProductList",{CurrentPage:pageId},function(result){
+            $('#ProductShow').html(result);
+        })
+
+    })
+
+    $('[data-SbtProduct]').on("click", function () {
+        var packageId = $('#ProductShow').attr("data-id");
+        var ProductId = $(this).attr("data-SbtProduct");
+
+        $.get("/ProductPackage/ManageProductPackage/SubmitProduct/", { productId: ProductId, packageId: packageId }, function (result) {
+            swal({
+                title: 'موفق',
+                text: "کالا با موفقیت اضافه گردید",
+                type: "success",
+                confirmButtonText: "تایید",
+                html: true
+            });
+            $('#ProductPackageShow').html(result);
+        })
+
+    })
+</script>
+
