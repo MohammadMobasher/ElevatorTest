@@ -15,7 +15,7 @@
 
 
 
-    <TableBotton area="Product" controller="ManageProduct" action="Create"
+    <TableBotton area="ProductPackage" controller="ManageProductPackage" action="Create"
                  title="ثبت"
                  icon="fa-plus"
                  buttonClass="btn-primary"></TableBotton>
@@ -29,7 +29,7 @@
                 ویژگی‌ها
             </button>*@
 
-        <TableBotton area="Product" controller="ManageProduct" action="Update"
+        @*<TableBotton area="Product" controller="ManageProduct" action="Update"
                      title="ویرایش"
                      icon="fa-pencil-square-o"
                      buttonClass="btn-warning"></TableBotton>
@@ -73,7 +73,7 @@
         <TableBotton area="Product" controller="ManageProduct" action="ChangeSpecialSell"
                      title="محصول ویژه"
                      icon="fa-star"
-                     buttonClass="btn-success"></TableBotton>
+                     buttonClass="btn-success"></TableBotton>*@
 
     </span>
 </div>
@@ -144,12 +144,8 @@
                                 <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200" />
                             </td>
                             <td>@item.Title</td>
-                            <td>
-                                @*@item.ProductPackageDetails.Sum(a => a.Products.Sum(q => q.Price))*@
-                            </td>
-                            <td data-role="Discount" ></td>
-                            <td>
-                            </td>
+                            <td data-price="@item.Id"></td>
+                            <td data-role="Discount"></td>
                             <td>
                                 @(item.IsActive == true ? "فعال" : "غیر فعال")
                             </td>
@@ -189,20 +185,14 @@
 
 <script>
     $(function () {
-        var tds = $('[data-role="Discount"]');
-
-        $.each(tds, function (index, key) {
-
-            var productId = $(key).attr("data-Id");
-            var groupId = $(key).attr("data-group-Id");
-            var price = $(key).attr("data-Price");
-
-            $.get("/ProductDiscount/ManageProductDiscount/CalculateDiscount", { productId: productId, groupId: groupId, price: price }, function (res) {
-                $('[data-Id="' + productId + '"]').append(res);
+        var temp = $('[data-price]');
+        $.each(temp, function (index, key) {
+            var pacageId = $(key).attr('data-price');
+            $.get("/ProductPackage/ManageProductPackage/PackagePrice", { id: pacageId }, function (result) {
+                if (result !== false) {
+                    $(key).append(result);
+                }
             })
-
         })
-
-
     })
 </script>

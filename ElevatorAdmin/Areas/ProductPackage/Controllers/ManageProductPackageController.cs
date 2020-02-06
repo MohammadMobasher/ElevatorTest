@@ -7,7 +7,9 @@ using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.DTO.ProductFeatures;
 using DataLayer.DTO.Products;
+using DataLayer.ViewModels.ProductPackage;
 using DataLayer.ViewModels.Products;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Service.Repos;
@@ -31,6 +33,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         private readonly FeatureRepository _featureRepository;
         private readonly ProductDiscountRepository _productDiscountRepository;
         private readonly ProductPackageRepostitory _productPackageRepostitory;
+        private readonly ProductPackageDetailsRepostitory _productPackageDetailsRepostitory;
 
         public ManageProductPackageController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
@@ -41,6 +44,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             ProductGalleryRepository productGalleryRepository,
             FeatureRepository featureRepository,
             ProductDiscountRepository productDiscountRepository,
+            ProductPackageDetailsRepostitory productPackageDetailsRepostitory,
             ProductPackageRepostitory productPackageRepostitory) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
@@ -51,6 +55,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             _productGalleryRepository = productGalleryRepository;
             _featureRepository = featureRepository;
             _productDiscountRepository = productDiscountRepository;
+            _productPackageDetailsRepostitory = productPackageDetailsRepostitory;
             _productPackageRepostitory = productPackageRepostitory;
         }
 
@@ -64,45 +69,24 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             this.TotalNumber = model.Item1;
 
-
-            ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
             ViewBag.SearchModel = searchModel;
 
             return View(model.Item2);
         }
 
-        [ActionRole("ثبت کالای جدید")]
-        [HasAccess]
-        public async Task<IActionResult> Create(int? id)
+        [ActionRole("ثبت پکیج جدید")]
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Units = await _productUnitRepository.TableNoTracking.ToListAsync();
-
-            if (id != null) return View(id);
-            ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
-
             return View();
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductInsertViewModel product
-            , ProductFeatureInsertViewModel vm
-            , ProductGalleryViewModel Pics)
+        public async Task<IActionResult> Create(ProductPackageInsertViewModel product
+            , IFormFile file)
         {
-
             // ثبت محصول
-            var productId = await _productRepostitory.SubmitProduct(product, Pics.file);
-
-            vm.ProductId = productId;
-
-            if (Pics.galleryImage != null)
-            {
-                // آپلود گالری
-                await _productGalleryRepository.UploadGalley(Pics.galleryImage, productId);
-            }
-
-            // ویژگی ها
-            await _productFeatureRepository.AddFeatureRange(vm);
+            var productId = await _productPackageRepostitory.SubmitProduct(product, file);
 
             // نمایش پیغام
             TempData.AddResult(SweetAlertExtenstion.Ok());
@@ -273,5 +257,40 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         }
 
         #endregion
+
+
+        #region محاسبه قیمت پکیج
+
+        /// <summary>
+        /// محاسبه قیمت پکیج
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> PackagePrice(int id)
+        {
+            var model =await _productPackageDetailsRepostitory.CalculatePrice(id);
+
+            if (model == null) return Json(false);
+
+            return Json(model);
+        }
+
+        #endregion
+
+
+
+        public async Task<IActionResult> ProductList(ProductSearchViewModel search)
+        {
+            var model = await _productRepostitory.LoadAsyncCount(
+                this.CurrentPage,
+                this.PageSize,
+                search);
+
+            this.TotalNumber = model.Item1;
+
+
+            return PartialView();
+        }
+
     }
 }

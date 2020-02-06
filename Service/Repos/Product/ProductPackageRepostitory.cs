@@ -4,6 +4,7 @@ using Core.Utilities;
 using DataLayer.DTO.Feature;
 using DataLayer.DTO.FeatureItem;
 using DataLayer.DTO.Products;
+using DataLayer.ViewModels.ProductPackage;
 using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +23,6 @@ namespace Service.Repos
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ProductDiscountRepository _productDiscountRepository;
-
         public ProductPackageRepostitory(DatabaseContext dbContext,
             IHostingEnvironment hostingEnvironment,
             ProductDiscountRepository productDiscountRepository) : base(dbContext)
@@ -77,168 +77,16 @@ namespace Service.Repos
         }
 
 
+        public async Task<int> SubmitProduct(ProductPackageInsertViewModel vm, IFormFile file)
+        {
+            vm.IndexPic = MFile.Save(file, FilePath.Product.GetDescription());
 
+            var mapModel = Map(vm);
 
-        ///// <summary>
-        ///// گرفتن اطلاعات گروه محصول بر اساس شناسه محصول
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //public async Task<int?> GetProductGroupIdbyProductId(int id)
-        //{
-        //    var product = await TableNoTracking.FirstOrDefaultAsync(a => a.Id == id);
+            await AddAsync(mapModel);
 
-        //    if (product == null) return null;
+            return mapModel.Id;
+        }
 
-        //    return product.ProductGroupId;
-        //}
-
-        //public async Task<int> SubmitProduct(DataLayer.ViewModels.Products.ProductInsertViewModel vm,IFormFile file)
-        //{
-        //    vm.IndexPic = MFile.Save(file, FilePath.Product.GetDescription());
-
-        //    var mapModel = Map(vm);
-
-        //    await AddAsync(mapModel);
-
-        //    return mapModel.Id;
-        //}
-
-        //public async Task<int> UpdateProduct(DataLayer.ViewModels.Products.ProductUpdateViewModel vm, IFormFile file)
-        //{
-        //    if (file != null)
-        //    {
-        //        if (vm.IndexPic != null)
-        //        {
-        //            var WebContent = _hostingEnvironment.WebRootPath;
-
-        //            System.IO.File.Delete(WebContent + FilePath.Product.GetDescription());
-        //        }
-
-        //        vm.IndexPic = MFile.Save(file, FilePath.Product.GetDescription());
-        //    }
-
-        //    var model = GetById(vm.Id);
-
-        //    Mapper.Map(vm, model);
-
-        //    DbContext.SaveChanges();
-
-        //    return model.Id;
-        //}
-
-
-        ///// در این تابع لیست ویژگی‌هایی برگردانده می‌شود که متعلق به یک محول است
-        ///// </summary>
-        ///// <param name="productId">شماره محصول</param>
-        ///// <returns></returns>
-        //public async Task<List<FeatureValueFullDetailDTO>> GetFeaturesValuesByProductId(int productId)
-        //{
-
-        //    return await (from product in this.DbContext.Product
-        //                  where product.Id == productId
-
-        //                  // ارتباط با ویژگی‌های مربوط به گروه این کالا
-        //                  // با این جدول به این جهت ارتباط میدهیم تا اگر یک ویژگی به این گروه اضافه شده باشد
-        //                  // بتواند به عنوان ویژگی‌ جدید به کاربر نمایش دهیم
-        //                  join productGroupFeature in this.DbContext.ProductGroupFeature on product.ProductGroupId equals productGroupFeature.ProductGroupId
-
-
-        //                  //join productFeature in this.DbContext.ProductFeature on product.Id equals productFeature.ProductId
-
-        //                  // برای این منظور با این جدول ارتباط میدهیم که بتوانیم اسم ویژگی و نوع آن را به دست آوریم
-        //                  join feature in this.DbContext.Feature on productGroupFeature.FeatureId equals feature.Id
-
-        //                  select new FeatureValueFullDetailDTO
-        //                  {
-        //                      Id = feature.Id,
-        //                      Title = feature.Title,
-        //                      FeatureType = feature.FeatureType,
-        //                      IsRequired = feature.IsRequired,
-        //                      FeatureItems = (from featureItem in this.DbContext.FeatureItem
-        //                                      where featureItem.FeatureId == feature.Id
-        //                                      select new FeatureItemDTO
-        //                                      {
-        //                                          Id = featureItem.Id,
-        //                                          Value = featureItem.Value,
-        //                                          FeatureId = feature.Id
-        //                                      }).ToList(),
-
-        //                      //// با این جدول به این جهت که بتوان مقادیر ویژگی‌ها را به دست آورد ارتباط میدهیم
-        //                      Value = (from productFeature in this.DbContext.ProductFeature
-        //                               where productFeature.FeatureId == feature.Id && productFeature.ProductId == productId
-        //                               select productFeature.FeatureValue).SingleOrDefault()
-
-        //                  }).ToListAsync();
-        //}
-
-
-        //public async Task ChangeStateProduct(int id)
-        //{
-        //    var model = await GetByIdAsync(id);
-
-        //    model.IsActive = model.IsActive ==null ?true : !model.IsActive;
-        //    await UpdateAsync(model);
-        //}
-
-
-        //public async Task ChangeSpecial(int id)
-        //{
-        //    var model = await GetByIdAsync(id);
-
-        //    model.IsSpecialSell = !model.IsSpecialSell;
-
-        //    await UpdateAsync(model);
-        //}
-
-        ///// <summary>
-        ///// شماره محصولاتی که در یک گروه قرار دارد
-        ///// </summary>
-        ///// <param name="productGroupId">شماره گروه مورد نظر</param>
-        ///// <returns></returns>
-        //public async Task<List<int>> GetProductIdsByGroupId(int productGroupId)
-        //{
-        //    return await Entities.Where(x => x.ProductGroupId == productGroupId).Select(x=> x.Id).ToListAsync();
-        //}
-
-
-
-        ///// <summary>
-        ///// تعداد کالاهایی که دارای یک واحد میباشند
-        ///// </summary>
-        ///// <param name="productUnitId">شماره واحد مورد نظر</param>
-        ///// <returns></returns>
-        //public async Task<int> NumProductByProductUnitId(int productUnitId)
-        //{
-        //    var result = await Entities.Where(x => x.ProductUnitId == productUnitId).ToListAsync();
-        //    if (result != null && result.Count > 0)
-        //        return result.Count;
-        //    return 0;
-
-        //}
-
-        ///// <summary>
-        ///// تعداد کالاهایی که دارای یک واحد میباشند
-        ///// </summary>
-        ///// <param name="productUnitId">شماره واحد مورد نظر</param>
-        ///// <returns></returns>
-        //public async Task<bool> DeleteByProductUnitId(int productUnitId)
-        //{
-        //    try
-        //    {
-        //        var result = await Entities.Where(x => x.ProductUnitId == productUnitId).ToListAsync();
-
-        //        if (await _productDiscountRepository.DeleteByProductIds(result.Select(x => x.Id).ToList()))
-        //            await DeleteRangeAsync(result);
-        //        else
-        //            return false;
-        //        return true;
-        //    }
-        //    catch(Exception e)
-        //    {
-        //        return false;
-        //    }
-
-        //}
     }
 }

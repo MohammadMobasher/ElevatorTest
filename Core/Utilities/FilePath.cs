@@ -12,5 +12,8 @@ namespace Core.Utilities
 
         [Description("Uploads/ProductGallery")]
         ProductGallery,
+
+        [Description("Uploads/ProductPackage")]
+        productPackage,
     }
 }

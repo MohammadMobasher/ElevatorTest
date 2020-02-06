@@ -13,7 +13,7 @@ namespace Service.Mappers
 
         public ProductPackageMappingProfile()
         {
-            CreateMap<ProductPackage, ProductPackageUpdateViewModel>().ReverseMap();
+            CreateMap<ProductPackage, ProductPackageInsertViewModel>().ReverseMap();
             CreateMap<ProductPackage, ProductPackageUpdateViewModel>().ReverseMap();
             CreateMap<ProductPackageDetails, ProductPackageDetailFullDTO>().ReverseMap();
             CreateMap<ProductPackage, ProductPackageFullDTO>().ReverseMap();
