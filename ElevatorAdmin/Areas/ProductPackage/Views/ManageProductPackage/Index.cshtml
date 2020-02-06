@@ -25,44 +25,23 @@
     <span class="hidden" data-role-table-btn-area-access="">
 
         @*<button data-role-href="/ProductGroup/ManageProductGroup/" modal-title="ویرایش آیتم" ismodal="true" class="btn btn-lg btn-warning data-role-table-btn" data-toggle="tooltip" title="ویرایش" data-role="confirm">
-                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
-                ویژگی‌ها
-            </button>*@
+            <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
+            ویژگی‌ها
+        </button>*@
 
-        @*<TableBotton area="Product" controller="ManageProduct" action="Update"
+        <TableBotton area="ProductPackage" controller="ManageProductPackage" action="Update"
                      title="ویرایش"
                      icon="fa-pencil-square-o"
                      buttonClass="btn-warning"></TableBotton>
 
-        <TableBotton area="Product" controller="ManageProduct" action="FastPriceEdit"
-                     title="ویرایش سریع"
+        <TableBotton area="ProductPackage" controller="ManageProductPackage" action="PackageDiscount"
                      isModal="true"
-                     icon="fa-pencil-square-o"
-                     modalTitle="ویرایش سریع"
-                     buttonClass="btn-success"></TableBotton>
-
-
-        <TableBotton area="ProductGroup" controller="ManageProductGroup" action="Delete"
-                     title="حذف"
-                     icon="fa-trash-o"
-                     buttonClass="btn-danger"></TableBotton>
-
-
-
-
-        <TableBotton area="Product" controller="ManageProduct" action="SubmitFeature"
-                     title="تغییر ویژگی‌های کالا"
-                     icon="fa-pencil-square-o"
-                     buttonClass="btn-warning"></TableBotton>
-
-        <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ProductDiscount"
-                     isModal="true"
-                     modalTitle="تخفیف روی کالا"
+                     modalTitle="تخفیف روی پکیج"
                      title="ثبت تخفیف "
                      icon="fa-plus"
                      buttonClass="btn-primary"></TableBotton>
 
-        <TableBotton area="Product" controller="ManageProduct" action="ChangeState"
+        <TableBotton area="ProductPackage" controller="ManageProductPackage" action="ChangeState"
                      isModal="false"
                      modalTitle="تغییر وضعیت"
                      title="تغییر وضعیت"
@@ -70,10 +49,10 @@
                      buttonClass="btn-info"></TableBotton>
 
 
-        <TableBotton area="Product" controller="ManageProduct" action="ChangeSpecialSell"
-                     title="محصول ویژه"
+        <TableBotton area="ProductPackage" controller="ManageProductPackage" action="ChangeSpecialSell"
+                     title="پکیج ویژه"
                      icon="fa-star"
-                     buttonClass="btn-success"></TableBotton>*@
+                     buttonClass="btn-success"></TableBotton>
 
     </span>
 </div>

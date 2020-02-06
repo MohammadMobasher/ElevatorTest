@@ -1,0 +1,182 @@
+﻿@using DataLayer.Entities
+@using DataLayer.DTO.Products
+
+@model ProductPackageFullDTO
+@{
+    ViewBag.Title = "ویرایش پکیج جدید";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var groups = ViewBag.Groups as List<ProductGroup>;
+    var units = ViewBag.Units as List<ProductUnit>;
+
+}
+
+
+<script src="~/lib/ckeditor/ckeditor.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+<link href="~/lib/gallery/cms-create-form/cms-create-form.css" rel="stylesheet" />
+
+
+
+
+<form asp-action="Update" class="form-horizontal" method="post" style="" enctype="multipart/form-data">
+
+    <div class="container">
+
+        <div id="progressbarwizard" class="pull-in">
+            <ul>
+                <li><a href="#ProductInfo-2" data-toggle="tab">اطلاعات پکیج</a></li>
+            </ul>
+
+            <div class="tab-content b-0 m-b-0">
+
+                <div id="bar" class="progress progress-striped progress-bar-primary-alt active">
+                    <div class="bar progress-bar progress-bar-primary"></div>
+                </div>
+
+                <!--- اظلاعات کلی محصولات-->
+                <div class="tab-pane p-t-10 fade" id="ProductInfo-2">
+                    <div class="form-group">
+                        <label for="Title" class="control-label col-sm-2">عنوان پکیج <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" required="required" asp-for="Title" aria-describedby="Title" placeholder="عنوان پکیج" />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Text" class="control-label col-sm-2">توضیح کلی <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-sm-10">
+                            <textarea name="Text" id="Text" class="form-control" aria-describedby="Text" required="required">@Model.Text</textarea>
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <div class="col-md-6">
+
+                            <div class="inputs">
+                                <div class="form-group row fileDiv" dir="ltr">
+                                    <label dir="ltr" class="control-label col-sm-3">تصویر</label>
+                                    <div class="col-sm-6">
+                                        <input type="file" input-id="1" name="file" class="form-control" value="@Model.IndexPic" placeholder="Enter email" onchange="checkFile(this)">
+                                    </div>
+                                    <div class="col-sm-3 text-center" style="line-height: 35px;">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6" style="position: relative;">
+                            <img src="~/@Model.IndexPic" alt="" id="picture1">
+                            <video src="" class="hide" id="mainVideo" controls>
+                                Please change your browser to Chrome or firefox to show the video.
+                            </video>
+                            <!-- Gallery Section -->
+                            <div class="gallery col-md-12 hide">
+                                <!-- <div class="gallery-btns"> -->
+                                <div class="gallery-btn gallery-btn--left gallery-btns">
+                                    <i class="fas fa-angle-left fa-lg" onclick="slideLeft()"></i>
+                                </div>
+                                <div class="gallery-btn gallery-btn--right gallery-btns">
+                                    <i class="fas fa-angle-right fa-lg" onclick="slideRight()"></i>
+                                </div>
+                                <!-- </div> -->
+                                <div class="gallery-images">
+                                    <img class="gallery-item hide" img-id="1" src="http://placehold.it/1000x600">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--- گالری تصاویر محصولات-->
+                <div class="tab-pane p-t-10 fade" id="Gallery-2">
+
+
+                    <!-- Form Section -->
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-lg-12 ">
+        <button type="submit" class="btn btn-block btn-success">ثبت</button>
+        <a href="/ProductPackage/ManageProductPackage/Index" class="btn btn-danger btn-block waves-effect waves-light">بازگشت</a>
+    </div>
+</form>
+
+
+<style>
+    textarea {
+        resize: none
+    }
+</style>
+<script>
+    $('.dropify').dropify({
+        messages: {
+            'default': 'Drag and drop a file here or click',
+            'replace': 'لطفا فایل خود را اینجا رها کنید',
+            'remove': 'حذف',
+            'error': 'خطایی رخ داده است'
+        }
+    });
+
+
+
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        CKEDITOR.replace('Text');
+
+    });
+</script>
+
+<script>
+
+    $(function () {
+        $('[name="ProductGroupId"]').on("change", function () {
+            $('#Feature-2').html(AjaxCall("/Product/ManageProduct/ProductFeatures", { id: $(this).val() }, "POST"));
+        });
+
+
+
+
+        $('#progressbarwizard').bootstrapWizard({
+            onTabShow: function (tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index + 1;
+                var $percent = ($current / $total) * 100;
+                $('#progressbarwizard').find('.bar').css({ width: $percent + '%' });
+            },
+            'tabClass': 'nav nav-tabs navtab-wizard nav-justified bg-muted'
+        });
+
+        $('#btnwizard').bootstrapWizard({ 'tabClass': 'nav nav-tabs navtab-wizard nav-justified bg-muted', 'nextSelector': '.button-next', 'previousSelector': '.button-previous', 'firstSelector': '.button-first', 'lastSelector': '.button-last' });
+
+        //var $validator = $("#commentForm").validate({
+        //    rules: {
+        //        emailfield: {
+        //            required: true,
+        //            email: true,
+        //            minlength: 3
+        //        },
+        //        namefield: {
+        //            required: true,
+        //            minlength: 3
+        //        },
+        //        urlfield: {
+        //            required: true,
+        //            minlength: 3,
+        //            url: true
+        //        }
+        //    }
+        //});
+    })
+
+</script>
+<script src="~/lib/gallery/cms-create-form/cms-create-form.js"></script>

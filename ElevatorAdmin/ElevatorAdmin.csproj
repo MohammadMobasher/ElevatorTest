@@ -57,6 +57,7 @@
     <Folder Include="Areas\Warehouse\Data\" />
     <Folder Include="Areas\Warehouse\Models\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />
+    <Folder Include="wwwroot\Uploads\ProductPackage\" />
     <Folder Include="wwwroot\Uploads\UserImage\" />
     <Folder Include="wwwroot\Uploads\ProductGallery\" />
     <Folder Include="wwwroot\Uploads\SlideShow\" />

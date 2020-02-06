@@ -52,7 +52,7 @@ namespace Service.Repos
             }
 
             if (model.Title != null)
-            {   
+            {
                 query = query.Where(x => x.Title.Contains(model.Title));
             }
 
@@ -79,7 +79,7 @@ namespace Service.Repos
 
         public async Task<int> SubmitProduct(ProductPackageInsertViewModel vm, IFormFile file)
         {
-            vm.IndexPic = MFile.Save(file, FilePath.Product.GetDescription());
+            vm.IndexPic = MFile.Save(file, FilePath.productPackage.GetDescription());
 
             var mapModel = Map(vm);
 
@@ -87,6 +87,53 @@ namespace Service.Repos
 
             return mapModel.Id;
         }
+
+        public async Task<int> UpdateProduct(ProductPackageUpdateViewModel vm, IFormFile file)
+        {
+            if (file != null)
+            {
+                if (vm.IndexPic != null)
+                {
+                    try
+                    {
+
+                        var WebContent = _hostingEnvironment.WebRootPath;
+
+                        System.IO.File.Delete(WebContent + FilePath.productPackage.GetDescription());
+                    }
+                    catch (Exception)
+                    {
+                        return 0;
+                    }
+                }
+                vm.IndexPic = MFile.Save(file, FilePath.productPackage.GetDescription());
+                
+            }
+            var model = GetById(vm.Id);
+
+            Mapper.Map(vm, model);
+
+            await DbContext.SaveChangesAsync();
+
+            return model.Id;
+        }
+
+        public async Task ChangeStateProduct(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            model.IsActive = !model.IsActive;
+            await UpdateAsync(model);
+        }
+        public async Task ChangeSpecial(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            model.IsSpecialSell = !model.IsSpecialSell;
+
+            await UpdateAsync(model);
+        }
+
 
     }
 }

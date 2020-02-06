@@ -100,41 +100,21 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         [HasAccess]
         public async Task<IActionResult> Update(int id)
         {
-            ViewBag.Units = await _productUnitRepository.TableNoTracking.ToListAsync();
-            ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
-
-            var model = await _productRepostitory
+            var model = await _productPackageRepostitory
                 .TableNoTracking.Where(a => a.Id == id)
-                .ProjectTo<ProductFullDTO>()
+                .ProjectTo<ProductPackageFullDTO>()
                 .FirstOrDefaultAsync();
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(ProductUpdateViewModel product
-            , ProductFeatureInsertViewModel vm
-            , ProductGalleryViewModel Pics)
+        public async Task<IActionResult> Update(ProductPackageUpdateViewModel product
+            , IFormFile file)
         {
-            // ثبت محصول
-            var productId = await _productRepostitory.UpdateProduct(product, Pics.file);
-            vm.ProductId = product.Id;
+            // ویرایش پکیج
+            var productId = await _productPackageRepostitory.UpdateProduct(product, file);
 
-            if (Pics.galleryImage != null)
-            {
-                var getAllProductGallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == product.Id).Select(a => a.Pic).ToListAsync();
-
-                _productGalleryRepository.DeletePic(getAllProductGallery);
-                // آپلود گالری
-                await _productGalleryRepository.UploadGalley(Pics.galleryImage, productId);
-            }
-
-            if (vm.Items != null)
-            {
-                // ویژگی ها
-                await _productFeatureRepository.UpdateFeatureRange(vm);
-            }
-            // نمایش پیغام
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
             // بازگشت به لیست محصولات
@@ -142,114 +122,22 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         }
 
 
-        /// <summary>
-        /// ویژگی های محصولات بر اساس ویژگی های محصول
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [AllowAccess]
-
-        public async Task<IActionResult> ProductFeatures(int id)
-        {
-            var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(id);
-
-            return PartialView(groupFeature);
-        }
-
-        /// <summary>
-        /// ویژگی های محصولات بر اساس ویژگی های محصول
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [AllowAccess]
-
-        public async Task<IActionResult> ProductFeaturesUpdate(int id, int productId)
-        {
-            var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(id);
-
-            var productFeature = await _productFeatureRepository.TableNoTracking
-                .Where(a => a.ProductId == productId)
-                .ProjectTo<ProductFeaturesFullDTO>()
-                .ToListAsync();
-
-            ViewBag.ProductFeature = productFeature;
-
-            return PartialView(groupFeature);
-        }
-
-
-        #region ویرایش سریع قیمت
-        [ActionRole("ویرایش سریع قیمت")]
-        [HasAccess]
-        public async Task<IActionResult> FastPriceEdit(int id)
-        {
-            var model = await _productRepostitory.TableNoTracking
-                .ProjectTo<ProductPriceDTO>()
-                .FirstOrDefaultAsync(a => a.Id == id);
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> FastPriceEdit(ProductFastPriceEditViewModel vm)
-        {
-            await _productRepostitory.MapUpdateAsync(vm, vm.Id);
-
-            TempData.AddResult(SweetAlertExtenstion.Ok());
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        #endregion
-
-        [AllowAccess]
-        public IActionResult mobasher()
-        {
-            return View();
-        }
-
-
-        #region تغییر ویژگی 
-
-        [ActionRole("تغییر ویژگی‌های کالا")]
-        [HasAccess]
-        public async Task<IActionResult> SubmitFeature(int id)
-        {
-            var model = await _productRepostitory.GetFeaturesValuesByProductId(id);
-
-            ViewBag.ProductId = id;
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> SubmitFeature(ProductFeatureInsertViewModel vm)
-        {
-            var model = await _productFeatureRepository.UpdateFeatureRange(vm);
-
-            TempData.AddResult(model);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        #endregion
-
         #region فعال / غیرفعال
 
-        [ActionRole("فعال / غیر فعال کردن محصول")]
+        [ActionRole("فعال / غیر فعال کردن پکیج")]
         public async Task<IActionResult> ChangeState(int id)
         {
-            await _productRepostitory.ChangeStateProduct(id);
+            await _productPackageRepostitory.ChangeStateProduct(id);
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
             return RedirectToAction(nameof(Index));
         }
 
-        [ActionRole("تغییر محصول عادی به محصول ویژه")]
+        [ActionRole("تغییر پکیج عادی به محصول ویژه")]
         public async Task<IActionResult> ChangeSpecialSell(int id)
         {
-            await _productRepostitory.ChangeSpecial(id);
+            await _productPackageRepostitory.ChangeSpecial(id);
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
