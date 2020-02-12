@@ -75,6 +75,21 @@ namespace Elevator.Controllers
             return Json(new Tuple<string, string, int>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType));
 
         }
-        
+
+        /// <summary>
+        /// افزودن تعداد بازدید کننده
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task AddVisit(int id)
+        {
+            var model = await _productRepository.VisitPlus(id);
+        }
+
+
+        public async Task<IActionResult> AddLike(int id)
+        {
+
+        } 
     }
 }

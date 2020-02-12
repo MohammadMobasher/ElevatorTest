@@ -240,5 +240,51 @@ namespace Service.Repos
             }
 
         }
+
+        /// <summary>
+        /// اضافه کردن تعداد بازدید کننده
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<int> VisitPlus(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            model.Visit = model.Visit + 1;
+            await UpdateAsync(model);
+
+            return model.Visit;
+        }
+
+        /// <summary>
+        /// اضافه کردن تعداد لایک
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<int> AddLike(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            model.Like = model.Like + 1;
+            await UpdateAsync(model);
+
+            return model.Visit;
+        }
+
+
+        /// <summary>
+        /// اضافه کردن تعداد دیس لایک
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<int> AddDisLike(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            model.DisLike = model.DisLike + 1;
+            await UpdateAsync(model);
+
+            return model.Visit;
+        }
     }
 }
