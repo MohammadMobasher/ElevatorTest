@@ -83,13 +83,32 @@ namespace Elevator.Controllers
         /// <returns></returns>
         public async Task AddVisit(int id)
         {
-            var model = await _productRepository.VisitPlus(id);
+             await _productRepository.VisitPlus(id);
         }
 
-
+        /// <summary>
+        /// اضافه کردن لایک
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> AddLike(int id)
         {
+            var model = await _productRepository.AddLike(id);
 
-        } 
+            return Json(model);
+        }
+
+        /// <summary>
+        /// اضافه کردین دیس لایک
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+        public async Task<IActionResult> AddDisLike(int id)
+        {
+            var model = await _productRepository.AddDisLike(id);
+
+            return Json(model);
+        }
     }
 }

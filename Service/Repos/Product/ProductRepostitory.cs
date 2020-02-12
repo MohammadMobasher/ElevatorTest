@@ -246,14 +246,12 @@ namespace Service.Repos
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<int> VisitPlus(int id)
+        public async Task VisitPlus(int id)
         {
             var model = await GetByIdAsync(id);
 
             model.Visit = model.Visit + 1;
             await UpdateAsync(model);
-
-            return model.Visit;
         }
 
         /// <summary>
@@ -268,7 +266,7 @@ namespace Service.Repos
             model.Like = model.Like + 1;
             await UpdateAsync(model);
 
-            return model.Visit;
+            return model.Like;
         }
 
 
@@ -284,7 +282,7 @@ namespace Service.Repos
             model.DisLike = model.DisLike + 1;
             await UpdateAsync(model);
 
-            return model.Visit;
+            return model.DisLike;
         }
     }
 }
