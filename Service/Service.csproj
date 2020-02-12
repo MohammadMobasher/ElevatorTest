@@ -20,6 +20,10 @@
     <None Remove="DataInitializer\**" />
     <None Remove="Repos\User\NewFolder\**" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200212120832_FavoritesMigrations.cs" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.1" />

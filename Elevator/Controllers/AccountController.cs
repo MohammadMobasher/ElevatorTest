@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Core.Utilities;
 using DataLayer.Entities.Users;
@@ -162,7 +163,7 @@ namespace Elevator.Controllers
         {
             try
             {
-                var userId = int.Parse(User.Identity.Name);
+                var userId = int.Parse(User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
                 var user =await _userRepository.GetByConditionAsync(a=>a.Id == userId && a.IsActive);
 
                 if(user == null)
