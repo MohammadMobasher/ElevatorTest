@@ -150,6 +150,43 @@ namespace Elevator.Controllers
         }
 
 
+        [Authorize]
+        public async Task<IActionResult> ChagePassword()
+        {
+            return View();
+        }
 
+
+        [HttpPost]
+        public async Task<IActionResult> ChagePassword(ChangePasswordViewModel vm)
+        {
+            try
+            {
+                var userId = int.Parse(User.Identity.Name);
+                var user =await _userRepository.GetByConditionAsync(a=>a.Id == userId && a.IsActive);
+
+                if(user == null)
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("کاربر گرامی دسترسی شما محدود شده است لطفا با پشتیبانی تماس بگیرید"));
+
+                    return Redirect("/");
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, vm.CurrentPassword, vm.NewPassword);
+                if (result.Succeeded)
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Ok("رمز عبور با موفقیت تغییر یافت"));
+                    return Redirect("/");
+                }
+
+            }
+            catch (System.Exception)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("خطایی در سایت رخ داده است لطفا با پشتیبانی تماس بگیرید"));
+                return Redirect("/");
+            }
+
+            return View();
+        }
     }
 }

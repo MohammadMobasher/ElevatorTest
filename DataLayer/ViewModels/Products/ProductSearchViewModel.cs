@@ -15,4 +15,18 @@ namespace DataLayer.ViewModels.Products
 
         public int? Likes { get; set; }
     }
+
+    public class ProductSearchListViewModel
+    {
+        public string Titile { get; set; }
+
+        public int? Group { get; set; }
+
+        public int? SubGroup { get; set; }
+
+        public string Price { get; set; }
+
+        public int? Unit { get; set; }
+
+    }
 }

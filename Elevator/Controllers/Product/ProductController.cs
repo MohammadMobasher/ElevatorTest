@@ -11,6 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using Service.Repos.Product;
 using DataLayer.SSOT;
 using DNTPersianUtils.Core;
+using DataLayer.ViewModels.Products;
+using Core.Utilities;
+
 namespace Elevator.Controllers
 {
     public class ProductController : BaseController
@@ -24,11 +27,35 @@ namespace Elevator.Controllers
             _productDiscountRepository = productDiscountRepository;
         }
 
-
-        public IActionResult Index()
+        /// <summary>
+        /// لیست تمامی محصولات
+        /// </summary>
+        /// <param name="vm"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Index(ProductSearchListViewModel vm)
         {
-            return View();
+            var model = await _productRepository.TableNoTracking
+                .Where(a=>a.IsActive == true)
+                .WhereIf(vm.Titile != null, a => a.Title.Contains(vm.Titile))
+                .WhereIf(vm.Group != null, a => a.ProductGroupId == vm.Group.Value)
+                .ToListAsync();
+
+            return View(model);
         }
+
+        /// <summary>
+        /// جزئیات محصول
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> ProductDetail(int id)
+        {
+            var model = await _productRepository.TableNoTracking
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            return View(model);
+        }
+
 
         /// <summary>
         /// محاسبه تخفیف محصول
@@ -48,5 +75,6 @@ namespace Elevator.Controllers
             return Json(new Tuple<string, string, int>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType));
 
         }
+        
     }
 }
