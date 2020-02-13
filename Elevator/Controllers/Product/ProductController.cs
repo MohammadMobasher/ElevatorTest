@@ -13,6 +13,9 @@ using DataLayer.SSOT;
 using DNTPersianUtils.Core;
 using DataLayer.ViewModels.Products;
 using Core.Utilities;
+using Microsoft.Extensions.Options;
+using Core;
+using Microsoft.Extensions.Configuration;
 
 namespace Elevator.Controllers
 {
@@ -20,11 +23,14 @@ namespace Elevator.Controllers
     {
         private readonly ProductRepostitory _productRepository;
         private readonly ProductDiscountRepository _productDiscountRepository;
-
-        public ProductController(ProductRepostitory productRepostitory,ProductDiscountRepository productDiscountRepository)
+        public IConfiguration configuration { get; }
+        public ProductController(ProductRepostitory productRepostitory,
+            ProductDiscountRepository productDiscountRepository,
+            IConfiguration Configuration)
         {
             _productRepository = productRepostitory;
             _productDiscountRepository = productDiscountRepository;
+            configuration = Configuration;
         }
 
         /// <summary>
@@ -39,6 +45,10 @@ namespace Elevator.Controllers
                 .WhereIf(vm.Titile != null, a => a.Title.Contains(vm.Titile))
                 .WhereIf(vm.Group != null, a => a.ProductGroupId == vm.Group.Value)
                 .ToListAsync();
+
+           var test=  configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+
+            ViewBag.Url = test.SiteConfig.UrlAddress;
 
             return View(model);
         }
