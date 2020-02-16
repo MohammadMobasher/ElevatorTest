@@ -23,14 +23,18 @@ namespace Elevator.Controllers
     {
         private readonly ProductRepostitory _productRepository;
         private readonly ProductDiscountRepository _productDiscountRepository;
+        private readonly ProductGalleryRepository _productGalleryRepository;
+
         public IConfiguration configuration { get; }
         public ProductController(ProductRepostitory productRepostitory,
             ProductDiscountRepository productDiscountRepository,
-            IConfiguration Configuration)
+            IConfiguration Configuration,
+            ProductGalleryRepository productGalleryRepository)
         {
             _productRepository = productRepostitory;
             _productDiscountRepository = productDiscountRepository;
             configuration = Configuration;
+            _productGalleryRepository = productGalleryRepository;
         }
 
         /// <summary>
@@ -61,7 +65,15 @@ namespace Elevator.Controllers
         public async Task<IActionResult> ProductDetail(int id)
         {
             var model = await _productRepository.TableNoTracking
+                .Include(a=>a.ProductGroup)
                 .FirstOrDefaultAsync(a => a.Id == id);
+
+            ViewBag.Gallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == id).ToListAsync();
+
+            ViewBag.Discount = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
+                .FirstOrDefaultAsync();
+
+
 
             return View(model);
         }
