@@ -96,7 +96,7 @@ namespace Elevator.Controllers
                 ( product.Price - (product.Price * productDiscount.Discount) / 100)
                 : (product.Price - productDiscount.Discount);
 
-            return Json(new Tuple<string, string, int>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType));
+            return Json(new Tuple<string, string, int,DateTime>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType, productDiscount.EndDate));
 
         }
 
