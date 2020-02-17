@@ -73,7 +73,9 @@ namespace Elevator.Controllers
             ViewBag.Discount = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
                 .FirstOrDefaultAsync();
 
+            var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
+            ViewBag.Url = test.SiteConfig.UrlAddress;
 
             return View(model);
         }
@@ -91,7 +93,7 @@ namespace Elevator.Controllers
             var product = await _productRepository.GetByIdAsync(id);
 
             var calculate = productDiscount.DiscountType == ProductDiscountSSOT.Percent ?
-                ((product.Price * productDiscount.Discount) / 100)
+                ( product.Price - (product.Price * productDiscount.Discount) / 100)
                 : (product.Price - productDiscount.Discount);
 
             return Json(new Tuple<string, string, int>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType));

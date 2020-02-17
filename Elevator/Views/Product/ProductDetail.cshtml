@@ -32,6 +32,11 @@
                     <div class="col-lg-6">
                         <div class="pdetails-images">
                             <div class="pdetails-largeimages pdetails-imagezoom">
+
+                                <div class="pdetails-singleimage" data-src="@ViewBag.Url/@Model.IndexPic">
+                                    <img src="@ViewBag.Url/@Model.IndexPic" alt="product image">
+                                </div>
+
                                 @foreach (var item in gallery)
                                 {
                                     <div class="pdetails-singleimage" data-src="@ViewBag.Url/@item.Pic">
@@ -43,6 +48,9 @@
                             </div>
 
                             <div class="pdetails-thumbs">
+                                <div class="pdetails-singlethumb">
+                                    <img src="@ViewBag.Url/@Model.IndexPic" alt="product thumb">
+                                </div>
                                 @foreach (var item in gallery)
                                 {
                                     <div class="pdetails-singlethumb">
