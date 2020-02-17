@@ -1,19 +1,28 @@
-﻿<div class="container">
+﻿@using DataLayer.Entities
+@{
+    var categories = ViewBag.Group as List<ProductGroup>;
+}
+
+
+<div class="container">
     <div class="section-title">
-        <h3>محصولات بازرگانی</h3>
+        <h3>دسته بندی</h3>
         <ul class="nav" id="bstab1" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="bstab1-area1-tab" data-toggle="tab" href="#bstab1-area1" role="tab"
-                   aria-controls="bstab1-area1" aria-selected="true">الکترونیک</a>
-            </li>
-            <li class="nav-item">
+            @foreach (var item in categories)
+            {
+                <li class="nav-item">
+                    <a class="nav-link active" id="bstab1-area-@item.Id-tab" data-toggle="tab" href="#bstab1-area-@item.Id" role="tab"
+                       aria-controls="bstab1-area-@item.Id" aria-selected="true">@item.Title</a>
+                </li>
+            }
+            @*<li class="nav-item">
                 <a class="nav-link" id="bstab1-area2-tab" data-toggle="tab" href="#bstab1-area2" role="tab" aria-controls="bstab1-area2"
                    aria-selected="false">تبلت</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="bstab1-area3-tab" data-toggle="tab" href="#bstab1-area3" role="tab" aria-controls="bstab1-area3"
                    aria-selected="false">تجهیزات جانبی</a>
-            </li>
+            </li>*@
         </ul>
     </div>
 

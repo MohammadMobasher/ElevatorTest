@@ -26,15 +26,15 @@ namespace Elevator.ViewComponents
 
 
 
-        public async Task<IViewComponentResult> Invoke()
+        public IViewComponentResult Invoke()
         {
-            var LastProduct =await  _productRepostitory.TableNoTracking
+            var LastProduct =  _productRepostitory.TableNoTracking
                 .Where(a => a.IsActive == true)
                 .ProjectTo<ProductFullDTO>()
                 .OrderByDescending(a => a.CreateDate)
-                .ToListAsync();
+                .ToList();
 
-            ViewBag.Group = await _productGroupRepository.TableNoTracking.ToListAsync();
+            ViewBag.Group =  _productGroupRepository.TableNoTracking.ToList();
 
             return View(LastProduct);
         }
