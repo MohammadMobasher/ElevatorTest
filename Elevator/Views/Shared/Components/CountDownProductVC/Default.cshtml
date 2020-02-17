@@ -1,0 +1,9 @@
+﻿@using DataLayer.Entities
+@model ProductDiscount
+
+@using DNTPersianUtils.Core
+
+@if (Model!=null && DateTime.Now > Model.StartDate && DateTime.Now < Model.EndDate)
+{
+    <div class="hoproduct-countdown countdown" data-countdown="@Model.EndDate.Date"></div>
+}

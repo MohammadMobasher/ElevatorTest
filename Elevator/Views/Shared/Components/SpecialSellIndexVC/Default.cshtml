@@ -24,7 +24,7 @@
                         @*<li class="flag-discount">-15%</li>*@
                     </ul>
                 </div>
-                <div class="hoproduct-countdown countdown countdown_Id_@item.Id" data-countdown="" ></div>
+                @await Component.InvokeAsync("CountDownProductVC",new { id = item.Id})
                 <div class="hoproduct-content">
                     <h5 class="hoproduct-title"><a href="product-details.html">@item.Title</a></h5>
                     <div class="hoproduct-rattingbox">
