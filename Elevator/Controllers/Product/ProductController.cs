@@ -24,17 +24,20 @@ namespace Elevator.Controllers
         private readonly ProductRepostitory _productRepository;
         private readonly ProductDiscountRepository _productDiscountRepository;
         private readonly ProductGalleryRepository _productGalleryRepository;
+        private readonly ProductPackageRepostitory _productPackageRepostitory;
 
         public IConfiguration configuration { get; }
         public ProductController(ProductRepostitory productRepostitory,
             ProductDiscountRepository productDiscountRepository,
             IConfiguration Configuration,
-            ProductGalleryRepository productGalleryRepository)
+            ProductGalleryRepository productGalleryRepository,
+            ProductPackageRepostitory productPackageRepostitory)
         {
             _productRepository = productRepostitory;
             _productDiscountRepository = productDiscountRepository;
             configuration = Configuration;
             _productGalleryRepository = productGalleryRepository;
+            _productPackageRepostitory = productPackageRepostitory;
         }
 
         /// <summary>
@@ -78,6 +81,19 @@ namespace Elevator.Controllers
             ViewBag.Url = test.SiteConfig.UrlAddress;
 
             return View(model);
+        }
+
+        public async Task<IActionResult> PackageDetail(int id)
+        {
+            var package = await _productPackageRepostitory.TableNoTracking
+                .Include(a=>a.ProductPackageDetails)
+                .FirstOrDefaultAsync(a=>a.Id == id);
+
+            var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+
+            ViewBag.Url = test.SiteConfig.UrlAddress;
+
+            return View(package);
         }
 
 

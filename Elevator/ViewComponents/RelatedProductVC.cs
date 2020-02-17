@@ -18,9 +18,9 @@ namespace Elevator.ViewComponents
             _productRepostitory = productRepostitory;
         }
 
-        public IViewComponentResult Invoke(int groupId)
+        public IViewComponentResult Invoke(int? groupId)
         {
-            var model = _productRepostitory.TableNoTracking.Where(a => a.ProductGroupId == groupId
+            var model = _productRepostitory.TableNoTracking.Where(a => groupId !=null&& a.ProductGroupId == groupId
             && a.IsActive == true).OrderByDescending(a => a.CreateDate).Take(12).ToList();
 
             return View(model);
