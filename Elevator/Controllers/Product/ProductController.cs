@@ -25,19 +25,21 @@ namespace Elevator.Controllers
         private readonly ProductDiscountRepository _productDiscountRepository;
         private readonly ProductGalleryRepository _productGalleryRepository;
         private readonly ProductPackageRepostitory _productPackageRepostitory;
-
+        private readonly ProductGroupRepository _productGroupRepository;
         public IConfiguration configuration { get; }
         public ProductController(ProductRepostitory productRepostitory,
             ProductDiscountRepository productDiscountRepository,
             IConfiguration Configuration,
             ProductGalleryRepository productGalleryRepository,
-            ProductPackageRepostitory productPackageRepostitory)
+            ProductPackageRepostitory productPackageRepostitory,
+            ProductGroupRepository productGroupRepository)
         {
             _productRepository = productRepostitory;
             _productDiscountRepository = productDiscountRepository;
             configuration = Configuration;
             _productGalleryRepository = productGalleryRepository;
             _productPackageRepostitory = productPackageRepostitory;
+            _productGroupRepository = productGroupRepository;
         }
 
         /// <summary>
@@ -48,12 +50,16 @@ namespace Elevator.Controllers
         public async Task<IActionResult> Index(ProductSearchListViewModel vm)
         {
             var model = await _productRepository.TableNoTracking
-                .Where(a=>a.IsActive == true)
+                .Include(a=>a.ProductGroup)
+                .Where(a => a.IsActive == true)
                 .WhereIf(vm.Titile != null, a => a.Title.Contains(vm.Titile))
                 .WhereIf(vm.Group != null, a => a.ProductGroupId == vm.Group.Value)
                 .ToListAsync();
 
-           var test=  configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+
+            ViewBag.Category = await _productGroupRepository.TableNoTracking.ToListAsync();
+
+            var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
             ViewBag.Url = test.SiteConfig.UrlAddress;
 
@@ -68,7 +74,7 @@ namespace Elevator.Controllers
         public async Task<IActionResult> ProductDetail(int id)
         {
             var model = await _productRepository.TableNoTracking
-                .Include(a=>a.ProductGroup)
+                .Include(a => a.ProductGroup)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             ViewBag.Gallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == id).ToListAsync();
@@ -86,8 +92,8 @@ namespace Elevator.Controllers
         public async Task<IActionResult> PackageDetail(int id)
         {
             var package = await _productPackageRepostitory.TableNoTracking
-                .Include(a=>a.ProductPackageDetails)
-                .FirstOrDefaultAsync(a=>a.Id == id);
+                .Include(a => a.ProductPackageDetails)
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
@@ -104,16 +110,16 @@ namespace Elevator.Controllers
         public async Task<IActionResult> CalculateDiscount(int id)
         {
             var productDiscount = await _productDiscountRepository.GetByConditionAsync(a => a.ProductId == id
-            && a.StartDate>DateTime.Now && a.EndDate<DateTime.Now);
+            && a.StartDate > DateTime.Now && a.EndDate < DateTime.Now);
             if (productDiscount == null) return Json(false);
 
             var product = await _productRepository.GetByIdAsync(id);
 
             var calculate = productDiscount.DiscountType == ProductDiscountSSOT.Percent ?
-                ( product.Price - (product.Price * productDiscount.Discount) / 100)
+                (product.Price - (product.Price * productDiscount.Discount) / 100)
                 : (product.Price - productDiscount.Discount);
 
-            return Json(new Tuple<string, string, int,DateTime>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType, productDiscount.EndDate));
+            return Json(new Tuple<string, string, int, DateTime>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType, productDiscount.EndDate));
 
         }
 
@@ -124,7 +130,7 @@ namespace Elevator.Controllers
         /// <returns></returns>
         public async Task AddVisit(int id)
         {
-             await _productRepository.VisitPlus(id);
+            await _productRepository.VisitPlus(id);
         }
 
         /// <summary>

@@ -12,8 +12,8 @@
                 <div class="hoproduct-image">
 
                     <a class="hoproduct-thumb VisitCounter" data-id="@item.Id" href="/Product/ProductDetail/@item.Id">
-                        <img class="hoproduct-frontimage" src="http://localhost:49772//@item.IndexPic" alt="@item.Title">
-                        <img class="hoproduct-backimage" src="http://localhost:49772//@item.IndexPic" alt="@item.Title">
+                        <img class="hoproduct-frontimage" src="@ViewBag.Url/@item.IndexPic" alt="@item.Title">
+                        <img class="hoproduct-backimage" src="@ViewBag.Url/@item.IndexPic" alt="@item.Title">
                     </a>
                     <ul class="hoproduct-actionbox">
                         <li><a href="#"><i class="lnr lnr-cart"></i></a></li>

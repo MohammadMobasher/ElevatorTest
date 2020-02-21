@@ -12,7 +12,6 @@ namespace Elevator.ViewComponents
     public class SuggestedProductVC : ViewComponent
     {
         private readonly ProductRepostitory _productRepostitory;
-
         public SuggestedProductVC(ProductRepostitory productRepostitory)
         {
             _productRepostitory = productRepostitory;
