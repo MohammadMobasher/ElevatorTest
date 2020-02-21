@@ -103,7 +103,8 @@ namespace Elevator.Controllers
         /// <returns></returns>
         public async Task<IActionResult> CalculateDiscount(int id)
         {
-            var productDiscount = await _productDiscountRepository.GetByConditionAsync(a => a.ProductId == id);
+            var productDiscount = await _productDiscountRepository.GetByConditionAsync(a => a.ProductId == id
+            && a.StartDate>DateTime.Now && a.EndDate<DateTime.Now);
             if (productDiscount == null) return Json(false);
 
             var product = await _productRepository.GetByIdAsync(id);

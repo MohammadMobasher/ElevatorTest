@@ -1,0 +1,54 @@
+﻿@using DataLayer.DTO.Products
+@model List<ProductFullDTO>
+@using DNTPersianUtils.Core
+
+
+
+<div class="single-widget widget-recommended-products mt-30">
+    <div class="section-title">
+        <h3>پیشنهادی</h3>
+    </div>
+    <div class="recommended-products-slider-2 slider-navigation-2 slider-navigation-2-m0">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <div class="product-slider-col">
+                @if (i % 3 == 0)
+                {
+                    @foreach (var item in Model.Skip(i).Take(3))
+                    {
+                        <article class="hoproduct hoproduct-4">
+                            <div class="hoproduct-image">
+                                <a class="hoproduct-thumb" href="product-details.html">
+                                    <img class="hoproduct-frontimage" src="@ViewBag.Url/@item.IndexPic"
+                                         alt="product image">
+                                    <img class="hoproduct-backimage" src="@ViewBag.Url/@item.IndexPic"
+                                         alt="product image">
+                                </a>
+                            </div>
+                            <div class="hoproduct-content">
+                                <h5 class="hoproduct-title"><a href="product-details.html">@item.Title</a></h5>
+                                <div class="hoproduct-rattingbox">
+                                    <div class="rattingbox">
+                                        <span class="active"><i class="ion ion-ios-star"></i></span>
+                                        <span class="active"><i class="ion ion-ios-star"></i></span>
+                                        <span class="active"><i class="ion ion-ios-star"></i></span>
+                                        <span class="active"><i class="ion ion-ios-star"></i></span>
+                                        <span class="active"><i class="ion ion-ios-star"></i></span>
+                                    </div>
+                                </div>
+                                <div class="hoproduct-pricebox ">
+                                    <div class="pricebox">
+                                        <del class="oldprice">@item.Price</del>
+                                        <span class="price DiscountPrice_@item.Id">@item.Price تومان</span>
+                                    </div>
+                                    <span class="dicountValue_@item.Id"></span>
+                                </div>
+                            </div>
+                        </article>
+                    }
+                }
+
+            </div>
+        }
+    </div>
+</div>

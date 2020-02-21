@@ -14,7 +14,7 @@
                 <li><a href="index.html">خانه</a></li>
                 <li><a href="shop-rightsidebar.html">فروشگاه</a></li>
                 <li><a href="shop-rightsidebar.html">@Model?.ProductGroup.Title</a></li>
-                <li>@Model.Title</li>
+                <li>@Model?.Title</li>
             </ul>
         </div>
     </div>
@@ -72,10 +72,11 @@
                             </div>
                             <h3>@Model.Title</h3>
                             <div class="pdetails-pricebox">
-                                @if (discount != null)
+                                @if (discount != null && discount.StartDate > DateTime.Now && discount.EndDate < DateTime.Now)
                                 {
                                     <del class="oldprice">@Model.Price.ToString("n0").ToPersianNumbers()</del>
                                     <span class="price">
+
                                         @if (discount.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Price)
                                         {
                                             <span>@((Model.Price - discount.Discount).ToString("n0").ToPersianNumbers())</span>
@@ -96,7 +97,11 @@
                                         }
                                     </span>
                                 }
-                            </div>
+                                else
+                                {
+                                    <span class="price">@Model.Price تومان</span>
+                                        }
+                                </div>
                             <p>@Model.ShortDescription</p>
                             <div class="pdetails-quantity">
                                 <div class="quantity-select">
@@ -149,14 +154,14 @@
                         <a class="nav-link active" id="product-details-area1-tab" data-toggle="tab" href="#product-details-area1"
                            role="tab" aria-controls="product-details-area1" aria-selected="true">توضیحات</a>
                     </li>
-                    @*<li class="nav-item">
+                    <li class="nav-item">
                             <a class="nav-link" id="product-details-area2-tab" data-toggle="tab" href="#product-details-area2"
                                role="tab" aria-controls="product-details-area2" aria-selected="false">اطلاعات بیشتر</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="product-details-area3-tab" data-toggle="tab" href="#product-details-area3"
                                role="tab" aria-controls="product-details-area3" aria-selected="false">دیدگاه (1)</a>
-                        </li>*@
+                        </li>
                 </ul>
 
                 <div class="tab-content" id="product-details-ontent">
@@ -166,7 +171,7 @@
                             @Html.Raw(Model.Text)
                         </div>
                     </div>
-                    @*<div class="tab-pane fade" id="product-details-area2" role="tabpanel" aria-labelledby="product-details-area2-tab">
+                    <div class="tab-pane fade" id="product-details-area2" role="tabpanel" aria-labelledby="product-details-area2-tab">
                             <div class="pdetails-moreinfo">
                                 <a href="#">
                                     <img src="images/others/product-author-logo.jpg" alt="brand logo">
@@ -235,7 +240,7 @@
 
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
                 </div>
 
             </div>

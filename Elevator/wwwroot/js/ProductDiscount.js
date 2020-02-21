@@ -18,3 +18,10 @@ $(function () {
     })
 
 })
+
+$(function () {
+    $('.VisitCounter').on('click', function () {
+        var id = $(this).attr('data-id');
+        $.get("/Product/AddVisit", { id: id }, function () { });
+    })
+})
