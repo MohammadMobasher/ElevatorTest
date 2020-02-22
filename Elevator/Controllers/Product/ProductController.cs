@@ -109,18 +109,22 @@ namespace Elevator.Controllers
         /// <returns></returns>
         public async Task<IActionResult> CalculateDiscount(int id)
         {
-            var productDiscount = await _productDiscountRepository.GetByConditionAsync(a => a.ProductId == id
-            && a.StartDate > DateTime.Now && a.EndDate < DateTime.Now);
+            var productDiscount = await _productDiscountRepository.GetByConditionAsync(a => a.ProductId == id);
             if (productDiscount == null) return Json(false);
 
-            var product = await _productRepository.GetByIdAsync(id);
+            if (DateTime.Now > productDiscount.StartDate && DateTime.Now < productDiscount.EndDate)
+            {
 
-            var calculate = productDiscount.DiscountType == ProductDiscountSSOT.Percent ?
-                (product.Price - (product.Price * productDiscount.Discount) / 100)
-                : (product.Price - productDiscount.Discount);
+                var product = await _productRepository.GetByIdAsync(id);
 
-            return Json(new Tuple<string, string, int, DateTime>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType, productDiscount.EndDate));
+                var calculate = productDiscount.DiscountType == ProductDiscountSSOT.Percent ?
+                    (product.Price - (product.Price * productDiscount.Discount) / 100)
+                    : (product.Price - productDiscount.Discount);
 
+                return Json(new Tuple<string, string, int, DateTime>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType, productDiscount.EndDate));
+            }
+
+            return Json(false);
         }
 
         /// <summary>

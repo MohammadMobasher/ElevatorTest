@@ -20,13 +20,13 @@
                         <li><a href="#"><i class="lnr lnr-heart"></i></a></li>
                     </ul>
                     <ul class="hoproduct-flags discountProduct" data-id="@item.Id">
-                        <li class="flag-pack">جدید</li>
+                        <li class="flag-pack">فروش ویژه</li>
                         @*<li class="flag-discount">-15%</li>*@
                     </ul>
                 </div>
                 @await Component.InvokeAsync("CountDownProductVC",new { id = item.Id})
                 <div class="hoproduct-content">
-                    <h5 class="hoproduct-title"><a href="product-details.html">@item.Title</a></h5>
+                    <h5 class="hoproduct-title"><a href="/Product/ProductDetail/@item.Id">@item.Title</a></h5>
                     <div class="hoproduct-rattingbox">
                         <h6>@item.Visit بازدید</h6>
                         <div class="rattingbox">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="hoproduct-pricebox ">
                         <div class="pricebox">
-                            <del class="oldprice">@item.Price</del>
+                            @*<del class="oldprice olPrice_@item.Id">@item.Price</del>*@
                             <span class="price DiscountPrice_@item.Id">@item.Price تومان</span>
                         </div>
                         <span class="dicountValue_@item.Id"></span>
