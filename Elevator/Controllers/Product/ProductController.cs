@@ -49,21 +49,24 @@ namespace Elevator.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Index(ProductSearchListViewModel vm)
         {
-            var model = await _productRepository.TableNoTracking
-                .Include(a=>a.ProductGroup)
-                .Where(a => a.IsActive == true)
-                .WhereIf(vm.Titile != null, a => a.Title.Contains(vm.Titile))
-                .WhereIf(vm.Group != null, a => a.ProductGroupId == vm.Group.Value)
-                .ToListAsync();
-
-
-            ViewBag.Category = await _productGroupRepository.TableNoTracking.ToListAsync();
-
             var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
-            ViewBag.Url = test.SiteConfig.UrlAddress;
 
-            return View(model);
+            var model = _productRepository.TableNoTracking
+                .Include(a => a.ProductGroup)
+                .Where(a => a.IsActive == true);
+
+            var result =await model.WhereIf(vm.Group != null, a => a.ProductGroupId.Equals(vm.Group.Value))
+                .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice))
+                .ToListAsync();
+
+            ViewBag.Category = await _productGroupRepository.TableNoTracking.ToListAsync();
+            ViewBag.Url = test.SiteConfig.UrlAddress;
+            ViewBag.Search = vm;
+            ViewBag.MaxPrice = model.Max(a => a.Price);
+            ViewBag.Count = result.Count().ToPersianNumbers();
+
+            return View(result);
         }
 
         /// <summary>

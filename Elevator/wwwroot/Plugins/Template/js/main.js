@@ -937,6 +937,8 @@
 		'value_changed_callback': function (cause, leftValue, rightValue) {
 			$(this).parent().find('.range-slider-leftlabel').text(leftValue);
 			$(this).parent().find('.range-slider-rightlabel').text(rightValue);
+            $('#range-slider-rightlabel-InputMin').val(leftValue)
+            $('#range-slider-rightlabel-InputMax').val(rightValue)
 		}
 	});
 

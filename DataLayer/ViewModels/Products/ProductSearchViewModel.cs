@@ -18,13 +18,17 @@ namespace DataLayer.ViewModels.Products
 
     public class ProductSearchListViewModel
     {
-        public string Titile { get; set; }
+        public string Title { get; set; }
 
         public int? Group { get; set; }
 
         public int? SubGroup { get; set; }
 
         public string Price { get; set; }
+
+        public string MinPrice { get; set; }
+
+        public string MaxPrice { get; set; }
 
         public int? Unit { get; set; }
 
