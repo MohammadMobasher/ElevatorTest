@@ -27,7 +27,7 @@
                 </div>
                 @await Component.InvokeAsync("CountDownProductVC", new { id = item.Id })
                 <div class="hoproduct-content">
-                    <h5 class="hoproduct-title VisitCounter" data-id="@item.Id"><a href="/Product/ProductDetail/@item.Id">@item.Title</a></h5>
+                    <h5 class="hoproduct-title VisitCounter" data-id="@item.Id"><a href="/Product/ProductDetail/@item.Id">@(item.Title.Length > 35 ? item.Title.Substring(0, 35).ToString() + "..." : item.Title)</a></h5>
                     <div class="hoproduct-rattingbox">
                         <h6>@item.Visit بازدید</h6>
                         <div class="rattingbox">
