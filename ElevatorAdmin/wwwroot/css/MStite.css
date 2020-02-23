@@ -1,4 +1,12 @@
-﻿.vertical-center {
+﻿.red{
+    color:red;
+}
+
+.green{
+    color:green;
+}
+
+.vertical-center {
     margin-top: auto !important;
     margin-bottom: auto !important;
     vertical-align: middle !important;

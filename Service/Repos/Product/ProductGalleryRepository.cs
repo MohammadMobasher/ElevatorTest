@@ -31,7 +31,7 @@ namespace Service.Repos
                 lst.Add(new ProductGallery()
                 {
                     ProductId = productId,
-                    Pic = UploadPic(item)
+                    Pic = await UploadPic(item)
                 });
             }
 
@@ -40,8 +40,8 @@ namespace Service.Repos
             return SweetAlertExtenstion.Ok();
         }
 
-        string UploadPic(IFormFile file)
-            => MFile.Save(file, FilePath.ProductGallery.GetDescription());
+         async Task<string> UploadPic(IFormFile file)
+            => await MFile.Save(file, FilePath.ProductGallery.GetDescription());
 
         public void DeletePic(List<string> path)
         {

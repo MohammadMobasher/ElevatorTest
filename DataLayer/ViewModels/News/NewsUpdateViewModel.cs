@@ -16,5 +16,10 @@ namespace DataLayer.ViewModels.News
         public int NewsGroupId { get; set; }
 
         public IFormFile ImageFile { get; set; }
+
+        /// <summary>
+        /// یک خبر فعال هست یا خیر
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

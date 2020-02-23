@@ -54,6 +54,11 @@ namespace DataLayer.Entities
         /// </summary>
         [StringLength(400, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
         public string Tags { get; set; }
+        
+        /// <summary>
+        /// یک خبر فعال هست یا خیر
+        /// </summary>
+        public bool IsActive { get; set; }
 
 
         public int UserId { get; set; }
