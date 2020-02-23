@@ -79,7 +79,7 @@ namespace Service.Repos
 
         public async Task<int> SubmitProduct(ProductPackageInsertViewModel vm, IFormFile file)
         {
-            vm.IndexPic = MFile.Save(file, FilePath.productPackage.GetDescription());
+            vm.IndexPic = await MFile.Save(file, FilePath.productPackage.GetDescription());
 
             var mapModel = Map(vm);
 
@@ -106,7 +106,7 @@ namespace Service.Repos
                         return 0;
                     }
                 }
-                vm.IndexPic = MFile.Save(file, FilePath.productPackage.GetDescription());
+                vm.IndexPic = await MFile.Save(file, FilePath.productPackage.GetDescription());
                 
             }
             var model = GetById(vm.Id);

@@ -24,6 +24,11 @@ namespace DataLayer.ViewModels.News
         /// </summary>
         public string SummeryNews { get; set; }
 
+        /// <summary>
+        /// یک خبر فعال هست یا خیر
+        /// </summary>
+        public bool IsActive { get; set; }
+
 
         /// <summary>
         /// برچسب‌های خبر

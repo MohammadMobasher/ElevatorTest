@@ -217,8 +217,8 @@ namespace Service.Repos.User
             {
                 var entity = await GetByIdAsync(UserId);
                 if(entity.ProfilePic != null && !string.IsNullOrEmpty(entity.ProfilePic))
-                    MFile.Delete(entity.ProfilePic);
-                entity.ProfilePic = MFile.Save(profilePic, "Uploads/UserImage");
+                    await MFile.Delete(entity.ProfilePic);
+                entity.ProfilePic = await MFile.Save(profilePic, "Uploads/UserImage");
                 await DbContext.SaveChangesAsync();
                 return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
             }

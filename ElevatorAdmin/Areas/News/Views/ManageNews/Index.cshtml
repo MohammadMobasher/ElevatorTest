@@ -29,6 +29,14 @@
                      icon="fa-trash-o"
                      buttonClass="btn-danger"></TableBotton>
 
+
+        <TableBotton area="News" controller="ManageNews" action="ActiveDeactive"
+                     isModal="false"
+                     modalTitle="تغییر وضعیت"
+                     title="تغییر وضعیت"
+                     icon="fa-ban"
+                     buttonClass="btn-warning"></TableBotton>
+
     </span>
 
 </div>
@@ -43,8 +51,9 @@
                 <th width="60px">ردیف</th>
                 <th>عنوان</th>
                 <th>خلاصه خبر</th>
+                <th>وضعیت</th>
                 <th>تاریخ</th>
-                <th>تعداد بازدید</th>
+                @*<th>تعداد بازدید</th>*@
             </tr>
             <tr>
                 <form method="post">
@@ -54,6 +63,7 @@
                     <th><input type="text" value="@ViewBag.SearchModel.SummeryNews" name="SummeryNews" class="form-control searchInput" /></th>
                     <th>---</th>
                     <th>---</th>
+                    @*<th>---</th>*@
                     <input type="submit" class="hidden searchBtn" value="جستجو" />
                 </form>
             </tr>
@@ -73,8 +83,10 @@
                             <td>@(index++)</td>
                             <td>@item.Title</td>
                             <td>@(item.SummeryNews.Length > 40 ? item.SummeryNews.Substring(0, 40) : item.SummeryNews)</td>
-                            <td class="direction-ltr">@item.Date.ToShortPersianDateTimeString()</td>
-                            <td>@item.ViewCount</td>
+                            <td>@(item.IsActive ?
+                                      Html.Raw("<i class='fa fa-check green' aria-hidden='true'></i>") : Html.Raw("<i class='fa fa-times red' aria-hidden='true'></i>"))</td>
+                            <td class="">@item.Date.ToLongPersianDateString()</td>
+                            @*<td>@item.ViewCount</td>*@
                         </tr>
                     }
                 }

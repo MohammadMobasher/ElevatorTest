@@ -12,5 +12,9 @@ namespace DataLayer.ViewModels.News
         public DateTime Date { get; set; }
         public string Tags { get; set; }
         public int NewsGroupId { get; set; }
+        /// <summary>
+        /// یک خبر فعال هست یا خیر
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

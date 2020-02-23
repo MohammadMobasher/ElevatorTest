@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Core.Utilities
 {
@@ -24,17 +25,21 @@ namespace Core.Utilities
         /// ذخیره یک عکس
         /// </summary>
         /// <returns></returns>
-        public static string Save(IFormFile uploadFile, string whereSave)
+        public static async Task<string> Save(IFormFile uploadFile, string whereSave)
         {
             //======================================================
             string UniqueFileName, FilePath;
+
+
             //======================================================
 
             if (uploadFile != null)
             {
                 UniqueFileName = GetUniqueFileName(uploadFile.FileName);
                 FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/" + whereSave, UniqueFileName);
-                uploadFile.CopyTo(new FileStream(FilePath, FileMode.Create));
+                FileStream d = new FileStream(FilePath, FileMode.Create);
+                await uploadFile.CopyToAsync(d);
+                d.Close();
                 return whereSave + "/" + UniqueFileName;
             }
 
@@ -42,7 +47,7 @@ namespace Core.Utilities
         }
 
 
-        public static void Delete(string address)
+        public static async Task Delete(string address)
         {
             var pic = Path.Combine(
                      Directory.GetCurrentDirectory(), "wwwroot\\",

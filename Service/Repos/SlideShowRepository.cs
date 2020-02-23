@@ -83,7 +83,7 @@ namespace Service.Repos
 
                 #region ذخیره فایل مورد نظر
 
-                entity.ImgAddress = MFile.Save(model.ImageFile, "Uploads/SlideShow");
+                entity.ImgAddress = await MFile.Save(model.ImageFile, "Uploads/SlideShow");
 
                 #endregion
 
@@ -115,9 +115,9 @@ namespace Service.Repos
                 if (model.ImageFile != null)
                 {
                     //حذف فایل قبلی
-                    MFile.Delete(entity.ImgAddress);
+                    await MFile.Delete(entity.ImgAddress);
                     // ذخیره فایل جدید
-                    entity.ImgAddress = MFile.Save(model.ImageFile, "Uploads/SlideShow");
+                    entity.ImgAddress = await MFile.Save(model.ImageFile, "Uploads/SlideShow");
 
                 }
 
@@ -145,7 +145,7 @@ namespace Service.Repos
             try
             {
                 var entity = await GetByIdAsync(Id);
-                MFile.Delete(entity.ImgAddress);
+                await MFile.Delete(entity.ImgAddress);
                 await DeleteAsync(entity);
                 return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");
             }

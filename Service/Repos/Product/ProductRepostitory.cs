@@ -95,7 +95,7 @@ namespace Service.Repos
 
         public async Task<int> SubmitProduct(DataLayer.ViewModels.Products.ProductInsertViewModel vm,IFormFile file)
         {
-            vm.IndexPic = MFile.Save(file, FilePath.Product.GetDescription());
+            vm.IndexPic = await MFile.Save(file, FilePath.Product.GetDescription());
 
             var mapModel = Map(vm);
 
@@ -115,7 +115,7 @@ namespace Service.Repos
                     System.IO.File.Delete(WebContent + FilePath.Product.GetDescription());
                 }
 
-                vm.IndexPic = MFile.Save(file, FilePath.Product.GetDescription());
+                vm.IndexPic = await MFile.Save(file, FilePath.Product.GetDescription());
             }
 
             var model = GetById(vm.Id);

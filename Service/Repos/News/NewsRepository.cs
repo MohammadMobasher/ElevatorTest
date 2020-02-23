@@ -31,6 +31,7 @@ namespace Service.Repos
         {
             return this.Entities
                 .ProjectTo<NewsDTO>()
+                .Where(x=> x.IsActive == true)
                 .OrderByDescending(x => x.ViewCount)
                 .Skip(0)
                 .Take(10)
@@ -76,7 +77,7 @@ namespace Service.Repos
 
                 #region ذخیره فایل مورد نظر
 
-                entity.ImageAddress = MFile.Save(model.ImageFile, "Uploads/NewsImages");
+                entity.ImageAddress = await MFile.Save(model.ImageFile, "Uploads/NewsImages");
 
                 #endregion
 
@@ -105,9 +106,9 @@ namespace Service.Repos
                 if (model.ImageFile != null)
                 {
                     //حذف فایل قبلی
-                    MFile.Delete(entity.ImageAddress);
+                    await MFile.Delete(entity.ImageAddress);
                     // ذخیره فایل جدید
-                    entity.ImageAddress = MFile.Save(model.ImageFile, "Uploads/NewsImages");
+                    entity.ImageAddress = await MFile.Save(model.ImageFile, "Uploads/NewsImages");
                     
                 }
 
@@ -122,6 +123,21 @@ namespace Service.Repos
             }
         }
 
+        public async Task<SweetAlertExtenstion> ActiveDeactive(int id)
+        {
+            try
+            {
+                var entity = await GetByIdAsync(id);
+                entity.IsActive = entity.IsActive ? false : true;
+
+                await DbContext.SaveChangesAsync();
+                return SweetAlertExtenstion.Ok();
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
 
         public async Task<Tuple<int, List<NewsDTO>>> LoadAsyncCount(
             int skip = -1,
@@ -175,7 +191,7 @@ namespace Service.Repos
             {
                 var entity = await GetByIdAsync(Id);
 
-                MFile.Delete(entity.ImageAddress);
+                await MFile.Delete(entity.ImageAddress);
 
                 await DeleteAsync(entity);
                 return SweetAlertExtenstion.Ok("عملیات با موفقیت انجام شد");

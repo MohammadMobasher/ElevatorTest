@@ -41,6 +41,12 @@ namespace DataLayer.DTO
 
 
         /// <summary>
+        /// یک خبر فعال هست یا خیر
+        /// </summary>
+        public bool IsActive { get; set; }
+
+
+        /// <summary>
         /// برچسب‌های خبر
         /// </summary>
         public string Tags { get; set; }
