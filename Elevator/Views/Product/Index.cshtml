@@ -1,7 +1,7 @@
 ﻿@model List<DataLayer.Entities.Product>
 @using DNTPersianUtils.Core
 @{
-    var categorys = ViewBag.Category as List<DataLayer.Entities.ProductGroup>;
+    var categorys = ViewBag.Category as List<DataLayer.DTO.ProductGroupDTO>;
     var Search = ViewBag.Searcg as DataLayer.ViewModels.Products.ProductSearchListViewModel;
 }
 
@@ -141,7 +141,7 @@
                                     {
                                         <li>
 
-                                            <a asp-controller="Product" asp-action="Index" asp-route-Group="@item.Id">@item.Title <span>20</span></a>
+                                            <a asp-controller="Product" asp-action="Index" asp-route-Group="@item.Id">@item.Title</a>
                                         </li>
                                     }
 
