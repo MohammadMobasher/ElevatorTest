@@ -173,11 +173,24 @@
                     </div>
                     <div class="tab-pane fade" id="product-details-area2" role="tabpanel" aria-labelledby="product-details-area2-tab">
                             <div class="pdetails-moreinfo">
-                                <a href="#">
-                                    <img src="images/others/product-author-logo.jpg" alt="brand logo">
-                                </a>
+                                <table dir="rtl">
+                                    <thead>
+                                        <tr style="">
+                                            <th width="30%"  style="text-align:right;font-size:20px;margin-bottom:20px">مشخصات فنی</th>
+                                            <th width="70%"  style="text-align:right"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.Features as List<ProductFeature>)
+                                        {
+                                            <tr>
+                                                <td style="text-align:right;font-weight: bold;font-size:18px ">@item.Feature.Title</td>
+                                                <td style="text-align:right;font-weight: bold;font-size:18px">@item.FeatureValue</td>
+                                            </tr>
+                                        }
 
-                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="product-details-area3" role="tabpanel" aria-labelledby="product-details-area3-tab">

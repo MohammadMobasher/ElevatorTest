@@ -83,6 +83,8 @@ namespace DataLayer.Entities
 
         [ForeignKey(nameof(ProductUnitId))]
         public virtual ProductUnit ProductUnit { get; set; }
+
+        public virtual ICollection<ProductFeature> ProductFeatures { get; set; }
         #endregion
     }
 }

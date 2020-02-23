@@ -26,13 +26,16 @@ namespace Elevator.Controllers
         private readonly ProductGalleryRepository _productGalleryRepository;
         private readonly ProductPackageRepostitory _productPackageRepostitory;
         private readonly ProductGroupRepository _productGroupRepository;
+        private readonly ProductFeatureRepository _productFeatureRepository;
+
         public IConfiguration configuration { get; }
         public ProductController(ProductRepostitory productRepostitory,
             ProductDiscountRepository productDiscountRepository,
             IConfiguration Configuration,
             ProductGalleryRepository productGalleryRepository,
             ProductPackageRepostitory productPackageRepostitory,
-            ProductGroupRepository productGroupRepository)
+            ProductGroupRepository productGroupRepository,
+            ProductFeatureRepository productFeatureRepository)
         {
             _productRepository = productRepostitory;
             _productDiscountRepository = productDiscountRepository;
@@ -40,6 +43,7 @@ namespace Elevator.Controllers
             _productGalleryRepository = productGalleryRepository;
             _productPackageRepostitory = productPackageRepostitory;
             _productGroupRepository = productGroupRepository;
+            _productFeatureRepository = productFeatureRepository;
         }
 
         /// <summary>
@@ -50,7 +54,6 @@ namespace Elevator.Controllers
         public async Task<IActionResult> Index(ProductSearchListViewModel vm)
         {
             var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
-
 
             var model = _productRepository.TableNoTracking
                 .Include(a => a.ProductGroup)
@@ -84,6 +87,10 @@ namespace Elevator.Controllers
 
             ViewBag.Discount = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
                 .FirstOrDefaultAsync();
+
+            ViewBag.Features = await _productFeatureRepository.TableNoTracking.Include(a => a.Feature)
+                .Where(a => a.ProductId == id).ToListAsync();
+
 
             var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
