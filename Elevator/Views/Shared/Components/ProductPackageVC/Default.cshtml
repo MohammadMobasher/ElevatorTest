@@ -9,7 +9,7 @@
         @foreach (var item in Model)
         {
             <div class="pdetails-singleimage pdetails-slidersingleimage" data-src="@ViewBag.Url/@item?.Product?.IndexPic">
-                <img src="@ViewBag.Url/@item?.Product?.IndexPic" alt="product image">
+                <img src="@(item?.Product?.IndexPic!=null? ViewBag.Url+"/"+item?.Product?.IndexPic:"/no-image.jpg")" alt="product image">
             </div>
         }
  

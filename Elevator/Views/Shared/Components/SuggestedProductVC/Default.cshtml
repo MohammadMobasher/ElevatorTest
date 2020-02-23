@@ -23,9 +23,9 @@
                         <article class="hoproduct hoproduct-4">
                             <div class="hoproduct-image">
                                 <a class="hoproduct-thumb" href="/Product/ProductDetail/@item.Id">
-                                    <img class="hoproduct-frontimage" src="@ViewBag.Url/@item.IndexPic"
+                                    <img class="hoproduct-frontimage" src="@(item.IndexPic!=null?ViewBag.Url+"/"+item.IndexPic:"/no-image.jpg")"
                                          alt="product image">
-                                    <img class="hoproduct-backimage" src="@ViewBag.Url/@item.IndexPic"
+                                    <img class="hoproduct-backimage" src="@(item.IndexPic!=null? ViewBag.Url+"/"+item.IndexPic:"/no-image.jpg")"
                                          alt="product image">
                                 </a>
                             </div>

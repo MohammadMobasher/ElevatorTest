@@ -6,7 +6,7 @@
     {
 
         <div class="herobanner-single">
-            <img src="@Url.Content("http://localhost:49772//" + item.ImgAddress)" title="@item.Title" alt="@item.Alt">
+            <img src="@Url.Content(@ViewBag.Url+"/" + item.ImgAddress)" title="@item.Title" alt="@item.Alt">
             <div class="herobanner-content">
 
                 <div class="herobanner-box">
