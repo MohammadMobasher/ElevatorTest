@@ -83,6 +83,9 @@ namespace Elevator.Controllers
                 .Include(a => a.ProductGroup)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
+            if (model == null)
+                return NotFound();
+
             ViewBag.Gallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == id).ToListAsync();
 
             ViewBag.Discount = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
