@@ -63,6 +63,8 @@ namespace DataLayer.Entities
 
         public int UserId { get; set; }
 
+
+
         [Required]
         [StringLength(1000, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
         public string ImageAddress { get; set; }

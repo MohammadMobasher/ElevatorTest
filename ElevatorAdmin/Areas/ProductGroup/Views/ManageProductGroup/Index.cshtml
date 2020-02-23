@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "لیست گروه‌های کالا";
+    List<DataLayer.DTO.ProductGroupDTO> parents = ViewBag.Parents;
 }
 
 
@@ -61,6 +62,7 @@
                     ردیف
                 </th>
                 <th>عنوان</th>
+                <th>پدر</th>
             <tr>
                 <form method="post">
                     <th>
@@ -70,7 +72,27 @@
                         ---
                     </th>
                     <th><input type="text" value="@ViewBag.SearchModel.Title" name="Title" class="form-control searchInput" /></th>
-                    
+
+                    <th>
+                        <select name="ParentId" class="form-control searchSelect">
+                            <option>--لطفا انتخاب کنید--</option>
+                            @foreach (DataLayer.DTO.ProductGroupDTO item in parents)
+                            {
+                                if (item.Id == ViewBag.SearchModel.ParentId)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+
+
+                            }
+
+                        </select>
+                    </th>
+
                     <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
                 </form>
             </tr>
@@ -93,6 +115,7 @@
                             <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
                             <td>@(index++)</td>
                             <td>@item.Title</td>
+                            <td>@(item.Parent != null ? item.Parent.Title : "")</td>
                             @*<td>
                                     <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
                                         <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
