@@ -22,7 +22,7 @@ namespace Elevator.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            return View(this._newsRepository.Load<NewsDTO>().Skip(0).Take(10).ToList());
+            return View(this._newsRepository.Load<NewsDTO>().Where(x=> x.IsActive == true).Skip(0).Take(10).ToList());
         }
 
     }

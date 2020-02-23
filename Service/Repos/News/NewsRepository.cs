@@ -31,6 +31,7 @@ namespace Service.Repos
         {
             return this.Entities
                 .ProjectTo<NewsDTO>()
+                .Where(x=> x.IsActive == true)
                 .OrderByDescending(x => x.ViewCount)
                 .Skip(0)
                 .Take(10)
