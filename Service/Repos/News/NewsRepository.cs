@@ -123,6 +123,21 @@ namespace Service.Repos
             }
         }
 
+        public async Task<SweetAlertExtenstion> ActiveDeactive(int id)
+        {
+            try
+            {
+                var entity = await GetByIdAsync(id);
+                entity.IsActive = entity.IsActive ? false : true;
+
+                await DbContext.SaveChangesAsync();
+                return SweetAlertExtenstion.Ok();
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
 
         public async Task<Tuple<int, List<NewsDTO>>> LoadAsyncCount(
             int skip = -1,

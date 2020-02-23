@@ -110,5 +110,21 @@ namespace ElevatorAdmin.Areas.News.Controllers
         }
 
         #endregion
+
+
+        #region فعال / غیرفعال
+
+        [ActionRole("فعال/غیرفعال")]
+        [HasAccess]
+        public async Task<IActionResult> ActiveDeactive(int Id)
+        {
+
+            var result = await _newsRepository.ActiveDeactive(Id);
+            TempData.AddResult(result);
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
     }
 }
