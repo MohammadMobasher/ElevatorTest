@@ -32,6 +32,7 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         [HasAccess]
         public async Task<IActionResult> Index(ProductGroupSearchViewModel searchModel)
         {
+            ViewBag.Parents = await _productGroupRepository.GetParents();
             var model = await _productGroupRepository.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize,
@@ -51,12 +52,14 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         [HasAccess]
         public async Task<IActionResult> Insert()
         {
-            return View();
+            var model = await _productGroupRepository.GetParents();
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Insert(ProductGroupInsertViewModel model)
         {
+            model.ParentId = model.ParentId == -1 ? null : model.ParentId;
             var result = await _productGroupRepository.AddAsync(model);
 
             TempData.AddResult(result);
@@ -71,6 +74,7 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         [HasAccess]
         public async Task<IActionResult> Update(int Id)
         {
+            ViewBag.Parents = await _productGroupRepository.GetParents();
 
             var result = await _productGroupRepository.GetByIdAsync(Id);
             return View(result);
@@ -79,6 +83,7 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(ProductGroupUpdateViewModel model)
         {
+            model.ParentId = model.ParentId == -1 ? null : model.ParentId;
             var result = await _productGroupRepository.UpdateAsync(model);
 
             TempData.AddResult(result);

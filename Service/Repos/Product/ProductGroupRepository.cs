@@ -34,6 +34,8 @@ namespace Service.Repos.Product
             if (!string.IsNullOrEmpty(model.Title))
                 query = query.Where(x => x.Title.Contains(model.Title));
 
+            if (model.ParentId != null)
+                query = query.Where(x => x.ParentId == model.ParentId);
 
             int Count = query.Count();
 
@@ -47,6 +49,16 @@ namespace Service.Repos.Product
                 query = query.Take(take);
 
             return new Tuple<int, List<ProductGroupDTO>>(Count, await query.ToListAsync());
+        }
+
+
+        /// <summary>
+        /// گرفتن تمام پدرها
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ProductGroupDTO>> GetParents()
+        {
+            return await Entities.ProjectTo<ProductGroupDTO>().Where(x => x.Parent == null).ToListAsync();
         }
 
 

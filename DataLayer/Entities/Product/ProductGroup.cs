@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataLayer.Entities
 {
@@ -18,6 +18,13 @@ namespace DataLayer.Entities
         [Required]
         public string Title { get; set; }
 
+        
+        public int? ParentId { get; set; } = -1;
+
         public virtual ICollection<Product> Products { get; set; }
+
+
+        public virtual ProductGroup Parent { get; set; }
+        
     }
 }

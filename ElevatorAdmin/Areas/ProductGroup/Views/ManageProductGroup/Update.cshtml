@@ -3,17 +3,41 @@
 @{
     ViewData["Title"] = "ویرایش دسته";
     Layout = null;
+    List<DataLayer.DTO.ProductGroupDTO> parents = ViewBag.Parents;
 }
 
 
 <form action="/ProductGroup/ManageProductGroup/Update" class="form-horizontal" method="post">
 
-    <input type="hidden" name="Id" value="@Model.Id"/>
+    <input type="hidden" name="Id" value="@Model.Id" />
 
     <div class="form-group">
         <label for="Title" class="control-label col-sm-2">عنوان گروه <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
             <input type="text" value="@Model.Title" class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان گروه" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="Text" class="control-label col-sm-2">پدر <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <select name="ParentId" required="required" class="form-control form-control-lg">
+                <option>لطفا انتخاب کنید</option>
+                <!option @(Model.ParentId == null  ? "selected" : "" ) value="-1">خودش پدر هست</!option>
+                @foreach (var item in parents)
+                {
+                    if (Model.ParentId != null && Model.ParentId == item.Id)
+                    {
+                        <option selected value="@item.Id">@item.Title</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.Title</option>
+                    }
+
+                }
+            </select>
         </div>
     </div>
 

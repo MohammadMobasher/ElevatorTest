@@ -75,8 +75,23 @@ namespace Service
             modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly);
             modelBuilder.AddSequentialGuidForIdConvention();
 
-            
+            modelBuilder.Entity<ProductGroup>()
+                    .HasOne(i => i.Parent)
+                    .WithMany()
+                    .HasForeignKey(i => i.ParentId);
+
+            //modelBuilder.Entity<ProductGroup>(entity =>
+            //{
+            //    entity
+            //        .HasOne(e => e.ParentGroup)
+            //        .WithOne(e => e.ParentArticleComment) //Each comment from Replies points back to its parent
+            //        .HasForeignKey(e => e.ParentArticleCommentId);
+            //});
+
+
         }
+
+        
 
         #region CleanString
         // این بخش برای یکپارچه سازی کاراکتر ها می باشد به صورتی که اگر کاربری 
