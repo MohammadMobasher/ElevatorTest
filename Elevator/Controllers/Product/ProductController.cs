@@ -97,10 +97,14 @@ namespace Elevator.Controllers
             var package = await _productPackageRepostitory.TableNoTracking
                 .Include(a => a.ProductPackageDetails)
                 .FirstOrDefaultAsync(a => a.Id == id);
+                
+            var productIds = package.ProductPackageDetails.Select(a => a.ProductId).ToList();
+
 
             var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
             ViewBag.Url = test.SiteConfig.UrlAddress;
+            ViewBag.Gallery = await _productRepository.TableNoTracking.Where(a => productIds.Contains(a.Id)).ToListAsync();
 
             return View(package);
         }

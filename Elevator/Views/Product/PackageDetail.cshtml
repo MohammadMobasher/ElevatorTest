@@ -2,7 +2,7 @@
 @model ProductPackage
 @using DNTPersianUtils.Core
 @{
-    var gallery = ViewBag.Gallery as List<ProductGallery>;
+    var gallery = ViewBag.Gallery as List<Product>;
     var discount = ViewBag.Discount as ProductDiscount;
 
 }
@@ -36,18 +36,12 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <div class="pdetails-images pdetails-sliderimages pdetails-imagezoom slider-navigation">
-                            <div class="pdetails-singleimage pdetails-slidersingleimage" data-src="images/product/lg/product-image-1.jpg">
-                                <img src="images/product/lg/product-image-1.jpg" alt="product image">
+                            @foreach (var item in gallery)
+                            {
+                            <div class="pdetails-singleimage pdetails-slidersingleimage" data-src="@ViewBag.Url/@item.IndexPic">
+                                <a href="/Product/ProductDetail/@item.Id"><img src="@ViewBag.Url/@item.IndexPic" alt="product image"></a>
                             </div>
-                            <div class="pdetails-singleimage pdetails-slidersingleimage" data-src="images/product/lg/product-image-2.jpg">
-                                <img src="images/product/lg/product-image-2.jpg" alt="product image">
-                            </div>
-                            <div class="pdetails-singleimage pdetails-slidersingleimage" data-src="images/product/lg/product-image-3.jpg">
-                                <img src="images/product/lg/product-image-3.jpg" alt="product image">
-                            </div>
-                            <div class="pdetails-singleimage pdetails-slidersingleimage" data-src="images/product/lg/product-image-4.jpg">
-                                <img src="images/product/lg/product-image-4.jpg" alt="product image">
-                            </div>
+                            }
                         </div>
                     </div>
                     <div class="col-lg-8">
@@ -60,13 +54,13 @@
                                 <span class="active"><i class="ion ion-ios-star"></i></span>
                                 <span class="active"><i class="ion ion-ios-star"></i></span>
                             </div>
-                            <h3>کالای فروشی هالتیکو</h3>
+                            <h3>@Model.Title</h3>
                             <div class="pdetails-pricebox">
                                 <del class="oldprice">30,000 تومان</del>
                                 <span class="price">30,000 تومان</span>
                                 <span class="badge">تخیف 5%</span>
                             </div>
-                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و </p>
+                            <p>@Model.ShortDiscription </p>
 
                             <div class="pdetails-quantity">
                                 <div class="quantity-select">
@@ -80,18 +74,11 @@
                                 </a>
                             </div>
                             <div class="pdetails-categories">
-                                <span>دسته بندی: </span>
-                                <ul>
-                                    <li><a href="shop-rightsidebar.html">دیجیتال</a></li>
-                                    <li><a href="shop-rightsidebar.html">گوشی</a></li>
-                                    <li><a href="shop-rightsidebar.html">سامسونگ</a></li>
-                                </ul>
                             </div>
                             <div class="pdetails-tags">
-                                <span>تگ ها: </span>
+                                <span>تعداد بازدید: </span>
                                 <ul>
-                                    <li><a href="shop-rightsidebar.html">الکترونیک</a></li>
-                                    <li><a href="shop-rightsidebar.html">گوشی</a></li>
+                                    <li>@Model.Visit</li>
                                 </ul>
                             </div>
                             <div class="pdetails-socialshare">
