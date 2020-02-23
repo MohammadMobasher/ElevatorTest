@@ -11,7 +11,7 @@
             <article class="hoproduct hoproduct-2">
                 <div class="hoproduct-image">
 
-                    <a class="hoproduct-thumb VisitCounter" data-id="@item.Id" href="/Product/ProductDetail/@item.Id">
+                    <a class="hoproduct-thumb VisitCounter" data-id="@item.Id" href="/Product/PackageDetail/@item.Id">
                         <img class="hoproduct-frontimage" src="@ViewBag.Url/@item.IndexPic" alt="@item.Title">
                         <img class="hoproduct-backimage" src="@ViewBag.Url/@item.IndexPic" alt="@item.Title">
                     </a>
@@ -27,7 +27,7 @@
                 </div>
                 @await Component.InvokeAsync("CountDownProductVC", new { id = item.Id })
                 <div class="hoproduct-content">
-                    <h5 class="hoproduct-title VisitCounter" data-id="VisitCounter"><a href="/Product/ProductPackage/@item.Id">@item.Title</a></h5>
+                    <h5 class="hoproduct-title VisitCounter" data-id="VisitCounter"><a href="/Product/PackageDetail/@item.Id">@item.Title</a></h5>
                     <div class="hoproduct-rattingbox">
                         <h6>@item.Visit بازدید</h6>
                         <div class="rattingbox">

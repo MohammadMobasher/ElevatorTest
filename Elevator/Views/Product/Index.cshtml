@@ -136,10 +136,11 @@
                             <div class="single-widget widget-categories">
                                 <h5 class="widget-title">همه دسته ها</h5>
                                 <ul>
+                                    <input type="hidden" name="Group" value="@Search?.Group" />
                                     @foreach (var item in categorys)
                                     {
                                         <li>
-                                            <input type="hidden" name="Group" value="@Search?.Group" />
+
                                             <a asp-controller="Product" asp-action="Index" asp-route-Group="@item.Id">@item.Title <span>20</span></a>
                                         </li>
                                     }
