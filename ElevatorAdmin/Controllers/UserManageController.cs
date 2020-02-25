@@ -192,6 +192,11 @@ namespace ElevatorAdmin.Controllers
         {
             var model = await _userRepository.PhoneNumberByUserId(vm.UserId);
 
+            if(model == null)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("برای این شخص شماره تماسی ثبت نشده است"));
+                return RedirectToAction(nameof(Index));
+            }
             var swMessage = _smsService.SendSms(model, vm.Message);
 
             TempData.AddResult(swMessage);

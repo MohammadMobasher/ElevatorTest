@@ -13,8 +13,8 @@
                     <article class="hoproduct">
                         <div class="hoproduct-image">
                             <a class="hoproduct-thumb VisitCounter" data-Id="@item.Id" href="/Product/ProductDetail/@item.Id">
-                                <img class="hoproduct-frontimage" src="@(item.IndexPic!=null? ViewBag.Url/@item.IndexPic:"~/no-image.jpg")" alt="product image">
-                                <img class="hoproduct-backimage" src="@(item.IndexPic!=null? ViewBag.Url/@item.IndexPic:"~/no-image.jpg")" alt="product image">
+                                <img class="hoproduct-frontimage" src="@(item.IndexPic!=null? ViewBag.Url+"/"+@item.IndexPic:"~/no-image.jpg")" alt="product image">
+                                <img class="hoproduct-backimage" src="@(item.IndexPic!=null? ViewBag.Url+"/"+@item.IndexPic:"~/no-image.jpg")" alt="product image">
                             </a>
                             <ul class="hoproduct-flags discountProduct" data-id="@item.Id">
                                 <li class="flag-pack">جدید</li>
