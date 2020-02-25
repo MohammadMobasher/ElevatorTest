@@ -54,6 +54,8 @@ namespace DataLayer.ViewModels.Products
         /// </summary>
         public int? ProductUnitId { get; set; }
 
+        public bool? IsActive { get; set; } = true;
+
         /// <summary>
         /// تاریخ ثبت محصول
         /// </summary>
