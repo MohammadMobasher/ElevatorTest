@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200229212422_create_LogoManufactory")]
+    partial class create_LogoManufactory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,26 +174,6 @@ namespace Service.Migrations
                     b.HasIndex("FeatureId");
 
                     b.ToTable("FeatureItem");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.LogoManufactory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AddressImg")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Title")
-                        .HasMaxLength(150);
-
-                    b.Property<string>("URL")
-                        .HasMaxLength(1000);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LogoManufactory");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.News", b =>

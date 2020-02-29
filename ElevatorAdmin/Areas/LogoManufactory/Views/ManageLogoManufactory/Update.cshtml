@@ -1,0 +1,65 @@
+﻿@using DataLayer.Entities
+@model LogoManufactory
+
+
+@{
+    ViewData["Title"] = "ویرایش لوگو";
+    Layout = "~/Views/Shared/_ModalLayout.cshtml";
+}
+
+
+
+
+<form class="form-horizontal" method="post" asp-area="LogoManufactory" asp-controller="ManageLogoManufactory" asp-action="Update" style="" enctype="multipart/form-data">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="col-12">
+        <div class="container">
+
+            <div class="form-group">
+                <label for="Title" class="control-label col-sm-2">عنوان لوگو <i class="text-danger fa fa-star size-8"></i></label>
+                <div class="col-sm-10">
+                    <input type="text" value="@Model.Title" class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان لوگو" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="URL" class="control-label col-sm-2">URL </label>
+                <div class="col-sm-10">
+                    <textarea name="URL" id="URL" class="form-control" placeholder="URL" aria-describedby="URL">@Model.URL</textarea>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="Text" class="control-label col-sm-2">عکس لوگو <i class="text-danger fa fa-star size-8"></i></label>
+                <div class="col-sm-10">
+                    <input name="ImageFile"
+                           
+                           data-default-file="/@Model.AddressImg.Replace("wwwroot", "")"
+                           type="file" class="dropify"
+                           data-show-loader="true"
+                           accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
+                           id="ImageFile" size="50">
+
+                </div>
+
+                <input type="hidden" name="AddressImg" value="@Model.AddressImg" />
+            </div>
+
+
+
+            <button type="submit" class="btn btn-block btn-success">ثبت</button>
+
+
+
+        </div>
+    </div>
+</form>
+
+
+
+
+

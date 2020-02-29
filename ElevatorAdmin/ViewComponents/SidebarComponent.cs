@@ -30,6 +30,7 @@ namespace ElevatorAdmin.ViewComponents
             items.Add(new SidebarViewModel { Controller = "UserManage", Action = "Index", Title = "مدیریت کاربران", Icon = "fa fa-user" });
             items.Add(new SidebarViewModel { Controller = "RoleManage", Action = "Index", Title = "مدیریت نقش ها", Icon = "fa fa-users" });
             items.Add(new SidebarViewModel { Area = "SlideShow", Controller = "ManageSlideShow", Action = "Index", Title = "مدیریت اسلایدشو", Icon = "fa fa-sliders" });
+            items.Add(new SidebarViewModel { Area = "LogoManufactory", Controller = "ManageLogoManufactory", Action = "Index", Title = "مدیریت لوگوها", Icon = "fa fa-sliders" });
             
             items.Add(new SidebarViewModel { Controller = "", Action = "", Title = "مدیریت محصولات", Icon = "fa fa-cubes",
                 Childs = new List<SidebarChildViewModel> {

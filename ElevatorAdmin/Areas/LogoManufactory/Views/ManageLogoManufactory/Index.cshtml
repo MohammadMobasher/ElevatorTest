@@ -1,0 +1,109 @@
+﻿@using DataLayer.DTO
+@using DNTPersianUtils.Core
+@using DataLayer.DTO.LogoManufactory
+
+@model List<LogoManufactoryDTO>
+@{
+    ViewData["Title"] = "لیست لوگو کارخانه‌ها";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 btn-table">
+
+
+
+    <TableBotton area="LogoManufactory" controller="ManageLogoManufactory" action="Insert"
+                 isModal="true"
+                 modalTitle="ثبت"
+                 title="ثبت"
+                 icon="fa-plus"
+                 buttonClass="btn-primary"></TableBotton>
+
+    <span class="hidden" data-role-table-btn-area-access="">
+
+
+        <TableBotton area="LogoManufactory" controller="ManageLogoManufactory" action="Update"
+                     isModal="true"
+                     modalTitle="ثبت"
+                     title="ویرایش"
+                     icon="fa-pencil-square-o"
+                     buttonClass="btn-warning"></TableBotton>
+
+
+        <TableBotton area="LogoManufactory" controller="ManageLogoManufactory" action="Delete"
+                     isModal="true"
+                     modalTitle="حذف"
+                     title="حذف"
+                     icon="fa-trash-o"
+                     buttonClass="btn-danger"></TableBotton>
+
+
+
+
+    </span>
+
+</div>
+
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+
+    <table class="table-first table-condensed table table-responsive tableWrap table-striped rounded table-hover table-bordered ">
+        <thead>
+            <tr>
+                <th width="3%"></th>
+                <th width="60px">ردیف</th>
+                <th>لوگو</th>
+                <th>عنوان</th>
+
+            </tr>
+            <tr>
+                <form method="post">
+                    <th width="3%">---</th>
+                    <th width="60px">---</th>
+                    <th>---</th>
+                    <th><input type="text" value="@ViewBag.SearchModel.Title" name="Title" class="form-control searchInput" /></th>
+
+                    <input type="submit" class="hidden searchBtn" value="جستجو" />
+                </form>
+            </tr>
+
+        </thead>
+    </table>
+    <div class="bodycontainer scrollable">
+        <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
+            <tbody>
+                @{var index = 1;}
+                @if (Model != null && Model.Count != 0)
+                {
+                    @foreach (LogoManufactoryDTO item in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                            <td>@(index++)</td>
+                            <td>
+                                <img src="~/@item.AddressImg" class="img-responsive" width="100" height="100" />
+                            </td>
+                            <td>@item.Title</td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-danger">رکوردی یافت نشد</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <table class="table table-hover table-striped">
+        <tfoot>
+            @Html.Partial("~/Views/Shared/_Pagination.cshtml")
+        </tfoot>
+    </table>
+
+
+
+
+</div>

@@ -27,6 +27,7 @@ namespace Service
 
         public DbSet<Feature> Feature { get; set; }
         public DbSet<FAQ> FAQ { get; set; }
+        public DbSet<LogoManufactory> LogoManufactory { get; set; }
         public DbSet<FaqGroup> FaqGroup { get; set; }
         public DbSet<FeatureItem> FeatureItem { get; set; }
         public DbSet<Product> Product { get; set; }
