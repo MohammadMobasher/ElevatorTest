@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Service.Mappers;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace Service
@@ -15,6 +17,10 @@ namespace Service
         {
             services.AddDbContext<DatabaseContext>(options
                 => options.UseSqlServer(configuration.GetConnectionString("MyConnection")));
+
+            services.AddScoped<IDbConnection>(
+                _ => new SqlConnection(configuration.GetConnectionString("MyConnection")));
+
 
             services.Scan(scan =>
                 scan.FromAssemblyOf<DatabaseContext>()
