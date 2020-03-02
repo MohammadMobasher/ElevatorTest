@@ -32,7 +32,7 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         [HasAccess]
         public async Task<IActionResult> Index(ProductGroupSearchViewModel searchModel)
         {
-            ViewBag.Parents = await _productGroupRepository.GetParents();
+            ViewBag.Parents = await _productGroupRepository.GetParentsAsync();
             var model = await _productGroupRepository.LoadAsyncCount(
                 this.CurrentPage,
                 this.PageSize,
@@ -52,7 +52,7 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         [HasAccess]
         public async Task<IActionResult> Insert()
         {
-            var model = await _productGroupRepository.GetParents();
+            var model = await _productGroupRepository.GetParentsAsync();
             return View(model);
         }
 
@@ -74,7 +74,7 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         [HasAccess]
         public async Task<IActionResult> Update(int Id)
         {
-            ViewBag.Parents = await _productGroupRepository.GetParents();
+            ViewBag.Parents = await _productGroupRepository.GetParentsAsync();
 
             var result = await _productGroupRepository.GetByIdAsync(Id);
             return View(result);

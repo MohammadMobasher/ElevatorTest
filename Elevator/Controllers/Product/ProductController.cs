@@ -63,7 +63,7 @@ namespace Elevator.Controllers
                 .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice))
                 .ToListAsync();
 
-            ViewBag.Category = await _productGroupRepository.GetParents();
+            ViewBag.Category = await _productGroupRepository.GetParentsAsync();
             ViewBag.Url = test.SiteConfig.UrlAddress;
             ViewBag.Search = vm;
             ViewBag.MaxPrice = result != null && result.Count > 0 ? result.Max(a => a.Price) : 1000000;
@@ -177,6 +177,14 @@ namespace Elevator.Controllers
             var model = await _productRepository.AddDisLike(id);
 
             return Json(model);
+        }
+
+
+        public async Task<IActionResult> ProductGroup(int id)
+        {
+            ViewBag.Group = await _productGroupRepository.GetByIdAsync(id);
+            var model = await _productRepository.GetProductByGroupId(id);
+            return View(model);
         }
     }
 }

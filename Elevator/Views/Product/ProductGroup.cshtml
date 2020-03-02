@@ -1,0 +1,46 @@
+﻿@using DataLayer.Entities
+@using DataLayer.DTO.Products
+@model List<ProductFullDTO>
+@{
+    ProductGroup product = ViewBag.Group;
+    ViewData["Title"] = product.Title;
+}
+
+<div class="container ">
+    <div class="row">
+
+        @foreach (ProductFullDTO item in Model)
+        {
+            <div class="col-lg-3 col-md-3 col-xl-3 col-sm-12 card-box mt-3 mb-3">
+                <div class="hoproduct-image">
+
+                    <a class="hoproduct-thumb VisitCounter" data-id="@item.Id" href="/Product/ProductDetail/@item.Id">
+                        <img class="hoproduct-frontimage" src="@(item.IndexPic!=null && !string.IsNullOrEmpty(item.IndexPic)? ViewBag.Url+"/"+@item.IndexPic:"/no-image.jpg")" alt="@item.Title">
+                        <img class="hoproduct-backimage" src="@(item.IndexPic!=null && !string.IsNullOrEmpty(item.IndexPic)? ViewBag.Url+"/"+@item.IndexPic:"/no-image.jpg")" alt="@item.Title">
+                    </a>
+                </div>
+                @await Component.InvokeAsync("CountDownProductVC", new { id = item.Id })
+                <div class="hoproduct-content">
+                    <h5 class="hoproduct-title VisitCounter" data-id="@item.Id"><a href="/Product/ProductDetail/@item.Id">@(item.Title.Length > 35 ? item.Title.Substring(0, 35).ToString() + "..." : item.Title)</a></h5>
+                    <div class="hoproduct-rattingbox">
+                        <h6>@item.Visit بازدید</h6>
+                        <div class="rattingbox">
+                        </div>
+                    </div>
+                    <div class="hoproduct-pricebox ">
+                        <div class="pricebox">
+                            @*<del class="oldprice olPrice_@item.Id">@item.Price</del>*@
+                            <span class="price DiscountPrice_@item.Id">@item.Price تومان</span>
+                        </div>
+                        <span class="dicountValue_@item.Id"></span>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </div>
+</div>
+
+
+

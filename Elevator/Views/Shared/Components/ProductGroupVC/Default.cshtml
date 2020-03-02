@@ -1,0 +1,117 @@
+﻿@using DataLayer.DTO
+@model List<ProductGroupDTO>
+
+
+<div class="header-catmenu catmenu">
+    <button class="catmenu-trigger">
+        <span>دسته ها</span>
+    </button>
+    <nav class="catmenu-body">
+        <ul>
+            @foreach (ProductGroupDTO item in Model)
+            {
+                <li><a href="#">@*<i class="ion ion-logo-slack"></i>*@@item.Title</a></li>
+            }
+            @*<li class="catmenu-dropdown">
+                <a href="#"><i class="ion ion-ios-power"></i>مد روز</a>
+                <ul class="megamenu catmenu-megamenu">
+                    <li>
+                        <a href="#">زنانه</a>
+                        <ul>
+                            <li><a href="#">پیراهن</a></li>
+                            <li><a href="#">شلوار</a></li>
+                            <li><a href="#">لباس زیر</a></li>
+                            <li><a href="#">کفش</a></li>
+                            <li><a href="#">ساعت</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">مردانه</a>
+                        <ul>
+                            <li><a href="#">پیراهن</a></li>
+                            <li><a href="#">شلوار</a></li>
+                            <li><a href="#">لباس زیر</a></li>
+                            <li><a href="#">کفش</a></li>
+                            <li><a href="#">ساعت</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">بچگانه</a>
+                        <ul>
+                            <li><a href="#">پیراهن</a></li>
+                            <li><a href="#">شلوار</a></li>
+                            <li><a href="#">لباس زیر</a></li>
+                            <li><a href="#">کفش</a></li>
+                            <li><a href="#">ساعت</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="catmenu-dropdown">
+                <a href="#"><i class="ion ion-md-headset"></i>دیجیتال</a>
+                <ul class="megamenu catmenu-megamenu">
+                    <li>
+                        <a href="#">دوربین</a>
+                        <ul>
+                            <li><a href="#">لنز دوربین</a></li>
+                            <li><a href="#">سونی</a></li>
+                            <li><a href="#">لنوو</a></li>
+                            <li><a href="#">دیگر برند ها</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">اسپیکر</a>
+                        <ul>
+                            <li><a href="#">سونی</a></li>
+                            <li><a href="#">اپل</a></li>
+                            <li><a href="#">سامسونگ</a></li>
+                            <li><a href="#">دیگر برند ها</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">گوشی موبایل</a>
+                        <ul>
+                            <li><a href="#">سونی</a></li>
+                            <li><a href="#">اپل</a></li>
+                            <li><a href="#">سامسونگ</a></li>
+                            <li><a href="#">دیگر برند ها</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="catmenu-dropdown">
+                <a href="#"><i class="ion ion-ios-infinite"></i>اسباب بازی ها و سرگرمی</a>
+                <ul class="megamenu catmenu-megamenu">
+                    <li>
+                        <a href="#">کتاب داستان</a>
+                        <ul>
+                            <li><a href="#">رمان</a></li>
+                            <li><a href="#">داستان کوتاه</a></li>
+                            <li><a href="#">قصه های شب</a></li>
+                            <li><a href="#">کودک و نوجوان</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">عروسک</a>
+                        <ul>
+                            <li><a href="#">عروسک زنده کودک </a></li>
+                            <li><a href="#">باربی </a></li>
+                            <li><a href="#">حیوانات </a></li>
+                            <li><a href="#">شخصیت</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>*@
+            @*<li><a href="#"><i class="ion ion-logo-game-controller-b"></i>ورزش و فضای باز</a></li>
+            <li><a href="#"><i class="ion ion-ios-tablet-landscape"></i>گوشی و تبلت</a></li>
+            <li><a href="#"><i class="ion ion-ios-volume-high"></i>سلامت و زیبایی</a></li>
+            <li><a href="#"><i class="ion ion-ios-desktop"></i>رایانه و شبکه</a></li>
+            <li><a href="#"><i class="ion ion-md-watch"></i>تجهیزات جانبی</a></li>
+            <li><a href="#"><i class="ion ion-ios-camera"></i>جواهرات و ساعتها</a></li>
+            <li class="catmenu-hidden"><a href="#"><i class="ion ion-ios-desktop"></i>خودکار</a></li>
+            <li class="catmenu-hidden"><a href="#"><i class="ion ion-md-watch"></i>چراغ قوه و لامپ</a></li>
+            <li class="catmenu-hidden"><a href="#"><i class="ion ion-ios-camera"></i>دوربین و عکس</a></li>
+            <li class="catmenu-moretrigger"><a href="#"><i class="ion ion-ios-more"></i>همه دسته ها</a></li>*@
+        </ul>
+    </nav>
+</div>

@@ -56,10 +56,22 @@ namespace Service.Repos.Product
         /// گرفتن تمام پدرها
         /// </summary>
         /// <returns></returns>
-        public async Task<List<ProductGroupDTO>> GetParents()
+        public async Task<List<ProductGroupDTO>> GetParentsAsync()
         {
             return await Entities.ProjectTo<ProductGroupDTO>().Where(x => x.Parent == null).ToListAsync();
         }
+
+        /// <summary>
+        /// گرفتن تمام پدرها
+        /// </summary>
+        /// <returns></returns>
+        public List<ProductGroupDTO> GetParents()
+        {
+            return Entities.ProjectTo<ProductGroupDTO>().Where(x => x.Parent == null).ToList();
+        }
+
+
+
 
 
 

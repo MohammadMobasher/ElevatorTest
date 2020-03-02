@@ -284,5 +284,13 @@ namespace Service.Repos
 
             return model.DisLike;
         }
+
+
+        public async Task<List<ProductFullDTO>> GetProductByGroupId(int groupId)
+        {
+            
+            var result = await TableNoTracking.ProjectTo<ProductFullDTO>().Where(x=> x.ProductGroupId == groupId).ToListAsync();
+            return result;
+        }
     }
 }

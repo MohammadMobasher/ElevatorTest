@@ -76,6 +76,9 @@ namespace ElevatorAdmin.Controllers
 
             if (result.Succeeded)
             {
+
+                //Request.Headers["User-Agent"].ToString();
+
                 //await _userRepository.SetUserClaims(userName);
                 return RedirectToAction("Index", "Home");
             }
