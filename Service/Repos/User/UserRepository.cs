@@ -20,6 +20,7 @@ namespace Service.Repos.User
     {
         private readonly UserManager<Users> _userManager;
         private readonly UserClaimsRepository _userClaimsRepository;
+        private readonly Random random = new Random();
         public UserRepository(DatabaseContext db) : base(db)
         {
 
@@ -227,6 +228,28 @@ namespace Service.Repos.User
                 return SweetAlertExtenstion.Error();
             }
 
+        }
+
+        public async Task<int> GenerateCode (int userId)
+        {
+            var model =await GetByIdAsync(userId);
+
+            model.ActiveCode = random.Next(1000000, 9999999);
+            model.ExpireTime = DateTime.Now.AddMinutes(10);
+
+            await UpdateAsync(model);
+            await SaveAsync();
+            return model.ActiveCode.Value;
+        }
+
+        public async Task<SweetAlertExtenstion> PhoneNumberConfirmed(int userId)
+        {
+            var model =await GetByIdAsync(userId);
+
+            model.IsPhoneNumberConfirm = true;
+            await UpdateAsync(model);
+
+            return await SaveAsync();
         }
     }
 }

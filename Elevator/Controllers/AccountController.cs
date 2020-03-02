@@ -4,28 +4,33 @@ using System.Threading.Tasks;
 using Core.Utilities;
 using DataLayer.Entities.Users;
 using DataLayer.ViewModels.User;
+using DNTPersianUtils.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Service.Repos.User;
+using WebFramework.SmsManage;
 
 namespace Elevator.Controllers
 {
     public class AccountController : BaseController
     {
         private readonly UserRepository _userRepository;
-
+        private readonly SmsService _smsService;
         private readonly SignInManager<Users> _signInManager;
         private readonly UserManager<Users> _userManager;
 
         public AccountController(SignInManager<Users> signInManager,
             UserManager<Users> userManager,
-            UserRepository userRepository
+            UserRepository userRepository,
+            SmsService smsService
             )
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _userRepository = userRepository;
+            _smsService = smsService;
         }
 
 
@@ -118,8 +123,12 @@ namespace Elevator.Controllers
                         // درصورتیکه کاربر مورد نظر با موفقیت ثبت شد آن را لاگین میکنیم
                         if (resultCreatUser.Succeeded)
                         {
-                            await _signInManager.SignInAsync(user, isPersistent: false);
-                            return RedirectToAction("Index", "Home");
+                            //await _signInManager.SignInAsync(user, isPersistent: false);
+                            var activeCode =  await _userRepository.GenerateCode(user.Id);
+
+                            _smsService.SendSms(user.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد اهراز هویت شما {activeCode.ToPersianNumbers()} می باشد");
+
+                            return RedirectToAction("AuthorizePhoneNumber", "Account",new { sec=user.SecurityStamp});
                         }
                         else
                         {
@@ -188,6 +197,34 @@ namespace Elevator.Controllers
             }
 
             return View();
+        }
+
+
+        public async Task<IActionResult> AuthorizePhoneNumber(string sec)
+        {
+            var model = await _userRepository.TableNoTracking.FirstOrDefaultAsync(a => a.SecurityStamp == sec);
+
+            ViewBag.PhoneNumber = model.PhoneNumber;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AuthorizePhoneNumber(PhoneNumberAuthorizeViewModel vm)
+        {
+            var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.PhoneNumber == vm.PhoneNumber
+            && a.ActiveCode == vm.ActiveCode);
+
+            if(model == null)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("کد وارد شده معتبر نمی باشد"));
+                return RedirectToAction("AuthorizePhoneNumber");
+            }
+
+           TempData.AddResult(await _userRepository.PhoneNumberConfirmed(model.Id));
+           await _signInManager.SignInAsync(model, isPersistent: false);
+
+            return Redirect("/");
         }
     }
 }

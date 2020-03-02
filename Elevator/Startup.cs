@@ -49,8 +49,8 @@ namespace Elevator
             services.AddAutoMapper(typeof(SlideShowMapper));
             #endregion
 
-        
 
+            services.SmsConfiguration();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
