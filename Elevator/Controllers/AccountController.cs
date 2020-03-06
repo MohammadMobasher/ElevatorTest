@@ -54,17 +54,33 @@ namespace Elevator.Controllers
                 return RedirectToAction("Login");
             }
 
-            if(model.IsPhoneNumberConfirm == null || model.IsPhoneNumberConfirm == null)
-            {
-                TempData.AddResult(SweetAlertExtenstion.Error("لطفا شماره تلفن خود را تایید کنید!"));
-
-                return RedirectToAction("AuthorizePhoneNumber",new { sec = model.SecurityStamp});
-            }
+           
+           
 
             var result = await _signInManager.PasswordSignInAsync(model, vm.Password, vm.IsRemember, false);
 
             if (result.Succeeded)
             {
+
+                if (model.IsPhoneNumberConfirm == null || model.IsPhoneNumberConfirm == null)
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("لطفا شماره تلفن خود را تایید کنید!"));
+
+                    await _signInManager.SignOutAsync();
+
+                    return RedirectToAction("AuthorizePhoneNumber", new { sec = model.SecurityStamp });
+                }
+
+                if(model.IsActive == false)
+                {
+                    await _signInManager.SignOutAsync();
+
+                    TempData.AddResult(SweetAlertExtenstion.Error("اکانت شما مسدود شده است!"));
+
+                    return RedirectToAction("Index");
+                }
+
+
                 // درصورتی که کاربر قبل از لاگین به آدرس صفحه ایی را وارد کرده بود که نیاز به لاگین داشته است
                 // در این صورت باید به آن صفحه هدایت شود
                 if (!string.IsNullOrEmpty(redirect) && Url.IsLocalUrl(redirect))
@@ -132,11 +148,11 @@ namespace Elevator.Controllers
                         if (resultCreatUser.Succeeded)
                         {
                             //await _signInManager.SignInAsync(user, isPersistent: false);
-                            var activeCode =  await _userRepository.GenerateCode(user.Id);
+                            var activeCode = await _userRepository.GenerateCode(user.Id);
 
                             _smsService.SendSms(user.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد اهراز هویت شما {activeCode.ToPersianNumbers()} می باشد");
 
-                            return RedirectToAction("AuthorizePhoneNumber", "Account",new { sec=user.SecurityStamp});
+                            return RedirectToAction("AuthorizePhoneNumber", "Account", new { sec = user.SecurityStamp });
                         }
                         else
                         {
@@ -181,9 +197,9 @@ namespace Elevator.Controllers
             try
             {
                 var userId = int.Parse(User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
-                var user =await _userRepository.GetByConditionAsync(a=>a.Id == userId && a.IsActive);
+                var user = await _userRepository.GetByConditionAsync(a => a.Id == userId && a.IsActive);
 
-                if(user == null)
+                if (user == null)
                 {
                     TempData.AddResult(SweetAlertExtenstion.Error("کاربر گرامی دسترسی شما محدود شده است لطفا با پشتیبانی تماس بگیرید"));
 
@@ -223,14 +239,20 @@ namespace Elevator.Controllers
             var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.PhoneNumber == vm.PhoneNumber
             && a.ActiveCode == vm.ActiveCode);
 
-            if(model == null)
+            if (model == null)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("کد وارد شده معتبر نمی باشد"));
-                return RedirectToAction("AuthorizePhoneNumber");
+                return RedirectToAction("Login");
             }
 
-           TempData.AddResult(await _userRepository.PhoneNumberConfirmed(model.Id));
-           await _signInManager.SignInAsync(model, isPersistent: false);
+            if(model.ExpireTime < DateTime.Now)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("تاریخ انقضای این کد گذشته است!"));
+                return RedirectToAction("AuthorizePhoneNumber",new { sec = model.SecurityStamp});
+            }
+
+            TempData.AddResult(await _userRepository.PhoneNumberConfirmed(model.Id));
+            await _signInManager.SignInAsync(model, isPersistent: false);
 
             return Redirect("/");
         }
@@ -238,8 +260,8 @@ namespace Elevator.Controllers
         public async Task<IActionResult> ResendCode(string phoneNumber)
         {
             var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.PhoneNumber == phoneNumber);
-            
-            if(model == null)
+
+            if (model == null)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("شماره تماس وارد شده معتبر نمی باشد"));
 
@@ -258,7 +280,7 @@ namespace Elevator.Controllers
                 _smsService.SendSms(model.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد اهراز هویت شما {activeCode.ToPersianNumbers()} می باشد");
             }
 
-            return RedirectToAction("AuthorizePhoneNumber",new {sec =model.SecurityStamp });
+            return RedirectToAction("AuthorizePhoneNumber", new { sec = model.SecurityStamp });
         }
     }
 }
