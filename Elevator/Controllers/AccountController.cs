@@ -243,7 +243,7 @@ namespace Elevator.Controllers
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("شماره تماس وارد شده معتبر نمی باشد"));
 
-                return RedirectToAction("AuthorizePhoneNumber",new { sec = model.SecurityStamp})
+                return RedirectToAction("AuthorizePhoneNumber", new { sec = model.SecurityStamp });
 
             }
 
