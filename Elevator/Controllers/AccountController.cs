@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Core.Utilities;
@@ -51,6 +52,13 @@ namespace Elevator.Controllers
                 TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این نام کاربری یافت نشد!"));
 
                 return RedirectToAction("Login");
+            }
+
+            if(model.IsPhoneNumberConfirm == null || model.IsPhoneNumberConfirm == null)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("لطفا شماره تلفن خود را تایید کنید!"));
+
+                return RedirectToAction("AuthorizePhoneNumber",new { sec = model.SecurityStamp});
             }
 
             var result = await _signInManager.PasswordSignInAsync(model, vm.Password, vm.IsRemember, false);
@@ -225,6 +233,32 @@ namespace Elevator.Controllers
            await _signInManager.SignInAsync(model, isPersistent: false);
 
             return Redirect("/");
+        }
+
+        public async Task<IActionResult> ResendCode(string phoneNumber)
+        {
+            var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.PhoneNumber == phoneNumber);
+            
+            if(model == null)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("شماره تماس وارد شده معتبر نمی باشد"));
+
+                return RedirectToAction("AuthorizePhoneNumber",new { sec = model.SecurityStamp})
+
+            }
+
+            if (model.ExpireTime > DateTime.Now)
+            {
+                _smsService.SendSms(model.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد اهراز هویت شما {model.ActiveCode.ToPersianNumbers()} می باشد");
+            }
+            else
+            {
+                var activeCode = await _userRepository.GenerateCode(model.Id);
+
+                _smsService.SendSms(model.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد اهراز هویت شما {activeCode.ToPersianNumbers()} می باشد");
+            }
+
+            return RedirectToAction("AuthorizePhoneNumber",new {sec =model.SecurityStamp });
         }
     }
 }

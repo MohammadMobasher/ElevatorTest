@@ -46,7 +46,7 @@
                     }
 
                     <div class="account-box-content">
-                        <form class="form-account" asp-action="Register" asp-controller="Account" asp-route-PhoneNumber="@ViewBag.PhoneNumber">
+                        <form class="form-account" asp-action="AuthorizePhoneNumber" asp-controller="Account" asp-route-PhoneNumber="@ViewBag.PhoneNumber">
                         
                             @*<div class="form-account-title">شماره تماس</div>
                             <div class="form-account-row">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="account-box-footer">
                         <span>آیا کد به دست شما نرسیده است؟؟</span>
-                        <a href="/Account/Login" class="btn-link-border">ارسال مجدد کد</a>
+                        <a href="/Account/ResendCode?phoneNumber=@ViewBag.PhoneNumber" class="btn-link-border">ارسال مجدد کد</a>
                     </div>
                 </div>
             </div>
