@@ -289,7 +289,9 @@ namespace Service.Repos
         public async Task<List<ProductFullDTO>> GetProductByGroupId(int groupId)
         {
             
-            var result = await TableNoTracking.ProjectTo<ProductFullDTO>().Where(x=> x.ProductGroupId == groupId).ToListAsync();
+            var result = await TableNoTracking.ProjectTo<ProductFullDTO>().Where(x=>
+            x.IsActive == true &&
+            x.ProductGroupId == groupId).ToListAsync();
             return result;
         }
     }

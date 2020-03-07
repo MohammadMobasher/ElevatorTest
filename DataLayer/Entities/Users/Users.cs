@@ -22,5 +22,11 @@ namespace DataLayer.Entities.Users
         /// ایا کاربر مدیریتی است
         /// </summary>
         public bool IsModerator { get; set; }
+
+        public int? ActiveCode { get; set; }
+
+        public bool? IsPhoneNumberConfirm { get; set; }
+
+        public DateTime ExpireTime { get; set; }
     }
 }

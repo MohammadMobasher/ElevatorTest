@@ -1,4 +1,4 @@
-﻿@model DataLayer.ViewModels.User.RegisterViewModel
+﻿
 @{
     ViewData["Title"] = "صفحه ورود";
     Layout = "~/Views/Shared/_Login.cshtml";
@@ -37,7 +37,7 @@
             <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
                 <div class="account-box">
                     
-                    <div class="account-box-title text-center">ثبت‌نام در لیفت بازار</div>
+                    <div class="account-box-title text-center">ثبت‌نام در تاپ کالا</div>
                     @if (ViewBag.ErrorMessages != null)
                     {
                         <div class="message-light">
@@ -46,57 +46,27 @@
                     }
 
                     <div class="account-box-content">
-                        <form class="form-account" asp-action="Register" asp-controller="Account">
-                            <div class="form-account-title">نام کاربری</div>
-
-                            <div class="form-account-row">
-                                <label class="input-label"><i class="now-ui-icons users_single-02"></i></label>
-                                <input class="input-field" asp-for="UserName" type="text" placeholder="نام کاربری خود را وارد کنید">
-                            </div>
-                            <div class="form-account-title">ایمیل</div>
-                            <div class="form-account-row">
-                                <label class="input-label"><i class="now-ui-icons ui-1_email-85"></i></label>
-                                <input class="input-field" type="email" asp-for="Email" placeholder="پست الکترونیک  را وارد نمایید">
-                            </div>
-
-                            <div class="form-account-title">شماره تماس</div>
+                        <form class="form-account" asp-action="AuthorizePhoneNumber" asp-controller="Account" asp-route-PhoneNumber="@ViewBag.PhoneNumber">
+                        
+                            @*<div class="form-account-title">شماره تماس</div>
                             <div class="form-account-row">
                                 <label class="input-label"><i class="now-ui-icons tech_mobile"></i></label>
                                 <input class="input-field" type="text" asp-for="PhoneNumber" placeholder=" شماره موبایل خود را وارد نمایید">
-                            </div>
+                            </div>*@
 
-                            <div class="form-account-title">کلمه عبور</div>
+                            <div class="form-account-title">کد فعال سازی</div>
                             <div class="form-account-row">
                                 <label class="input-label">
                                     <i class="now-ui-icons ui-1_lock-circle-open"></i>
                                 </label>
-                                <input class="input-field" asp-for="Password" type="password"
-                                       placeholder="کلمه عبور خود را وارد نمایید">
+                                <input class="input-field" name="ActiveCode" type="number"
+                                       placeholder="کد فعال سازی">
                             </div>
-                            <div class="form-account-title"> تکرار کلمه عبور </div>
-                            <div class="form-account-row">
-                                <label class="input-label">
-                                    <i class="now-ui-icons ui-1_lock-circle-open"></i>
-                                </label>
-                                <input class="input-field" asp-for="RePassword" type="password"
-                                       placeholder="تکرار کلمه عبور خود را وارد نمایید">
-                            </div>
-
-                            <div class="form-account-agree">
-                                <label class="checkbox-form checkbox-primary">
-                                    <input asp-for="IsAccept" type="checkbox">
-                                    <span class="checkbox-check"></span>
-                                </label>
-                                <label for="agree">
-                                    <a href="#" class="btn-link-border">حریم خصوصی</a> و <a href="#"
-                                                                                            class="btn-link-border">شرایط و قوانین</a> استفاده از سرویس های سایت
-                                    تاپ کالا را مطالعه نموده و با کلیه موارد آن موافقم.
-                                </label>
-                            </div>
+                            
                             <div class="form-account-row form-account-submit">
                                 <div class="parent-btn">
                                     <button class="dk-btn dk-btn-info">
-                                        ثبت نام در لیفت بازار
+                                        ثبت
                                         <i class="now-ui-icons users_circle-08"></i>
                                     </button>
                                 </div>
@@ -104,8 +74,8 @@
                         </form>
                     </div>
                     <div class="account-box-footer">
-                        <span>قبلا در لیفت بازار ثبت‌نام کرده‌اید؟</span>
-                        <a href="/Account/Login" class="btn-link-border">وارد شوید</a>
+                        <span>آیا کد به دست شما نرسیده است؟؟</span>
+                        <a href="/Account/ResendCode?phoneNumber=@ViewBag.PhoneNumber" class="btn-link-border">ارسال مجدد کد</a>
                     </div>
                 </div>
             </div>
