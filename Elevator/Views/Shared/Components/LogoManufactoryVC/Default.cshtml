@@ -1,0 +1,16 @@
+﻿@using DataLayer.Entities
+@model List<LogoManufactory>
+
+@using DNTPersianUtils.Core
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div class="brandlogo brandlogo-2">
+            <a href="#">
+                <img src="@(ViewBag.Url + "/" + item.AddressImg)" />
+            </a>
+        </div>
+    }
+}
