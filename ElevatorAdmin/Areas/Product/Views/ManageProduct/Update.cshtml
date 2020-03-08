@@ -123,35 +123,76 @@
                             <div class="form-group row fileDiv" dir="ltr">
                                 <label dir="ltr" class="control-label col-sm-3">تصویر</label>
                                 <div class="col-sm-6">
-                                    <input type="file" value="@Model.IndexPic " input-id="1" name="file" class="form-control" placeholder="Enter email" onchange="checkFile(this)">
+                                    <input type="file" value="~/@Model.IndexPic " input-id="1" name="file" class="form-control" placeholder="Enter email" onchange="checkFile(this)">
+
                                 </div>
                                 <div class="col-sm-3 text-center" style="line-height: 35px;">
                                     <i class="fas fa-plus" style="cursor: pointer;" title="Add File" onclick="addFile()"></i>
                                     <i class="fas fa-times text-danger" style="cursor: pointer;" title="remove File" onclick="removeFile(this)"></i>
                                 </div>
                             </div>
+                            @foreach (var item in ViewBag.Gallery as List<ProductGallery>)
+                            {
+                                <div class="form-group row fileDiv" dir="ltr">
+                                    <label dir="ltr" class="control-label col-sm-3">گالری</label>
+                                    <div class="col-sm-6">
+                                        <input type="file" value="@item.Pic" input-id="2" name="galleryImage" class="form-control" placeholder="Enter email" onchange="checkFile(this)">
+                                    </div>
+                                    <div class="col-sm-3 text-center" style="line-height: 35px;">
+                                        <i class="fas fa-plus hide" style="cursor: pointer;" title="Add File" onclick="addFile()"></i>
+                                        <i class="fas fa-times text-danger" style="cursor: pointer;" title="remove File" onclick="removeFile(this)"></i>
+                                    </div>
+                                </div>
+                            }
                         </div>
 
                     </div>
                     <div class="col-md-6" style="position: relative;">
-                        <img src="http://placehold.it/1000x2000" alt="" id="picture1">
+                        <img src="~/@Model.IndexPic" alt="" id="picture1">
                         <video src="" class="hide" id="mainVideo" controls>
                             Please change your browser to Chrome or firefox to show the video.
                         </video>
                         <!-- Gallery Section -->
-                        <div class="gallery col-md-12 hide">
-                            <!-- <div class="gallery-btns"> -->
-                            <div class="gallery-btn gallery-btn--left gallery-btns">
-                                <i class="fas fa-angle-left fa-lg" onclick="slideLeft()"></i>
+                        @if (ViewBag.Gallery != null)
+                        {
+                            <div class="gallery col-md-12">
+                                <!-- <div class="gallery-btns"> -->
+                                <div class="gallery-btn gallery-btn--left gallery-btns">
+                                    <i class="fas fa-angle-left fa-lg" onclick="slideLeft()"></i>
+                                </div>
+                                <div class="gallery-btn gallery-btn--right gallery-btns">
+                                    <i class="fas fa-angle-right fa-lg" onclick="slideRight()"></i>
+                                </div>
+                                <!-- </div> -->
+                                <div class="gallery-images">
+                                    @{ 
+                                        var raw = 1;
+                                    }
+                                    @foreach (var item in ViewBag.Gallery as List<ProductGallery>)
+                                    {
+                                        <img class="gallery-item" img-id="@(raw++)" src="~/@item.Pic">
+                                    }
+
+                                </div>
                             </div>
-                            <div class="gallery-btn gallery-btn--right gallery-btns">
-                                <i class="fas fa-angle-right fa-lg" onclick="slideRight()"></i>
+                        }
+                        else
+                        {
+                            <div class="gallery col-md-12 hide">
+                                <!-- <div class="gallery-btns"> -->
+                                <div class="gallery-btn gallery-btn--left gallery-btns">
+                                    <i class="fas fa-angle-left fa-lg" onclick="slideLeft()"></i>
+                                </div>
+                                <div class="gallery-btn gallery-btn--right gallery-btns">
+                                    <i class="fas fa-angle-right fa-lg" onclick="slideRight()"></i>
+                                </div>
+                                <!-- </div> -->
+                                <div class="gallery-images">
+                                    <img class="gallery-item hide" img-id="1" src="http://placehold.it/1000x600">
+                                </div>
                             </div>
-                            <!-- </div> -->
-                            <div class="gallery-images">
-                                <img class="gallery-item hide" img-id="1" src="http://placehold.it/1000x600">
-                            </div>
-                        </div>
+                        }
+
                     </div>
 
 

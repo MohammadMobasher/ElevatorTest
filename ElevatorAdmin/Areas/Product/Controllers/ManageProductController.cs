@@ -116,6 +116,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         {
             ViewBag.Units = await _productUnitRepository.TableNoTracking.ToListAsync();
             ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
+            ViewBag.Gallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == id).ToListAsync();
 
             var model = await _productRepostitory
                 .TableNoTracking.Where(a => a.Id == id)
