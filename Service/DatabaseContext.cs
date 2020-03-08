@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace Service
 {
     public class DatabaseContext : IdentityDbContext<Users, Roles, int, UserClams, UserRoles, UserLogin, RoleClams, UserTokens>
@@ -38,6 +39,7 @@ namespace Service
         public DbSet<Condition> Condition { get; set; }
         public DbSet<ProductFeature> ProductFeature { get; set; }
         public DbSet<UsersAccess> UsersAccess { get; set; }
+        public DbSet<ShopProduct> ShopProduct { get; set; }
 
         #region News
 
