@@ -183,7 +183,7 @@ namespace Elevator.Controllers
         public async Task<IActionResult> ProductGroup(int id)
         {
             ViewBag.Group = await _productGroupRepository.GetByIdAsync(id);
-            var model = await _productRepository.GetProductByGroupId(id);
+            var model = await _productRepository.GetProductQuery(id);
             return View(model);
         }
     }

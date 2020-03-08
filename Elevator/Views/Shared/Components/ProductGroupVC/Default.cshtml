@@ -10,7 +10,7 @@
         <ul>
             @foreach (ProductGroupDTO item in Model)
             {
-                <li><a href="#">@*<i class="ion ion-logo-slack"></i>*@@item.Title</a></li>
+                <li><a href="/Product/ProductGroup/@item.Id">@*<i class="ion ion-logo-slack"></i>*@@item.Title</a></li>
             }
             @*<li class="catmenu-dropdown">
                 <a href="#"><i class="ion ion-ios-power"></i>مد روز</a>

@@ -148,5 +148,6 @@ namespace Service.Repos.Product
         {
             return await Entities.AsNoTracking().ProjectTo<ProductGroupDTO>().ToListAsync();
         }
+
     }
 }

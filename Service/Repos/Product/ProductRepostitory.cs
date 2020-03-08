@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Core.Utilities;
+using Dapper;
 using DataLayer.DTO.Feature;
 using DataLayer.DTO.FeatureItem;
 using DataLayer.DTO.Products;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Service.Repos.Product;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,13 +24,16 @@ namespace Service.Repos
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ProductDiscountRepository _productDiscountRepository;
+        private readonly IDbConnection _connection;
 
         public ProductRepostitory(DatabaseContext dbContext,
             IHostingEnvironment hostingEnvironment,
-            ProductDiscountRepository productDiscountRepository) : base(dbContext)
+            ProductDiscountRepository productDiscountRepository,
+            IDbConnection connection) : base(dbContext)
         {
             _hostingEnvironment = hostingEnvironment;
             _productDiscountRepository = productDiscountRepository;
+            _connection = connection;
         }
 
 
@@ -46,7 +51,7 @@ namespace Service.Repos
             if (!string.IsNullOrEmpty(model.Title))
                 query = query.Where(x => x.Title.Contains(model.Title));
 
-            if(model.Price != null)
+            if (model.Price != null)
             {
                 query = query.Where(x => x.Price == model.Price);
             }
@@ -76,7 +81,7 @@ namespace Service.Repos
             return new Tuple<int, List<ProductFullDTO>>(Count, await query.ToListAsync());
         }
 
-        
+
 
 
         /// <summary>
@@ -93,7 +98,7 @@ namespace Service.Repos
             return product.ProductGroupId;
         }
 
-        public async Task<int> SubmitProduct(DataLayer.ViewModels.Products.ProductInsertViewModel vm,IFormFile file)
+        public async Task<int> SubmitProduct(DataLayer.ViewModels.Products.ProductInsertViewModel vm, IFormFile file)
         {
             vm.IndexPic = await MFile.Save(file, FilePath.Product.GetDescription());
 
@@ -143,7 +148,7 @@ namespace Service.Repos
                           // بتواند به عنوان ویژگی‌ جدید به کاربر نمایش دهیم
                           join productGroupFeature in this.DbContext.ProductGroupFeature on product.ProductGroupId equals productGroupFeature.ProductGroupId
 
-                          
+
                           //join productFeature in this.DbContext.ProductFeature on product.Id equals productFeature.ProductId
 
                           // برای این منظور با این جدول ارتباط میدهیم که بتوانیم اسم ویژگی و نوع آن را به دست آوریم
@@ -177,7 +182,7 @@ namespace Service.Repos
         {
             var model = await GetByIdAsync(id);
 
-            model.IsActive = model.IsActive ==null ?true : !model.IsActive;
+            model.IsActive = model.IsActive == null ? true : !model.IsActive;
             await UpdateAsync(model);
         }
 
@@ -198,7 +203,7 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<List<int>> GetProductIdsByGroupId(int productGroupId)
         {
-            return await Entities.Where(x => x.ProductGroupId == productGroupId).Select(x=> x.Id).ToListAsync();
+            return await Entities.Where(x => x.ProductGroupId == productGroupId).Select(x => x.Id).ToListAsync();
         }
 
 
@@ -234,7 +239,7 @@ namespace Service.Repos
                     return false;
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
@@ -288,11 +293,41 @@ namespace Service.Repos
 
         public async Task<List<ProductFullDTO>> GetProductByGroupId(int groupId)
         {
-            
-            var result = await TableNoTracking.ProjectTo<ProductFullDTO>().Where(x=>
+
+            var result = await TableNoTracking.ProjectTo<ProductFullDTO>().Where(x =>
             x.IsActive == true &&
             x.ProductGroupId == groupId).ToListAsync();
             return result;
+        }
+
+
+        public async Task<List<ProductFullDTO>> GetProductQuery(int productGroupId)
+        {
+            var sql = $@"with A as (
+                       select Id, ParentId
+                       from ProductGroup
+                       where Id = {productGroupId}
+                       union all
+                       select c.Id, c.ParentId
+                       from ProductGroup c
+                         join A p on p.Id = c.ParentId) 
+                    
+                    select * from Product where ProductGroupId in (
+                    select Id
+                    from A )";
+            try
+            {
+                var model = await _connection.QueryAsync<ProductFullDTO>(sql);
+
+                return model.ToList();
+            }
+            catch (Exception)
+            {
+
+                throw new NullReferenceException();
+            }
+
+
         }
     }
 }
