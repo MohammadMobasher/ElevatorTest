@@ -8,35 +8,11 @@
         <div class="product-slider new-best-featured-slider slider-navigation-2">
             @foreach (var item in Model)
             {
-                <div class="product-slider-col">
-                    <!-- Single Product -->
-                    <article class="hoproduct">
-                        <div class="hoproduct-image">
-                            <a class="hoproduct-thumb VisitCounter" data-Id="@item.Id" href="/Product/ProductDetail/@item.Id">
-                                <img class="hoproduct-frontimage" src="@(item.IndexPic!=null? ViewBag.Url+"/"+@item.IndexPic:"~/no-image.jpg")" alt="product image">
-                                <img class="hoproduct-backimage" src="@(item.IndexPic!=null? ViewBag.Url+"/"+@item.IndexPic:"~/no-image.jpg")" alt="product image">
-                            </a>
-                            <ul class="hoproduct-flags discountProduct" data-id="@item.Id">
-                                <li class="flag-pack">جدید</li>
-                            </ul>
-                        </div>
-                        <div class="hoproduct-content">
-                            <h5 class="hoproduct-title VisitCounter" data-Id="@item.Id"><a href="/Product/ProductDetail/@item.Id">@item.Title</a></h5>
-                            <div class="hoproduct-rattingbox">
-                                <div class="rattingbox">
-                                </div>
-                            </div>
-                            <div class="hoproduct-pricebox ">
-                                <div class="pricebox">
-                                    @*<del class="oldprice olPrice_@item.Id">@item.Price</del>*@
-                                    <span class="price DiscountPrice_@item.Id">@item.Price تومان</span>
-                                </div>
-                                <span class="dicountValue_@item.Id"></span>
-                            </div>
-                        </div>
-                    </article>
-                    <!--// Single Product -->
-                </div>
+            <div class="product-slider-col">
+                <!-- Single Product -->
+                @Html.Partial("_ProductIndexGeneral", item)
+                <!--// Single Product -->
+            </div>
             }
 
 
