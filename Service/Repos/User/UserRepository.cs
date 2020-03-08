@@ -242,6 +242,16 @@ namespace Service.Repos.User
             return model.ActiveCode.Value;
         }
 
+        public async Task ChangeCode(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            model.ActiveCode = random.Next(1000000, 9999999);
+
+            await UpdateAsync(model);
+            await SaveAsync();
+        }
+
         public async Task<SweetAlertExtenstion> PhoneNumberConfirmed(int userId)
         {
             var model =await GetByIdAsync(userId);

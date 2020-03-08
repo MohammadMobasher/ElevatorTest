@@ -253,6 +253,7 @@ namespace Elevator.Controllers
 
             TempData.AddResult(await _userRepository.PhoneNumberConfirmed(model.Id));
             await _signInManager.SignInAsync(model, isPersistent: false);
+            await _userRepository.ChangeCode(model.Id);
 
             return Redirect("/");
         }
