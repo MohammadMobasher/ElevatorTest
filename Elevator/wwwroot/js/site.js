@@ -4,3 +4,8 @@
 // Write your JavaScript code.
 
 
+    function imgError(image) {
+        image.onerror = "";
+    image.src = "http://liftbazaar.ir/no-image.jpg";
+    return true;
+}

@@ -33,13 +33,13 @@
                             <div class="pdetails-largeimages pdetails-imagezoom">
 
                                 <div class="pdetails-singleimage" data-src="@ViewBag.Url/@Model.IndexPic">
-                                    <img src="@ViewBag.Url/@Model.IndexPic" alt="product image">
+                                    <img src="@ViewBag.Url/@Model.IndexPic" onerror="imgError(this);" alt="product image">
                                 </div>
 
                                 @foreach (var item in gallery)
                                 {
                                     <div class="pdetails-singleimage" data-src="@ViewBag.Url/@item.Pic">
-                                        <img src="@ViewBag.Url/@item.Pic" alt="product image">
+                                        <img src="@ViewBag.Url/@item.Pic" onerror="imgError(this);" alt="product image">
                                     </div>
                                 }
 
@@ -48,12 +48,12 @@
 
                             <div class="pdetails-thumbs">
                                 <div class="pdetails-singlethumb">
-                                    <img src="@ViewBag.Url/@Model.IndexPic" alt="product thumb">
+                                    <img src="@ViewBag.Url/@Model.IndexPic" onerror="imgError(this);" alt="product thumb">
                                 </div>
                                 @foreach (var item in gallery)
                                 {
                                     <div class="pdetails-singlethumb">
-                                        <img src="@ViewBag.Url/@item.Pic" alt="product thumb">
+                                        <img src="@ViewBag.Url/@item.Pic" onerror="imgError(this);" alt="product thumb">
                                     </div>
                                 }
                             </div>
@@ -66,9 +66,9 @@
                             </div>
                             <h3>@Model.Title</h3>
                             <div class="pdetails-pricebox">
-                                @if (discount != null && discount.StartDate > DateTime.Now && discount.EndDate < DateTime.Now)
+                                @if (discount != null && DateTime.Now > discount.StartDate && DateTime.Now < discount.EndDate)
                                 {
-                                    <del class="oldprice">@Model.Price.ToString("n0").ToPersianNumbers()</del>
+                                    @*<del class="oldprice">@Model.Price.ToString("n0").ToPersianNumbers()</del>*@
                                     <span class="price">
 
                                         @if (discount.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Price)
@@ -83,7 +83,7 @@
                                     <span class="badge">
                                         @if (discount.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Price)
                                         {
-                                            <span> @discount.Discount.ToPersianNumbers() تومان تخفیف</span>
+                                            <span> @discount.Discount.ToString("n0").ToPersianNumbers() تومان تخفیف</span>
                                         }
                                         else
                                         {
