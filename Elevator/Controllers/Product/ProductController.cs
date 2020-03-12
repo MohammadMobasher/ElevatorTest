@@ -59,7 +59,7 @@ namespace Elevator.Controllers
                 .Include(a => a.ProductGroup)
                 .Where(a => a.IsActive == true);
 
-            var result =await model.WhereIf(vm.Group != null, a => a.ProductGroupId.Equals(vm.Group.Value))
+            var result = await model.WhereIf(vm.Group != null, a => a.ProductGroupId.Equals(vm.Group.Value))
                 .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice))
                 .ToListAsync();
 
@@ -107,7 +107,7 @@ namespace Elevator.Controllers
             var package = await _productPackageRepostitory.TableNoTracking
                 .Include(a => a.ProductPackageDetails)
                 .FirstOrDefaultAsync(a => a.Id == id);
-                
+
             var productIds = package.ProductPackageDetails.Select(a => a.ProductId).ToList();
 
 
@@ -185,6 +185,26 @@ namespace Elevator.Controllers
             ViewBag.Group = await _productGroupRepository.GetByIdAsync(id);
             var model = await _productRepository.GetProductQuery(id);
             return View(model);
+        }
+
+        public async Task<IActionResult> CalculatePrice(int productId)
+        {
+            var product = await _productRepository.GetByIdAsync(productId);
+            var productDiscount = await _productDiscountRepository.GetByConditionAsync(a => a.ProductId == productId);
+            if (productDiscount == null) return Json(product.Price);
+
+            if (DateTime.Now > productDiscount.StartDate && DateTime.Now < productDiscount.EndDate)
+            {
+
+
+                var calculate = productDiscount.DiscountType == ProductDiscountSSOT.Percent ?
+                    (product.Price - (product.Price * productDiscount.Discount) / 100)
+                    : (product.Price - productDiscount.Discount);
+
+                return Json(new Tuple<string, string, int, DateTime>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType, productDiscount.EndDate));
+            }
+
+            return Json(product.Price);
         }
     }
 }
