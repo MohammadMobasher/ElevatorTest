@@ -77,7 +77,7 @@ namespace Elevator.Controllers
 
                     TempData.AddResult(SweetAlertExtenstion.Error("اکانت شما مسدود شده است!"));
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Login");
                 }
 
 

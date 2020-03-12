@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Core.Utilities;
+using Elevator.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Service.Repos;
@@ -33,6 +34,33 @@ namespace Elevator.Controllers.Product
 
 
             return View(model);
+        }
+
+
+        public async Task<IActionResult> AddCart(int productId)
+        {
+            var userId = this.GetUserId();
+
+            TempData.AddResult(await _shopProductRepository.AddCart(productId,userId));
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> AddPackageCart(int packageId)
+        {
+            var userId = this.GetUserId();
+
+            TempData.AddResult(await _shopProductRepository.AddCart(packageId, userId));
+
+            return RedirectToAction("Index");
+        }
+
+
+        public async Task<IActionResult> RemoveCart(int id)
+        {
+            TempData.AddResult(await _shopProductRepository.RemoveCart(id));
+
+            return RedirectToAction("Index");
         }
     }
 }

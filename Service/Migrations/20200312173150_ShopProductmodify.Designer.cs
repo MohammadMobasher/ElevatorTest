@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200312173150_ShopProductmodify")]
+    partial class ShopProductmodify
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -578,10 +580,6 @@ namespace Service.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PackageId");
-
-                    b.HasIndex("ProductId");
-
                     b.ToTable("ShopProduct");
                 });
 
@@ -1036,17 +1034,6 @@ namespace Service.Migrations
                         .WithMany()
                         .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.ShopProduct", b =>
-                {
-                    b.HasOne("DataLayer.Entities.ProductPackage", "ProductPackage")
-                        .WithMany()
-                        .HasForeignKey("PackageId");
-
-                    b.HasOne("DataLayer.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Users.RoleClams", b =>

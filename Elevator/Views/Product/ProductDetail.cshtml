@@ -103,7 +103,8 @@
                                     <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
                                     <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
                                 </div>
-                                <a href="shop-rightsidebar.html" class="ho-button">
+                                <a asp-controller="ShopProduct" asp-action="AddCart" asp-route-productId="@Model.Id"
+                                   target="_blank" class="ho-button">
                                     <i class="lnr lnr-cart"></i>
                                     <span>افزودن به سبد خرید</span>
                                 </a>
@@ -202,3 +203,4 @@
 </main>
 <!--// Page Conttent -->
 
+    
