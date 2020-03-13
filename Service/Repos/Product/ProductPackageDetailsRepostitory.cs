@@ -22,12 +22,15 @@ namespace Service.Repos
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ProductDiscountRepository _productDiscountRepository;
+        private readonly ProductRepostitory _productRepostitory;
+
         public ProductPackageDetailsRepostitory(DatabaseContext dbContext,
             IHostingEnvironment hostingEnvironment,
-            ProductDiscountRepository productDiscountRepository) : base(dbContext)
+            ProductDiscountRepository productDiscountRepository, ProductRepostitory productRepostitory) : base(dbContext)
         {
             _hostingEnvironment = hostingEnvironment;
             _productDiscountRepository = productDiscountRepository;
+            _productRepostitory = productRepostitory;
         }
 
 
@@ -55,5 +58,22 @@ namespace Service.Repos
         public async Task<bool> IsExist(int packageId, int productId)
          =>await TableNoTracking.AnyAsync(a => a.ProductId == productId && a.PackageId == packageId);
 
+
+        public async Task<long> ResultPrice(int packageId)
+        {
+            var model = await TableNoTracking
+                .Where(a => a.PackageId == packageId)
+                .Include(a=>a.Product)
+                .ToListAsync();
+
+            var sum = default(long);
+
+            foreach (var item in model)
+            {
+                sum += await _productRepostitory.ResultPrice(item.ProductId);
+            }
+
+            return sum;
+        }
     }
 }

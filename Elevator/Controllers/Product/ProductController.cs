@@ -191,7 +191,7 @@ namespace Elevator.Controllers
         {
             var product = await _productRepository.GetByIdAsync(productId);
             var productDiscount = await _productDiscountRepository.GetByConditionAsync(a => a.ProductId == productId);
-            if (productDiscount == null) return Json(product.Price);
+            if (productDiscount == null) return Json(product.Price.ToString("n0").ToPersianNumbers());
 
             if (DateTime.Now > productDiscount.StartDate && DateTime.Now < productDiscount.EndDate)
             {
@@ -201,10 +201,12 @@ namespace Elevator.Controllers
                     (product.Price - (product.Price * productDiscount.Discount) / 100)
                     : (product.Price - productDiscount.Discount);
 
-                return Json(new Tuple<string, string, int, DateTime>(calculate.ToString("n0").ToPersianNumbers(), productDiscount.Discount.ToString("n0").ToPersianNumbers(), (int)productDiscount.DiscountType, productDiscount.EndDate));
+                return Json(calculate.ToString("n0").ToPersianNumbers());
             }
 
-            return Json(product.Price);
+            return Json(product.Price.ToString("n0").ToPersianNumbers());
         }
+
+        
     }
 }

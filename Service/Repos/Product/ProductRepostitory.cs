@@ -17,6 +17,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataLayer.SSOT;
 
 namespace Service.Repos
 {
@@ -328,6 +329,26 @@ namespace Service.Repos
             }
 
 
+        }
+
+        public async Task<long> ResultPrice(int productId)
+        {
+            var product = await GetByIdAsync(productId);
+            var productDiscount = await _productDiscountRepository.GetByConditionAsync(a => a.ProductId == productId);
+            if (productDiscount == null) return product.Price;
+
+            if (DateTime.Now > productDiscount.StartDate && DateTime.Now < productDiscount.EndDate)
+            {
+
+
+                var calculate = productDiscount.DiscountType == ProductDiscountSSOT.Percent ?
+                    (product.Price - (product.Price * productDiscount.Discount) / 100)
+                    : (product.Price - productDiscount.Discount);
+
+                return calculate;
+            }
+
+            return product.Price;
         }
     }
 }
