@@ -12,6 +12,16 @@
 @* End SlideShow *@
 
 
+@using Service.Repos
+@using DataLayer.Entities
+
+@inject SiteSettingRepository _siteSettingRepository
+@{
+
+    SiteSetting siteSetting = await _siteSettingRepository.GetInfo();
+
+}
+
 
 
 
@@ -70,7 +80,7 @@
             </div>
         </div>
     </div>
-    
+
     <!--// Banners Area -->
     <!-- Deal Of The Day Area -->
 
@@ -104,8 +114,8 @@
     </div>
 
     @*<div class="trending-products-area ptb-30">
-        @await Component.InvokeAsync("ProductCategoryVC")
-    </div>*@
+            @await Component.InvokeAsync("ProductCategoryVC")
+        </div>*@
 
 
     <!--// Trending Products Area -->
@@ -156,11 +166,15 @@
                     </div>*@
                 <div class="newsletter-socialicons socialicons socialicons-radial">
                     <ul>
-                        <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
-                        <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
-                        <li><a href="#"><i class="ion ion-logo-youtube"></i></a></li>
-                        <li><a href="#"><i class="ion ion-logo-google"></i></a></li>
-                        <li><a href="#"><i class="ion ion-logo-instagram"></i></a></li>
+
+                        <li><a href="@siteSetting.TwitterURL"><i class="ion ion-logo-twitter"></i></a></li>
+
+
+                        <li><a href="@siteSetting.InstaURL"><i class="ion ion-logo-instagram"></i></a></li>
+
+                        <li><a href="@siteSetting.WhatsAppURL"><i class="fa fa-whatsapp"></i></a></li>
+
+                        <li><a href="@siteSetting.TelegramURL"><i class="fa fa-telegram"></i></a></li>
                     </ul>
                 </div>
             </div>

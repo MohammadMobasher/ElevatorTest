@@ -20,9 +20,15 @@
         <link href="~/Ul/assets/css/main.css" rel="stylesheet" />
     </head>*@
 
+@using Service.Repos
+@using DataLayer.Entities
 
+@inject SiteSettingRepository _siteSettingRepository
+@{
 
+    SiteSetting siteSetting = await _siteSettingRepository.GetInfo();
 
+}
 
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -40,8 +46,8 @@
 
     <!-- Favicon -->
     @*<link rel="shortcut icon" href="~/Plugins/Template/images/favicon.ico" type="image/x-icon">*@
-    <link rel="shortcut icon" href="~/elevator.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="~/Plugins/Template/images/icon.png">
+    
+    <link rel="apple-touch-icon" href="@(string.IsNullOrEmpty(siteSetting.TabIcon) ? "staffonly.ir/Uploads/SiteSetting/TabIcon.jpeg"  : Url.Content(ViewBag.Url+"/" + siteSetting.TabIcon))">
 
     <!-- Google font (font-family: 'Roboto', sans-serif;) -->
     @*<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">*@
@@ -56,8 +62,8 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="~/Plugins/Template/css/custom.css">
-    
-    
+
+
     <link href="~/Ul/assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
     <link href="~/Plugins/Template/fonts/flaticon.css" rel="stylesheet" />
@@ -69,8 +75,9 @@
         .vertical-center {
             margin-top: auto !important;
             margin-bottom: auto !important;
-            vertical-align:middle !important;
+            vertical-align: middle !important;
         }
+
         .display-inherit {
             display: inherit
         }
@@ -78,7 +85,6 @@
         input {
             font-family: IRANSans-web !important;
         }
-
     </style>
 </head>
 
@@ -103,26 +109,26 @@
                     <div class="row align-items-center ">
                         <div class="col-lg-2 col-md-6 col-sm-6 order-1 order-lg-1">
                             <a href="/" class="header-logo">
-                                <img src="~/images/logo.png" title="LiftBazar" alt="LiftBazar"/>
-                                
+                                <img src="@( string.IsNullOrEmpty(siteSetting.Logo) ? "staffonly.ir/Uploads/SiteSetting/Logo.png" : Url.Content(ViewBag.Url+"/" + siteSetting.Logo))" title="LiftBazar" alt="LiftBazar" />
+
                             </a>
                         </div>
                         <div class="col-lg-7 col-12 order-3 order-lg-2">
-                            <form action="/Product/Index" class="header-searchbox">
+                            <form action="#" class="header-searchbox">
                                 @*<select class="select-searchcategory">
-                                    <option value="0">همه دسته ها</option>
-                                    <option value="1">گوشی موبایل</option>
-                                    <option value="2">ماشین های اداری</option>
-                                    <option value="3">کنسول بازی</option>
-                                    <option value="5">لوازم کامپیوتر</option>
-                                    <option value="6">هدفون</option>
-                                    <option value="7">پاوربانک</option>
-                                    <option value="8">ساعت مچی</option>
-                                    <option value="9">دوربین عکاسی</option>
-                                    <option value="10">لوازم جانبی گوشی</option>
-                                    <option value="11">هارد و فلش</option>
-                                </select>*@
-                                <input type="text" name="Title" placeholder="جستجو کنید...">
+                                        <option value="0">همه دسته ها</option>
+                                        <option value="1">گوشی موبایل</option>
+                                        <option value="2">ماشین های اداری</option>
+                                        <option value="3">کنسول بازی</option>
+                                        <option value="5">لوازم کامپیوتر</option>
+                                        <option value="6">هدفون</option>
+                                        <option value="7">پاوربانک</option>
+                                        <option value="8">ساعت مچی</option>
+                                        <option value="9">دوربین عکاسی</option>
+                                        <option value="10">لوازم جانبی گوشی</option>
+                                        <option value="11">هارد و فلش</option>
+                                    </select>*@
+                                <input type="text" placeholder="جستجو کنید...">
                                 <button type="submit"><i class="lnr lnr-magnifier"></i></button>
                             </form>
                         </div>
@@ -148,57 +154,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="header-cart">
-                                        <a class="header-carticon" href="cart.html"><i class="lnr lnr-cart"></i><span class="count"></span></a>
 
-                                        <!-- Minicart -->
-                                        @*<div class="header-minicart minicart">
-                    <div class="minicart-header">
-                        <div class="minicart-product">
-                            <div class="minicart-productimage">
-                                <a href="product-details.html">
-                                    <img src="~/Plugins/Template/images/product/thumbnail/product-image-1.jpg" alt="product image">
-                                </a>
-                                <span class="minicart-productquantity">1x</span>
-                            </div>
-                            <div class="minicart-productcontent">
-                                <h6><a href="product-details.html">گوشی موبایل سامسونگ مدل galexy aA50 </a></h6>
-                                <span class="minicart-productprice">3,500,000 تومان</span>
-                            </div>
-                            <button class="minicart-productclose"><i class="ion ion-ios-close-circle"></i></button>
-                        </div>
-                        <div class="minicart-product">
-                            <div class="minicart-productimage">
-                                <a href="product-details.html">
-                                    <img src="~/Plugins/Template/images/product/thumbnail/product-image-2.jpg" alt="product image">
-                                </a>
-                                <span class="minicart-productquantity">1x</span>
-                            </div>
-                            <div class="minicart-productcontent">
-                                <h6><a href="product-details.html">گوشی موبایل سامسونگ مدل galexy aA50 </a></h6>
-                                <span class="minicart-productprice">3,500,000 تومان</span>
-                            </div>
-                            <button class="minicart-productclose"><i class="ion ion-ios-close-circle"></i></button>
-                        </div>
-                    </div>
-                    <ul class="minicart-pricing">
-                        <li>جمع  <span>7,000,000 تومان</span></li>
-                        <li>حمل و نقل <span>80,000 تومان</span></li>
-                        <li>مالیات <span>20,000 تومان</span></li>
-                        <li>جمع کل <span>7,100,000 تومان</span></li>
-                    </ul>
-                    <div class="minicart-footer">
-                        <a href="cart.html" class="ho-button ho-button-fullwidth">
-                            <span>سبد خرید</span>
-                        </a>
-                        <a href="checkout.html" class="ho-button ho-button-dark ho-button-fullwidth">
-                            <span>تسویه حساب</span>
-                        </a>
-                    </div>
-                </div>*@
-                                        <!--// Minicart -->
-
-                                    </div>
                                 }
                                 else
                                 {
@@ -208,8 +164,57 @@
                                         </div>
                                     </a>
                                 }
+                                <div class="header-cart">
+                                    <a class="header-carticon" href="cart.html"><i class="lnr lnr-cart"></i><span class="count">2</span></a>
 
+                                    <!-- Minicart -->
+                                    @*<div class="header-minicart minicart">
+                                            <div class="minicart-header">
+                                                <div class="minicart-product">
+                                                    <div class="minicart-productimage">
+                                                        <a href="product-details.html">
+                                                            <img src="~/Plugins/Template/images/product/thumbnail/product-image-1.jpg" alt="product image">
+                                                        </a>
+                                                        <span class="minicart-productquantity">1x</span>
+                                                    </div>
+                                                    <div class="minicart-productcontent">
+                                                        <h6><a href="product-details.html">گوشی موبایل سامسونگ مدل galexy aA50 </a></h6>
+                                                        <span class="minicart-productprice">3,500,000 تومان</span>
+                                                    </div>
+                                                    <button class="minicart-productclose"><i class="ion ion-ios-close-circle"></i></button>
+                                                </div>
+                                                <div class="minicart-product">
+                                                    <div class="minicart-productimage">
+                                                        <a href="product-details.html">
+                                                            <img src="~/Plugins/Template/images/product/thumbnail/product-image-2.jpg" alt="product image">
+                                                        </a>
+                                                        <span class="minicart-productquantity">1x</span>
+                                                    </div>
+                                                    <div class="minicart-productcontent">
+                                                        <h6><a href="product-details.html">گوشی موبایل سامسونگ مدل galexy aA50 </a></h6>
+                                                        <span class="minicart-productprice">3,500,000 تومان</span>
+                                                    </div>
+                                                    <button class="minicart-productclose"><i class="ion ion-ios-close-circle"></i></button>
+                                                </div>
+                                            </div>
+                                            <ul class="minicart-pricing">
+                                                <li>جمع  <span>7,000,000 تومان</span></li>
+                                                <li>حمل و نقل <span>80,000 تومان</span></li>
+                                                <li>مالیات <span>20,000 تومان</span></li>
+                                                <li>جمع کل <span>7,100,000 تومان</span></li>
+                                            </ul>
+                                            <div class="minicart-footer">
+                                                <a href="cart.html" class="ho-button ho-button-fullwidth">
+                                                    <span>سبد خرید</span>
+                                                </a>
+                                                <a href="checkout.html" class="ho-button ho-button-dark ho-button-fullwidth">
+                                                    <span>تسویه حساب</span>
+                                                </a>
+                                            </div>
+                                        </div>*@
+                                    <!--// Minicart -->
 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -230,106 +235,106 @@
                                     <li class="active">
                                         <a href="/">صفحه اصلی</a>
                                         @*<ul class="hodropdown">
-                        <li><a href="index.html"><i class="ion ion-ios-home"></i> صفحه اصلی 1</a></li>
-                        <li><a href="index-2.html"><i class="ion ion-ios-home"></i> صفحه اصلی 2</a></li>
-                        <li><a href="index-3.html"><i class="ion ion-ios-home"></i> صفحه اصلی 3</a></li>
-                    </ul>*@
+                                                <li><a href="index.html"><i class="ion ion-ios-home"></i> صفحه اصلی 1</a></li>
+                                                <li><a href="index-2.html"><i class="ion ion-ios-home"></i> صفحه اصلی 2</a></li>
+                                                <li><a href="index-3.html"><i class="ion ion-ios-home"></i> صفحه اصلی 3</a></li>
+                                            </ul>*@
                                     </li>
                                     @*<li class="dropdown-holder">
-                    <a href="shop-rightsidebar.html">فروشگاه</a>
-                    <ul class="hodropdown">
-                        <li>
-                            <a href="shop-rightsidebar.html">فروشگاه</a>
-                            <ul>
-                                <li><a href="shop-rightsidebar.html">فروشگاه ستون چپ</a></li>
-                                <li><a href="shop-leftsidebar.html">فروشگاه ستون راست</a></li>
-                                <li><a href="shop-3-column.html">فروشگاه 3 ستون</a></li>
-                                <li><a href="shop-4-column.html">فروشگاه 4 ستون</a></li>
-                                <li><a href="shop-list.html">فروشگاه لیست</a></li>
-                                <li><a href="shop-list-rightsidebar.html">فروشگاه لیست ستون چپ</a></li>
-                                <li><a href="shop-list-leftsidebar.html">فروشگاه لیست ستون راست</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="product-details.html">مشخصات کالا</a>
-                            <ul>
-                                <li><a href="product-details-reverse.html">معکوس جزئیات محصول</a></li>
-                                <li><a href="product-details-variable.html">محصول با جزئیات متغیر</a></li>
-                                <li><a href="product-details-vertical.html">محصول با جزئیات عمودی</a></li>
-                                <li><a href="product-details-gallery.html">گالری جزئیات محصول</a></li>
-                                <li><a href="product-details-group.html">گروه جزئیات محصول</a></li>
-                                <li><a href="product-details-affiliate.html">اطلاعات مربوط به محصول</a></li>
-                                <li><a href="product-details-slider.html">اسلاید جزئیات و تمام صفحه</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="cart.html">سبد خرید</a></li>
-                        <li><a href="wishlist.html">علاقه مندی</a></li>
-                        <li><a href="checkout.html">تسویه حساب</a></li>
-                        <li><a href="compare.html">مقایسه کنید</a></li>
-                    </ul>
-                </li>
-                <li class="megamenu-holder">
-                    <a href="#">صفحه ها</a>
-                    <ul class="megamenu">
-                        <li>
-                            <a href="shop-rightsidebar.html">فروشگاه</a>
-                            <ul>
-                                <li><a href="shop-rightsidebar.html">فروشگاه ستون چپ</a></li>
-                                <li><a href="shop-leftsidebar.html">فروشگاه ستون راست</a></li>
-                                <li><a href="shop-3-column.html">فروشگاه 3 ستون</a></li>
-                                <li><a href="shop-4-column.html">فروشگاه 4 ستون</a></li>
-                                <li><a href="shop-list.html">فروشگاه لیست</a></li>
-                                <li><a href="shop-list-rightsidebar.html">فروشگاه لیست ستون چپ</a></li>
-                                <li><a href="shop-list-leftsidebar.html">فروشگاه لیست ستون راست</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="shop-rightsidebar.html">مشخصات کالا</a>
-                            <ul>
-                                <li><a href="product-details-reverse.html">معکوس جزئیات محصول</a></li>
-                                <li><a href="product-details-variable.html">محصول با جزئیات متغیر</a></li>
-                                <li><a href="product-details-vertical.html">محصول با جزئیات عمودی</a></li>
-                                <li><a href="product-details-gallery.html">گالری جزئیات محصول</a></li>
-                                <li><a href="product-details-group.html">گروه جزئیات محصول</a></li>
-                                <li><a href="product-details-affiliate.html">اطلاعات مربوط به محصول</a></li>
-                                <li><a href="product-details-slider.html">اسلاید جزئیات و تمام صفحه</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="shop-rightsidebar.html">صفحات دیگر</a>
-                            <ul>
-                                <li><a href="cart.html">سبد خرید</a></li>
-                                <li><a href="wishlist.html">علاقه مندی</a></li>
-                                <li><a href="checkout.html">تسویه حساب</a></li>
-                                <li><a href="compare.html">مقایسه کنید</a></li>
-                                <li><a href="my-account.html">حساب من</a></li>
-                                <li><a href="login-register.html">ثبت نام ورود</a></li>
-                                <li><a href="about-us.html">درباره‌ما</a></li>
-                                <li><a href="contact.html">تماس</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="blog-rightsidebar.html">صفحات بلاگ</a>
-                            <ul>
-                                <li><a href="blog-rightsidebar.html">بلاگ ستون چپ</a></li>
-                                <li><a href="blog-leftsidebar.html">بلاگ ستون راست</a></li>
-                                <li><a href="blog-details.html">بلاگ لیست</a></li>
-                                <li><a href="blog-details-rightsidebar.html">بلاگ لیست ستون چپ</a></li>
-                                <li><a href="blog-details-leftsidebar.html">بلاگ لیست ستون راست</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>*@
+                                            <a href="shop-rightsidebar.html">فروشگاه</a>
+                                            <ul class="hodropdown">
+                                                <li>
+                                                    <a href="shop-rightsidebar.html">فروشگاه</a>
+                                                    <ul>
+                                                        <li><a href="shop-rightsidebar.html">فروشگاه ستون چپ</a></li>
+                                                        <li><a href="shop-leftsidebar.html">فروشگاه ستون راست</a></li>
+                                                        <li><a href="shop-3-column.html">فروشگاه 3 ستون</a></li>
+                                                        <li><a href="shop-4-column.html">فروشگاه 4 ستون</a></li>
+                                                        <li><a href="shop-list.html">فروشگاه لیست</a></li>
+                                                        <li><a href="shop-list-rightsidebar.html">فروشگاه لیست ستون چپ</a></li>
+                                                        <li><a href="shop-list-leftsidebar.html">فروشگاه لیست ستون راست</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <a href="product-details.html">مشخصات کالا</a>
+                                                    <ul>
+                                                        <li><a href="product-details-reverse.html">معکوس جزئیات محصول</a></li>
+                                                        <li><a href="product-details-variable.html">محصول با جزئیات متغیر</a></li>
+                                                        <li><a href="product-details-vertical.html">محصول با جزئیات عمودی</a></li>
+                                                        <li><a href="product-details-gallery.html">گالری جزئیات محصول</a></li>
+                                                        <li><a href="product-details-group.html">گروه جزئیات محصول</a></li>
+                                                        <li><a href="product-details-affiliate.html">اطلاعات مربوط به محصول</a></li>
+                                                        <li><a href="product-details-slider.html">اسلاید جزئیات و تمام صفحه</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li><a href="cart.html">سبد خرید</a></li>
+                                                <li><a href="wishlist.html">علاقه مندی</a></li>
+                                                <li><a href="checkout.html">تسویه حساب</a></li>
+                                                <li><a href="compare.html">مقایسه کنید</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="megamenu-holder">
+                                            <a href="#">صفحه ها</a>
+                                            <ul class="megamenu">
+                                                <li>
+                                                    <a href="shop-rightsidebar.html">فروشگاه</a>
+                                                    <ul>
+                                                        <li><a href="shop-rightsidebar.html">فروشگاه ستون چپ</a></li>
+                                                        <li><a href="shop-leftsidebar.html">فروشگاه ستون راست</a></li>
+                                                        <li><a href="shop-3-column.html">فروشگاه 3 ستون</a></li>
+                                                        <li><a href="shop-4-column.html">فروشگاه 4 ستون</a></li>
+                                                        <li><a href="shop-list.html">فروشگاه لیست</a></li>
+                                                        <li><a href="shop-list-rightsidebar.html">فروشگاه لیست ستون چپ</a></li>
+                                                        <li><a href="shop-list-leftsidebar.html">فروشگاه لیست ستون راست</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <a href="shop-rightsidebar.html">مشخصات کالا</a>
+                                                    <ul>
+                                                        <li><a href="product-details-reverse.html">معکوس جزئیات محصول</a></li>
+                                                        <li><a href="product-details-variable.html">محصول با جزئیات متغیر</a></li>
+                                                        <li><a href="product-details-vertical.html">محصول با جزئیات عمودی</a></li>
+                                                        <li><a href="product-details-gallery.html">گالری جزئیات محصول</a></li>
+                                                        <li><a href="product-details-group.html">گروه جزئیات محصول</a></li>
+                                                        <li><a href="product-details-affiliate.html">اطلاعات مربوط به محصول</a></li>
+                                                        <li><a href="product-details-slider.html">اسلاید جزئیات و تمام صفحه</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <a href="shop-rightsidebar.html">صفحات دیگر</a>
+                                                    <ul>
+                                                        <li><a href="cart.html">سبد خرید</a></li>
+                                                        <li><a href="wishlist.html">علاقه مندی</a></li>
+                                                        <li><a href="checkout.html">تسویه حساب</a></li>
+                                                        <li><a href="compare.html">مقایسه کنید</a></li>
+                                                        <li><a href="my-account.html">حساب من</a></li>
+                                                        <li><a href="login-register.html">ثبت نام ورود</a></li>
+                                                        <li><a href="about-us.html">درباره‌ما</a></li>
+                                                        <li><a href="contact.html">تماس</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <a href="blog-rightsidebar.html">صفحات بلاگ</a>
+                                                    <ul>
+                                                        <li><a href="blog-rightsidebar.html">بلاگ ستون چپ</a></li>
+                                                        <li><a href="blog-leftsidebar.html">بلاگ ستون راست</a></li>
+                                                        <li><a href="blog-details.html">بلاگ لیست</a></li>
+                                                        <li><a href="blog-details-rightsidebar.html">بلاگ لیست ستون چپ</a></li>
+                                                        <li><a href="blog-details-leftsidebar.html">بلاگ لیست ستون راست</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>*@
 
                                     <li>
                                         <a href="/Blog/Index">خبرنامه</a>
                                         @*<ul class="hodropdown">
-                        <li><a href="blog-rightsidebar.html">بلاگ ستون چپ</a></li>
-                        <li><a href="blog-leftsidebar.html">بلاگ ستون راست</a></li>
-                        <li><a href="blog-details.html">سینگل بلاگ</a></li>
-                        <li><a href="blog-details-rightsidebar.html">سینگل بلاگ ستون چپ</a></li>
-                        <li><a href="blog-details-leftsidebar.html">سینگل بلاگ ستون راست</a></li>
-                    </ul>*@
+                                                <li><a href="blog-rightsidebar.html">بلاگ ستون چپ</a></li>
+                                                <li><a href="blog-leftsidebar.html">بلاگ ستون راست</a></li>
+                                                <li><a href="blog-details.html">سینگل بلاگ</a></li>
+                                                <li><a href="blog-details-rightsidebar.html">سینگل بلاگ ستون چپ</a></li>
+                                                <li><a href="blog-details-leftsidebar.html">سینگل بلاگ ستون راست</a></li>
+                                            </ul>*@
                                     </li>
                                     <li>
                                         <a href="/Home/About">درباره‌ما</a>
@@ -347,12 +352,12 @@
 
                         </div>
                         @*<div class="col-lg-2 col-md-5 col-sm-5">
-                            <div class="header-contactinfo">
-                                <i class="flaticon-support"></i>
-                                <span>تماس با ما :</span>
-                                <b>09212430949</b>
-                            </div>
-                        </div>*@
+                                <div class="header-contactinfo">
+                                    <i class="flaticon-support"></i>
+                                    <span>تماس با ما :</span>
+                                    <b>09212430949</b>
+                                </div>
+                            </div>*@
                         <div class="col-12 d-block d-lg-none">
                             <div class="mobile-menu clearfix"></div>
                         </div>
@@ -362,20 +367,20 @@
             <!--// Header Bottom Area -->
             <!-- Header Hot Tags -->
             @*<div class="header-tagsarea bg-grey">
-                <div class="container">
-                    <div class="header-tags">
-                        <h6>تگ های پر بازدید: </h6>
-                        <ul>
-                            <li><a href="#">لپ تاپ</a></li>
-                            <li><a href="#">ساعت مچی</a></li>
-                            <li><a href="#">هدفون</a></li>
-                            <li><a href="#">کتاب</a></li>
-                            <li><a href="#">موبایل و تبلت</a></li>
-                            <li><a href="#">لوازم جانبی</a></li>
-                        </ul>
+                    <div class="container">
+                        <div class="header-tags">
+                            <h6>تگ های پر بازدید: </h6>
+                            <ul>
+                                <li><a href="#">لپ تاپ</a></li>
+                                <li><a href="#">ساعت مچی</a></li>
+                                <li><a href="#">هدفون</a></li>
+                                <li><a href="#">کتاب</a></li>
+                                <li><a href="#">موبایل و تبلت</a></li>
+                                <li><a href="#">لوازم جانبی</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </div>*@
+                </div>*@
             <!--// Header Hot Tags -->
 
         </header>
@@ -390,13 +395,13 @@
         @RenderBody()
 
         @*<!--// Header -->
-        <!-- Hero Area -->
+            <!-- Hero Area -->
 
-        <!--// Hero Area -->
-        <!-- Page Conttent -->
+            <!--// Hero Area -->
+            <!-- Page Conttent -->
 
-        <!--// Page Conttent -->
-        <!-- Footer -->*@
+            <!--// Page Conttent -->
+            <!-- Footer -->*@
         <footer class="" style="border-top:1px solid #eaeaea;background-color:#e5ecf1">
 
             <!-- Footer Top Area -->
@@ -425,11 +430,11 @@
                                 <h5 class="footer-widget-title">محصولات</h5>
                                 <ul>
                                     @*<li><a href="#">قیمت های سعودی</a></li>
-                                    <li><a href="#">محصولات جدید</a></li>
-                                    <li><a href="#">محصولات تخفیفی</a></li>
-                                    <li><a href="#">تماس با ما</a></li>
-                                    <li><a href="#">ورود</a></li>
-                                    <li><a href="#">حساب من</a></li>*@
+                                        <li><a href="#">محصولات جدید</a></li>
+                                        <li><a href="#">محصولات تخفیفی</a></li>
+                                        <li><a href="#">تماس با ما</a></li>
+                                        <li><a href="#">ورود</a></li>
+                                        <li><a href="#">حساب من</a></li>*@
                                 </ul>
                             </div>
                         </div>
@@ -439,11 +444,11 @@
                                 <h5 class="footer-widget-title">شرکت ما</h5>
                                 <ul>
                                     @*<li><a href="#">تحویل</a></li>
-                                    <li><a href="#">اطلاع قانونی</a></li>
-                                    <li><a href="#">درباره ما</a></li>
-                                    <li><a href="#">پرداخت امن</a></li>
-                                    <li><a href="#">نقشه سایت</a></li>
-                                    <li><a href="#">فروشگاه ها</a></li>*@
+                                        <li><a href="#">اطلاع قانونی</a></li>
+                                        <li><a href="#">درباره ما</a></li>
+                                        <li><a href="#">پرداخت امن</a></li>
+                                        <li><a href="#">نقشه سایت</a></li>
+                                        <li><a href="#">فروشگاه ها</a></li>*@
                                 </ul>
                             </div>
                         </div>
@@ -460,7 +465,7 @@
                                     <li><a href="#">افزایش اعتبار</a></li>
                                     @*<li><a href="#">حریم خصوصی</a></li>*@
                                     <li><a href="/Account/Login">حساب کاربری من</a></li>
-                                    
+
                                 </ul>
                             </div>
                         </div>
@@ -562,78 +567,78 @@
                                     </div>
                                 </div>
                                 @*<div class="col-lg-6">
-                                    <div class="pdetails-content">
+                                        <div class="pdetails-content">
 
-                                        <div class="rattingbox">
-                                            <span class="active"><i class="ion ion-ios-star"></i></span>
-                                            <span class="active"><i class="ion ion-ios-star"></i></span>
-                                            <span class="active"><i class="ion ion-ios-star"></i></span>
-                                            <span class="active"><i class="ion ion-ios-star"></i></span>
-                                            <span class="active"><i class="ion ion-ios-star"></i></span>
-                                        </div>
-                                        <h3>کالای فروشی هالتیکو</h3>
-                                        <div class="pdetails-pricebox">
-                                            <del class="oldprice">30,000 تومان</del>
-                                            <span class="price">30,000 تومان</span>
-                                            <span class="badge">ذخیره 5%</span>
-                                        </div>
-                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p>
-                                        <div class="pdetails-quantity">
-                                            <div class="quantity-select">
-                                                <input type="text" value="1">
-                                                <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
-                                                <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                            <div class="rattingbox">
+                                                <span class="active"><i class="ion ion-ios-star"></i></span>
+                                                <span class="active"><i class="ion ion-ios-star"></i></span>
+                                                <span class="active"><i class="ion ion-ios-star"></i></span>
+                                                <span class="active"><i class="ion ion-ios-star"></i></span>
+                                                <span class="active"><i class="ion ion-ios-star"></i></span>
                                             </div>
-                                            <a href="shop-rightsidebar.html" class="ho-button">
-                                                <i class="lnr lnr-cart"></i>
-                                                <span>افزودن به سبد خرید</span>
-                                            </a>
+                                            <h3>کالای فروشی هالتیکو</h3>
+                                            <div class="pdetails-pricebox">
+                                                <del class="oldprice">30,000 تومان</del>
+                                                <span class="price">30,000 تومان</span>
+                                                <span class="badge">ذخیره 5%</span>
+                                            </div>
+                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p>
+                                            <div class="pdetails-quantity">
+                                                <div class="quantity-select">
+                                                    <input type="text" value="1">
+                                                    <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
+                                                    <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                                </div>
+                                                <a href="shop-rightsidebar.html" class="ho-button">
+                                                    <i class="lnr lnr-cart"></i>
+                                                    <span>افزودن به سبد خرید</span>
+                                                </a>
+                                            </div>
+                                            <div class="pdetails-color">
+                                                <span>رنگ :</span>
+                                                <ul>
+                                                    <li class="red"><span></span></li>
+                                                    <li class="green checked"><span></span></li>
+                                                    <li class="blue"><span></span></li>
+                                                    <li class="black"><span></span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="pdetails-size">
+                                                <span>اندازه :</span>
+                                                <ul>
+                                                    <li class="checked"><span>S</span></li>
+                                                    <li><span>M</span></li>
+                                                    <li><span>L</span></li>
+                                                    <li><span>XL</span></li>
+                                                    <li><span>XXL</span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="pdetails-categories">
+                                                <span>دسته ها :</span>
+                                                <ul>
+                                                    <li><a href="shop-rightsidebar.html">گوشی موبایل</a></li>
+                                                    <li><a href="shop-rightsidebar.html">سامسونگ</a></li>
+                                                    <li><a href="shop-rightsidebar.html">رجیستر شده</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="pdetails-tags">
+                                                <span>تگ ها :</span>
+                                                <ul>
+                                                    <li><a href="shop-rightsidebar.html">گلکسی</a></li>
+                                                    <li><a href="shop-rightsidebar.html">سامسونگ</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="pdetails-socialshare">
+                                                <span>اشتراک :</span>
+                                                <ul>
+                                                    <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
+                                                    <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
+                                                    <li><a href="#"><i class="ion ion-logo-googleplus"></i></a></li>
+                                                    <li><a href="#"><i class="ion ion-logo-pinterest"></i></a></li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <div class="pdetails-color">
-                                            <span>رنگ :</span>
-                                            <ul>
-                                                <li class="red"><span></span></li>
-                                                <li class="green checked"><span></span></li>
-                                                <li class="blue"><span></span></li>
-                                                <li class="black"><span></span></li>
-                                            </ul>
-                                        </div>
-                                        <div class="pdetails-size">
-                                            <span>اندازه :</span>
-                                            <ul>
-                                                <li class="checked"><span>S</span></li>
-                                                <li><span>M</span></li>
-                                                <li><span>L</span></li>
-                                                <li><span>XL</span></li>
-                                                <li><span>XXL</span></li>
-                                            </ul>
-                                        </div>
-                                        <div class="pdetails-categories">
-                                            <span>دسته ها :</span>
-                                            <ul>
-                                                <li><a href="shop-rightsidebar.html">گوشی موبایل</a></li>
-                                                <li><a href="shop-rightsidebar.html">سامسونگ</a></li>
-                                                <li><a href="shop-rightsidebar.html">رجیستر شده</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="pdetails-tags">
-                                            <span>تگ ها :</span>
-                                            <ul>
-                                                <li><a href="shop-rightsidebar.html">گلکسی</a></li>
-                                                <li><a href="shop-rightsidebar.html">سامسونگ</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="pdetails-socialshare">
-                                            <span>اشتراک :</span>
-                                            <ul>
-                                                <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
-                                                <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
-                                                <li><a href="#"><i class="ion ion-logo-googleplus"></i></a></li>
-                                                <li><a href="#"><i class="ion ion-logo-pinterest"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>*@
+                                    </div>*@
                             </div>
                         </div>
                     </div>

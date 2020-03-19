@@ -26,6 +26,7 @@ namespace Service
 
         #region Tables
 
+        public DbSet<SiteSetting> SiteSetting { get; set; }
         public DbSet<Feature> Feature { get; set; }
         public DbSet<FAQ> FAQ { get; set; }
         public DbSet<LogoManufactory> LogoManufactory { get; set; }

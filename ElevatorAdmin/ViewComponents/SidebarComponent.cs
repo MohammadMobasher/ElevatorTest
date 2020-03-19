@@ -27,10 +27,12 @@ namespace ElevatorAdmin.ViewComponents
             List<SidebarViewModel> items = new List<SidebarViewModel>();
 
             items.Add(new SidebarViewModel { Controller = "Home", Action = "Index", Title = "صفحه اصلی", Icon= "fa fa-bars" });
+            items.Add(new SidebarViewModel { Area = "SiteSetting", Controller = "ManageSiteSetting", Action = "Index", Title = "تنظیمات سایت", Icon = "fa fa-align-left" });
             items.Add(new SidebarViewModel { Controller = "UserManage", Action = "Index", Title = "مدیریت کاربران", Icon = "fa fa-user" });
             items.Add(new SidebarViewModel { Controller = "RoleManage", Action = "Index", Title = "مدیریت نقش ها", Icon = "fa fa-users" });
             items.Add(new SidebarViewModel { Area = "SlideShow", Controller = "ManageSlideShow", Action = "Index", Title = "مدیریت اسلایدشو", Icon = "fa fa-sliders" });
             items.Add(new SidebarViewModel { Area = "LogoManufactory", Controller = "ManageLogoManufactory", Action = "Index", Title = "مدیریت لوگوها", Icon = "fa fa-sliders" });
+            
             
             items.Add(new SidebarViewModel { Controller = "", Action = "", Title = "مدیریت محصولات", Icon = "fa fa-cubes",
                 Childs = new List<SidebarChildViewModel> {
