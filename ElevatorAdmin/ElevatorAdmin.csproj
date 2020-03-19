@@ -54,6 +54,8 @@
 	 <Folder Include="Areas\ProductDiscount\Models\" />
 	 <Folder Include="Areas\ProductGroup\Data\" />
     <Folder Include="Areas\ProductGroup\Models\" />
+    <Folder Include="Areas\SiteSetting\Data\" />
+    <Folder Include="Areas\SiteSetting\Models\" />
     <Folder Include="Areas\Warehouse\Data\" />
     <Folder Include="Areas\Warehouse\Models\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />
@@ -61,7 +63,6 @@
     <Folder Include="wwwroot\Uploads\ProductPackage\" />
     <Folder Include="wwwroot\Uploads\UserImage\" />
     <Folder Include="wwwroot\Uploads\ProductGallery\" />
-    <Folder Include="wwwroot\Uploads\SlideShow\" />
     <Folder Include="wwwroot\Uploads\Product\" />
     <Folder Include="wwwroot\Uploads\NewsImages\" />
   </ItemGroup>
