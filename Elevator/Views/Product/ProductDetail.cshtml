@@ -112,7 +112,7 @@
                             <div class="pdetails-categories">
                                 <span>دسته بندی: </span>
                                 <ul>
-                                    <li><a href="shop-rightsidebar.html">@Model.ProductGroup.Title</a></li>
+                                    <li><a href="/Product/ProductGroup/@Model.ProductGroupId">@Model.ProductGroup.Title</a></li>
                                 </ul>
                             </div>
                             @if (Model.Tags != null)
@@ -122,7 +122,7 @@
                                     <ul>
                                         @foreach (var item in Model.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries))
                                         {
-                                            <li><a href="shop-rightsidebar.html">@item</a></li>
+                                            <li><a href="/Product/Index?Title=@item">@item</a></li>
                                         }
 
                                     </ul>

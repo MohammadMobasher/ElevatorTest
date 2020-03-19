@@ -54,9 +54,6 @@ namespace Elevator.Controllers
                 return RedirectToAction("Login");
             }
 
-           
-           
-
             var result = await _signInManager.PasswordSignInAsync(model, vm.Password, vm.IsRemember, false);
 
             if (result.Succeeded)
@@ -150,7 +147,7 @@ namespace Elevator.Controllers
                             //await _signInManager.SignInAsync(user, isPersistent: false);
                             var activeCode = await _userRepository.GenerateCode(user.Id);
 
-                            _smsService.SendSms(user.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد اهراز هویت شما {activeCode.ToPersianNumbers()} می باشد");
+                            _smsService.SendSms(user.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد احراز هویت شما {activeCode.ToPersianNumbers()} می باشد");
 
                             return RedirectToAction("AuthorizePhoneNumber", "Account", new { sec = user.SecurityStamp });
                         }
@@ -272,13 +269,13 @@ namespace Elevator.Controllers
 
             if (model.ExpireTime > DateTime.Now)
             {
-                _smsService.SendSms(model.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد اهراز هویت شما {model.ActiveCode.ToPersianNumbers()} می باشد");
+                _smsService.SendSms(model.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد احراز هویت شما {model.ActiveCode.ToPersianNumbers()} می باشد");
             }
             else
             {
                 var activeCode = await _userRepository.GenerateCode(model.Id);
 
-                _smsService.SendSms(model.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد اهراز هویت شما {activeCode.ToPersianNumbers()} می باشد");
+                _smsService.SendSms(model.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد احراز هویت شما {activeCode.ToPersianNumbers()} می باشد");
             }
 
             return RedirectToAction("AuthorizePhoneNumber", new { sec = model.SecurityStamp });

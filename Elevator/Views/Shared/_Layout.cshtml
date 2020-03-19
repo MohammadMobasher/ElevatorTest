@@ -108,7 +108,7 @@
                             </a>
                         </div>
                         <div class="col-lg-7 col-12 order-3 order-lg-2">
-                            <form action="#" class="header-searchbox">
+                            <form action="/Product/Index" class="header-searchbox">
                                 @*<select class="select-searchcategory">
                                     <option value="0">همه دسته ها</option>
                                     <option value="1">گوشی موبایل</option>
@@ -122,7 +122,7 @@
                                     <option value="10">لوازم جانبی گوشی</option>
                                     <option value="11">هارد و فلش</option>
                                 </select>*@
-                                <input type="text" placeholder="جستجو کنید...">
+                                <input type="text" name="Title" placeholder="جستجو کنید...">
                                 <button type="submit"><i class="lnr lnr-magnifier"></i></button>
                             </form>
                         </div>
@@ -148,7 +148,57 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    <div class="header-cart">
+                                        <a class="header-carticon" href="cart.html"><i class="lnr lnr-cart"></i><span class="count"></span></a>
 
+                                        <!-- Minicart -->
+                                        @*<div class="header-minicart minicart">
+                    <div class="minicart-header">
+                        <div class="minicart-product">
+                            <div class="minicart-productimage">
+                                <a href="product-details.html">
+                                    <img src="~/Plugins/Template/images/product/thumbnail/product-image-1.jpg" alt="product image">
+                                </a>
+                                <span class="minicart-productquantity">1x</span>
+                            </div>
+                            <div class="minicart-productcontent">
+                                <h6><a href="product-details.html">گوشی موبایل سامسونگ مدل galexy aA50 </a></h6>
+                                <span class="minicart-productprice">3,500,000 تومان</span>
+                            </div>
+                            <button class="minicart-productclose"><i class="ion ion-ios-close-circle"></i></button>
+                        </div>
+                        <div class="minicart-product">
+                            <div class="minicart-productimage">
+                                <a href="product-details.html">
+                                    <img src="~/Plugins/Template/images/product/thumbnail/product-image-2.jpg" alt="product image">
+                                </a>
+                                <span class="minicart-productquantity">1x</span>
+                            </div>
+                            <div class="minicart-productcontent">
+                                <h6><a href="product-details.html">گوشی موبایل سامسونگ مدل galexy aA50 </a></h6>
+                                <span class="minicart-productprice">3,500,000 تومان</span>
+                            </div>
+                            <button class="minicart-productclose"><i class="ion ion-ios-close-circle"></i></button>
+                        </div>
+                    </div>
+                    <ul class="minicart-pricing">
+                        <li>جمع  <span>7,000,000 تومان</span></li>
+                        <li>حمل و نقل <span>80,000 تومان</span></li>
+                        <li>مالیات <span>20,000 تومان</span></li>
+                        <li>جمع کل <span>7,100,000 تومان</span></li>
+                    </ul>
+                    <div class="minicart-footer">
+                        <a href="cart.html" class="ho-button ho-button-fullwidth">
+                            <span>سبد خرید</span>
+                        </a>
+                        <a href="checkout.html" class="ho-button ho-button-dark ho-button-fullwidth">
+                            <span>تسویه حساب</span>
+                        </a>
+                    </div>
+                </div>*@
+                                        <!--// Minicart -->
+
+                                    </div>
                                 }
                                 else
                                 {
@@ -158,57 +208,8 @@
                                         </div>
                                     </a>
                                 }
-                                <div class="header-cart">
-                                    <a class="header-carticon" href="cart.html"><i class="lnr lnr-cart"></i><span class="count">2</span></a>
 
-                                    <!-- Minicart -->
-                                    @*<div class="header-minicart minicart">
-                                        <div class="minicart-header">
-                                            <div class="minicart-product">
-                                                <div class="minicart-productimage">
-                                                    <a href="product-details.html">
-                                                        <img src="~/Plugins/Template/images/product/thumbnail/product-image-1.jpg" alt="product image">
-                                                    </a>
-                                                    <span class="minicart-productquantity">1x</span>
-                                                </div>
-                                                <div class="minicart-productcontent">
-                                                    <h6><a href="product-details.html">گوشی موبایل سامسونگ مدل galexy aA50 </a></h6>
-                                                    <span class="minicart-productprice">3,500,000 تومان</span>
-                                                </div>
-                                                <button class="minicart-productclose"><i class="ion ion-ios-close-circle"></i></button>
-                                            </div>
-                                            <div class="minicart-product">
-                                                <div class="minicart-productimage">
-                                                    <a href="product-details.html">
-                                                        <img src="~/Plugins/Template/images/product/thumbnail/product-image-2.jpg" alt="product image">
-                                                    </a>
-                                                    <span class="minicart-productquantity">1x</span>
-                                                </div>
-                                                <div class="minicart-productcontent">
-                                                    <h6><a href="product-details.html">گوشی موبایل سامسونگ مدل galexy aA50 </a></h6>
-                                                    <span class="minicart-productprice">3,500,000 تومان</span>
-                                                </div>
-                                                <button class="minicart-productclose"><i class="ion ion-ios-close-circle"></i></button>
-                                            </div>
-                                        </div>
-                                        <ul class="minicart-pricing">
-                                            <li>جمع  <span>7,000,000 تومان</span></li>
-                                            <li>حمل و نقل <span>80,000 تومان</span></li>
-                                            <li>مالیات <span>20,000 تومان</span></li>
-                                            <li>جمع کل <span>7,100,000 تومان</span></li>
-                                        </ul>
-                                        <div class="minicart-footer">
-                                            <a href="cart.html" class="ho-button ho-button-fullwidth">
-                                                <span>سبد خرید</span>
-                                            </a>
-                                            <a href="checkout.html" class="ho-button ho-button-dark ho-button-fullwidth">
-                                                <span>تسویه حساب</span>
-                                            </a>
-                                        </div>
-                                    </div>*@
-                                    <!--// Minicart -->
 
-                                </div>
                             </div>
                         </div>
                     </div>
