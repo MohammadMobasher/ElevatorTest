@@ -72,6 +72,11 @@ namespace ElevatorAdmin.Controllers
                 return RedirectToAction("Login");
             }
 
+            if(model.IsModerator == false)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این نام کاربری یافت نشد!"));
+                return RedirectToAction("Login");
+            }
             var result = await _signInManager.PasswordSignInAsync(model, password, true, false);
 
             if (result.Succeeded)

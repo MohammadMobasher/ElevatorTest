@@ -59,7 +59,12 @@ namespace Elevator.Controllers
                 .Include(a => a.ProductGroup)
                 .Where(a => a.IsActive == true);
 
-            var result = await model.WhereIf(vm.Group != null, a => a.ProductGroupId.Equals(vm.Group.Value))
+            var result = await model
+                .WhereIf(string.IsNullOrEmpty(vm.Title), a => a.Title.Contains(vm.Title) 
+                || a.ShortDescription.Contains(vm.Title)
+                || a.Text.Contains(vm.Title)
+                || a.Tags.Contains(vm.Title))
+                .WhereIf(vm.Group != null, a => a.ProductGroupId.Equals(vm.Group.Value))
                 .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice))
                 .ToListAsync();
 
@@ -207,6 +212,6 @@ namespace Elevator.Controllers
             return Json(product.Price.ToString("n0").ToPersianNumbers());
         }
 
-        
+
     }
 }
