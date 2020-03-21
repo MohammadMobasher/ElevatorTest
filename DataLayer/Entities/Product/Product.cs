@@ -22,7 +22,7 @@ namespace DataLayer.Entities
         /// </summary>
         public string ShortDescription { get; set; }
         
-        [Required(ErrorMessage = "لطفا توضیح کامل محصول را وارد کنید")]
+        
         [DataType(DataType.MultilineText)]
         /// <summary>
         /// توضیح کلی محصول
