@@ -24,15 +24,17 @@ namespace Service.Repos.Product
         public async Task<SweetAlertExtenstion> AddFeatureRange(ProductFeatureInsertViewModel vm)
         {
             var lst = new List<ProductFeature>();
-
-            foreach (var item in vm.Items)
+            if (vm.Items != null && vm.Items.Count > 0)
             {
-                lst.Add(new ProductFeature()
+                foreach (var item in vm.Items)
                 {
-                    FeatureId = item.FeatureId,
-                    FeatureValue = item.FeatureValue,
-                    ProductId = vm.ProductId
-                });
+                    lst.Add(new ProductFeature()
+                    {
+                        FeatureId = item.FeatureId,
+                        FeatureValue = item.FeatureValue,
+                        ProductId = vm.ProductId
+                    });
+                }
             }
             await AddRangeAsync(lst);
             return SweetAlertExtenstion.Ok();
