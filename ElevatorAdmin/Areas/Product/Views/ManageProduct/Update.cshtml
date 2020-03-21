@@ -290,7 +290,7 @@
 
 <script>
     $(function () {
-        debugger;
+        
         var groupId = $('[name="ProductGroupId"]').val();
         $.get("/Product/ManageProduct/ProductFeaturesUpdate", { id: groupId, productId:@Model.Id}, function (result) {
             $('#Feature-2').html(result);
@@ -299,7 +299,7 @@
         //AjaxCall(, {  }, "POST", showResultS);
 
         //function showResultS(result) {
-        //    debugger;
+        //    
 
         //}
     })

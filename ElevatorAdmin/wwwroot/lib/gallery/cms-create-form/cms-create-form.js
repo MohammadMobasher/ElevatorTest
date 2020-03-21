@@ -1,5 +1,5 @@
 function checkFile(el) {
-    debugger;
+    
     console.log(el)
     let fileFormat = getExtension($(el).val()).toLowerCase();
     var url = URL.createObjectURL(el.files[0]);
@@ -74,7 +74,7 @@ function removeFile(el) {
 }
 
 function addGalleryItem(url, el, isVideo) {
-    debugger;
+    
     $('.gallery').removeClass('hide')
     $('.gallery-item:last').clone().appendTo('.gallery-images');
     let newItem = $('.gallery-item:last');
@@ -98,7 +98,7 @@ function addVideo(item, url, isChange = false) {
 }
 
 function addImage(item, url, isChange = false) {
-    debugger;
+    
     if (isChange) {
         item[0].outerHTML = `<img class="gallery-item" 
         img-id="${parseInt(item.attr("img-id"))}"

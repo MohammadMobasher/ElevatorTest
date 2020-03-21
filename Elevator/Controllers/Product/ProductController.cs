@@ -16,6 +16,7 @@ using Core.Utilities;
 using Microsoft.Extensions.Options;
 using Core;
 using Microsoft.Extensions.Configuration;
+using DataLayer.Entities;
 
 namespace Elevator.Controllers
 {
@@ -27,6 +28,7 @@ namespace Elevator.Controllers
         private readonly ProductPackageRepostitory _productPackageRepostitory;
         private readonly ProductGroupRepository _productGroupRepository;
         private readonly ProductFeatureRepository _productFeatureRepository;
+        private readonly FeatureItemRepository _featureItemRepository;
 
         public IConfiguration configuration { get; }
         public ProductController(ProductRepostitory productRepostitory,
@@ -35,7 +37,8 @@ namespace Elevator.Controllers
             ProductGalleryRepository productGalleryRepository,
             ProductPackageRepostitory productPackageRepostitory,
             ProductGroupRepository productGroupRepository,
-            ProductFeatureRepository productFeatureRepository)
+            ProductFeatureRepository productFeatureRepository,
+            FeatureItemRepository featureItemRepository)
         {
             _productRepository = productRepostitory;
             _productDiscountRepository = productDiscountRepository;
@@ -44,6 +47,7 @@ namespace Elevator.Controllers
             _productPackageRepostitory = productPackageRepostitory;
             _productGroupRepository = productGroupRepository;
             _productFeatureRepository = productFeatureRepository;
+            _featureItemRepository = featureItemRepository;
         }
 
         /// <summary>
@@ -96,8 +100,18 @@ namespace Elevator.Controllers
             ViewBag.Discount = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
                 .FirstOrDefaultAsync();
 
-            ViewBag.Features = await _productFeatureRepository.TableNoTracking.Include(a => a.Feature)
+            
+            List<ProductFeature> features = await _productFeatureRepository.TableNoTracking.Include(a => a.Feature)
                 .Where(a => a.ProductId == id).ToListAsync();
+
+            ViewBag.Features = features;
+
+            List<int> featuresWithSSOTType = features.Where(y => y.Feature.FeatureType == FeatureTypeSSOT.Fssot).Select(z => z.FeatureId).ToList();
+            if (featuresWithSSOTType != null && featuresWithSSOTType.Count > 0)
+            {
+                ViewBag.FeatureSSOTValue = await _featureItemRepository.TableNoTracking.Where(x =>
+                featuresWithSSOTType.Contains(x.FeatureId)).ToListAsync();
+            }
 
 
             var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
