@@ -35,8 +35,8 @@ namespace Service.Repos.Product
                         ProductId = vm.ProductId
                     });
                 }
+                await AddRangeAsync(lst);
             }
-            await AddRangeAsync(lst);
             return SweetAlertExtenstion.Ok();
         }
 
