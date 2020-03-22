@@ -215,7 +215,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         public async Task<IActionResult> SubmitProduct(int productId, int packageId)
         {
-            if(await _productPackageDetailsRepostitory.IsExist(packageId, productId))
+            if (await _productPackageDetailsRepostitory.IsExist(packageId, productId))
             {
                 return Json(false);
             }
@@ -232,7 +232,25 @@ namespace ElevatorAdmin.Areas.Product.Controllers
                 .ToListAsync();
 
             ViewBag.PackageId = packageId;
-            return PartialView("ProductPackageDetail",model);
+            return PartialView("ProductPackageDetail", model);
+        }
+
+        public async Task<IActionResult> RemoveProduct(int productId, int packageId)
+        {
+            var model = await _productPackageDetailsRepostitory
+                .GetByConditionAsync(a => a.PackageId == packageId && a.ProductId == productId);
+
+            if (model == null) return Json(false);
+
+            _productPackageDetailsRepostitory.Delete(model);
+
+            var list = await _productPackageDetailsRepostitory.TableNoTracking
+                .Include(a => a.Product)
+                .Where(a => a.PackageId == packageId)
+                .ToListAsync();
+
+            ViewBag.PackageId = packageId;
+            return PartialView("ProductPackageDetail", list);
         }
     }
 }
