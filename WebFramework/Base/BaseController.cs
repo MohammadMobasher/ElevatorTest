@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
+using Core;
 
 namespace Elevator.Controllers
 {
@@ -77,6 +78,9 @@ namespace Elevator.Controllers
 
             ViewBag.pageCount = this.TotalNumber / this.PageSize;
             ViewBag.potalNumber = this.TotalNumber;
+
+
+            //ViewBag.Url = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
         }
 
 

@@ -52,7 +52,7 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
         [HasAccess]
         public async Task<IActionResult> Insert()
         {
-            var model = await _productGroupRepository.GetParentsAsync();
+            var model = await _productGroupRepository.GetAllAsync();
             return View(model);
         }
 

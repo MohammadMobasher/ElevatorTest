@@ -133,7 +133,7 @@
         $.each(prices,
             function(index, key) {
                 var id = $(key).attr('data-Priceid');
-                debugger;
+                
                 $.get("@Url.Action("CalculatePrice","Product")",
                     { productId: id },
                     function(result) {

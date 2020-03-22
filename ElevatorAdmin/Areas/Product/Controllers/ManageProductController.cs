@@ -177,7 +177,6 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AllowAccess]
-
         public async Task<IActionResult> ProductFeaturesUpdate(int id, int productId)
         {
             var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(id);

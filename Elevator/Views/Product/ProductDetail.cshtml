@@ -1,10 +1,11 @@
 ﻿@using DataLayer.Entities
+@using System.Linq
 @model Product
 @using DNTPersianUtils.Core
 @{
     var gallery = ViewBag.Gallery as List<ProductGallery>;
     var discount = ViewBag.Discount as ProductDiscount;
-
+    List<FeatureItem> FeatureSSOTValue = ViewBag.FeatureSSOTValue;
 }
 
 <div class="breadcrumb-area bg-grey">
@@ -163,22 +164,40 @@
                             @Html.Raw(Model.Text)
                         </div>
                     </div>
+                    <style>
+                        .productDetailTable {
+                            direction: rtl;
+                        }
+                            .productDetailTable > tbody > tr > td:nth-child(odd) {
+                                background-color:#EEE;  
+                            }
+                    </style>
                     <div class="tab-pane fade" id="product-details-area2" role="tabpanel" aria-labelledby="product-details-area2-tab">
                             <div class="pdetails-moreinfo">
-                                <table dir="rtl">
+                                <table class="productDetailTable table">
                                     <thead>
                                         <tr style="">
-                                            <th width="30%"  style="text-align:right;font-size:20px;margin-bottom:20px">مشخصات فنی</th>
-                                            <th width="70%"  style="text-align:right"></th>
+                                            <th width="20%"  style="text-align:right;font-size:20px;margin-bottom:20px">مشخصات فنی</th>
+                                            <th width="80%"  style="text-align:right"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in ViewBag.Features as List<ProductFeature>)
                                         {
-                                            <tr>
-                                                <td style="text-align:right;font-weight: bold;font-size:18px ">@item.Feature.Title</td>
-                                                <td style="text-align:right;font-weight: bold;font-size:18px">@item.FeatureValue</td>
-                                            </tr>
+                                        <tr>
+                                            <td style="text-align:right;font-size:13px ">@item.Feature.Title</td>
+                                            @if (item.Feature.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fssot)
+                                            {
+                                                <td style="text-align:right;font-size:13px">
+                                                    @FeatureSSOTValue.Where(x=> x.FeatureId == item.FeatureId && x.Id == Convert.ToInt32(item.FeatureValue)).SingleOrDefault().Value
+                                                    @*@item.Feature*@
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td style="text-align:right;font-size:13px">@item.FeatureValue</td>
+                                            }
+                                        </tr>
                                         }
 
                                     </tbody>

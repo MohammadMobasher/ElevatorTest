@@ -1,13 +1,12 @@
 ﻿
 
 $(function () {
-    debugger;
     var productBoxes = $('.discountProduct');
     $.each(productBoxes, function (index, key) {
         var id = $(key).attr('data-id');
         $.get("/Product/CalculateDiscount", { id: id }, function (result) {
             if (result !== false) {
-                debugger;
+                
                 console.log(result);
                 $(key).append('<li class="flag-discount">' + result.item2 + "  " + (result.item3 == 1 ? "% تخفیف" : "تومان ") + '</li>');
                 $('.dicountValue_' + id).addClass("discount");
