@@ -1,0 +1,55 @@
+﻿@model List<DataLayer.Entities.ShopProduct>
+@using DNTPersianUtils.Core
+
+
+<div class="header-cart">
+    <a class="header-carticon" href="/ShopProduct/Index"><i class="lnr lnr-cart"></i><span class="count">@Model.Count.ToPersianNumbers()</span></a>
+
+    <div class="header-minicart minicart">
+        <div class="minicart-header">
+            @foreach (var item in Model)
+            {
+                if (item.ProductId != null)
+                {
+                    <div class="minicart-product">
+                        <div class="minicart-productimage">
+                            <a href="/Product/ProductDetail/@item.ProductId">
+                                <img src="@ViewBag.Url/@item.Product.IndexPic" alt="product image">
+                            </a>
+                        </div>
+                        <div class="minicart-productcontent">
+                            <h6><a href="/Product/ProductDetail/@item.ProductId">@item.Product.Title </a></h6>
+                        </div>
+                        @*<button class="minicart-productclose"><i class="ion ion-ios-close-circle"></i></button>*@
+                    </div>
+
+                }
+                else if (item.PackageId != null)
+                {
+                    <div class="minicart-product">
+                        <div class="minicart-productimage">
+                            <a href="/Product/PackageDetail/@item.PackageId">
+                                <img src="@ViewBag.Url/@item.ProductPackage.IndexPic" alt="product image">
+                            </a>
+                        </div>
+                        <div class="minicart-productcontent">
+                            <h6><a href="/Product/PackageDetail/@item.PackageId">@item.ProductPackage.Title </a></h6>
+                        </div>
+                      @*  <button class="minicart-productclose"><i class="ion ion-ios-close-circle"></i></button>*@
+                    </div>
+
+                }
+            }
+
+        </div>
+        <div class="minicart-footer">
+            <a href="/ShopProduct/Index" class="ho-button ho-button-fullwidth">
+                <span>سبد خرید</span>
+            </a>
+            <a href="checkout.html" class="ho-button ho-button-dark ho-button-fullwidth">
+                <span>تسویه حساب</span>
+            </a>
+        </div>
+    </div>
+
+</div>

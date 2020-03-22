@@ -18,6 +18,7 @@ namespace Core.Utilities
             return claimsIdentity?.FindFirstValue(claimType);
         }
 
+
         public static string GetUserId(this IIdentity identity)
         {
             return identity?.FindFirstValue(ClaimTypes.NameIdentifier);

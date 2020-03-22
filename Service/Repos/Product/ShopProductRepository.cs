@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Core.Utilities;
 using DataLayer.ViewModels.ShopProduct;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Service.Repos
 {
@@ -24,6 +25,7 @@ namespace Service.Repos
 
         public async Task<SweetAlertExtenstion> AddCart(int productId,int userId)
         {
+
             if (await IsExist(productId, userId))
                 return SweetAlertExtenstion.Error("این کالا قبلا ثبت شده است");
 
@@ -61,6 +63,15 @@ namespace Service.Repos
             return SweetAlertExtenstion.Ok();
         }
 
+
+        public List<ShopProduct> ShopProductByUserId(int userId)
+        {
+            var model = TableNoTracking
+                .Include(a=>a.Product)
+                .Where(a => a.UserId == userId && a.IsFinaly == false).ToList();
+
+            return model;
+        }
     }
 
 }

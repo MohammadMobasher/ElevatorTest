@@ -56,6 +56,8 @@ namespace Elevator.Controllers.Product
 
         public async Task<IActionResult> AddCart(int productId)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+
             var userId = this.GetUserId();
 
             TempData.AddResult(await _shopProductRepository.AddCart(productId,userId));
@@ -65,6 +67,8 @@ namespace Elevator.Controllers.Product
 
         public async Task<IActionResult> AddPackageCart(int packageId)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+
             var userId = this.GetUserId();
 
             TempData.AddResult(await _shopProductRepository.AddCart(packageId, userId));
