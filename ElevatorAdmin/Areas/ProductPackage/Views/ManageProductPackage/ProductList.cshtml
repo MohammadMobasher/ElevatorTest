@@ -20,6 +20,8 @@
                 <th>عنوان محصول</th>
                 <th width="200">تاریخ ثبت</th>
                 <th>قیمت کلی</th>
+                <th>قیمت با تخفیف</th>
+                <th>اقدامات</th>
             </tr>
             <tr>
                 <form method="post">
@@ -31,6 +33,8 @@
                     </th>
                     <th> --- </th>
                     <th>  <priceInput name="Price" title="قیمت کالا"></priceInput></th>
+                    <th> --- </th>
+                    <th> --- </th>
                     <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
                 </form>
             </tr>
@@ -55,7 +59,9 @@
                             <td>
                                 @item.CreateDate.ToPersianDateTextify()
                             </td>
+
                             <td data-price="@item.Id">@item.Price.ToString("n0").ToPersianNumbers()</td>
+                            <td data-role="Discount" data-Id="@item.Id" data-group-Id="@item.ProductGroupId" data-Price="@item.Price"></td>
                             <td>
                                 <a data-toggle="tooltip" data-SbtProduct="@item.Id" title="ثبت" style="cursor:pointer">
                                     <i class="fa fa-plus text-success pe-1x" aria-hidden="true"></i>
@@ -125,9 +131,9 @@
             }
             else {
                 swal.fire({
-                    title:  'موفق' ,
+                    title: 'موفق',
                     text: "محصول با موفقیت ثبت شد",
-                    type: "success" ,
+                    type: "success",
                     confirmButtonText: "تایید",
                     showClass: {
                         popup: 'animated fadeInDown faster'
@@ -143,3 +149,22 @@
     })
 </script>
 
+<script>
+    $(function () {
+        var tds = $('[data-role="Discount"]');
+
+        $.each(tds, function (index, key) {
+
+            var productId = $(key).attr("data-Id");
+            var groupId = $(key).attr("data-group-Id");
+            var price = $(key).attr("data-Price");
+
+            $.get("/ProductDiscount/ManageProductDiscount/CalculateDiscount", { productId: productId, groupId: groupId, price: price }, function (res) {
+                $('[data-Id="' + productId + '"]').append(res);
+            })
+
+        })
+
+
+    })
+</script>

@@ -43,7 +43,7 @@
                                 </td>
                                 <td data-price="@item.Id">@item.Product.Price.ToString("n0").ToPersianNumbers()</td>
                                 <td>
-                                    <a data-toggle="tooltip" title="حذف" href="/ProductPackage/ManageProductPackage/DeleteProduct/@item.ProductId" data-role="confirm">
+                                    <a data-toggle="tooltip" class="removeProduct" title="حذف" data-href="/ProductPackage/ManageProductPackage/RemoveProduct?productId=@item.ProductId&packageId=@ViewBag.PackageId" data-role="confirm">
                                         <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
                                     </a>
                                 </td>
@@ -56,3 +56,32 @@
         <a href="/ProductPackage/ManageProductPackage/Index" class="btn btn-danger btn-block waves-effect waves-light">بازگشت</a>
     </div>
 </div>
+
+
+<h2 style="margin-right:63px">مجموع قیمت</h2>
+<hr />
+
+
+<script>
+    $(function () {
+        $('.removeProduct').on('click', function () {
+            debugger;
+            var href = $(this).attr('data-href');
+            $.get(href, function (result) {
+                $('#ProductPackageShow').html(result);
+                swal.fire({
+                    title: 'موفق',
+                    text: "محصول با موفقیت حذف شد",
+                    type: "success",
+                    confirmButtonText: "تایید",
+                    showClass: {
+                        popup: 'animated fadeInDown faster'
+                    },
+                    hideClass: {
+                        popup: 'animated fadeOutUp faster'
+                    }
+                });
+            })
+        })
+    })
+</script>
