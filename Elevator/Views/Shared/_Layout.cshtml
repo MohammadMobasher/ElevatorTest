@@ -47,7 +47,7 @@
     <!-- Favicon -->
     @*<link rel="shortcut icon" href="~/Plugins/Template/images/favicon.ico" type="image/x-icon">*@
     
-    <link rel="apple-touch-icon" href="@(string.IsNullOrEmpty(siteSetting.TabIcon) ? "staffonly.ir/Uploads/SiteSetting/TabIcon.jpeg"  : Url.Content(ViewBag.Url+"/" + siteSetting.TabIcon))">
+    <link rel="shortcut icon" href="@(string.IsNullOrEmpty(siteSetting.TabIcon) ? "staffonly.ir/Uploads/SiteSetting/TabIcon.jpeg"  : Url.Content(ViewBag.Url+"/" + siteSetting.TabIcon))">
 
     <!-- Google font (font-family: 'Roboto', sans-serif;) -->
     @*<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">*@
