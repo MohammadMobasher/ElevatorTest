@@ -96,7 +96,7 @@ namespace ElevatorAdmin.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return Redirect("/");
+            return RedirectToAction("Login");
         }
 
     }
