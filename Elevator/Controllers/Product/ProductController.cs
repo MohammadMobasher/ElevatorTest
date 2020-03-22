@@ -201,6 +201,9 @@ namespace Elevator.Controllers
 
         public async Task<IActionResult> ProductGroup(int id)
         {
+            var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+
+            ViewBag.Url = test.SiteConfig.UrlAddress;
             ViewBag.Group = await _productGroupRepository.GetByIdAsync(id);
             var model = await _productRepository.GetProductQuery(id);
             return View(model);
