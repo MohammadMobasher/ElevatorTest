@@ -59,26 +59,15 @@ namespace Elevator.Controllers
         {
             var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
-            var model = _productRepository.TableNoTracking
-                .Include(a => a.ProductGroup)
-                .Where(a => a.IsActive == true);
-
-            var result = await model
-                .WhereIf(string.IsNullOrEmpty(vm.Title), a => a.Title.Contains(vm.Title) 
-                || a.ShortDescription.Contains(vm.Title)
-                || a.Text.Contains(vm.Title)
-                || a.Tags.Contains(vm.Title))
-                .WhereIf(vm.Group != null, a => a.ProductGroupId.Equals(vm.Group.Value))
-                .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice))
-                .ToListAsync();
+            var model =await _productRepository.GetProducts(vm);
 
             ViewBag.Category = await _productGroupRepository.GetParentsAsync();
             ViewBag.Url = test.SiteConfig.UrlAddress;
             ViewBag.Search = vm;
-            ViewBag.MaxPrice = result != null && result.Count > 0 ? result.Max(a => a.Price) : 1000000;
-            ViewBag.Count = result.Count().ToPersianNumbers();
+            ViewBag.MaxPrice = model != null && model.Count > 0 ? model.Max(a => a.Price) : 1000000;
+            ViewBag.Count = model.Count().ToPersianNumbers();
 
-            return View(result);
+            return View(model);
         }
 
         /// <summary>

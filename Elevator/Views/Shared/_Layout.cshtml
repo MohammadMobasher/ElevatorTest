@@ -113,15 +113,15 @@
                             </a>
                         </div>
                         <div class="col-lg-6 col-12 order-3 order-lg-2">
-                            <form action="#" class="header-searchbox">
-                                <select class="select-searchcategory">
+                            <form action="/Product/Index" class="header-searchbox">
+                                <select name="Group" class="select-searchcategory">
                                     <option value="-1">همه دسته ها</option>
                                     @foreach (var item in await _productGroupRepository.GetParentsAsync())
                                     {
                                         <option value="@item.Id">@item.Title</option>
                                     }
                                 </select>
-                                <input type="text" placeholder="جستجو کنید...">
+                                <input name="Title" type="text" placeholder="جستجو کنید...">
                                 <button type="submit"><i class="lnr lnr-magnifier"></i></button>
                             </form>
                         </div>
