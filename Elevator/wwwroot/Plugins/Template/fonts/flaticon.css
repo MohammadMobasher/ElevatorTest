@@ -1,6 +1,6 @@
 /*
   	Flaticon icon font: Flaticon
-  	Creation date: 06/01/2020 14:18
+  	Creation date: 23/03/2020 11:05
   	*/
 
 @font-face {
@@ -21,7 +21,7 @@
 [class^="flaticon-"]:before, [class*=" flaticon-"]:before,
 [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
     font-family: Flaticon;
-    font-size: 55px;
+    /*font-size: 20px;*/
     font-style: normal;
     /*margin-left: 20px;*/
 }
@@ -48,4 +48,20 @@
 
 .flaticon-certification:before {
     content: "\f105";
+}
+
+.flaticon-menu:before {
+    content: "\f106";
+}
+
+.flaticon-list:before {
+    content: "\f107";
+}
+
+.flaticon-menu-1:before {
+    content: "\f108";
+}
+
+.flaticon-menu-2:before {
+    content: "\f109";
 }

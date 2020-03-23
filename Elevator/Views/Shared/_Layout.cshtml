@@ -22,8 +22,10 @@
 
 @using Service.Repos
 @using DataLayer.Entities
+@using Service.Repos.Product
 
 @inject SiteSettingRepository _siteSettingRepository
+@inject ProductGroupRepository _productGroupRepository
 @{
 
     SiteSetting siteSetting = await _siteSettingRepository.GetInfo();
@@ -46,7 +48,7 @@
 
     <!-- Favicon -->
     @*<link rel="shortcut icon" href="~/Plugins/Template/images/favicon.ico" type="image/x-icon">*@
-    
+
     <link rel="shortcut icon" href="@(string.IsNullOrEmpty(siteSetting.TabIcon) ? "staffonly.ir/Uploads/SiteSetting/TabIcon.jpeg"  : Url.Content(ViewBag.Url+"/" + siteSetting.TabIcon))">
 
     <!-- Google font (font-family: 'Roboto', sans-serif;) -->
@@ -102,18 +104,23 @@
         <header class="header header-2">
 
             <!-- Header Middle Area -->
-            <div class="header-middle bg-theme">
+            <div class="header-middle bg-white">
                 <div class="container">
-                    <div class="row align-items-center ">
-                        <div class="col-lg-2 col-md-6 col-sm-6 order-1 order-lg-1">
-                            <a href="/" class="header-logo">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 col-md-6 col-sm-6 order-1 order-lg-1">
+                            <a href="index.html" class="header-logo">
                                 <img src="@( string.IsNullOrEmpty(siteSetting.Logo) ? "staffonly.ir/Uploads/SiteSetting/Logo.png" : Url.Content(ViewBag.Url+"/" + siteSetting.Logo))" title="LiftBazar" alt="LiftBazar" />
-
                             </a>
                         </div>
-                        <div class="col-lg-7 col-12 order-3 order-lg-2">
+                        <div class="col-lg-6 col-12 order-3 order-lg-2">
                             <form action="#" class="header-searchbox">
-                                
+                                <select class="select-searchcategory">
+                                    <option value="-1">همه دسته ها</option>
+                                    @foreach (var item in await _productGroupRepository.GetParentsAsync())
+                                    {
+                                        <option value="@item.Id">@item.Title</option>
+                                    }
+                                </select>
                                 <input type="text" placeholder="جستجو کنید...">
                                 <button type="submit"><i class="lnr lnr-magnifier"></i></button>
                             </form>
@@ -150,7 +157,6 @@
                                         </div>
                                     </a>
                                 }
-
                             </div>
                         </div>
                     </div>
@@ -163,20 +169,21 @@
                     <div class="row align-items-center">
                         <div class="col-lg-10 col-md-5 col-sm-5 border-bottom">
 
+                            <!-- Category Menu -->
                             @await Component.InvokeAsync("ProductGroupVC")
                             <!--// Category Menu -->
                             <!-- Navigation -->
-                            <nav class="ho-navigation ho-navigation-2 ">
+                            <nav class="ho-navigation ho-navigation-2">
                                 <ul>
                                     <li class="active">
                                         <a href="/">صفحه اصلی</a>
-                                      
+
                                     </li>
-                                    
+
 
                                     <li>
                                         <a href="/Blog/Index">خبرنامه</a>
-                                        
+
                                     </li>
                                     <li>
                                         <a href="/Home/About">درباره‌ما</a>
@@ -193,14 +200,20 @@
                             <!--// Navigation -->
 
                         </div>
-                       
+                        <div class="col-lg-2 col-md-5 col-sm-5">
+                            <div class="header-contactinfo">
+                                <i class="flaticon-support"></i>
+                                <span>تماس با ما :</span>
+                                <b>09212430949</b>
+                            </div>
+                        </div>
                         <div class="col-12 d-block d-lg-none">
                             <div class="mobile-menu clearfix"></div>
                         </div>
                     </div>
                 </div>
             </div>
-           
+            <!--// Header Bottom Area -->
 
         </header>
 
