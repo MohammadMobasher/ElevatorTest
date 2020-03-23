@@ -149,5 +149,14 @@ namespace Service.Repos.Product
             return await Entities.AsNoTracking().ProjectTo<ProductGroupDTO>().ToListAsync();
         }
 
+        /// <summary>
+        /// گرفتن تمام اطلاعات
+        /// </summary>
+        /// <returns></returns>
+        public List<ProductGroupDTO> GetAll()
+        {
+            return Entities.AsNoTracking().ProjectTo<ProductGroupDTO>().ToList();
+        }
+
     }
 }
