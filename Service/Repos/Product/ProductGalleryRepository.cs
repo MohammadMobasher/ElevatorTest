@@ -2,8 +2,10 @@
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,6 +41,17 @@ namespace Service.Repos
 
             return SweetAlertExtenstion.Ok();
         }
+
+        public async Task UpdateRemindedGallery(List<int> remindedGallery, int productId)
+        {
+            var productGallery = await TableNoTracking.Where(a => a.ProductId == productId &&
+                !remindedGallery.Contains(a.Id)).ToListAsync();
+
+            DeletePic(productGallery.Select(x => x.Pic).ToList());
+
+            await DeleteRangeAsync(productGallery);
+        }
+
 
          async Task<string> UploadPic(IFormFile file)
             => await MFile.Save(file, FilePath.ProductGallery.GetDescription());

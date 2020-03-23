@@ -1,5 +1,7 @@
 ﻿@using DataLayer.DTO.Products
 @using DataLayer.Entities
+@using DataLayer.DTO
+@using Newtonsoft.Json
 
 @model ProductFullDTO
 @{
@@ -8,6 +10,17 @@
     var groups = ViewBag.Groups as List<ProductGroup>;
     var units = ViewBag.Units as List<ProductUnit>;
 
+    List<MltiFileUploaderUpdateDTO> oldGalury = new List<MltiFileUploaderUpdateDTO>();
+
+    foreach (var item in ViewBag.Gallery as List<ProductGallery>)
+    {
+        oldGalury.Add(new MltiFileUploaderUpdateDTO
+        {
+            id = item.Id,
+            src = "/" + item.Pic
+        });
+    }
+
 }
 
 
@@ -15,12 +28,14 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 <link href="~/lib/gallery/cms-create-form/cms-create-form.css" rel="stylesheet" />
-
+<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="~/lib/Image-Uploader/ImageUploader.css" rel="stylesheet" />
+<script src="~/lib/Image-Uploader/ImageUploader.js"></script>
 
 
 
 <form asp-action="update" class="form-horizontal" id="commentForm" method="post" style="" enctype="multipart/form-data">
-
+    
     <div class="container">
 
         <div id="rootwizard" class="pull-in">
@@ -117,111 +132,38 @@
                 <!--- گالری تصاویر محصولات-->
                 <div class="tab-pane p-t-10 fade" id="Gallery-2">
 
-                    <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Text" class="control-label col-sm-2">عکس اصلی محصول <i class="text-danger fa fa-star size-8"></i></label>
+                        <div class="col-sm-10">
+                            <input name="file"
+                                   
+                                   data-default-file="/@(string.IsNullOrEmpty(Model.IndexPic) ? "" : Model.IndexPic.Replace("wwwroot", ""))"
+                                   type="file" class="dropify"
+                                   data-show-loader="true"
+                                   accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
+                                   id="file" ifze="50">
 
-                        <div class="inputs">
-                            <div class="form-group row fileDiv" dir="ltr">
-                                <label dir="ltr" class="control-label col-sm-3">تصویر</label>
-                                <div class="col-sm-6">
-                                    <input type="file" value="~/@Model.IndexPic " input-id="1" name="file" class="form-control" placeholder="Enter email" onchange="checkFile(this)">
-
-                                </div>
-                                <div class="col-sm-3 text-center" style="line-height: 35px;">
-                                    <i class="fas fa-plus" style="cursor: pointer;" title="Add File" onclick="addFile()"></i>
-                                    <i class="fas fa-times text-danger" style="cursor: pointer;" title="remove File" onclick="removeFile(this)"></i>
-                                </div>
-                            </div>
-                            @foreach (var item in ViewBag.Gallery as List<ProductGallery>)
-                            {
-                                <div class="form-group row fileDiv" dir="ltr">
-                                    <label dir="ltr" class="control-label col-sm-3">گالری</label>
-                                    <div class="col-sm-6">
-                                        <input type="file" value="@item.Pic" input-id="2" name="galleryImage" class="form-control" placeholder="Enter email" onchange="checkFile(this)">
-                                    </div>
-                                    <div class="col-sm-3 text-center" style="line-height: 35px;">
-                                        <i class="fas fa-plus hide" style="cursor: pointer;" title="Add File" onclick="addFile()"></i>
-                                        <i class="fas fa-times text-danger" style="cursor: pointer;" title="remove File" onclick="removeFile(this)"></i>
-                                    </div>
-                                </div>
-                            }
+                            <input type="hidden" name="fileAddress" value="@Model.IndexPic" />
                         </div>
-
-                    </div>
-                    <div class="col-md-6" style="position: relative;">
-                        <img src="~/@Model.IndexPic" alt="" id="picture1">
-                        <video src="" class="hide" id="mainVideo" controls>
-                            Please change your browser to Chrome or firefox to show the video.
-                        </video>
-                        <!-- Gallery Section -->
-                        @if (ViewBag.Gallery != null)
-                        {
-                            <div class="gallery col-md-12">
-                                <!-- <div class="gallery-btns"> -->
-                                <div class="gallery-btn gallery-btn--left gallery-btns">
-                                    <i class="fas fa-angle-left fa-lg" onclick="slideLeft()"></i>
-                                </div>
-                                <div class="gallery-btn gallery-btn--right gallery-btns">
-                                    <i class="fas fa-angle-right fa-lg" onclick="slideRight()"></i>
-                                </div>
-                                <!-- </div> -->
-                                <div class="gallery-images">
-                                    @{ 
-                                        var raw = 1;
-                                    }
-                                    @foreach (var item in ViewBag.Gallery as List<ProductGallery>)
-                                    {
-                                        <img class="gallery-item" img-id="@(raw++)" src="~/@item.Pic">
-                                    }
-
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="gallery col-md-12 hide">
-                                <!-- <div class="gallery-btns"> -->
-                                <div class="gallery-btn gallery-btn--left gallery-btns">
-                                    <i class="fas fa-angle-left fa-lg" onclick="slideLeft()"></i>
-                                </div>
-                                <div class="gallery-btn gallery-btn--right gallery-btns">
-                                    <i class="fas fa-angle-right fa-lg" onclick="slideRight()"></i>
-                                </div>
-                                <!-- </div> -->
-                                <div class="gallery-images">
-                                    <img class="gallery-item hide" img-id="1" src="http://placehold.it/1000x600">
-                                </div>
-                            </div>
-                        }
-
                     </div>
 
+                    <div class="form-group">
+                        <label for="Text" class="control-label col-sm-2">گالری </label>
+                        <div class="col-sm-10">
 
-                    @*<div class="form-group">
-            <label for="Text" class="control-label col-sm-2">عکس کالا <i class="text-danger fa fa-star size-8"></i></label>
-            <div class="col-sm-10">
-                <input name="file"
-                       required
-                       type="file" class="dropify"
-                       data-show-loader="true"
-                       data-default-file="http://localhost:49772//@Model.IndexPic"
-                       accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
-                       id="ImageAddress" size="50">
+                            <div class="input-images-1" style="padding-top: .5rem;"></div>
 
-            </div>
-        </div>
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <label for="Text" class="control-label col-sm-2">گالری تصاویر <i class="text-danger fa fa-star size-8"></i></label>
-            <div class="col-sm-10">
-                <input name="gallery"
-                       required
-                       type="file" multiple
-                       data-show-loader="true"
-                       accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
-                       id="ImageAddress" size="50">
+                    <script>
+                        $('.input-images-1').imageUploader({
+                            imagesInputName: 'galleryImage',
+                            preloadedInputName: 'oldGallery',
+                            preloaded: @Html.Raw(JsonConvert.SerializeObject(oldGalury)),
+                        });
+                    </script>
 
-            </div>
-        </div>*@
                 </div>
 
                 <!--- ویژگی محصولات-->
@@ -290,6 +232,11 @@
 
 <script>
     $(function () {
+
+
+
+
+
         var groupId = $('[name="ProductGroupId"]').val();
         $('#Feature-2').html(AjaxCall("/Product/ManageProduct/ProductFeaturesUpdate", { id: groupId, productId:@Model.Id}, "POST"));
         @*var groupId = $('[name="ProductGroupId"]').val();
@@ -300,7 +247,7 @@
         //AjaxCall(, {  }, "POST", showResultS);
 
         //function showResultS(result) {
-        //    
+        //
 
         //}
     })

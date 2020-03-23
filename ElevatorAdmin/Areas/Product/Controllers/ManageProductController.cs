@@ -135,11 +135,12 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             var productId = await _productRepostitory.UpdateProduct(product, Pics.file);
             vm.ProductId = product.Id;
 
+
+            // بررسی گالری عکس گذشته
+            await _productGalleryRepository.UpdateRemindedGallery(Pics.oldGallery.Select(x=> Convert.ToInt32(x)).ToList(), product.Id);
+
             if (Pics.galleryImage != null)
             {
-                var getAllProductGallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == product.Id).Select(a => a.Pic).ToListAsync();
-
-                _productGalleryRepository.DeletePic(getAllProductGallery);
                 // آپلود گالری
                 await _productGalleryRepository.UploadGalley(Pics.galleryImage, productId);
             }
