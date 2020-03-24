@@ -123,11 +123,13 @@ namespace Service.Repos
 
                 vm.IndexPic = await MFile.Save(file, FilePath.Product.GetDescription());
             }
+            
 
             var model = GetById(vm.Id);
-
+            if (file == null)
+                vm.IndexPic = model.IndexPic;
             Mapper.Map(vm, model);
-
+            
             DbContext.SaveChanges();
 
             return model.Id;

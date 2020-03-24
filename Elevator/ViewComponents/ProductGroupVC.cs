@@ -23,7 +23,7 @@ namespace Elevator.ViewComponents
         
         public IViewComponentResult Invoke(int id)
         {
-            var model = _productGroupRepository.GetParents();
+            var model = _productGroupRepository.GetAll();
             return View(model);
         }
 

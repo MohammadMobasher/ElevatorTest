@@ -9,6 +9,10 @@ namespace DataLayer.ViewModels.Products
     {
         public IFormFile file{ get; set; }
 
+        public string fileAddress { get; set; }
+
         public List<IFormFile> galleryImage { get; set; }
+
+        public List<string> oldGallery { get; set; }
     }
 }
