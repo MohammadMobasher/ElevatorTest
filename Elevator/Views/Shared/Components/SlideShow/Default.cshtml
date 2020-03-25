@@ -6,21 +6,11 @@
     {
 
         <div class="herobanner-single">
-            <img  src="@Url.Content(@ViewBag.Url+"/" + item.ImgAddress)" title="@item.Title" alt="@item.Alt">
-            <div class="herobanner-content">
-
-                <div class="herobanner-box">
-                    <h1>@item.Title</h1>
-                </div>
-
-                <div class="herobanner-box">
-                    <a href="shop-rightsidebar.html" class="ho-button ho-button-white">
-                        <i class="lnr lnr-cart"></i>
-                        <span>کلیک کنید</span>
-                    </a>
-                </div>
-            </div>
-            <span class="herobanner-progress"></span>
+            <a target="_blank" href="@Url.Content(item.URL)">
+                <img src="@Url.Content(@ViewBag.Url+"/" + item.ImgAddress)" title="@item.Title" alt="@item.Alt">
+                
+                <span class="herobanner-progress"></span>
+            </a>
         </div>
 
     }
