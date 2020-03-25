@@ -33,17 +33,6 @@ namespace DataLayer.Entities
         public string URL { get; set; }
 
 
-        /// <summary>
-        /// از این فیلد برای seo استفاده می شود
-        /// </summary>
-        [StringLength(100, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
-        public string Title { get; set; }
-
-
-        /// <summary>
-        /// این فیلد برای زمانی کاربرد دارد که اگر عکس لود نشد چه متنی نمایش بدهد
-        /// </summary>
-        [StringLength(200, ErrorMessage = "متن وارد شده بیشتر از حد مجاز است")]
-        public string Alt { get; set; }
+        
     }
 }
