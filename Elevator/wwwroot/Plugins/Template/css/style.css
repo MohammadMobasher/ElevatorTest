@@ -1,3 +1,6 @@
+.font-size20 {
+    font-size: 20px !important;
+}
 
 .sidebar {
     height: 100%; /* 100% Full-height */
@@ -7,7 +10,7 @@
     top: 0;
     left: 0;
     overflow-x: hidden; /* Disable horizontal scroll */
-    background-color:#000; /* Place content 60px from the top */
+    background-color: #000; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
 }
 
@@ -39,9 +42,7 @@
 .openbtn {
     font-size: 20px;
     cursor: pointer;
-    color:#000;
-    
-    
+    color: #000;
     border: none;
 }
 
@@ -68,12 +69,12 @@
 
 
 
-.first-header{
+.first-header {
+}
 
-}
-.first-header i{
-    font-size:20px
-}
+    .first-header i {
+        font-size: 20px
+    }
 /*********************************************************************************
 
 	Template Name: Haltico - Mega Store eCommerce Bootstrap 4 Template
@@ -5970,7 +5971,6 @@ blockquote {
 .header-account {
     display: inline-block;
     position: relative;
-    
     vertical-align: middle;
 }
 
@@ -6001,6 +6001,8 @@ blockquote {
     display: inline-block;
     position: relative;
 }
+
+
 
 .header-carticon {
     display: inline-block;
@@ -6131,6 +6133,16 @@ blockquote {
 }
 
 @media only screen and (max-width: 767px) {
+    .header-carticon {
+        height: 40px;
+        width: 40px;
+        margin-right: -23px;
+    }
+
+        .header-carticon i {
+            line-height: 38px;
+        }
+
     .header-searchbox {
         /*margin-top: 30px;*/
     }
@@ -6168,7 +6180,6 @@ blockquote {
     }
 
     .header-logo {
-        
         display: block;
         text-align: center;
     }

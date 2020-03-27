@@ -60,7 +60,7 @@
     <link rel="stylesheet" href="~/Plugins/Template/css/plugins.css">
 
     <!-- Style Css -->
-    <link rel="stylesheet" href="~/Plugins/Template/css/style.css?v=1">
+    <link rel="stylesheet" href="~/Plugins/Template/css/style.css?v=2">
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="~/Plugins/Template/css/custom.css?v=1">
@@ -259,7 +259,8 @@
                             </div>
 
                             <div class="col-1 text-left">
-                                <i class="lnr lnr-cart" style="font-size:20px"></i>
+                                @*<i class="lnr lnr-cart font-size20"></i>*@
+                                @await Component.InvokeAsync("ShopProductVC")
                             </div>
 
                         </div>
@@ -312,10 +313,7 @@
                                                 <a href="/Account/Login">حساب من</a>
                                             </li>
                                             <li>
-                                                <a href="wishlist.html">علاقه مندی من</a>
-                                            </li>
-                                            <li>
-                                                <a href="checkout.html">تسویه حساب</a>
+                                                @*<a href="checkout.html">تسویه حساب</a>*@
                                             </li>
                                             <li>
                                                 <a href="/Account/Logout">خروج</a>
