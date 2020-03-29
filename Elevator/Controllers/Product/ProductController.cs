@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using Core;
 using Microsoft.Extensions.Configuration;
 using DataLayer.Entities;
+using DataLayer.ViewModels.Feature;
 
 namespace Elevator.Controllers
 {
@@ -29,6 +30,7 @@ namespace Elevator.Controllers
         private readonly ProductGroupRepository _productGroupRepository;
         private readonly ProductFeatureRepository _productFeatureRepository;
         private readonly FeatureItemRepository _featureItemRepository;
+        private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
 
         public IConfiguration configuration { get; }
         public ProductController(ProductRepostitory productRepostitory,
@@ -38,7 +40,8 @@ namespace Elevator.Controllers
             ProductPackageRepostitory productPackageRepostitory,
             ProductGroupRepository productGroupRepository,
             ProductFeatureRepository productFeatureRepository,
-            FeatureItemRepository featureItemRepository)
+            FeatureItemRepository featureItemRepository,
+            ProductGroupFeatureRepository productGroupFeatureRepository)
         {
             _productRepository = productRepostitory;
             _productDiscountRepository = productDiscountRepository;
@@ -48,6 +51,7 @@ namespace Elevator.Controllers
             _productGroupRepository = productGroupRepository;
             _productFeatureRepository = productFeatureRepository;
             _featureItemRepository = featureItemRepository;
+            _productGroupFeatureRepository = productGroupFeatureRepository;
         }
 
         /// <summary>
@@ -188,14 +192,49 @@ namespace Elevator.Controllers
         }
 
 
-        public async Task<IActionResult> ProductGroup(int id)
+        public async Task<IActionResult> ProductGroup(int id, bool newSearch, string titleSearch, List<int> selectedSubGroup, string featureValue)
         {
-            var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+            if (newSearch)
+                this.CurrentPage = 1;
 
-            ViewBag.Url = test.SiteConfig.UrlAddress;
-            ViewBag.Group = await _productGroupRepository.GetByIdAsync(id);
-            var model = await _productRepository.GetProductQuery(id);
-            return View(model);
+            #region تبدیل مقادیر جستجو
+            // در این قسمت ایتم هایی که کاربر انتخاب کرده است از روی ویژگی ها به 
+            // فرمتی که تابع بتواند آنها را روی کوئری اجرا کند تبدیل میکند
+            List<FeatureSearchableViewModel> featureSearchableVM = new List<FeatureSearchableViewModel>();
+            if (!string.IsNullOrEmpty(featureValue))
+            {
+                foreach (var item in featureValue.Split(",", StringSplitOptions.RemoveEmptyEntries))
+                {
+                    featureSearchableVM.Add(new FeatureSearchableViewModel
+                    {
+                        FeaureId = Convert.ToInt32(item.Split("_")[0]),
+                        FeatureValue = item.Split("_")[1]
+                    });
+                }
+            }
+            #endregion
+
+
+            var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+            var result = await _productGroupRepository.GetByParentId(id, true);
+
+
+            var reuslt = await _productGroupFeatureRepository.SearchableFeatureByGroupId(id);
+            ViewBag.Url = test.SiteConfig.UrlAddress;            
+            ViewBag.Group = result.SingleOrDefault(x => x.Id == id);
+            ViewBag.UndeGroups = result.Where(x => x.Id != id).ToList();
+            ViewBag.titleSearch = titleSearch;
+            ViewBag.searchableFeature = await _productGroupFeatureRepository.SearchableFeatureByGroupId(id);
+            ViewBag.featureSearchableValue = featureSearchableVM;
+
+
+
+            var model = await _productRepository.GetProductQuery(id, titleSearch, selectedSubGroup, featureSearchableVM, this.CurrentPage,
+                this.PageSize);
+
+            this.TotalNumber = model.Item1;
+
+            return View(model.Item2);
         }
 
         public async Task<IActionResult> CalculatePrice(int productId)

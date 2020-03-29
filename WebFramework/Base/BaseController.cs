@@ -72,12 +72,12 @@ namespace Elevator.Controllers
             base.OnActionExecuted(context);
 
 
-            ViewBag.pageNumber = this.CurrentPage;
+            ViewBag.CurrentPage = this.CurrentPage;
             ViewBag.pageSize = this.PageSize;
-            
 
-            ViewBag.pageCount = this.TotalNumber / this.PageSize;
-            ViewBag.potalNumber = this.TotalNumber;
+
+            ViewBag.pageCount = (int)Math.Floor((decimal)((this.TotalNumber + this.PageSize - 1) / this.PageSize));
+            ViewBag.totalNumber = this.TotalNumber;
 
 
             //ViewBag.Url = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();

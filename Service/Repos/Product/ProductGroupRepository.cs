@@ -72,7 +72,19 @@ namespace Service.Repos.Product
 
 
 
-
+        /// <summary>
+        /// گرفتن تمام فرزندان یک پدر تا یک سطح
+        /// </summary>
+        /// <param name="parentId">شماره پدر</param>
+        /// <param name="includeItSelf">خروجی مورد نظر شامل خود پدر هم بشود یا نه</param>
+        /// <returns></returns>
+        public async Task<List<ProductGroupDTO>> GetByParentId(int parentId, bool includeItSelf = false)
+        {
+            if(!includeItSelf)
+                return await TableNoTracking.Where(x => x.ParentId == parentId).ProjectTo<ProductGroupDTO>().ToListAsync();
+            //شامل خودش
+            return await TableNoTracking.Where(x => x.ParentId == parentId || x.Id == parentId).ProjectTo<ProductGroupDTO>().ToListAsync();
+        }
 
 
         /// <summary>

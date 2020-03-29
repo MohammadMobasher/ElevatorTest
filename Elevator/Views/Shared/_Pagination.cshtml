@@ -3,148 +3,283 @@
 @{
     int count = 3;
 
-    int PageNumber = ViewBag.pageNumber == 0 ? 1 : ViewBag.pageNumber;
+    int CurrentPage = ViewBag.CurrentPage == 0 ? 1 : ViewBag.CurrentPage;
     int PageCount = ViewBag.pageCount;
+    int PageSize = ViewBag.PageSize;
 
-    var querystringDict = Context.Request.Query.Keys.ToDictionary(k => k, v => Context.Request.Query[v]);
+    var querystringDict = Context.Request.Query.Keys.Where(x=> x != "newSearch").ToDictionary(k => k, v => Context.Request.Query[v]);
 
     var queryString = "";
 }
 
 
+
+
+
+<style>
+    .pagination {
+        display: inline-block;
+        padding-right: 0;
+        margin: 12px 0;
+        border-radius: 4px
+    }
+
+        .pagination > li {
+            display: inline
+        }
+
+            .pagination > li > a, .pagination > li > span {
+                position: relative;
+                float: right;
+                padding: 6px 12px;
+                margin-right: -1px;
+                line-height: 1.42857143;
+                color: #337ab7;
+                text-decoration: none;
+                background-color: #fff;
+                border: 1px solid #ddd
+            }
+
+            .pagination > li:first-child > a, .pagination > li:first-child > span {
+                margin-right: 0;
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px
+            }
+
+            .pagination > li:last-child > a, .pagination > li:last-child > span {
+                border-top-left-radius: 4px;
+                border-bottom-left-radius: 4px
+            }
+
+            .pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+                z-index: 2;
+                color: #23527c;
+                background-color: #eee;
+                border-color: #ddd
+            }
+
+        .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+            z-index: 3;
+            color: #fff;
+            cursor: default;
+            background-color: #337ab7;
+            border-color: #337ab7
+        }
+
+        .pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+            color: #777;
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #ddd
+        }
+
+    .pagination-lg > li > a, .pagination-lg > li > span {
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.3333333
+    }
+
+    .pagination-lg > li:first-child > a, .pagination-lg > li:first-child > span {
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px
+    }
+
+    .pagination-lg > li:last-child > a, .pagination-lg > li:last-child > span {
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px
+    }
+
+    .pagination-sm > li > a, .pagination-sm > li > span {
+        padding: 5px 10px;
+        font-size: 12px;
+        line-height: 1.5
+    }
+
+    .pagination-sm > li:first-child > a, .pagination-sm > li:first-child > span {
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px
+    }
+
+    .pagination-sm > li:last-child > a, .pagination-sm > li:last-child > span {
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px
+    }
+</style>
+
+
 @if (PageCount != 0)
 {
-    <div class="pt-3 mt-4 border-top text-xs-center">
+    <div class="col-12 border-top text-center bg-lightdark table-bordered pagination-div" style="padding-top:20px; padding-bottom:10px; margin-bottom:10px">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2">
+                @*<select name="pageSize" class="form-control pagination" style="width:40%">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                </select>*@
+            </div>
 
-        @*<nav aria-label="Page navigation example text-xs-center">*@
-        <ul class="pagination">
-
-
-            @if (PageNumber != 1)
-            {
-
-
-
-                @* Start First *@
-                {
-
-                    querystringDict["pageNumber"] = "1";
-                    queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
-
-                }
-                <li class="page-item">
-                    <a class="page-link" href="?@queryString">
-                        <span aria-hidden="true">&laquo;&laquo;</span>
-                    </a>
-                </li>
-                @* End First *@
-
-                @* Start Previous *@
-
-                {
-
-                    querystringDict["pageNumber"] = (PageNumber - 1) + "";
-                    queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
-
-                }
-
-                <li class="page-item">
-                    <a class="page-link" href="?@queryString">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                @* End Previous *@
-            }
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xl-8">
+                <ul class="pagination">
 
 
-            @for (var i = PageNumber - count; i <= PageNumber - 1; i++)
-            {
-                if (i >= 1)
-                {
+                    @if (CurrentPage != 1)
                     {
 
-                        querystringDict["pageNumber"] = i + "";
-                        queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
 
+
+                        @* Start First *@
+                        {
+
+                            querystringDict["currentPage"] = "1";
+                            queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
+
+                        }
+                        <li class="page-item" data-FFW="1">
+                            <a class="page-link" data-page="1" href="?@queryString">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                            </a>
+                        </li>
+                        @* End First *@
+
+                        @* Start Previous *@
+
+                        {
+
+                            querystringDict["currentPage"] = (CurrentPage - 1) + "";
+                            queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
+
+                        }
+
+                        <li class="page-item" data-FFW="1">
+                            <a class="page-link" data-page="1" href="?@queryString">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        @* End Previous *@
                     }
-                    <li class="page-item">
-                        <a class="page-link" href="?@queryString">
-                            <span aria-hidden="true">@i</span>
-                        </a>
-                    </li>
-                }
-            }
 
 
-
-            @* Start Current *@
-            @{
-
-                querystringDict["pageNumber"] = PageNumber + "";
-                queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
-
-            }
-
-            <li class="page-item active"><a class="page-link" href="?@queryString">@PageNumber</a></li>
-            @* End Current *@
-
-
-
-            @for (var i = PageNumber + 1; i <= PageNumber + count; i++)
-            {
-                if (i <= PageCount)
-                {
+                    @for (var i = CurrentPage - count; i <= CurrentPage - 1; i++)
                     {
+                        if (i >= 1)
+                        {
+                            {
 
-                        querystringDict["pageNumber"] = i + "";
+                                querystringDict["currentPage"] = i + "";
+                                queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
+
+                            }
+                            <li class="page-item">
+                                <a class="page-link" data-page="@i" href="?@queryString">
+                                    <span aria-hidden="true">@i</span>
+                                </a>
+                            </li>
+                        }
+                    }
+
+
+
+                    @* Start Current *@
+                    @{
+
+                        querystringDict["currentPage"] = CurrentPage + "";
                         queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
 
                     }
 
-                    <li class="page-item">
-                        <a class="page-link" href="?@queryString">
-                            <span aria-hidden="true">@i</span>
-                        </a>
-                    </li>
-                }
-            }
+                    <li class="page-item active"><a class="page-link" href="?@queryString">@CurrentPage</a></li>
+                    @* End Current *@
 
 
 
-            @if (PageNumber != PageCount && PageCount > 1)
-            {
-                @* Start Next *@
-                {
+                    @for (var i = CurrentPage + 1; i <= CurrentPage + count; i++)
+                    {
+                        if (i <= PageCount)
+                        {
+                            {
 
-                    querystringDict["pageNumber"] = (PageNumber + 1) + "";
-                    queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
+                                querystringDict["currentPage"] = i + "";
+                                queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
 
-                }
-                <li class="page-item">
-                    <a class="page-link" href="?@queryString">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-                @* End Next *@
+                            }
+
+                            <li class="page-item">
+                                <a class="page-link" data-page="@i" href="?@queryString">
+                                    <span aria-hidden="true">@i</span>
+                                </a>
+                            </li>
+                        }
+                    }
 
 
-                @* Start Last *@
-                {
 
-                    querystringDict["pageNumber"] = PageCount + "";
-                    queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
+                    @if (CurrentPage != PageCount && PageCount > 1)
+                    {
+                        @* Start Next *@
+                        {
 
-                }
-                <li class="page-item">
-                    <a class="page-link" href="?@queryString">
-                        <span aria-hidden="true">&raquo;&raquo;</span>
-                    </a>
-                </li>
-                @* End Last *@
+                            querystringDict["currentPage"] = (CurrentPage + 1) + "";
+                            queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
 
-            }
+                        }
+                        <li class="page-item" data-FFW="1">
+                            <a class="page-link" data-page="@queryString.Replace("currentPage=","")" href="?@queryString">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        @* End Next *@
 
-        </ul>
-        @*</nav>*@
+
+                        @* Start Last *@
+                        {
+
+                            querystringDict["currentPage"] = PageCount + "";
+                            queryString = string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value));
+
+                        }
+                        <li class="page-item" data-FFW="1">
+                            <a class="page-link" data-page="@queryString.Replace("currentPage=","")" href="?@queryString">
+                                <span aria-hidden="true">&raquo;&raquo;</span>
+                            </a>
+                        </li>
+                        @* End Last *@
+
+                    }
+
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 pagination">
+
+                </div>
+        </div>
     </div>
 }
+
+
+<script>
+
+    $(function () {
+
+        var pageSizeValue = @PageSize;
+        console.log("pageSizeValue => ", pageSizeValue);
+        $("[name='pageSize']").val(pageSizeValue);
+
+        $("[name='pageSize']").on("change", function () {
+            var params = window.location.search;
+            if (params === "") {
+                window.location.search = "?pageSize=" + $(this).val();
+            }
+            else {
+                window.location.search = "&pageSize=" + $(this).val();
+            }
+            console.log(window.location);
+
+            //reload();
+        });
+
+    });
+
+</script>
