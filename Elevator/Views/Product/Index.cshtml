@@ -87,13 +87,11 @@
                                                          alt="product image">
                                                 </a>
                                                 @*<ul class="hoproduct-actionbox">
-                                                    <li><a href="#"><i class="lnr lnr-cart"></i></a></li>
-                                                    <li><a href="#" class="quickview-trigger"><i class="lnr lnr-eye"></i></a></li>
-                                                    <li><a href="#"><i class="lnr lnr-heart"></i></a></li>
-                                                </ul>*@
-                                                <ul class="hoproduct-flags discountProduct" data-id="@item.Id">
-                                                    <li class="flag-pack">جدید</li>
-                                                </ul>
+                                                        <li><a href="#"><i class="lnr lnr-cart"></i></a></li>
+                                                        <li><a href="#" class="quickview-trigger"><i class="lnr lnr-eye"></i></a></li>
+                                                        <li><a href="#"><i class="lnr lnr-heart"></i></a></li>
+                                                    </ul>*@
+                                                
                                             </div>
                                             @await Component.InvokeAsync("CountDownProductVC", new { id = item.Id })
                                             <div class="hoproduct-content">
@@ -232,71 +230,28 @@
                                     </ul>
                                 </div>
                             </div>
-
-                            <!-- Recommended Product -->
-                            @await Component.InvokeAsync("SuggestedProductVC")
-                            <!--// Recommended Product -->
-                            @*<div class="imgbanner mt-30">
-                                    <a href="product-details.html">
-                                        <img src="~/Plugins/Template/images/banner/banner-image-9.jpg" alt="banner">
-                                    </a>
-                                </div>*@
-
                         </div>
                     </div>
 
                 </div>
             </div>
         </div>
-</form>
-<!--// Shop Page Area -->
-<!-- Newsletter Area -->
-<div class="ho-section newsletter-area bg-grey ptb-50">
-    <div class="container">
-        <div class="newsletter">
-            <div class="newsletter-title">
-                <h2>مشترک شدن در <span>خبر نامه</span></h2>
+    </main>
 
-            </div>
-            <div class="newsletter-content">
-                <form id="mc-form" class="newsletter-form">
-                    <input id="mc-email" type="email" autocomplete="off" placeholder="آدرس ایمیل">
-                    <button id="mc-submit" type="submit">ثبت</button>
-                </form>
-                <!-- mailchimp-alerts start -->
-                <div class="mailchimp-alerts text-centre">
-                    <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                    <div class="mailchimp-success"></div><!-- mailchimp-success end -->
-                    <div class="mailchimp-error"></div><!-- mailchimp-error end -->
-                </div><!-- mailchimp-alerts end -->
-            </div>
-            <div class="newsletter-socialicons socialicons socialicons-radial">
-                <ul>
-                    <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
-                    <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
-                    <li><a href="#"><i class="ion ion-logo-youtube"></i></a></li>
-                    <li><a href="#"><i class="ion ion-logo-google"></i></a></li>
-                    <li><a href="#"><i class="ion ion-logo-instagram"></i></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<!--// Newsletter Area -->
-</main>
-<!--// Page Conttent -->
+</form>
+
 
 
 <script>
     $(function () {
-        
+
         var productBoxes = $('.discountProduct');
         $.each(productBoxes, function (index, key) {
             var id = $(key).attr('data-id');
-            
+
             $.get("/Product/CalculateDiscount", { id: id }, function (result) {
                 if (result !== false) {
-                    
+
                     console.log(result);
                     $(key).append('<li class="flag-discount" style="list-style-type:none;">' + result.item2 + "  " + (result.item3 == 1 ? "% تخفیف" : "تومان تخفیف") + '</li>');
 

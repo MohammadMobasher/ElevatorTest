@@ -15,6 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer.ViewModels.Products;
+using System.Data;
+using Dapper;
 
 namespace Service.Repos.Product
 {
@@ -23,15 +25,18 @@ namespace Service.Repos.Product
         private readonly ProductFeatureRepository _productFeatureRepository;
         private readonly ProductRepostitory _productRepostitory;
         private readonly ProductGroupDependenciesRepository _productGroupDependenciesRepository;
+        private readonly IDbConnection _connection;
 
         public ProductGroupFeatureRepository(DatabaseContext dbContext,
             ProductFeatureRepository productFeatureRepository,
             ProductRepostitory productRepostitory,
-            ProductGroupDependenciesRepository productGroupDependenciesRepository) : base(dbContext)
+            ProductGroupDependenciesRepository productGroupDependenciesRepository,
+            IDbConnection connection) : base(dbContext)
         {
             _productFeatureRepository = productFeatureRepository;
             _productRepostitory = productRepostitory;
             _productGroupDependenciesRepository = productGroupDependenciesRepository;
+            _connection = connection;
         }
 
         public async Task<Tuple<int, List<ProductGroupFeatureDTO>>> LoadAsyncCount(
@@ -217,6 +222,59 @@ namespace Service.Repos.Product
                                                   FeatureId = feature.Id
                                               }).ToList()
                           }).ToListAsync();
+        }
+
+        public async Task<List<FeatureFullDetailDTO>> SearchableFeatureByGroupId(int groupId)
+        {
+            
+            var sql = $@"with A as (
+                           select Id, ParentId
+                               from ProductGroup
+                               where Id = {groupId}
+                               union all
+                           select c.Id, c.ParentId
+                               from ProductGroup c
+                                   join A p on p.Id = c.ParentId) 
+                        select Id from A
+                ";
+            try
+            {
+                var model = await _connection.QueryAsync<int>(sql);
+                model = model.ToList();
+
+                return (from productGroupFeature in this.DbContext.ProductGroupFeature
+                              where model.Contains(productGroupFeature.ProductGroupId)
+
+                              join feature in this.DbContext.Feature on productGroupFeature.FeatureId equals feature.Id
+                              where feature.ShowForSearch == true
+
+                              orderby productGroupFeature.Id
+
+                              
+
+                              select new FeatureFullDetailDTO
+                              {
+
+                                  Id = feature.Id,
+                                  Title = feature.Title,
+                                  FeatureType = feature.FeatureType,
+                                  IsRequired = feature.IsRequired,
+                                  FeatureItems = (from featureItem in this.DbContext.FeatureItem
+                                                  where featureItem.FeatureId == feature.Id
+                                                  select new FeatureItemDTO
+                                                  {
+                                                      Id = featureItem.Id,
+                                                      Value = featureItem.Value,
+                                                      FeatureId = feature.Id
+                                                  }).ToList()
+                              }).DistinctBy(x=> x.Id).ToList();
+
+
+            }
+            catch
+            {
+                return new List<FeatureFullDetailDTO>();
+            }
         }
 
 

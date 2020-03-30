@@ -12,6 +12,7 @@ namespace DataLayer.DTO
         public string Title { get; set; }
         public FeatureTypeSSOT FeatureType { get; set; }
         public bool IsRequired { get; set; } = false;
+        public bool ShowForSearch { get; set; }     
 
         public List<FeatureItemDTO> FeatureItems { get; set; }
     }

@@ -166,6 +166,26 @@ namespace Service.Repos
             return new Tuple<int, List<FeatureFullDetailDTO>>(Count, await query.ToListAsync());
         }
 
+        public async Task<SweetAlertExtenstion> ShowInSearchSite(int Id)
+        {
+            try
+            {
+                var entity = await GetByIdAsync(Id);
+                if (entity.ShowForSearch)
+                    entity.ShowForSearch = false;
+                else
+                    entity.ShowForSearch = true;
+
+                await DbContext.SaveChangesAsync();
+
+                return SweetAlertExtenstion.Ok();
+            }
+            catch(Exception e)
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
+
 
         /// <summary>
         /// حذف یک آیتم در جدول مورد نظر

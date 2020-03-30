@@ -29,6 +29,8 @@ namespace DataLayer.Entities
         /// </summary>
         public bool IsRequired { get; set; } = false;
 
+        public bool ShowForSearch { get; set; } = false;
+
 
         /// <summary>
         /// دسترسی مستقیم به داده های جدول

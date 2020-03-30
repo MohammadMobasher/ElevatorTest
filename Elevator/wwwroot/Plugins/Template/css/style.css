@@ -1,3 +1,4 @@
+
 .font-size20 {
     font-size: 20px !important;
 }
@@ -777,9 +778,10 @@ textarea {
     input[type="password"],
     select,
     button {
-        height: 50px;
+        height: 40px;
         line-height: 48px;
         padding: 0 15px;
+        font-size:11px;
     }
 
 textarea {
@@ -787,41 +789,26 @@ textarea {
 }
 
 input[type="checkbox"] {
-    visibility: hidden;
-    opacity: 0;
+    /*visibility: hidden;
+    opacity: 0;*/
     display: inline-block;
     vertical-align: middle;
-    width: 0;
+    width: 12px;
+    margin-right: 17px;
 }
 
     input[type="checkbox"] ~ label {
         position: relative;
-        padding-right: 24px;
+        
     }
 
-        input[type="checkbox"] ~ label::before {
-            content: "";
-            position: absolute;
-            right: 0;
-            top: 50%;
-            border: 1px solid #e5e5e5;
-            height: 15px;
-            width: 15px;
-            margin-top: -8px;
-            line-height: 0.5;
-            font-size: 28px;
-        }
+        
 
     input[type="checkbox"]:checked ~ label {
-        color: #0B88EE;
+        
     }
 
-        input[type="checkbox"]:checked ~ label::before {
-            content: "\f3ff";
-            font-family: 'Ionicons';
-            color: #0B88EE;
-            border-color: #0B88EE;
-        }
+        
 
 input[type="radio"] {
     visibility: hidden;
@@ -2690,6 +2677,8 @@ blockquote {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     border-bottom: 1px solid #e5e5e5;
+    padding-bottom:0px !important;
+    padding-top:23px;
 }
 
     .cr-pagination p {
@@ -2700,7 +2689,7 @@ blockquote {
 
     .cr-pagination ul {
         padding-right: 0;
-        padding-bottom: 10px;
+        
     }
 
         .cr-pagination ul li {
@@ -2712,7 +2701,7 @@ blockquote {
                 font-weight: 400;
                 color: #ffffff;
                 padding: 0 10px;
-                height: 30px;
+                
                 line-height: 30px;
                 background: #ccc;
                 border-radius: 8px;
@@ -2889,7 +2878,7 @@ blockquote {
 
 .hoproduct-title {
     font-weight: 400;
-    font-size: 15px;
+    font-size: 12px;
     line-height: 24px;
     margin-bottom: 5px;
 }
@@ -3784,6 +3773,7 @@ blockquote {
 
     .featurebox h5 {
         margin-bottom: 5px;
+        margin-top: 25px;
     }
 
     .featurebox p {
@@ -6864,7 +6854,8 @@ blockquote {
         font-weight: 400;
         font-size: 20px;
         line-height: 30px;
-        color: #ababab;
+        /*color: #ababab;*/
+
         margin-left: 10px;
     }
 

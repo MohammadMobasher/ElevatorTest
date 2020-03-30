@@ -18,6 +18,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer.SSOT;
+using DataLayer.ViewModels.Feature;
+using DataLayer.DTO;
 
 namespace Service.Repos
 {
@@ -304,27 +306,82 @@ namespace Service.Repos
         }
 
 
-        public async Task<List<ProductFullDTO>> GetProductQuery(int productGroupId)
+        public async Task<Tuple<int, List<ProductFullDTO>>> GetProductQuery(int productGroupId, string titleSearch, List<int> selectedsubGroup, List<FeatureSearchableViewModel> featureSearchableVM, int skip, int take)
         {
-            var sql = $@"with A as (
-                       select Id, ParentId
-                       from ProductGroup
-                       where Id = {productGroupId}
-                       union all
-                       select c.Id, c.ParentId
-                       from ProductGroup c
-                         join A p on p.Id = c.ParentId) 
+
+            string groupAndSubGroupId = "";
+            if(selectedsubGroup != null && selectedsubGroup.Count > 0)
+            {
+                selectedsubGroup.Add(productGroupId);
+                groupAndSubGroupId = string.Join(",", selectedsubGroup);
+            }
+
+            string featureSearchWhere = "";
+
+            if (featureSearchableVM != null && featureSearchableVM.Count > 0)
+            {
+                featureSearchWhere += @" where Id in ( select ProductId
+		                                    from ProductFeature
+		                                    where ";
+
+                foreach (var distinctFeature in featureSearchableVM.DistinctBy(x => x.FeaureId))
+                {
                     
-                    select * from Product where ProductGroupId in (
-                    select Id
-                    from A )";
+                    featureSearchWhere += " (ProductFeature.FeatureId in (" + distinctFeature.FeaureId + ") ";
+                    featureSearchWhere += @" and ProductFeature.FeatureValue in ( " + 
+                        string.Join(",", featureSearchableVM.Where(x=> x.FeaureId == distinctFeature.FeaureId).Select(x=> x.FeatureValue))
+                        + ")) or ";
+                    
+                }
+                featureSearchWhere = featureSearchWhere.Substring(0, featureSearchWhere.Length - 3) + @" group by ProductId
+		            having count(ProductId) = "+ featureSearchableVM.DistinctBy(x => x.FeaureId).Count() + ") and ";
+            }
+
+            string sql = @"
+                        declare @T table(Id int);
+
+                        with A as (
+                           select Id, ParentId
+                               from ProductGroup
+                               where Id = "+productGroupId+@"
+                               union all
+                           select c.Id, c.ParentId
+                               from ProductGroup c
+                                   join A p on p.Id = c.ParentId) 
+
+                        insert into @T(Id)
+                          select Id
+                        from A;";
+
+            string countQuery = $@"                    
+                    select count(*) as Count from Product " +
+                        (featureSearchableVM != null && featureSearchableVM.Count > 0 ? featureSearchWhere : " where ")
+                    + @"
+                    ProductGroupId in (" + ((selectedsubGroup != null && selectedsubGroup.Count > 0 ? groupAndSubGroupId : "select * from @T")) + @")
+                        and Title LIKE '%" + titleSearch + @"%';";
+
+            var productQuery = $@"                    
+                    select Product.* from Product " +
+                    (featureSearchableVM != null && featureSearchableVM.Count > 0 ? featureSearchWhere : " where ")
+                    + @"
+                    ProductGroupId in ("+ ((selectedsubGroup != null && selectedsubGroup.Count > 0 ? groupAndSubGroupId : "select * from @T")) +@")
+                        and Title LIKE '%"+ titleSearch + @"%' 
+                    order by NEWID()
+                    OFFSET " + (skip - 1) * take + @" ROWS
+                    FETCH NEXT " + take + @" ROWS ONLY;
+                ";
+
             try
             {
-                var model = await _connection.QueryAsync<ProductFullDTO>(sql);
+                string sqll = sql + countQuery + productQuery;
+                var results = await _connection.QueryMultipleAsync(sql + countQuery + productQuery);
 
-                return model.ToList();
+                var CountResult = await results.ReadAsync<CountDTO>();
+                var ProductsResult = await results.ReadAsync<ProductFullDTO>();
+
+                return new Tuple<int, List<ProductFullDTO>>(CountResult.SingleOrDefault().Count, ProductsResult.ToList());
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 throw new NullReferenceException();

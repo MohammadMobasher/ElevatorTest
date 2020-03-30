@@ -162,5 +162,17 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
         }
 
         #endregion
+
+        #region نمایش در قسمت جستجو سایت
+
+        [ActionRole("نمایش به عنوان جستجو")]
+        public async Task<IActionResult> ShowInSearch(int Id)
+        {
+            TempData.AddResult(await _featureRepository.ShowInSearchSite(Id));
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
     }
 }
