@@ -793,7 +793,7 @@ input[type="checkbox"] {
     opacity: 0;*/
     display: inline-block;
     vertical-align: middle;
-    width: 0;
+    width: 12px;
     margin-right: 17px;
 }
 
