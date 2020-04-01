@@ -25,9 +25,9 @@
     <span class="hidden" data-role-table-btn-area-access="">
 
         @*<button data-role-href="/ProductGroup/ManageProductGroup/" modal-title="ویرایش آیتم" ismodal="true" class="btn btn-lg btn-warning data-role-table-btn" data-toggle="tooltip" title="ویرایش" data-role="confirm">
-            <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
-            ویژگی‌ها
-        </button>*@
+                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
+                ویژگی‌ها
+            </button>*@
 
         <TableBotton area="Product" controller="ManageProduct" action="Update"
                      title="ویرایش"
@@ -43,9 +43,9 @@
 
 
         @*<TableBotton area="ProductGroup" controller="ManageProductGroup" action="Delete"
-                     title="حذف"
-                     icon="fa-trash-o"
-                     buttonClass="btn-danger"></TableBotton>*@
+            title="حذف"
+            icon="fa-trash-o"
+            buttonClass="btn-danger"></TableBotton>*@
 
 
 
@@ -57,6 +57,7 @@
 
         <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ProductDiscount"
                      isModal="true"
+                     querystring="url=@Context.Request.Path"
                      modalTitle="تخفیف روی کالا"
                      title="ثبت تخفیف "
                      icon="fa-plus"
@@ -149,7 +150,7 @@
     <div class="bodycontainer scrollable ">
         <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
             <tbody>
-                
+
 
 
                 @{var index = 1;}
@@ -158,48 +159,48 @@
 
                     foreach (var item in Model)
                     {
-                <tr>
-                    <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
-                    <td>@(index++)</td>
-                    <td>
-                        <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200" />
-                    </td>
-                    <td>@item.Title</td>
-                    <td>
-                        @item.Price.ToString("n0")
-                    </td>
-                    <td data-role="Discount" data-Id="@item.Id" data-group-Id="@item.ProductGroupId" data-Price="@item.Price"></td>
-                    <td>
-                        @item.ProductGroup.Title
-                    </td>
-                    <td>
-                        @(item.IsActive == true ? "فعال" : "غیر فعال")
-                    </td>
-                    <td>
-                        @(item.IsSpecialSell == true ? " ویژه" : " عادی")
-                    </td>
-                    <td>
-                        @(item.Like - item.DisLike)
-                    </td>
-                    <td>
-                        @item.CreateDate.ToPersianDateTextify()
-                    </td>
-                    <td>
-                        <a target="_blank" href="http://liftbazaar.ir/Product/ProductDetail/@item.Id">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        <tr>
+                            <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                            <td>@(index++)</td>
+                            <td>
+                                <img src="~/@item.IndexPic" class="img-responsive" width="200" height="200" />
+                            </td>
+                            <td>@item.Title</td>
+                            <td>
+                                @item.Price.ToString("n0")
+                            </td>
+                            <td data-role="Discount" data-Id="@item.Id" data-group-Id="@item.ProductGroupId" data-Price="@item.Price"></td>
+                            <td>
+                                @item.ProductGroup.Title
+                            </td>
+                            <td>
+                                @(item.IsActive == true ? "فعال" : "غیر فعال")
+                            </td>
+                            <td>
+                                @(item.IsSpecialSell == true ? " ویژه" : " عادی")
+                            </td>
+                            <td>
+                                @(item.Like - item.DisLike)
+                            </td>
+                            <td>
+                                @item.CreateDate.ToPersianDateTextify()
+                            </td>
+                            <td>
+                                <a target="_blank" href="http://liftbazaar.ir/Product/ProductDetail/@item.Id">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
 
-                        </a>
-                    </td>
-                    @*<td>
-            <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
-                <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
-            </a>
+                                </a>
+                            </td>
+                            @*<td>
+                                    <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
+                                        <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
+                                    </a>
 
-            <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
-                <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
-            </a>
-        </td>*@
-                </tr>
+                                    <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
+                                        <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
+                                    </a>
+                                </td>*@
+                        </tr>
                     }
                 }
             </tbody>

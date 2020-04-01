@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using Core.Utilities;
 using DataLayer.DTO.ProductDiscounts;
 using DataLayer.Entities;
+using DataLayer.SSOT;
 using DataLayer.ViewModels.ProductDiscount;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -33,7 +34,12 @@ namespace Service.Repos.Product
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task<bool> IsProductSubmited(int id)
-            => await GetByConditionAsync(a => a.ProductId == id) != null;
+        {
+            if (await IsExpired(id)) return false;
+
+            return await GetByConditionAsync(a => a.ProductId == id) != null;
+        }
+
 
         /// <summary>
         /// آیا این تخفیف برای این گروه محصول قبلا ثبت شده است یا خیر 
@@ -113,5 +119,32 @@ namespace Service.Repos.Product
             }
 
         }
+
+        /// <summary>
+        /// چک کردن انقضای تخفیف
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> IsExpired(int id)
+        {
+            var model = await TableNoTracking.LastOrDefaultAsync(a => a.ProductId == id && a.IsActive == true);
+
+            return model == null || DateTime.Now > model.EndDate;
+
+        }
+
+
+        public async Task<SweetAlertExtenstion> ArchiveDiscount(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            model.IsArchive = true;
+            model.IsActive = false;
+
+            await UpdateAsync(model, false);
+
+            return await SaveAsync();
+        }
+
     }
 }

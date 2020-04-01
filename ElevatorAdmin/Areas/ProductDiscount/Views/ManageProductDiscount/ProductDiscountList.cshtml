@@ -1,0 +1,118 @@
+﻿@model List<DataLayer.Entities.ProductDiscount>
+@using DataLayer.Entities
+@using DataLayer.ViewModels.Products
+@using DNTPersianUtils.Core
+@using Core.Utilities
+@{
+    ViewData["Title"] = "لیست تخفیف";
+    var groups = ViewBag.Groups as List<ProductGroup>;
+    var search = ViewBag.SearchModel as ProductSearchViewModel;
+}
+
+
+
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 btn-table">
+
+
+
+    <TableBotton area="Product" controller="ManageProduct" action="Create"
+                 title="ثبت"
+                 icon="fa-plus"
+                 buttonClass="btn-primary"></TableBotton>
+
+
+
+    <span class="hidden" data-role-table-btn-area-access="">
+
+        @*<button data-role-href="/ProductGroup/ManageProductGroup/" modal-title="ویرایش آیتم" ismodal="true" class="btn btn-lg btn-warning data-role-table-btn" data-toggle="tooltip" title="ویرایش" data-role="confirm">
+                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
+                ویژگی‌ها
+            </button>*@
+
+        <TableBotton area="Product" controller="ManageProduct" action="Update"
+                     title="ویرایش"
+                     icon="fa-pencil-square-o"
+                     buttonClass="btn-warning"></TableBotton>
+
+
+        <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ArchiveDiscount"
+                     querystring="url=@Context.Request.Path"
+                     title="حذف"
+                     icon="fa-pencil-square-o"
+                     buttonClass="btn-danger"></TableBotton>
+    </span>
+</div>
+
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+
+    <table class="table-first table-condensed table table-responsive tableWrap table-striped rounded table-hover table-bordered ">
+        <thead>
+            <tr>
+                <th width="3%"></th>
+                <th width="8%">
+
+                </th>
+                <th>وضعیت</th>
+                <th>تاریخ ثبت</th>
+                <th>تاریخ شروع</th>
+                <th>تاریخ پایان</th>
+                <th>نوع تخفیف</th>
+                <th>مقدار</th>
+
+            </tr>
+
+        </thead>
+    </table>
+    <div class="bodycontainer scrollable ">
+        <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
+            <tbody>
+
+                @{var index = 1;}
+                @if (Model != null)
+                {
+
+                    foreach (var item in Model)
+                    {
+                        <tr style='background-color:@(item.IsActive == true ? "#4cff00" : "#e63321");color : #fff'>
+                            <td>
+                                @if (item.IsArchive == false || item.IsActive == true)
+                                {
+                                    <input type="checkbox" data-role-table-checkbox="@item.Id">
+                                }
+                            </td>
+                            <td>@(index++)</td>
+                            <td>
+                                @if (item.IsArchive == true)
+                                {
+                                    <span>منقضی شده</span>
+                                }
+                                else if (item.IsActive == true)
+                                {
+                                    <span>فعال</span>
+                                }
+                                else
+                                {
+                                    <span>غیر فعال</span>
+                                }
+                            </td>
+                            <td>
+                                @item.CreateDate.ToPersianDateTextify()
+                            </td>
+                            <td>@item.StartDate.ToPersianDateTextify()</td>
+                            <td>@item.EndDate.ToPersianDateTextify()</td>
+                            <td>@item.DiscountType.ToDisplay()</td>
+                            <td>@item.Discount</td>
+
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
