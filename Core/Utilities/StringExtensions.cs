@@ -113,5 +113,7 @@ namespace Core.Utilities
         {
             return str?.Length == 0 ? null : str;
         }
+
+       
     }
 }

@@ -25,10 +25,43 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             _productDiscountRepository = productDiscountRepository;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int productId)
         {
+
             return View();
         }
+
+
+        public async Task<IActionResult> ProductDiscountList(int id)
+        {
+            var model = await _productDiscountRepository
+                .TableNoTracking.Where(a => a.ProductId == id)
+                .OrderByDescending(a => a.Id)
+                .ToListAsync();
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> ProductGroupDiscountList(int id)
+        {
+            var model = await _productDiscountRepository
+                .TableNoTracking.Where(a => a.ProductId == null && a.ProductGroupId == id)
+                .OrderByDescending(a => a.Id)
+                .ToListAsync();
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> ProductDiscountListAll(int id)
+        {
+            var model = await _productDiscountRepository
+               .TableNoTracking.Where(a => a.ProductId == null && a.ProductGroupId == null)
+                .OrderByDescending(a => a.Id)
+                .ToListAsync();
+
+            return View(model);
+        }
+
 
         [ActionRole("تخفیف روی تمامی محصولات")]
         public async Task<IActionResult> DiscountToAll()
@@ -80,7 +113,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
+            return RedirectToAction(nameof(ProductDiscountList),new { id = vm.ProductId});
         }
 
 
@@ -109,7 +142,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
 
-            return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
+            return RedirectToAction(nameof(ProductDiscountList), new { id = vm.ProductId });
         }
 
 
@@ -141,7 +174,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
+            return RedirectToAction(nameof(ProductGroupDiscountList), new { id = vm.ProductGroupId });
         }
 
 
@@ -172,7 +205,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
 
-            return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
+            return RedirectToAction(nameof(ProductGroupDiscountList), new { id = vm.ProductGroupId });
         }
 
 
@@ -194,18 +227,21 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             }
 
             return Json((price - discount.Discount).ToString("n0"));
-
-
-
         }
 
-        //public IActionResult DeleteAll()
-        //{
-        //    var model = _productDiscountRepository.TableNoTracking.ToList();
 
-        //    _productDiscountRepository.DeleteRange(model);
+        /// <summary>
+        /// آرشیو کردن تخفیف
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> ArchiveDiscount(int id, string url)
+        {
+            TempData.AddResult(await _productDiscountRepository.ArchiveDiscount(id));
 
-        //    return Json(true);
-        //}
+            return Redirect(url);
+
+        }
     }
 }

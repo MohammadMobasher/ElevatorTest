@@ -9,6 +9,7 @@ namespace DataLayer.Entities
 {
     public class ProductDiscount : BaseEntity<int>
     {
+   
         public long Discount { get; set; }
 
         public int? ProductId { get; set; }
@@ -20,6 +21,14 @@ namespace DataLayer.Entities
         public DateTime EndDate { get; set; }
 
         public ProductDiscountSSOT DiscountType { get; set; }
+
+        public bool? IsArchive { get; set; }
+
+        public bool? IsActive { get; set; }
+
+
+        public DateTime? CreateDate { get; set; }
+
 
         [ForeignKey(nameof(ProductId))]
         public virtual Product Product { get; set; }

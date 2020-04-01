@@ -8,7 +8,8 @@
 <form id="frm" asp-area="ProductDiscount" asp-controller="ManageProductDiscount" asp-action="ProductGroupDiscount" class="form-horizontal" method="post" style="">
     @if (Model != null)
     {
-    <input type="hidden"  name="ProductGroupId" value="@Model" />
+        <span>برای مدیریت تخفیف روی این محصول <a href="/ProductDiscount/ManageProductDiscount/ProductGroupDiscountList/@Model"> کلیک </a> کنید</span>
+        <input type="hidden" name="ProductGroupId" value="@Model" />
     }
     <div class="form-group">
         <label for="Title" class="control-label col-sm-2">گروه کالا <i class="text-danger fa fa-star size-8"></i></label>
@@ -32,7 +33,7 @@
     <div class="form-group hide" id="percent">
         <label for="Title" class="control-label col-sm-2">درصد کالا <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
-            <input type="number" name="PercentDicount"  class="form-control" />
+            <input type="number" name="PercentDicount" class="form-control" />
         </div>
     </div>
 
@@ -86,14 +87,14 @@
             if (val == "1") {
                 $('#percent').removeClass("hide");
                 $('#Price').addClass("hide");
-                $('[name="PercentDicount"]').attr("required","required");
+                $('[name="PercentDicount"]').attr("required", "required");
                 $('[name="PriceDiscount_show"]').removeAttr("required");
-            
+
             }
             if (val == "2") {
                 $('#Price').removeClass("hide");
                 $('#percent').addClass("hide");
-                $('[name="PriceDiscount_show"]').attr("required","required");
+                $('[name="PriceDiscount_show"]').attr("required", "required");
                 $('[name="PercentDicount"]').removeAttr("required");
             }
 

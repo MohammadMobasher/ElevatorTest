@@ -19,5 +19,11 @@ namespace DataLayer.ViewModels.ProductDiscount
         public DateTime EndDate { get; set; }
 
         public ProductDiscountSSOT DiscountType { get; set; }
+
+        public bool? IsArchive { get; set; } = false;
+
+        public bool? IsActive { get; set; } = true;
+
+        public DateTime? CreateDate { get; set; } = DateTime.Now;
     }
 }
