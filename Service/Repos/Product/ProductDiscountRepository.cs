@@ -47,7 +47,12 @@ namespace Service.Repos.Product
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task<bool> IsProductGroupSubmited(int id)
-            => await GetByConditionAsync(a => a.ProductGroupId == id) != null;
+        {
+            if (await IsGroupExpired(id)) return false;
+
+
+            return await GetByConditionAsync(a => a.ProductGroupId == id) != null;
+        }
 
 
         public async Task UpdateDiscount(ProductDiscountUpdateViewModel vm)
@@ -134,6 +139,20 @@ namespace Service.Repos.Product
         }
 
 
+        /// <summary>
+        /// چک کردن انقضای تخفیف
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> IsGroupExpired(int id)
+        {
+            var model = await TableNoTracking.LastOrDefaultAsync(a => a.ProductGroupId == id && a.IsActive == true);
+
+            return model == null || DateTime.Now > model.EndDate;
+
+        }
+
+
         public async Task<SweetAlertExtenstion> ArchiveDiscount(int id)
         {
             var model = await GetByIdAsync(id);
@@ -145,6 +164,8 @@ namespace Service.Repos.Product
 
             return await SaveAsync();
         }
+
+
 
     }
 }

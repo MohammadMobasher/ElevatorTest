@@ -16,30 +16,31 @@
 
 
 
-    <TableBotton area="Product" controller="ManageProduct" action="Create"
+    @*<TableBotton area="Product" controller="ManageProduct" action="Create"
                  title="ثبت"
                  icon="fa-plus"
-                 buttonClass="btn-primary"></TableBotton>
+                 buttonClass="btn-primary"></TableBotton>*@
 
 
 
     <span class="hidden" data-role-table-btn-area-access="">
 
         @*<button data-role-href="/ProductGroup/ManageProductGroup/" modal-title="ویرایش آیتم" ismodal="true" class="btn btn-lg btn-warning data-role-table-btn" data-toggle="tooltip" title="ویرایش" data-role="confirm">
-                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
-                ویژگی‌ها
-            </button>*@
+            <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
+            ویژگی‌ها
+        </button>*@
 
-        <TableBotton area="Product" controller="ManageProduct" action="Update"
+        <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ProductGroupDiscountUpdate"
                      title="ویرایش"
                      icon="fa-pencil-square-o"
                      buttonClass="btn-warning"></TableBotton>
 
 
-        <TableBotton area="Product" controller="ManageProduct" action="Delete"
+        <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ArchiveDiscount"
+                     querystring="url=@Context.Request.Path"
                      title="حذف"
                      icon="fa-pencil-square-o"
-                     buttonClass="btn-warning"></TableBotton>
+                     buttonClass="btn-danger"></TableBotton>
     </span>
 </div>
 
@@ -74,32 +75,37 @@
 
                     foreach (var item in Model)
                     {
-                        <tr>
-                            <td ><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
-                            <td>@(index++)</td>
-                            <td>
-                                @if(item.IsArchive == true)
-                                {
-                                    <span>منقضی شده</span>
-                                }
-                                else if (item.IsActive == true)
-                                {
-                                    <span>فعال</span>
-                                }
-                                else
-                                {
-                                    <span>غیر فعال</span>
-                                }
-                            </td>
-                            <td>
-                                @item.CreateDate.ToPersianDateTextify()
-                            </td>
-                            <td>@item.StartDate.ToPersianDateTextify()</td>
-                            <td>@item.EndDate.ToPersianDateTextify()</td>
-                            <td>@item.DiscountType.ToDisplay()</td>
-                            <td>@item.Discount</td>
+                <tr style='background-color:@(item.IsActive == true ? "#4cff00" : "#e63321");color : #fff'>
+                    <td>
+                        @if (item.IsArchive == false || item.IsActive == true)
+                        {
+                            <input type="checkbox" data-role-table-checkbox="@item.Id">
+                        }
+                    </td>
+                    <td>@(index++)</td>
+                    <td>
+                        @if (item.IsArchive == true)
+                        {
+                            <span>منقضی شده</span>
+                        }
+                        else if (item.IsActive == true)
+                        {
+                            <span>فعال</span>
+                        }
+                        else
+                        {
+                            <span>غیر فعال</span>
+                        }
+                    </td>
+                    <td>
+                        @item.CreateDate.ToPersianDateTextify()
+                    </td>
+                    <td>@item.StartDate.ToPersianDateTextify()</td>
+                    <td>@item.EndDate.ToPersianDateTextify()</td>
+                    <td>@item.DiscountType.ToDisplay()</td>
+                    <td>@item.Discount</td>
 
-                        </tr>
+                </tr>
                     }
                 }
             </tbody>

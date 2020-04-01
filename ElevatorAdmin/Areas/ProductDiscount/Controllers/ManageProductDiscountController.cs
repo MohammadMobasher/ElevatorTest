@@ -113,7 +113,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
+            return RedirectToAction(nameof(ProductDiscountList),new { id = vm.ProductId});
         }
 
 
@@ -142,7 +142,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
 
-            return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
+            return RedirectToAction(nameof(ProductDiscountList), new { id = vm.ProductId });
         }
 
 
@@ -174,7 +174,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
+            return RedirectToAction(nameof(ProductGroupDiscountList), new { id = vm.ProductGroupId });
         }
 
 
@@ -205,7 +205,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
 
-            return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
+            return RedirectToAction(nameof(ProductGroupDiscountList), new { id = vm.ProductGroupId });
         }
 
 

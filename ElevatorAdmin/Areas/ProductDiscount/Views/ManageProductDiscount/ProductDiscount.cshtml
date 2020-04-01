@@ -11,7 +11,7 @@ asp-action="ProductDiscount" class="form-horizontal" method="post" asp-route-url
 
     @if (Model != null)
     {
-    <span>برای مدیریت تخفیف روی این محصول <a href="/ProductDiscount/ManageProductDiscount/ProductDiscountList/@Model"> کلیک </a> کنید</span>
+        <span>برای مدیریت تخفیف روی این محصول <a href="/ProductDiscount/ManageProductDiscount/ProductDiscountList/@Model"> کلیک </a> کنید</span>
         <input type="hidden" name="ProductId" value="@Model" />
     }
     <div class="form-group">
