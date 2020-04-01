@@ -8,7 +8,7 @@
 <form id="frm" asp-area="ProductDiscount" asp-controller="ManageProductDiscount" 
 asp-action="ProductDiscountUpdate" class="form-horizontal" method="post" style="" asp-route-url="@ViewBag.Url">
 
-    <span>برای مدیریت تخفیف روی این محصول <a href="/ProductDiscount/ManageProductDiscount/ProductDiscountList/@Model.ProductId"> کلیک </a> کنید</span>
+    <span>برای مدیریت تخفیف روی این محصول <a target="_blank" href="/ProductDiscount/ManageProductDiscount/ProductDiscountList/@Model.ProductId"> کلیک </a> کنید</span>
 
     <input type="hidden" name="ProductId" value="@Model.ProductId" />
     <input type="hidden" name="Id" value="@Model.Id" />
@@ -26,7 +26,7 @@ asp-action="ProductDiscountUpdate" class="form-horizontal" method="post" style="
         <label for="Title" class="control-label col-sm-2">مبلغ <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
             @*<input type="number" class="form-control" required="required" name="Price" aria-describedby="Price" placeholder="قیمت کالا" />*@
-            @*<priceInput name="PriceDiscount" title="" required="true" value="@(Model.DiscountType == ProductDiscountSSOT.Price? Model.Discount: 0)"></priceInput>*@
+            <priceInput name="PriceDiscount" title="" required="true" value="@(Model.DiscountType == ProductDiscountSSOT.Price? Model.Discount: 0)"></priceInput>
         </div>
     </div>
 

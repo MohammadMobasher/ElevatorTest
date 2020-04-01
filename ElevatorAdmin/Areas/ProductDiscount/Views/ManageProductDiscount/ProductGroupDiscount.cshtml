@@ -8,7 +8,7 @@
 <form id="frm" asp-area="ProductDiscount" asp-controller="ManageProductDiscount" asp-action="ProductGroupDiscount" class="form-horizontal" method="post" style="">
     @if (Model != null)
     {
-        <span>برای مدیریت تخفیف روی این محصول <a href="/ProductDiscount/ManageProductDiscount/ProductGroupDiscountList/@Model"> کلیک </a> کنید</span>
+        <span>برای مدیریت تخفیف روی این محصول <a target="_blank" href="/ProductDiscount/ManageProductDiscount/ProductGroupDiscountList/@Model"> کلیک </a> کنید</span>
         <input type="hidden" name="ProductGroupId" value="@Model" />
     }
     <div class="form-group">

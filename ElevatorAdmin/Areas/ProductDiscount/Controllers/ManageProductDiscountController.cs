@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using Core.CustomAttributes;
 using Core.Utilities;
+using DataLayer.DTO;
 using DataLayer.DTO.ProductDiscounts;
 using DataLayer.SSOT;
+using DataLayer.ViewModels;
 using DataLayer.ViewModels.ProductDiscount;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +40,9 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
                 .TableNoTracking.Where(a => a.ProductId == id)
                 .OrderByDescending(a => a.Id)
                 .ToListAsync();
+
+            ViewBag.ProductId = id;
+
 
             return View(model);
         }
@@ -88,7 +93,6 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         }
 
         [ActionRole("تخفیف روی محصول")]
-
         public async Task<IActionResult> ProductDiscount(int id)
         {
             if (await _productDiscountRepository.IsProductSubmited(id))
@@ -121,9 +125,18 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         public async Task<IActionResult> ProductDiscountUpdate(int id)
         {
             var model = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
-                .ProjectTo<ProductDiscountDTO>().FirstOrDefaultAsync();
+                .ProjectTo<ProductDiscountDTO>().LastOrDefaultAsync();
 
             return View(model);
+        }
+
+        //[ActionRole("ویرایش تخفیف محصول")]
+        public async Task<IActionResult> ProductDiscountUpdateManage(int productId)
+        {
+            var model = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == productId)
+                .ProjectTo<ProductDiscountDTO>().LastOrDefaultAsync();
+
+            return View("ProductDiscountUpdate", model);
         }
 
         [HttpPost]
@@ -230,15 +243,31 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         }
 
 
+
         /// <summary>
         /// آرشیو کردن تخفیف
         /// </summary>
         /// <param name="id"></param>
         /// <param name="url"></param>
         /// <returns></returns>
-        public async Task<IActionResult> ArchiveDiscount(int id, string url)
+        [AllowAccess]
+        public async Task<IActionResult> ArchiveDiscount(int Id, string url)
         {
-            TempData.AddResult(await _productDiscountRepository.ArchiveDiscount(id));
+            ViewBag.url = url;
+            return View(new DeleteDTO { Id = Id });
+
+        }
+
+        /// <summary>
+        /// آرشیو کردن تخفیف
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> ArchiveDiscount(DeleteViewModel model, string url)
+        {
+            TempData.AddResult(await _productDiscountRepository.ArchiveDiscount(model.Id));
 
             return Redirect(url);
 
