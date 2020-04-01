@@ -96,7 +96,6 @@
                 <th>گروه</th>
                 <th>فعال/غیرفعال</th>
                 <th>محصول ویژه؟</th>
-                <th>مجموع نظرات</th>
                 <th>تاریخ ثبت</th>
                 <th>مشاهده</th>
 
@@ -136,9 +135,7 @@
                     <th>
                         <input type="text" name="Likes" value="@search.Likes" class="form-control searchInput" />
                     </th>
-                    <th>
-                        ----
-                    </th>
+                    
                     <th>
                         ----
                     </th>
@@ -169,7 +166,7 @@
                             <td>
                                 @item.Price.ToString("n0")
                             </td>
-                            <td data-role="Discount" data-Id="@item.Id" data-group-Id="@item.ProductGroupId" data-Price="@item.Price"></td>
+                            <td>@item.PriceWithDiscount.ToPersianPrice()</td>
                             <td>
                                 @item.ProductGroup.Title
                             </td>
@@ -179,9 +176,7 @@
                             <td>
                                 @(item.IsSpecialSell == true ? " ویژه" : " عادی")
                             </td>
-                            <td>
-                                @(item.Like - item.DisLike)
-                            </td>
+                            
                             <td>
                                 @item.CreateDate.ToPersianDateTextify()
                             </td>

@@ -32,6 +32,9 @@ namespace DataLayer.Entities
         [Required(ErrorMessage = "لطفا مبلغ را وارد نمایید")]
         public long Price { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public long PriceWithDiscount { get; set; }
+
         /// <summary>
         /// تصویر پیش فرض
         /// </summary>

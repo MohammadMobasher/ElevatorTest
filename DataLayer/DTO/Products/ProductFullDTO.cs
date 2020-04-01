@@ -24,6 +24,8 @@ namespace DataLayer.DTO.Products
 
         public long Price { get; set; }
 
+        public long PriceWithDiscount { get; set; }
+
         /// <summary>
         /// تصویر پیش فرض
         /// </summary>
