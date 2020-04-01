@@ -154,7 +154,7 @@
 
                             <div class="col-sm-9 col-xs-9">
                                 <a href="/" class="header-logo">
-                                    <img src="@( string.IsNullOrEmpty(siteSetting.Logo) ? "staffonly.ir/Uploads/SiteSetting/Logo.png" : Url.Content(ViewBag.Url+"/" + siteSetting.Logo))" title="LiftBazar" alt="LiftBazar" />
+                                    <img src="@( string.IsNullOrEmpty(siteSetting.Logo) ? "staffonly.ir/Uploads/SiteSetting/Logo.png" : Url.Content(ViewBag.Url+"/" + siteSetting.Logo))" title="LiftBazar" alt="LiftBazar" asp-append-version="true" />
                                 </a>
                             </div>
 
@@ -284,7 +284,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-2 col-md-6 col-10 order-1 order-lg-1">
                             <a href="/" class="header-logo">
-                                <img src="@( string.IsNullOrEmpty(siteSetting.Logo) ? "staffonly.ir/Uploads/SiteSetting/Logo.png" : Url.Content(ViewBag.Url+"/" + siteSetting.Logo))" title="LiftBazar" alt="LiftBazar" />
+                                <img src="@( string.IsNullOrEmpty(siteSetting.Logo) ? "staffonly.ir/Uploads/SiteSetting/Logo.png" : Url.Content(ViewBag.Url+"/" + siteSetting.Logo))" asp-append-version="true" title="LiftBazar" alt="LiftBazar" />
                             </a>
 
                         </div>
@@ -576,79 +576,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @*<div class="col-lg-6">
-                                        <div class="pdetails-content">
-
-                                            <div class="rattingbox">
-                                                <span class="active"><i class="ion ion-ios-star"></i></span>
-                                                <span class="active"><i class="ion ion-ios-star"></i></span>
-                                                <span class="active"><i class="ion ion-ios-star"></i></span>
-                                                <span class="active"><i class="ion ion-ios-star"></i></span>
-                                                <span class="active"><i class="ion ion-ios-star"></i></span>
-                                            </div>
-                                            <h3>کالای فروشی هالتیکو</h3>
-                                            <div class="pdetails-pricebox">
-                                                <del class="oldprice">30,000 تومان</del>
-                                                <span class="price">30,000 تومان</span>
-                                                <span class="badge">ذخیره 5%</span>
-                                            </div>
-                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p>
-                                            <div class="pdetails-quantity">
-                                                <div class="quantity-select">
-                                                    <input type="text" value="1">
-                                                    <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
-                                                    <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
-                                                </div>
-                                                <a href="shop-rightsidebar.html" class="ho-button">
-                                                    <i class="lnr lnr-cart"></i>
-                                                    <span>افزودن به سبد خرید</span>
-                                                </a>
-                                            </div>
-                                            <div class="pdetails-color">
-                                                <span>رنگ :</span>
-                                                <ul>
-                                                    <li class="red"><span></span></li>
-                                                    <li class="green checked"><span></span></li>
-                                                    <li class="blue"><span></span></li>
-                                                    <li class="black"><span></span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="pdetails-size">
-                                                <span>اندازه :</span>
-                                                <ul>
-                                                    <li class="checked"><span>S</span></li>
-                                                    <li><span>M</span></li>
-                                                    <li><span>L</span></li>
-                                                    <li><span>XL</span></li>
-                                                    <li><span>XXL</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="pdetails-categories">
-                                                <span>دسته ها :</span>
-                                                <ul>
-                                                    <li><a href="shop-rightsidebar.html">گوشی موبایل</a></li>
-                                                    <li><a href="shop-rightsidebar.html">سامسونگ</a></li>
-                                                    <li><a href="shop-rightsidebar.html">رجیستر شده</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="pdetails-tags">
-                                                <span>تگ ها :</span>
-                                                <ul>
-                                                    <li><a href="shop-rightsidebar.html">گلکسی</a></li>
-                                                    <li><a href="shop-rightsidebar.html">سامسونگ</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="pdetails-socialshare">
-                                                <span>اشتراک :</span>
-                                                <ul>
-                                                    <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
-                                                    <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
-                                                    <li><a href="#"><i class="ion ion-logo-googleplus"></i></a></li>
-                                                    <li><a href="#"><i class="ion ion-logo-pinterest"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>*@
+                                
                             </div>
                         </div>
                     </div>

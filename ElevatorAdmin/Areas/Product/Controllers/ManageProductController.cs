@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using Core.CustomAttributes;
 using Core.Utilities;
+using DataLayer.DTO;
 using DataLayer.DTO.ProductFeatures;
 using DataLayer.DTO.Products;
+using DataLayer.ViewModels;
 using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -217,13 +219,6 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         #endregion
 
-        [AllowAccess]
-        public IActionResult mobasher()
-        {
-            return View();
-        }
-
-
         #region تغییر ویژگی 
 
         [ActionRole("تغییر ویژگی‌های کالا")]
@@ -273,5 +268,23 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         #endregion
 
+
+        //[ActionRole("حذف آیتم")]
+        //[HasAccess]
+        //public async Task<IActionResult> Delete(int Id)
+        //{
+
+        //    return View(new DeleteDTO { Id = Id });
+        //}
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> Delete(DeleteViewModel model)
+        //{
+
+        //    var result = await _productRepostitory.Delete(model.Id);
+
+        //    return RedirectToAction("Index");
+        //}
     }
 }

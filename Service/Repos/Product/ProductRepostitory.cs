@@ -227,6 +227,22 @@ namespace Service.Repos
 
         }
 
+        public async Task<SweetAlertExtenstion> Delete(int ID)
+        {
+            try
+            {
+                var value = new { productId = ID };
+                var results = _connection.Query("[productDeleteSP]", value, commandType:CommandType.StoredProcedure).ToList();
+
+                
+                return SweetAlertExtenstion.Ok();
+            }
+            catch(Exception E)
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
+
         /// <summary>
         /// تعداد کالاهایی که دارای یک واحد میباشند
         /// </summary>
@@ -373,7 +389,7 @@ namespace Service.Repos
 
             try
             {
-                string sqll = sql + countQuery + productQuery;
+                
                 var results = await _connection.QueryMultipleAsync(sql + countQuery + productQuery);
 
                 var CountResult = await results.ReadAsync<CountDTO>();
@@ -384,7 +400,7 @@ namespace Service.Repos
             catch (Exception e)
             {
 
-                throw new NullReferenceException();
+                return new Tuple<int, List<ProductFullDTO>>(0, new List<ProductFullDTO>()); ;
             }
 
 

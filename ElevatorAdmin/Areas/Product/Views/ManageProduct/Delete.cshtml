@@ -1,0 +1,27 @@
+﻿@using DataLayer.DTO
+@model DeleteDTO
+
+@{
+    Layout = null;
+}
+
+
+<form action="/Product/ManageProduct/Delete" class="form-horizontal" method="post" style="">
+
+    <input type="hidden" value="@Model.Id" name="Id" />
+
+    <div class="alert alert-warning" role="alert">
+
+        <p class="" style="color:#000 !important">آیا از حذف اطمینان دارید؟</p>
+        <hr>
+        <p class="mb-0">
+
+            <button type="submit" class="btn btn-block btn-danger">بلی</button>
+            <button type="button" class="btn btn-block btn-success">خیر</button>
+            
+        </p>
+    </div>
+
+
+
+</form>
