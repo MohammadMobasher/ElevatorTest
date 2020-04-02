@@ -66,5 +66,16 @@ namespace Service.Repos
             }
         }
         
+        /// <summary>
+        /// لیست گالری بر اساس شناسه محصول
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<ProductGallery>> GetListGalleryByProductId(int id)
+        {
+            var model = await TableNoTracking.Where(a => a.ProductId == id).ToListAsync();
+
+            return model;
+        }
     }
 }

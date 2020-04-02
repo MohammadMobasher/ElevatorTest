@@ -130,6 +130,9 @@ namespace Service
 
 
         #region Async Method
+
+
+
         public virtual Task<TEntity> GetByIdAsync(params object[] ids)
         {
             return Entities.FindAsync(ids);

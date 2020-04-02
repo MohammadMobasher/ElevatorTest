@@ -1,5 +1,6 @@
 ﻿using Core.Utilities;
 using DataLayer.Entities;
+using DataLayer.SSOT;
 using DataLayer.ViewModels.Products;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -160,6 +161,28 @@ namespace Service.Repos.Product
             {
                 return SweetAlertExtenstion.Error();
             }
+        }
+
+
+        /// <summary>
+        /// گرفتن اطلاعات ویژگی های محصول بر اساس شناسه محصول
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<ProductFeature>> GetFeaturesByProductId(int id)
+        {
+            var model = await TableNoTracking.Include(a => a.Feature)
+                .Where(a => a.ProductId == id).ToListAsync();
+
+            return model;
+        }
+
+        public List<int> FeaturesWithSSOTType(List<ProductFeature> productFeatures)
+        {
+            var model = productFeatures.Where(y => y.Feature.FeatureType == FeatureTypeSSOT.Fssot)
+                .Select(z => z.FeatureId).ToList();
+
+            return model;
         }
     }
 }

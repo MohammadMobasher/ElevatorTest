@@ -1,11 +1,12 @@
 ﻿@using DataLayer.Entities
 @using System.Linq
-@model Product
+@model DataLayer.DTO.Products.ProductFullDTO
 @using DNTPersianUtils.Core
+@using Core.Utilities
 @{
     var gallery = ViewBag.Gallery as List<ProductGallery>;
-    var discount = ViewBag.Discount as ProductDiscount;
     List<FeatureItem> FeatureSSOTValue = ViewBag.FeatureSSOTValue;
+    var isDisCount = Model.Price != Model.PriceWithDiscount;
 }
 
 <div class="breadcrumb-area bg-grey">
@@ -67,36 +68,29 @@
                             </div>
                             <h3>@Model.Title</h3>
                             <div class="pdetails-pricebox">
-                                @if (discount != null && DateTime.Now > discount.StartDate && DateTime.Now < discount.EndDate)
+                                @if (isDisCount)
                                 {
-                                    @*<del class="oldprice">@Model.Price.ToString("n0").ToPersianNumbers()</del>*@
+                                    <del class="oldprice">@Model.Price.ToPersianPrice()</del>
                                     <span class="price">
-
-                                        @if (discount.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Price)
-                                        {
-                                            <span>@((Model.Price - discount.Discount).ToString("n0").ToPersianNumbers())</span>
-                                        }
-                                        else
-                                        {
-                                            <span>@(((Model.Price * discount.Discount) / 100).ToString("n0").ToPersianNumbers())</span>
-                                        }
+                                        @Model.PriceWithDiscount.ToPersianPrice()
                                     </span>
                                     <span class="badge">
-                                        @if (discount.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Price)
+                                        @if (isDisCount)
                                         {
-                                            <span> @discount.Discount.ToString("n0").ToPersianNumbers() تومان تخفیف</span>
+                                            <span> @((Model.Price - Model.PriceWithDiscount).ToPersianPrice()) تومان تخفیف</span>
                                         }
-                                        else
-                                        {
-                                            <span> @discount.Discount.ToPersianNumbers() % تخفیف</span>
-                                        }
+
                                     </span>
+                                        <br />
+                                        <br />
+                                        <br />
+                                           <div class="hoproduct-countdown countdown" data-countdown="@Model.DiscountEndDate.Value.Date"></div>
                                 }
                                 else
                                 {
-                                    <span class="price">@Model.Price تومان</span>
-                                        }
-                                </div>
+                                    <span class="price">@Model.Price.ToPersianPrice() تومان</span>
+                                }
+                            </div>
                             <p>@Model.ShortDescription</p>
                             <div class="pdetails-quantity">
                                 <div class="quantity-select">
@@ -130,14 +124,14 @@
                                 </div>
                             }
                             @*<div class="pdetails-socialshare">
-                                <span>اشتراک: </span>
-                                <ul>
-                                    <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
-                                    <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
-                                    <li><a href="#"><i class="ion ion-logo-googleplus"></i></a></li>
-                                    <li><a href="#"><i class="ion ion-logo-pinterest"></i></a></li>
-                                </ul>
-                            </div>*@
+                                    <span>اشتراک: </span>
+                                    <ul>
+                                        <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
+                                        <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
+                                        <li><a href="#"><i class="ion ion-logo-googleplus"></i></a></li>
+                                        <li><a href="#"><i class="ion ion-logo-pinterest"></i></a></li>
+                                    </ul>
+                                </div>*@
                         </div>
                     </div>
                 </div>
@@ -147,18 +141,19 @@
 
                 <ul class="nav pdetails-allinfotab justify-content-center" id="product-details" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="product-details-area1-tab" data-toggle="tab" href="#product-details-area1"
-                           role="tab" aria-controls="product-details-area1" aria-selected="true">توضیحات</a>
+                        <a class="nav-link active" id="product-details-area2-tab" data-toggle="tab" href="#product-details-area2"
+                           role="tab" aria-controls="product-details-area2" aria-selected="false">مشخصات فنی</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="product-details-area2-tab" data-toggle="tab" href="#product-details-area2"
-                           role="tab" aria-controls="product-details-area2" aria-selected="false">مشخصات فنی</a>
-                        </li>
-                        
+                        <a class="nav-link " id="product-details-area1-tab" data-toggle="tab" href="#product-details-area1"
+                           role="tab" aria-controls="product-details-area1" aria-selected="true">توضیحات</a>
+                    </li>
+
+
                 </ul>
 
                 <div class="tab-content" id="product-details-ontent">
-                    <div class="tab-pane fade show active" id="product-details-area1" role="tabpanel"
+                    <div class="tab-pane fade  " id="product-details-area1" role="tabpanel"
                          aria-labelledby="product-details-area1-tab">
                         <div class="pdetails-description">
                             @Html.Raw(Model.Text)
@@ -168,28 +163,29 @@
                         .productDetailTable {
                             direction: rtl;
                         }
+
                             .productDetailTable > tbody > tr > td:nth-child(odd) {
-                                background-color:#EEE;  
+                                background-color: #EEE;
                             }
                     </style>
-                    <div class="tab-pane fade" id="product-details-area2" role="tabpanel" aria-labelledby="product-details-area2-tab">
-                            <div class="pdetails-moreinfo">
-                                <table class="productDetailTable table">
-                                    <thead>
-                                        <tr style="">
-                                            <th width="20%"  style="text-align:right;font-size:20px;margin-bottom:20px">مشخصات فنی</th>
-                                            <th width="80%"  style="text-align:right"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in ViewBag.Features as List<ProductFeature>)
-                                        {
+                    <div class="tab-pane fade show active" id="product-details-area2" role="tabpanel" aria-labelledby="product-details-area2-tab">
+                        <div class="pdetails-moreinfo">
+                            <table class="productDetailTable table">
+                                <thead>
+                                    <tr style="">
+                                        <th width="20%" style="text-align:right;font-size:20px;margin-bottom:20px">مشخصات فنی</th>
+                                        <th width="80%" style="text-align:right"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.Features as List<ProductFeature>)
+                                    {
                                         <tr>
                                             <td style="text-align:right;font-size:13px ">@item.Feature.Title</td>
                                             @if (item.Feature.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fssot)
                                             {
                                                 <td style="text-align:right;font-size:13px">
-                                                    @FeatureSSOTValue.Where(x=> x.FeatureId == item.FeatureId && x.Id == Convert.ToInt32(item.FeatureValue)).SingleOrDefault().Value
+                                                    @FeatureSSOTValue.Where(x => x.FeatureId == item.FeatureId && x.Id == Convert.ToInt32(item.FeatureValue)).SingleOrDefault().Value
                                                     @*@item.Feature*@
                                                 </td>
                                             }
@@ -198,13 +194,13 @@
                                                 <td style="text-align:right;font-size:13px">@item.FeatureValue</td>
                                             }
                                         </tr>
-                                        }
+                                    }
 
-                                    </tbody>
-                                </table>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
-                        
+                    </div>
+
                 </div>
 
             </div>
@@ -213,13 +209,10 @@
     </div>
     <!--// Product Details Area -->
     <!-- Related Product Area -->
-    @await Component.InvokeAsync("RelatedProductVC",new { groupId = Model.ProductGroupId})
+    @await Component.InvokeAsync("RelatedProductVC", new { groupId = Model.ProductGroupId })
     <!--// Related Product Area -->
     <!-- Newsletter Area -->
-    
     <!--// Newsletter Area -->
 
 </main>
 <!--// Page Conttent -->
-
-    

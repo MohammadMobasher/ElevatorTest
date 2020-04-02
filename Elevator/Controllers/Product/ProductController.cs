@@ -18,6 +18,8 @@ using Core;
 using Microsoft.Extensions.Configuration;
 using DataLayer.Entities;
 using DataLayer.ViewModels.Feature;
+using AutoMapper.QueryableExtensions;
+using DataLayer.DTO.Products;
 
 namespace Elevator.Controllers
 {
@@ -81,25 +83,20 @@ namespace Elevator.Controllers
         /// <returns></returns>
         public async Task<IActionResult> ProductDetail(int id)
         {
-            var model = await _productRepository.TableNoTracking
-                .Include(a => a.ProductGroup)
-                .FirstOrDefaultAsync(a => a.Id == id);
+            var model = await _productRepository.GetProductDetail(id);
 
             if (model == null)
                 return NotFound();
 
-            ViewBag.Gallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == id).ToListAsync();
+            ViewBag.Gallery = await _productGalleryRepository.GetListGalleryByProductId(id);
 
-            ViewBag.Discount = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
-                .FirstOrDefaultAsync();
 
-            
-            List<ProductFeature> features = await _productFeatureRepository.TableNoTracking.Include(a => a.Feature)
-                .Where(a => a.ProductId == id).ToListAsync();
+            List<ProductFeature> features = await _productFeatureRepository.GetFeaturesByProductId(id);
 
             ViewBag.Features = features;
 
-            List<int> featuresWithSSOTType = features.Where(y => y.Feature.FeatureType == FeatureTypeSSOT.Fssot).Select(z => z.FeatureId).ToList();
+            List<int> featuresWithSSOTType = _productFeatureRepository.FeaturesWithSSOTType(features);
+
             if (featuresWithSSOTType != null && featuresWithSSOTType.Count > 0)
             {
                 ViewBag.FeatureSSOTValue = await _featureItemRepository.TableNoTracking.Where(x =>

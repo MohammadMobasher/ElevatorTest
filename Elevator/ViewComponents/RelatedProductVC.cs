@@ -29,14 +29,18 @@ namespace Elevator.ViewComponents
                 var model = _productPackageDetailsRepostitory.TableNoTracking
                     .Include(a => a.Product)
                     .Take(12)
-                    .Select(a => a.Product).ToList();
+                    .Select(a => a.Product)
+                    .ProjectTo<ProductFullDTO>().ToList();
 
                 return View(model);
             }
             else
             {
-                var model = _productRepostitory.TableNoTracking.Where(a => groupId != null && a.ProductGroupId == groupId
-                && a.IsActive == true).OrderByDescending(a => a.CreateDate).Take(12).ToList();
+                var model = _productRepostitory.TableNoTracking
+                    .Where(a => groupId != null && a.ProductGroupId == groupId
+                && a.IsActive == true)
+                .OrderByDescending(a => a.CreateDate).Take(12)
+                .ProjectTo<ProductFullDTO>().ToList();
 
                 return View(model);
             }

@@ -1,6 +1,9 @@
 ﻿@using DataLayer.DTO.Products
 @model ProductFullDTO
-
+@using Core.Utilities
+@{ 
+    var isDiscount = Model.Price != Model.PriceWithDiscount;
+}
 
 <article class="hoproduct">
     <div class="hoproduct-image">
@@ -9,6 +12,13 @@
             <img class="hoproduct-frontimage " src="@(Model.IndexPic != null && !string.IsNullOrEmpty(Model.IndexPic) ? "http://staffonly.ir/" + "/" + @Model.IndexPic : "/no-image.jpg")" alt="@Model.Title" style="width:200px; height:200px">
             <img class="hoproduct-backimage" src="@(Model.IndexPic != null && !string.IsNullOrEmpty(Model.IndexPic) ? "http://staffonly.ir/" + "/" + @Model.IndexPic : "/no-image.jpg")" alt="@Model.Title">
         </a>
+        <ul class="hoproduct-flags">
+            @*<li class="flag-pack">جدید</li>*@
+            @if (isDiscount)
+            {
+                <li class="flag-discount">@((Model.Price - Model.PriceWithDiscount).ToPersianPrice()) تومان تخفیف</li>
+            }
+        </ul>
     </div>
 
     <div class="hoproduct-content">
@@ -17,10 +27,19 @@
         </div>
         <div class="hoproduct-pricebox mt-1">
             <div class="pricebox text-right">
-                @*<del class="oldprice olPrice_@Model.Id">@Model.Price</del>*@
-                <span class="price">@Model.PriceWithDiscount تومان</span>
+                @if (isDiscount)
+                {
+                    <del class="oldprice">@Model.Price</del>
+                    <span class="price">@Model.PriceWithDiscount تومان</span>
+                }
+
+                else
+                {
+                    @*<del class="oldprice olPrice_@Model.Id">@Model.Price</del>*@
+                    <span class="price">@Model.Price تومان</span>
+                }
             </div>
-            <span class=""></span>
+
         </div>
     </div>
 </article>

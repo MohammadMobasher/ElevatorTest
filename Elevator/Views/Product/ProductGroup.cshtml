@@ -25,7 +25,7 @@
 </div>
 
 <form asp-action="ProductGroup" asp-controller="Product" asp-route-id="@productGroup.Id" method="get">
-    <input type="hidden" name="newSearch" value="false"/>
+    <input type="hidden" name="newSearch" value="false" />
     <div class="container ">
         <div class="row">
             <input type="hidden" name="featureValue" />
@@ -97,28 +97,8 @@
                         @foreach (ProductFullDTO item in Model)
                         {
                             <div class="col-lg-3 col-md-3 col-xl-3 col-sm-12 card-box  mb-3" style="border:1px solid #EEE; padding:10px 10px">
-                                <article class="hoproduct">
-                                    <div class="hoproduct-image">
 
-                                        <a class="hoproduct-thumb VisitCounter text-center" data-id="@item.Id" href="/Product/ProductDetail/@item.Id">
-                                            <img class="hoproduct-frontimage " src="@(item.IndexPic != null && !string.IsNullOrEmpty(item.IndexPic) ? "http://staffonly.ir/" + "/" + @item.IndexPic : "/no-image.jpg")" alt="@item.Title" style="width:200px; height:200px">
-                                            <img class="hoproduct-backimage" src="@(item.IndexPic != null && !string.IsNullOrEmpty(item.IndexPic) ? "http://staffonly.ir/" + "/" + @item.IndexPic : "/no-image.jpg")" alt="@item.Title">
-                                        </a>
-                                    </div>
-
-                                    <div class="hoproduct-content">
-                                        <div class="row">
-                                            <h5 class="hoproduct-title VisitCounter" data-id="@item.Id"><a href="/Product/ProductDetail/@item.Id">@item.Title</a></h5>
-                                        </div>
-                                        <div class="hoproduct-pricebox mt-1">
-                                            <div class="pricebox text-right">
-                                                @*<del class="oldprice olPrice_@item.Id">@item.Price</del>*@
-                                                <span class=" price DiscountPrice_@item.Id">@item.Price تومان</span>
-                                            </div>
-                                            <span class="dicountValue_@item.Id"></span>
-                                        </div>
-                                    </div>
-                                </article>
+                                @Html.Partial("_ProductIndexGeneral", item)
                             </div>
 
                         }
@@ -133,14 +113,14 @@
                     }
                     @*<div class="cr-pagination col-12" style="border:1px solid #EEE; margin-bottom:10px">
 
-            <p>نمایش 1-12 از @ViewBag.CountResult محصول</p>
-            <ul>
-                <li><a href="shop-rightsidebar.html"><i class="ion ion-ios-arrow-forward"></i> قبلی</a></li>
-                <li class="active"><a href="shop-rightsidebar.html">1</a></li>
-                <li><a href="shop-rightsidebar.html">2</a></li>
-                <li><a href="shop-rightsidebar.html">بعدی <i class="ion ion-ios-arrow-back"></i></a></li>
-            </ul>
-        </div>*@
+                            <p>نمایش 1-12 از @ViewBag.CountResult محصول</p>
+                            <ul>
+                                <li><a href="shop-rightsidebar.html"><i class="ion ion-ios-arrow-forward"></i> قبلی</a></li>
+                                <li class="active"><a href="shop-rightsidebar.html">1</a></li>
+                                <li><a href="shop-rightsidebar.html">2</a></li>
+                                <li><a href="shop-rightsidebar.html">بعدی <i class="ion ion-ios-arrow-back"></i></a></li>
+                            </ul>
+                        </div>*@
 
 
                     @Html.Partial("~/Views/Shared/_Pagination.cshtml")
@@ -157,7 +137,7 @@
     $(function () {
 
         $("[name='titleSearch']").on("keypress", function (event) {
-        
+
             var keycode = (event.keyCode ? event.keyCode : event.which);
             if (keycode == '13') {
                 var newVal = $(this).val();
@@ -166,7 +146,7 @@
                 if(newVal != oldVal){
                     $("[name='newSearch']").val("true");
                 }
-                
+
                 $("[name='submit']").trigger("click");
             }
         });

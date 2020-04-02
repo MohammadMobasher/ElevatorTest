@@ -443,5 +443,21 @@ namespace Service.Repos
 
             return result;
         }
-    }
+
+        /// <summary>
+        /// گرفتن اطلاعات محصول بر اساس شناسه برا نمایش جزِئیات محصول
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<ProductFullDTO> GetProductDetail(int id)
+        {
+            var model = await TableNoTracking
+                .Include(a => a.ProductGroup)
+                .Where(a => a.Id == id)
+                .ProjectTo<ProductFullDTO>()
+                .FirstOrDefaultAsync();
+
+            return model;
+        }
+    } 
 }
