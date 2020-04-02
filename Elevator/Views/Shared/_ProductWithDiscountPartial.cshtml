@@ -1,0 +1,52 @@
+﻿@using DataLayer.DTO.Products
+@using DNTPersianUtils.Core
+@using Core.Utilities
+@model ProductFullDTO
+
+@{
+    var isDiscount = Model.Price != Model.PriceWithDiscount;
+}
+
+<article class="hoproduct hoproduct-2">
+    <div class="hoproduct-image">
+
+        <a class="hoproduct-thumb VisitCounter" data-id="@Model.Id" href="/Product/ProductDetail/@Model.Id">
+            <img class="hoproduct-frontimage" onerror="imgError(this);" src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
+            <img class="hoproduct-backimage" onerror="imgError(this);" src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
+        </a>
+
+        <ul class="hoproduct-flags">
+            @*<li class="flag-pack">جدید</li>*@
+            @if (isDiscount)
+            {
+            <li class="flag-discount">@((Model.Price - Model.PriceWithDiscount).ToPersianPrice()) تومان تخفیف</li>
+            }
+        </ul>
+    </div>
+    @if (isDiscount)
+    {
+        <div class="hoproduct-countdown countdown" data-countdown="@Model.DiscountEndDate.Value.Date"></div>
+    }
+    <div class="hoproduct-content">
+        <h5 class="hoproduct-title VisitCounter" data-id="@Model.Id"><a href="/Product/ProductDetail/@Model.Id">@(Model.Title.Length > 35 ? Model.Title.Substring(0, 35).ToString() + "..." : Model.Title)</a></h5>
+        <div class="hoproduct-rattingbox">
+            <h6>@Model.Visit بازدید</h6>
+            <div class="rattingbox">
+            </div>
+        </div>
+        <div class="hoproduct-pricebox ">
+            <div class="pricebox">
+                @if (isDiscount)
+                {
+                    <del class="oldprice olPrice_@Model.Id">@Model.Price.ToPersianPrice()</del>
+                    <span class="price">@Model.PriceWithDiscount.ToPersianPrice() تومان</span>
+                }
+                else
+                {
+                    <span class="price">@Model.Price.ToPersianPrice() تومان</span>
+                }
+            </div>
+         
+        </div>
+    </div>
+</article>

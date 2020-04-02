@@ -26,6 +26,12 @@ namespace DataLayer.DTO.Products
 
         public long PriceWithDiscount { get; set; }
 
+
+        public DateTime? DiscountEndDate { get; set; }
+
+        public DateTime? DiscountStartDate { get; set; }
+
+
         /// <summary>
         /// تصویر پیش فرض
         /// </summary>

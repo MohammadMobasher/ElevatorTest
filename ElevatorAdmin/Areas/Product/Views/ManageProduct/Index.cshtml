@@ -164,7 +164,7 @@
                             </td>
                             <td>@item.Title</td>
                             <td>
-                                @item.Price.ToString("n0")
+                                @item.Price.ToPersianPrice()
                             </td>
                             <td>@item.PriceWithDiscount.ToPersianPrice()</td>
                             <td>
@@ -209,24 +209,3 @@
     </table>
 </div>
 
-
-
-<script>
-    $(function () {
-        var tds = $('[data-role="Discount"]');
-
-        $.each(tds, function (index, key) {
-
-            var productId = $(key).attr("data-Id");
-            var groupId = $(key).attr("data-group-Id");
-            var price = $(key).attr("data-Price");
-
-            $.get("/ProductDiscount/ManageProductDiscount/CalculateDiscount", { productId: productId ,groupId: groupId, price: price }, function (res) {
-                $('[data-Id="' + productId+'"]').append(res);
-            })
-
-        })
-
-
-    })
-</script>

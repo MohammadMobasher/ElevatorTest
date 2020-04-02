@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Service.Repos.Product;
 using Service.Repos.User;
 using WebFramework.Base;
+
 namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 {
     [Area("ProductDiscount")]

@@ -1,33 +1,26 @@
 ﻿@using DataLayer.DTO.Products
 @model ProductFullDTO
 
-<article class="hoproduct hoproduct-2">
+
+<article class="hoproduct">
     <div class="hoproduct-image">
 
-        <a class="hoproduct-thumb VisitCounter" data-id="@Model.Id" href="/Product/ProductDetail/@Model.Id">
-            <img class="hoproduct-frontimage" onerror="imgError(this);" src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
-            <img class="hoproduct-backimage" onerror="imgError(this);" src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
+        <a class="hoproduct-thumb VisitCounter text-center" data-id="@Model.Id" href="/Product/ProductDetail/@Model.Id">
+            <img class="hoproduct-frontimage " src="@(Model.IndexPic != null && !string.IsNullOrEmpty(Model.IndexPic) ? "http://staffonly.ir/" + "/" + @Model.IndexPic : "/no-image.jpg")" alt="@Model.Title" style="width:200px; height:200px">
+            <img class="hoproduct-backimage" src="@(Model.IndexPic != null && !string.IsNullOrEmpty(Model.IndexPic) ? "http://staffonly.ir/" + "/" + @Model.IndexPic : "/no-image.jpg")" alt="@Model.Title">
         </a>
-        
-        <ul class="hoproduct-flags discountProduct" data-id="@Model.Id">
-            <li class="flag-pack">جدید</li>
-            @*<li class="flag-discount">-15%</li>*@
-        </ul>
     </div>
-    @await Component.InvokeAsync("CountDownProductVC", new { id = Model.Id })
+
     <div class="hoproduct-content">
-        <h5 class="hoproduct-title VisitCounter" data-id="@Model.Id"><a href="/Product/ProductDetail/@Model.Id">@(Model.Title.Length > 35 ? Model.Title.Substring(0, 35).ToString() + "..." : Model.Title)</a></h5>
-        <div class="hoproduct-rattingbox">
-            <h6>@Model.Visit بازدید</h6>
-            <div class="rattingbox">
-            </div>
+        <div class="row">
+            <h5 class="hoproduct-title VisitCounter" data-id="@Model.Id"><a href="/Product/ProductDetail/@Model.Id">@Model.Title</a></h5>
         </div>
-        <div class="hoproduct-pricebox ">
-            <div class="pricebox">
+        <div class="hoproduct-pricebox mt-1">
+            <div class="pricebox text-right">
                 @*<del class="oldprice olPrice_@Model.Id">@Model.Price</del>*@
-                <span class="price DiscountPrice_@Model.Id">@Model.Price تومان</span>
+                <span class="price">@Model.PriceWithDiscount تومان</span>
             </div>
-            <span class="dicountValue_@Model.Id"></span>
+            <span class=""></span>
         </div>
     </div>
 </article>
