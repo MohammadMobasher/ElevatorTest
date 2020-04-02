@@ -35,6 +35,12 @@ namespace DataLayer.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public long PriceWithDiscount { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime? DiscountEndDate { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime? DiscountStartDate { get; set; }
+
         /// <summary>
         /// تصویر پیش فرض
         /// </summary>
