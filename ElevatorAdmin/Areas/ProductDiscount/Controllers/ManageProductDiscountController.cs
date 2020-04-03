@@ -30,40 +30,18 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
         public IActionResult Index(int productId)
         {
-
             return View();
         }
 
-
-        public async Task<IActionResult> ProductDiscountList(int id)
+  
+        /// <summary>
+        /// لیست تخفیف ها روی تمامی محصولات
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> ProductDiscountListAll()
         {
             var model = await _productDiscountRepository
-                .TableNoTracking.Where(a => a.ProductId == id)
-                .OrderByDescending(a => a.Id)
-                .ToListAsync();
-
-            ViewBag.ProductId = id;
-
-
-            return View(model);
-        }
-
-        public async Task<IActionResult> ProductGroupDiscountList(int id)
-        {
-            var model = await _productDiscountRepository
-                .TableNoTracking.Where(a => a.ProductId == null && a.ProductGroupId == id)
-                .OrderByDescending(a => a.Id)
-                .ToListAsync();
-
-            return View(model);
-        }
-
-        public async Task<IActionResult> ProductDiscountListAll(int id)
-        {
-            var model = await _productDiscountRepository
-               .TableNoTracking.Where(a => a.ProductId == null && a.ProductGroupId == null)
-                .OrderByDescending(a => a.Id)
-                .ToListAsync();
+                .GetListAsync(a => a.ProductId == null && a.ProductGroupId == null);
 
             return View(model);
         }
@@ -93,6 +71,25 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             return RedirectToAction("Index");
         }
 
+
+        #region تخفیف روی محصول
+
+        /// <summary>
+        /// لیست تخفیف هایی که برای یک محصول به ثبت رسیده است
+        /// </summary>
+        /// <param name="id">شناسه کالا</param>
+        /// <returns></returns>
+        public async Task<IActionResult> ProductDiscountList(int id)
+        {
+            var model = await _productDiscountRepository
+                .GetListAsync(a => a.ProductId == id, o => o.OrderByDescending(a => a.Id));
+
+            ViewBag.ProductId = id;
+
+            return View(model);
+        }
+
+
         [ActionRole("تخفیف روی محصول")]
         public async Task<IActionResult> ProductDiscount(int id)
         {
@@ -118,18 +115,10 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction(nameof(ProductDiscountList),new { id = vm.ProductId});
+            return Redirect("/Product/ManageProduct/Index");
         }
 
 
-        [ActionRole("ویرایش تخفیف محصول")]
-        public async Task<IActionResult> ProductDiscountUpdate(int id)
-        {
-            var model = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
-                .ProjectTo<ProductDiscountDTO>().LastOrDefaultAsync();
-
-            return View(model);
-        }
 
         //[ActionRole("ویرایش تخفیف محصول")]
         public async Task<IActionResult> ProductDiscountUpdateManage(int productId)
@@ -137,11 +126,12 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             var model = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == productId)
                 .ProjectTo<ProductDiscountDTO>().LastOrDefaultAsync();
 
-            return View("ProductDiscountUpdate", model);
+            return View(model);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> ProductDiscountUpdate(ProductDiscountUpdateViewModel vm, decimal PriceDiscount, decimal PercentDicount)
+        public async Task<IActionResult> ProductDiscountUpdateManage(ProductDiscountUpdateViewModel vm, decimal PriceDiscount, decimal PercentDicount)
         {
             if (vm.StartDate >= vm.EndDate)
             {
@@ -160,8 +150,62 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         }
 
 
+        [ActionRole("ویرایش تخفیف محصول")]
+        public async Task<IActionResult> ProductDiscountUpdate(int id)
+        {
+            var model = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductId == id)
+                .ProjectTo<ProductDiscountDTO>().LastOrDefaultAsync();
+
+            return View(model);
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> ProductDiscountUpdate(ProductDiscountUpdateViewModel vm, decimal PriceDiscount, decimal PercentDicount)
+        {
+            if (vm.StartDate >= vm.EndDate)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("تاریخ شروع تخفیف نمی تواند از تاریخ پایان آن کوچکتر باشد"));
+                return RedirectToAction("Index", "ManageProduct", new { area = "Product" });
+            }
+
+            vm.Discount = vm.DiscountType == DataLayer.SSOT.ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
+
+            await _productDiscountRepository.UpdateDiscount(vm);
+
+            TempData.AddResult(SweetAlertExtenstion.Ok());
+
+
+            return Redirect("/Product/ManageProduct/Index");
+        }
+
+
+        #endregion
+
+        //**************************************************************************************************
+
 
         #region ProductGroupDiscount
+
+        /// <summary>
+        /// لیست تخفیف هایی که روی گروه محصولات به ثبت رسیده است
+        /// </summary>
+        /// <param name="id">شناسه گروه</param>
+        /// <returns></returns>
+        [ActionRole("تخفیف روی گروه")]
+        public async Task<IActionResult> ProductGroupDiscountList(int id)
+        {
+            var model = await _productDiscountRepository
+                .GetListAsync(a => a.ProductId == null && a.ProductGroupId == id
+                , o => o.OrderByDescending(_ => _.Id));
+
+            ViewBag.Id = id;
+
+            return View(model);
+        }
+
+
 
 
         [ActionRole("تخفیف روی گروه")]
@@ -169,6 +213,9 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         {
             if (await _productDiscountRepository.IsProductGroupSubmited(id))
                 return RedirectToAction(nameof(ProductGroupDiscountUpdate), new { id });
+
+
+           
 
             return View(id);
         }
@@ -188,7 +235,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction(nameof(ProductGroupDiscountList), new { id = vm.ProductGroupId });
+            return Redirect("/ProductGroup/ManageProductGroup/Index");
         }
 
 
@@ -219,8 +266,42 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
 
+            return Redirect("/ProductGroup/ManageProductGroup/Index");
+        }
+
+
+        [ActionRole("ویرایش تخفیف روی گروه محصولات")]
+        public async Task<IActionResult> ProductGroupDiscountUpdateManage(int groupId)
+        {
+            var model = await _productDiscountRepository.TableNoTracking.Where(a => a.ProductGroupId == groupId)
+                .ProjectTo<ProductDiscountDTO>().FirstOrDefaultAsync();
+
+          
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductGroupDiscountUpdateManage(ProductDiscountUpdateViewModel vm, decimal PriceDiscount, decimal PercentDicount)
+        {
+
+            if (vm.StartDate >= vm.EndDate)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("تاریخ شروع تخفیف نمی تواند از تاریخ پایان آن کوچکتر باشد"));
+                return RedirectToAction("Index", "ManageProductGroup", new { area = "ProductGroup" });
+            }
+
+
+            vm.Discount = vm.DiscountType == ProductDiscountSSOT.Percent ? PercentDicount : PriceDiscount;
+
+            await _productDiscountRepository.UpdateDiscount(vm);
+
+            TempData.AddResult(SweetAlertExtenstion.Ok());
+
+
             return RedirectToAction(nameof(ProductGroupDiscountList), new { id = vm.ProductGroupId });
         }
+
 
 
         #endregion

@@ -30,15 +30,18 @@
             ویژگی‌ها
         </button>*@
 
-        <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ProductGroupDiscountUpdate"
+        <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ProductGroupDiscountUpdateManage"
                      title="ویرایش"
                      icon="fa-pencil-square-o"
+                     querystring="groupId=@ViewBag.Id"
                      buttonClass="btn-warning"></TableBotton>
 
 
         <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ArchiveDiscount"
                      querystring="url=@Context.Request.Path"
                      title="حذف"
+                     isModal="true"
+                     modalTitle="حذف"
                      icon="fa-pencil-square-o"
                      buttonClass="btn-danger"></TableBotton>
     </span>
@@ -75,7 +78,7 @@
 
                     foreach (var item in Model)
                     {
-                <tr style='background-color:@(item.IsActive == true ? "#4cff00" : "#e63321");color : #fff'>
+                <tr>
                     <td>
                         @if (item.IsArchive == false || item.IsActive == true)
                         {
