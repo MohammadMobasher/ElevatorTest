@@ -132,6 +132,59 @@ namespace Service
         #region Async Method
 
 
+        public async virtual Task<IEnumerable<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> where = null,
+             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "")
+        {
+            IQueryable<TEntity> query = TableNoTracking;
+
+            if(where !=null)
+            {
+                query = query.Where(where);
+            }
+
+            if(orderby != null)
+            {
+                query = orderby(query);
+            }
+
+            if (includes != "")
+            {
+                foreach (string include in includes.Split(','))
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async virtual Task<IEnumerable<TProject>> GetListAsync<TProject>(Expression<Func<TEntity, bool>> where = null,
+         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "") where TProject : class
+        {
+            IQueryable<TEntity> query = TableNoTracking;
+
+            if (where != null)
+            {
+                query = query.Where(where);
+            }
+
+            if (orderby != null)
+            {
+                query = orderby(query);
+            }
+
+            if (includes != "")
+            {
+                foreach (string include in includes.Split(','))
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return await query.ProjectTo<TProject>().ToListAsync();
+        }
+
+
 
         public virtual Task<TEntity> GetByIdAsync(params object[] ids)
         {
@@ -342,7 +395,7 @@ namespace Service
             return TableNoTracking.WhereIf(where != null, where).ProjectTo<TProject>().ToList();
         }
 
-     
+
 
 
         public virtual void MapAdd<TProject>(TProject mapEntity, bool saveNow = true)
