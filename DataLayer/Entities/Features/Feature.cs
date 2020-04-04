@@ -32,6 +32,17 @@ namespace DataLayer.Entities
         public bool ShowForSearch { get; set; } = false;
 
 
+
+        /// <summary>
+        /// آیا در فرم پکیج به عنوان سوال از این ویژگی استفاده بشود
+        /// </summary>
+        public bool IsQuestion { get; set; }
+
+        /// <summary>
+        ///  عنوان سوال آن
+        /// </summary>
+        public string QuestionTitle { get; set; }
+
         /// <summary>
         /// دسترسی مستقیم به داده های جدول
         /// </summary>
