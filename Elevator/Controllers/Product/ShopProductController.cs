@@ -53,14 +53,14 @@ namespace Elevator.Controllers.Product
             return View(model);
         }
 
-
-        public async Task<IActionResult> AddCart(int productId)
+        [HttpPost]
+        public async Task<IActionResult> AddCart(int productId, int count )
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
 
             var userId = this.GetUserId();
 
-            TempData.AddResult(await _shopProductRepository.AddCart(productId, userId));
+            TempData.AddResult(await _shopProductRepository.AddCart(productId, userId, count));
 
             return RedirectToAction("Index");
         }
@@ -91,7 +91,7 @@ namespace Elevator.Controllers.Product
         public async Task<IActionResult> CalculateCart()
         {
             var userId = this.GetUserId();
-            
+
             return Json(await _shopProductRepository.CalculateCartPrice(userId));
         }
 

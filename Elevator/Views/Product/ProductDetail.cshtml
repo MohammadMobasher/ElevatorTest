@@ -93,16 +93,19 @@
                             </div>
                             <p>@Model.ShortDescription</p>
                             <div class="pdetails-quantity">
-                                <div class="quantity-select">
-                                    <input type="text" value="1">
-                                    <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
-                                    <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
-                                </div>
-                                <a asp-controller="ShopProduct" asp-action="AddCart" asp-route-productId="@Model.Id"
-                                   target="_blank" class="ho-button">
-                                    <i class="lnr lnr-cart"></i>
-                                    <span>افزودن به سبد خرید</span>
-                                </a>
+                                <form target="_blank" asp-controller="ShopProduct" asp-action="AddCart" >
+                                    <input type="hidden" value="@Model.Id" name="productId"/>
+                                    <div class="quantity-select">
+                                        <input type="text" name="count" id="Count" value="1">
+                                        <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
+                                        <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                    </div>
+                                    <button type="submit"
+                                      class="ho-button">
+                                        <i class="lnr lnr-cart"></i>
+                                        <span>افزودن به سبد خرید</span>
+                                    </button>
+                                </form>
                             </div>
                             <div class="pdetails-categories">
                                 <span>دسته بندی: </span>
@@ -216,3 +219,10 @@
 
 </main>
 <!--// Page Conttent -->
+
+<script>
+    $(function () {
+        $('')
+
+    })
+</script>

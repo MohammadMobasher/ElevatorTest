@@ -23,7 +23,7 @@ namespace Service.Repos
             => await GetByConditionAsync(a => a.PackageId == packageId && a.UserId == userId) != null;
 
 
-        public async Task<SweetAlertExtenstion> AddCart(int productId, int userId)
+        public async Task<SweetAlertExtenstion> AddCart(int productId, int userId,int count=1)
         {
 
             if (await IsExist(productId, userId))
@@ -32,7 +32,8 @@ namespace Service.Repos
             MapAdd(new ShopProductAddViewModel()
             {
                 ProductId = productId,
-                UserId = userId
+                UserId = userId,
+                Count= count
             });
 
             return SweetAlertExtenstion.Ok();
