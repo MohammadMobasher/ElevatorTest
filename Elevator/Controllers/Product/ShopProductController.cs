@@ -42,8 +42,8 @@ namespace Elevator.Controllers.Product
 
             var model = await _shopProductRepository
                 .TableNoTracking.Where(a => a.UserId == userId && !a.IsFinaly)
-                .Include(a=>a.Product)
-                .Include(a=>a.ProductPackage)
+                .Include(a => a.Product)
+                .Include(a => a.ProductPackage)
                 .ToListAsync();
 
             var test = _configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
@@ -60,7 +60,7 @@ namespace Elevator.Controllers.Product
 
             var userId = this.GetUserId();
 
-            TempData.AddResult(await _shopProductRepository.AddCart(productId,userId));
+            TempData.AddResult(await _shopProductRepository.AddCart(productId, userId));
 
             return RedirectToAction("Index");
         }
@@ -84,30 +84,30 @@ namespace Elevator.Controllers.Product
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// محاسبه قیمت نهایی سبد خرید
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> CalculateCart()
         {
             var userId = this.GetUserId();
-
-            var model = _shopProductRepository.TableNoTracking
-                .Where(a=>a.UserId == userId && a.IsFinaly == false)
-                .Include(a=>a.Product)
-                .Include(a=>a.ProductPackage).ToList();
-
-            var sum = default(long);
-
-            foreach (var item in model)
-            {
-                if (item.ProductId != null)
-                {
-                    sum += await _productRepostitory.ResultPrice(item.ProductId.Value);
-                }
-                else if (item.PackageId != null)
-                {
-                    sum += await _productPackageDetailsRepostitory.ResultPrice(item.PackageId.Value);
-                }
-            }
-
-            return Json(sum.ToString("n0").ToPersianNumbers());
+            
+            return Json(await _shopProductRepository.CalculateCartPrice(userId));
         }
+
+        /// <summary>
+        /// اضافه نمودن و یا کم کردن تعداد محصول
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> CartCount(int id, bool isPlus)
+              => Json(await _shopProductRepository.CartCountFunction(id, isPlus));
+
+        /// <summary>
+        /// اضافه نمودن و یا کم کردن تعداد محصول
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> CartCountValue(int id, int count)
+              => Json(await _shopProductRepository.CartCountFunction(id, count));
+
     }
 }

@@ -1,4 +1,5 @@
-﻿@model List<DataLayer.Entities.ShopProduct>
+﻿@using Core.Utilities
+@model List<DataLayer.Entities.ShopProduct>
 @{
     ViewData["Title"] = "Index";
 }
@@ -32,6 +33,8 @@
                                 <th class="cart-column-productname" scope="col">محصول</th>
                                 <th class="cart-column-price" scope="col">قیمت</th>
                                 <th class="cart-column-price" scope="col">قیمت باتخفیف</th>
+                                <th class="cart-column-price" scope="col">تعداد</th>
+                                <th class="cart-column-price" scope="col">قیمت کلی</th>
                                 <th class="cart-column-remove" scope="col">حذف</th>
                             </tr>
                         </thead>
@@ -40,22 +43,30 @@
                             {
                                 if (item.ProductId != null)
                                 {
-                                    <tr>
-                                        <td>
-                                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="product-image">
-                                                <img onerror="imgError(this);" src="@ViewBag.Url/@item.Product.IndexPic" alt="product image">
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="product-title">@item?.Product?.Title</a>
-                                        </td>
-                                        <td>@item.Product.Price</td>
-                                        <td data-Priceid="@item?.ProductId"></td>
+                            <tr>
+                                <td>
+                                    <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="product-image">
+                                        <img onerror="imgError(this);" src="@ViewBag.Url/@item.Product.IndexPic" alt="product image">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="product-title">@item?.Product?.Title</a>
+                                </td>
+                                <td>@item.Product.Price.ToPersianPrice()</td>
+                                <td>@item.Product.PriceWithDiscount.ToPersianPrice()</td>
+                                <td>
+                                    <div class="quantity-select" data-id="@item.Id">
+                                        <input type="text" class="counterValue" data-id="@item.Id" value="@item.Count">
+                                        <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
+                                        <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                    </div>
+                                </td>
+                                <td class="PriceResult CountPerPrice_@item.Id">@((item.Count * item.Product.PriceWithDiscount).ToPersianPrice())</td>
 
-                                        <td>
-                                            <a asp-action="RemoveCart" asp-route-id="@item.Id" class="remove-product"><i class="ion ion-ios-close"></i></a>
-                                        </td>
-                                    </tr>
+                                <td>
+                                    <a asp-action="RemoveCart" asp-route-id="@item.Id" class="remove-product"><i class="ion ion-ios-close"></i></a>
+                                </td>
+                            </tr>
                                 }
                                 else
                                 {
@@ -137,29 +148,55 @@
     <!--// Newsletter Area -->
 
 </main>
-    
 <script>
-    $(function() {
-        var prices = $('[data-Priceid]');
+    $(function () {
+        $('.qtybutton').on('click', function () {
+            var id = $(this).parent().attr('data-id');
+            if ($(this).hasClass('inc')) {
+                type = true;
+            }
+            else if ($(this).hasClass('dec')) {
+                type = false;
+            }
 
-        $.each(prices,
-            function(index, key) {
-                var id = $(key).attr('data-Priceid');
-                
-                $.get("@Url.Action("CalculatePrice","Product")",
-                    { productId: id },
-                    function(result) {
-                        $(key).html(result);
-                    });
+            $.get("/ShopProduct/CartCount", { id: id, isPlus: type }, function (res) {
+                if (res !== null) {
+                    $('.CountPerPrice_' + id).html(res);
+                    CalculatePrice();
+                }
             });
+        })
 
-    });
+
+
+        $('.counterValue').on('change', function () {
+            var id = $(this).attr('data-id');
+            var value = $(this).val();
+            
+            $.get("/ShopProduct/CartCountValue", { id: id, count: value }, function (res) {
+                if (res !== null) {
+                    $('.CountPerPrice_' + id).html(res);
+                    CalculatePrice();
+                }
+            });
+        })
+
+    })
+
+</script>
+
+<script>
 
     $(function() {
-        $.get("@Url.Action("CalculateCart","ShopProduct")",
+        CalculatePrice();
+     });
+
+
+    function CalculatePrice() {
+         $.get("@Url.Action("CalculateCart","ShopProduct")",
             function(result) {
                 $('#ResultPriceCart').html(result);
             });
-    });
+    }
 
 </script>

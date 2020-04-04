@@ -17,18 +17,18 @@
 
 
     @*<TableBotton area="Product" controller="ManageProduct" action="Create"
-                 title="ثبت"
-                 icon="fa-plus"
-                 buttonClass="btn-primary"></TableBotton>*@
+        title="ثبت"
+        icon="fa-plus"
+        buttonClass="btn-primary"></TableBotton>*@
 
 
 
     <span class="hidden" data-role-table-btn-area-access="">
 
         @*<button data-role-href="/ProductGroup/ManageProductGroup/" modal-title="ویرایش آیتم" ismodal="true" class="btn btn-lg btn-warning data-role-table-btn" data-toggle="tooltip" title="ویرایش" data-role="confirm">
-            <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
-            ویژگی‌ها
-        </button>*@
+                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;
+                ویژگی‌ها
+            </button>*@
 
         <TableBotton area="ProductDiscount" controller="ManageProductDiscount" action="ProductGroupDiscountUpdateManage"
                      title="ویرایش"
@@ -55,7 +55,7 @@
             <tr>
                 <th width="3%"></th>
                 <th width="8%">
-                    
+
                 </th>
                 <th>وضعیت</th>
                 <th>تاریخ ثبت</th>
@@ -78,37 +78,37 @@
 
                     foreach (var item in Model)
                     {
-                <tr>
-                    <td>
-                        @if (item.IsArchive == false || item.IsActive == true)
-                        {
-                            <input type="checkbox" data-role-table-checkbox="@item.Id">
-                        }
-                    </td>
-                    <td>@(index++)</td>
-                    <td>
-                        @if (item.IsArchive == true)
-                        {
-                            <span>منقضی شده</span>
-                        }
-                        else if (item.IsActive == true)
-                        {
-                            <span>فعال</span>
-                        }
-                        else
-                        {
-                            <span>غیر فعال</span>
-                        }
-                    </td>
-                    <td>
-                        @item.CreateDate.ToPersianDateTextify()
-                    </td>
-                    <td>@item.StartDate.ToPersianDateTextify()</td>
-                    <td>@item.EndDate.ToPersianDateTextify()</td>
-                    <td>@item.DiscountType.ToDisplay()</td>
-                    <td>@item.Discount</td>
+                        <tr>
+                            <td>
+                                @if (item.IsArchive == false || item.IsActive == true)
+                                {
+                                    <input type="checkbox" data-role-table-checkbox="@item.Id">
+                                }
+                            </td>
+                            <td>@(index++)</td>
+                            <td>
+                                @if (item.IsArchive == true)
+                                {
+                                    <span>منقضی شده</span>
+                                }
+                                else if (item.IsActive == true)
+                                {
+                                    <span>فعال</span>
+                                }
+                                else
+                                {
+                                    <span>غیر فعال</span>
+                                }
+                            </td>
+                            <td>
+                                @item.CreateDate.ToPersianDateTextify()
+                            </td>
+                            <td>@item.StartDate.ToPersianDateTextify()</td>
+                            <td>@item.EndDate.ToPersianDateTextify()</td>
+                            <td>@item.DiscountType.ToDisplay()</td>
+                            <td>@item.Discount</td>
 
-                </tr>
+                        </tr>
                     }
                 }
             </tbody>

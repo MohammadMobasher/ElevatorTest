@@ -137,12 +137,12 @@ namespace Service
         {
             IQueryable<TEntity> query = TableNoTracking;
 
-            if(where !=null)
+            if (where != null)
             {
                 query = query.Where(where);
             }
 
-            if(orderby != null)
+            if (orderby != null)
             {
                 query = orderby(query);
             }
@@ -191,11 +191,19 @@ namespace Service
             return Entities.FindAsync(ids);
         }
 
-        public virtual Task<TEntity> GetByConditionAsync(Expression<Func<TEntity, bool>> where = null)
+        public virtual Task<TEntity> GetByConditionAsync(Expression<Func<TEntity, bool>> where = null, string includes = "")
         {
             var query = TableNoTracking;
 
             if (where != null) query = query.Where(where);
+
+            if (includes != "")
+            {
+                foreach (string include in includes.Split(','))
+                {
+                    query = query.Include(include);
+                }
+            }
 
             return query.FirstOrDefaultAsync();
         }
