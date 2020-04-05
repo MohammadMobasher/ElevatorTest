@@ -19,7 +19,7 @@ using Microsoft.Extensions.Configuration;
 using DataLayer.Entities;
 using DataLayer.ViewModels.Feature;
 using AutoMapper.QueryableExtensions;
-using DataLayer.DTO.Products;
+using DataLayer.DTO.Products; 
 
 namespace Elevator.Controllers
 {
