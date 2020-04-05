@@ -182,7 +182,7 @@ namespace Elevator.Controllers
 
 
         [Authorize]
-        public async Task<IActionResult> ChagePassword()
+        public IActionResult ChagePassword()
         {
             return View();
         }
