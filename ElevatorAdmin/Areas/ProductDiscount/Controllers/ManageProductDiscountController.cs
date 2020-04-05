@@ -306,26 +306,6 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
         #endregion
 
-        [AllowAccess]
-        public async Task<IActionResult> CalculateDiscount(decimal price, int? productId, int? groupId)
-        {
-
-            var discount = await _productDiscountRepository.CalculatePrice(productId, groupId);
-
-            if (discount == null) return Json(price.ToString("n0"));
-
-
-            if (discount.DiscountType == ProductDiscountSSOT.Percent)
-            {
-                var discountVal = (price * discount.Discount) / 100;
-                return Json((price - discountVal).ToString("n0"));
-            }
-
-            return Json((price - discount.Discount).ToString("n0"));
-        }
-
-
-
         /// <summary>
         /// آرشیو کردن تخفیف
         /// </summary>
@@ -333,7 +313,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
         /// <param name="url"></param>
         /// <returns></returns>
         [AllowAccess]
-        public async Task<IActionResult> ArchiveDiscount(int Id, string url)
+        public IActionResult ArchiveDiscount(int Id, string url)
         {
             ViewBag.url = url;
             return View(new DeleteDTO { Id = Id });

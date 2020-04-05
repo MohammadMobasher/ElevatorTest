@@ -208,6 +208,24 @@ namespace Service
             return query.FirstOrDefaultAsync();
         }
 
+        public virtual Task<TProject> GetByConditionAsync<TProject>(Expression<Func<TEntity, bool>> where = null, string includes = "") where TProject : class
+        {
+            var query = TableNoTracking;
+
+            if (where != null) query = query.Where(where);
+
+            if (includes != "")
+            {
+                foreach (string include in includes.Split(','))
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return query.ProjectTo<TProject>().FirstOrDefaultAsync();
+        }
+
+
         public virtual Task<TEntity> GetByConditionAsyncTracked(Expression<Func<TEntity, bool>> where = null)
         {
             var query = Table;
@@ -280,6 +298,16 @@ namespace Service
 
             return query.FirstOrDefault();
         }
+
+        public TProject GetByCondition<TProject>(Expression<Func<TEntity, bool>> where = null) where TProject : class
+        {
+            var query = TableNoTracking;
+
+            if (where != null) query = query.Where(where);
+
+            return query.ProjectTo<TProject>().FirstOrDefault();
+        }
+
 
         public TEntity GetByConditionTracked(Expression<Func<TEntity, bool>> where = null)
         {

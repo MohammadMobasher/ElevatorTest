@@ -64,7 +64,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             this.TotalNumber = model.Item1;
 
-            ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
+            ViewBag.Groups = await _productGroupRepository.GetListAsync();
             ViewBag.SearchModel = searchModel;
 
             return View(model.Item2);
@@ -74,10 +74,10 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         [HasAccess]
         public async Task<IActionResult> Create(int? id)
         {
-            ViewBag.Units = await _productUnitRepository.TableNoTracking.ToListAsync();
+            ViewBag.Units = await _productUnitRepository.GetListAsync();
 
             if (id != null) return View(id);
-            ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
+            ViewBag.Groups = await _productGroupRepository.GetListAsync();
 
             return View();
         }
@@ -115,14 +115,11 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         [HasAccess]
         public async Task<IActionResult> Update(int id)
         {
-            ViewBag.Units = await _productUnitRepository.TableNoTracking.ToListAsync();
-            ViewBag.Groups = await _productGroupRepository.TableNoTracking.ToListAsync();
-            ViewBag.Gallery = await _productGalleryRepository.TableNoTracking.Where(a => a.ProductId == id).ToListAsync();
+            ViewBag.Units = await _productUnitRepository.GetListAsync();
+            ViewBag.Groups = await _productGroupRepository.GetListAsync();
+            ViewBag.Gallery = await _productGalleryRepository.GetListAsync(a=>a.ProductId == id);
 
-            var model = await _productRepostitory
-                .TableNoTracking.Where(a => a.Id == id)
-                .ProjectTo<ProductFullDTO>()
-                .FirstOrDefaultAsync();
+            var model = await _productRepostitory.GetByConditionAsync<ProductFullDTO>(a => a.Id == id);
 
             return View(model);
         }
@@ -165,7 +162,6 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AllowAccess]
-
         public async Task<IActionResult> ProductFeatures(int id)
         {
             var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(id);
@@ -183,10 +179,8 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         {
             var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(id);
 
-            var productFeature = await _productFeatureRepository.TableNoTracking
-                .Where(a => a.ProductId == productId)
-                .ProjectTo<ProductFeaturesFullDTO>()
-                .ToListAsync();
+            var productFeature = await _productFeatureRepository
+                .GetListAsync<ProductFeaturesFullDTO>(a => a.ProductId == productId);
 
             ViewBag.ProductFeature = productFeature;
 
@@ -199,9 +193,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         [HasAccess]
         public async Task<IActionResult> FastPriceEdit(int id)
         {
-            var model = await _productRepostitory.TableNoTracking
-                .ProjectTo<ProductPriceDTO>()
-                .FirstOrDefaultAsync(a => a.Id == id);
+            var model = await _productRepostitory.GetByConditionAsync<ProductPriceDTO>(a => a.Id == id);
 
             return View(model);
         }
