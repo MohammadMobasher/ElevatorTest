@@ -42,7 +42,7 @@
 
 
     }
-    else if (item.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fint)
+    @*else if (item.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fint)
     {
         <div class="form-group">
             <label for="Text" class="control-label col-sm-2">
@@ -76,7 +76,7 @@
                 <input @(item.IsRequired ? "required" : "") value="@val" type="text" placeholder="@item.Title" aria-describedby="Text" name="vm.Items[@i].FeatureValue" class="form-control" />
             </div>
         </div>
-    }
+    }*@
     i++;
 }
 
