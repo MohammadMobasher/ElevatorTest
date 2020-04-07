@@ -37,7 +37,7 @@
 
         
     }
-    else
+    @*else
     {
         <div class="form-group">
             <label for="Text" class="control-label col-sm-2"> @item.Title 
@@ -51,7 +51,7 @@
                 <input @(item.IsRequired ? "required" : "") type="@(item.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint?"number":"text")" placeholder="@item.Title" aria-describedby="Text" name="vm.Items[@i].FeatureValue" class="form-control" />
             </div>
         </div>
-    }
+    }*@
     i++;
 }
 
