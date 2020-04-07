@@ -1,0 +1,43 @@
+﻿@using DataLayer.Entities
+@model int?
+@{
+    ViewBag.Title = "ثبت سوال جدید";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var features = ViewBag.Features as List<DataLayer.DTO.Feature.FeatureIdTitleDTO>;
+
+}
+
+@{
+    Layout = null;
+}
+<form asp-action="SubmitQuestion" class="form-horizontal" method="post" style="" enctype="multipart/form-data">
+
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-3"> ویژگی <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-9">
+            <select name="Id" data-role="select2" required class="form-control">
+                <option value="">انتخاب نمایید...</option>
+                @foreach (var item in features)
+                {
+                    <option value="@item.Id">@item.Title</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-3">نوع ویژگی <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" required="required" name="QuestionTitle" aria-describedby="QuestionTitle" placeholder="عنوان سوال" />
+        </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-block btn-success" id="sbtForm">ثبت</button>
+
+
+    <script>
+
+    </script>
+</form>

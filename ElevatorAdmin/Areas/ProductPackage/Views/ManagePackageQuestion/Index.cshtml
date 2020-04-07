@@ -6,10 +6,13 @@
     ViewData["Title"] = "لیست سوالات پکیج";
 }
 
+
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 btn-table">
 
-    <TableBotton area="ProductPackage" controller="ManageProductPackage" action="Create"
+    <TableBotton area="ProductPackage" controller="ManagePackageQuestion" action="SubmitQuestion"
                  title="ثبت"
+                 isModal="true"
+                 modalTitle="ثبت سوال جدید"
                  icon="fa-plus"
                  buttonClass="btn-primary"></TableBotton>
 

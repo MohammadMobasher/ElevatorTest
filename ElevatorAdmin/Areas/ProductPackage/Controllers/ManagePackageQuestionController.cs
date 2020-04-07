@@ -6,6 +6,7 @@ using DataLayer.ViewModels.Feature;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using Service.Repos.Package;
+using Service.Repos.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +24,15 @@ namespace ElevatorAdmin.Areas.ProductPackage.Controllers
         private readonly FeatureRepository _featureRepository;
 
 
-        public ManagePackageQuestionController(PackageQuestionsRepository packageQuestionsRepository
-            , FeatureRepository featureRepository)
+        public ManagePackageQuestionController(UsersAccessRepository usersAccessRepository
+            , PackageQuestionsRepository packageQuestionsRepository
+            , FeatureRepository featureRepository) : base(usersAccessRepository)
         {
             _packageQuestionsRepository = packageQuestionsRepository;
             _featureRepository = featureRepository;
         }
 
-
+        [ActionRole("لیست سوالات")]
         public async Task<IActionResult> Index()
         {
             var model = await _packageQuestionsRepository
@@ -39,6 +41,7 @@ namespace ElevatorAdmin.Areas.ProductPackage.Controllers
             return View(model);
         }
 
+        [ActionRole("ثبت سوال جدید")]
         public async Task<IActionResult> SubmitQuestion()
         {
             var listFeatures = await _featureRepository.GetListAsync<FeatureIdTitleDTO>();
