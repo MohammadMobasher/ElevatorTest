@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using DataLayer.ViewModels.Feature;
 using Service.Repos.Product;
 using DataLayer.DTO.Feature;
+using DataLayer.ViewModels;
 
 namespace Service.Repos
 {
@@ -228,5 +229,6 @@ namespace Service.Repos
         {
             return await Entities.ProjectTo<FeatureIdTitleDTO>().ToListAsync();
         }
+
     }
 }

@@ -21,6 +21,7 @@ namespace Service.Mappers
             CreateMap<Feature, FeatureFullDetailDTO>().ReverseMap();
             CreateMap<FeatureInsertViewModel, Feature>().ReverseMap();
             CreateMap<FeatureUpdateViewModel, Feature>().ReverseMap();
+            CreateMap<FeatureQuestionsViewModel, Feature>().ReverseMap();
             
         }
 
