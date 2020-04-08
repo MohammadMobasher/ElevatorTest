@@ -30,7 +30,8 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
             UsersAccessRepository usersAccessRepository,
             FeatureQuestionForPakageRepository featureQuestionForPakageRepository,
             ProductGroupRepository productGroupRepository,
-            FeatureRepository featureRepository) : base(usersAccessRepository)
+            FeatureRepository featureRepository
+            ) : base(usersAccessRepository)
         {
             _featureQuestionForPakageRepository = featureQuestionForPakageRepository;
             _productGroupRepository = productGroupRepository;
@@ -50,7 +51,7 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
             this.TotalNumber = model.Item1;
 
             ViewBag.SearchModel = searchModel;
-            ViewBag.Groups = _productGroupRepository.GetParentsAsync();
+            ViewBag.Groups = await _productGroupRepository.GetParentsAsync();
             ViewBag.Features = _featureRepository.GetAllMap<FeatureIdTitleDTO>();
 
             return View(model.Item2);
@@ -63,7 +64,8 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
         [ActionRole("ثبت سوال جدید")]
         public async Task<IActionResult> Insert()
         {
-
+            ViewBag.Groups = await _productGroupRepository.GetParentsAsync();
+            ViewBag.Features = _featureRepository.GetAllMap<FeatureIdTitleDTO>();
             return View();
         }
 
@@ -86,8 +88,9 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
         public async Task<IActionResult> Update(int Id)
         {
             var result = await _featureQuestionForPakageRepository.GetByIdAsync(Id);
+            ViewBag.Groups = await _productGroupRepository.GetParentsAsync();
+            ViewBag.Features = _featureRepository.GetAllMap<FeatureIdTitleDTO>();
 
-            
             return View(result);
         }
 

@@ -31,10 +31,10 @@ namespace Service.Repos.Features
                 query = query.Where(x => x.QuestionTitle.Contains(model.QuestionTitle));
 
 
-            if (model.FeatureId != -1)
+            if (model.FeatureId != 0)
                 query = query.Where(x => x.FeatureId == model.FeatureId);
 
-            if (model.GroupId != -1)
+            if (model.GroupId != 0)
                 query = query.Where(x => x.GroupId == model.GroupId);
 
 
@@ -79,11 +79,10 @@ namespace Service.Repos.Features
         {
             try
             {
-                var entity = await GetByIdAsync(model.Id);
-
-                entity = (FeatureQuestionForPakage)Mapper.Map(model, entity, typeof(FeatureQuestionForPakageInsertViewModel), typeof(FeatureQuestionForPakage));
-
                 
+                var entity = Mapper.Map<FeatureQuestionForPakage>(model);
+                await UpdateAsync(entity);
+
 
                 await DbContext.SaveChangesAsync();
                 return SweetAlertExtenstion.Ok();
