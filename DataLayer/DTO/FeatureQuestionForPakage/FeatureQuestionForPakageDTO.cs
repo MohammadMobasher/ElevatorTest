@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DataLayer.Entities;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataLayer.DTO.FeatureQuestionForPakage
@@ -24,6 +26,17 @@ namespace DataLayer.DTO.FeatureQuestionForPakage
         /// متن سوال
         /// </summary>
         public string QuestionTitle { get; set; }
+
+        #region relation
+
+        [ForeignKey(nameof(FeatureId))]
+        public virtual Entities.Feature Feature { get; set; }
+
+
+        [ForeignKey(nameof(GroupId))]
+        public virtual ProductGroup ProductGroup { get; set; }
+
+        #endregion
 
     }
 }

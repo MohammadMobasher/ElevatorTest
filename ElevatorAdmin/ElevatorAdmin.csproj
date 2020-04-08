@@ -50,7 +50,6 @@
 
 
   <ItemGroup>
-	 <Folder Include="Areas\FeatureQuestionForPakage\Views\" />
 	 <Folder Include="Areas\ProductDiscount\Data\" />
 	 <Folder Include="Areas\ProductDiscount\Models\" />
 	 <Folder Include="Areas\ProductGroup\Data\" />
