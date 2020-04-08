@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Core.Utilities;
+using Dapper;
 using DataLayer.DTO.FeatureQuestionForPakage;
 using DataLayer.Entities.Features;
+using DataLayer.ViewModels.Feature;
 using DataLayer.ViewModels.FeatureQuestionForPakage;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +18,10 @@ namespace Service.Repos.Features
 {
     public class FeatureQuestionForPakageRepository : GenericRepository<FeatureQuestionForPakage>
     {
-        public FeatureQuestionForPakageRepository(DatabaseContext dbContext) : base(dbContext)
+        private readonly IDbConnection connection;
+        public FeatureQuestionForPakageRepository(DatabaseContext dbContext,IDbConnection connection) : base(dbContext)
         {
+            this.connection = connection;
         }
 
 
@@ -116,6 +121,57 @@ namespace Service.Repos.Features
             }
 
         }
+
+        #region واکشی سوالات
+
+        public List<FeatureQuestionListViewModel> ListQuestions()
+        {
+            var questionQuery = $@"
+                select FeatureQuestionForPakage.QuestionTitle,Feature.Id from FeatureQuestionForPakage join
+                Feature on FeatureQuestionForPakage.FeatureId = Feature.Id
+                ";
+
+            var questionModels = connection.Query<FeatureQuestionViewModel>(questionQuery).ToList();
+
+            var questionItem = $@"
+            select * Into #tmp from
+            [dbo].[FN_GetTableOfs]('{FeatureIds()}')
+            
+            Select  * from FeatureItem
+            where FeatureId in (select * from #tmp)
+            ";
+
+            var items = connection.Query<FeatureQuestionListItemViewModel>(questionItem);
+
+            return GetItems().ToList();
+
+            #region LocalFunctions
+
+            string FeatureIds()
+            {
+                var featureIds = questionModels.Select(a => a.Id).ToList();
+
+                return string.Join(",", featureIds).TrimEnd(',');
+            }
+             
+            IEnumerable<FeatureQuestionListViewModel> GetItems()
+            {
+                foreach (var item in questionModels)
+                {
+                    yield return new FeatureQuestionListViewModel()
+                    {
+                        Question = item,
+                        Items = items.Where(a => a.FeatureId == item.Id).ToList()
+                    };
+                }
+
+            }
+
+            #endregion
+
+        }
+
+        #endregion
     }
 
 }

@@ -27,36 +27,14 @@ namespace ElevatorAdmin.Areas.Product.Controllers
     public class ManageProductPackageController : BaseAdminController
     {
         private readonly ProductRepostitory _productRepostitory;
-        private readonly ProductGroupRepository _productGroupRepository;
-        private readonly ProductUnitRepository _productUnitRepository;
-        private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
-        private readonly ProductFeatureRepository _productFeatureRepository;
-        private readonly ProductGalleryRepository _productGalleryRepository;
-        private readonly FeatureRepository _featureRepository;
-        private readonly ProductDiscountRepository _productDiscountRepository;
         private readonly ProductPackageRepostitory _productPackageRepostitory;
         private readonly ProductPackageDetailsRepostitory _productPackageDetailsRepostitory;
-
         public ManageProductPackageController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
-            ProductGroupRepository productGroupRepository,
-            ProductUnitRepository productUnitRepository,
-            ProductGroupFeatureRepository productGroupFeatureRepository,
-            ProductFeatureRepository productFeatureRepository,
-            ProductGalleryRepository productGalleryRepository,
-            FeatureRepository featureRepository,
-            ProductDiscountRepository productDiscountRepository,
             ProductPackageDetailsRepostitory productPackageDetailsRepostitory,
             ProductPackageRepostitory productPackageRepostitory) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
-            _productGroupRepository = productGroupRepository;
-            _productUnitRepository = productUnitRepository;
-            _productGroupFeatureRepository = productGroupFeatureRepository;
-            _productFeatureRepository = productFeatureRepository;
-            _productGalleryRepository = productGalleryRepository;
-            _featureRepository = featureRepository;
-            _productDiscountRepository = productDiscountRepository;
             _productPackageDetailsRepostitory = productPackageDetailsRepostitory;
             _productPackageRepostitory = productPackageRepostitory;
         }
