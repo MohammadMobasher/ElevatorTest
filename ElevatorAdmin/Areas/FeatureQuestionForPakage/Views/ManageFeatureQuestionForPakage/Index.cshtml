@@ -1,4 +1,5 @@
 ﻿@using DataLayer.DTO.FeatureQuestionForPakage;
+@using DataLayer.DTO.Feature;
 @using DataLayer.DTO;
 @using DNTPersianUtils.Core;
 @model List<FeatureQuestionForPakageDTO>
@@ -7,7 +8,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     List<ProductGroupDTO> groups = ViewBag.Groups;
-    List<ProductGroupDTO> Features = ViewBag.Features;
+    List<FeatureIdTitleDTO> Features = ViewBag.Features;
 
 }
 
@@ -15,7 +16,9 @@
 
 
 
-    <TableBotton area="News" controller="ManageNews" action="Insert"
+    <TableBotton area="FeatureQuestionForPakage" controller="ManageFeatureQuestionForPakage" action="Insert"
+                 isModal="true"
+                 modalTitle="ثبت"
                  title="ثبت"
                  icon="fa-plus"
                  buttonClass="btn-primary"></TableBotton>
@@ -23,24 +26,20 @@
     <span class="hidden" data-role-table-btn-area-access="">
 
 
-        <TableBotton area="News" controller="ManageNews" action="Update"
+        <TableBotton area="FeatureQuestionForPakage" controller="ManageFeatureQuestionForPakage" action="Update"
                      title="ویرایش"
+                     isModal="true"
+                     modalTitle="ویرایش"
                      icon="fa-pencil-square-o"
                      buttonClass="btn-warning"></TableBotton>
 
 
-        <TableBotton area="News" controller="ManageNews" action="Delete"
+        <TableBotton area="FeatureQuestionForPakage" controller="ManageFeatureQuestionForPakage" action="Delete"
                      title="حذف"
                      icon="fa-trash-o"
                      buttonClass="btn-danger"></TableBotton>
 
 
-        <TableBotton area="News" controller="ManageNews" action="ActiveDeactive"
-                     isModal="false"
-                     modalTitle="تغییر وضعیت"
-                     title="تغییر وضعیت"
-                     icon="fa-ban"
-                     buttonClass="btn-warning"></TableBotton>
 
     </span>
 
@@ -57,7 +56,7 @@
                 <th>عنوان سوال</th>
                 <th>نام ویژگی</th>
                 <th>گروه</th>
-                
+
             </tr>
             <tr>
                 <form method="post">
@@ -67,18 +66,24 @@
                     <th>
                         <select name="ProductGroupId" class="form-control searchSelect">
                             <option>--لطفا انتخاب کنید--</option>
-                            @foreach (var item in groups)
+                            @if (groups != null)
                             {
-                                <!option value="@item.Id" @(ViewBag.SearchModel.GroupId == item.Id ? "selected" : "")>@item.Title</!option>
+                                @foreach (var item in groups)
+                                {
+                                    <!option value="@item.Id" @(ViewBag.SearchModel.GroupId == item.Id ? "selected" : "")>@item.Title</!option>
+                                }
                             }
                         </select>
                     </th>
                     <th>
                         <select name="ProductGroupId" class="form-control searchSelect">
                             <option>--لطفا انتخاب کنید--</option>
-                            @foreach (var item in Features)
+                            @if (Features != null)
                             {
-                                <!option value="@item.Id" @(ViewBag.SearchModel.FeatureId == item.Id ? "selected" : "")>@item.Title</!option>
+                                @foreach (var item in Features)
+                                {
+                                    <!option value="@item.Id" @(ViewBag.SearchModel.FeatureId == item.Id ? "selected" : "")>@item.Title</!option>
+                                }
                             }
                         </select>
                     </th>
@@ -102,8 +107,8 @@
                             <td>@item.QuestionTitle</td>
                             <td>@item.Feature.Title</td>
                             <td>@item.ProductGroup.Title</td>
-                    </tr>
-                }
+                        </tr>
+                    }
                 }
                 else
                 {

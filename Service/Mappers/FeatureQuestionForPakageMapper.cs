@@ -14,7 +14,7 @@ namespace Service.Mappers
         {
             CreateMap<FeatureQuestionForPakage, FeatureQuestionForPakageDTO>();
             CreateMap<FeatureQuestionForPakageInsertViewModel, FeatureQuestionForPakage>();
-            CreateMap<FeatureQuestionForPakageUpdateViewModel, FeatureQuestionForPakageDTO>();
+            CreateMap<FeatureQuestionForPakageUpdateViewModel, FeatureQuestionForPakage>();
         }
     }
 }
