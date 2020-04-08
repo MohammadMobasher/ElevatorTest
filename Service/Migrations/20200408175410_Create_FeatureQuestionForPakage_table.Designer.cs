@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200408175410_Create_FeatureQuestionForPakage_table")]
+    partial class Create_FeatureQuestionForPakage_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,28 +180,6 @@ namespace Service.Migrations
                     b.HasIndex("FeatureId");
 
                     b.ToTable("FeatureItem");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.Features.FeatureQuestionForPakage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FeatureId");
-
-                    b.Property<int>("GroupId");
-
-                    b.Property<string>("QuestionTitle")
-                        .HasMaxLength(150);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FeatureId");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("FeatureQuestionForPakage");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.LogoManufactory", b =>
@@ -999,19 +979,6 @@ namespace Service.Migrations
                     b.HasOne("DataLayer.Entities.Feature", "Feature")
                         .WithMany("Features")
                         .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.Features.FeatureQuestionForPakage", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Feature", "Feature")
-                        .WithMany()
-                        .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DataLayer.Entities.ProductGroup", "ProductGroup")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

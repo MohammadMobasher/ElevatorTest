@@ -14,7 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using DataLayer.Entities.Features;
 
 namespace Service
 {
@@ -27,6 +27,7 @@ namespace Service
         #region Tables
 
         public DbSet<SiteSetting> SiteSetting { get; set; }
+        public DbSet<FeatureQuestionForPakage> FeatureQuestionForPakage { get; set; }
         public DbSet<Feature> Feature { get; set; }
         public DbSet<FAQ> FAQ { get; set; }
         public DbSet<LogoManufactory> LogoManufactory { get; set; }
