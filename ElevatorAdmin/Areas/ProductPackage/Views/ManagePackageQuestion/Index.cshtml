@@ -1,4 +1,4 @@
-﻿@model List<DataLayer.ViewModels.Feature.FeatureQuestionsViewModel>
+﻿@model List<DataLayer.DataLayer.DTO.Products.ProductPackageQuestionDTO>
 @using DataLayer.Entities
 @using DataLayer.ViewModels.Products
 @using DNTPersianUtils.Core
@@ -25,8 +25,10 @@
                 ویژگی‌ها
             </button>*@
 
-        <TableBotton area="ProductPackage" controller="ManageProductPackage" action="Update"
+        <TableBotton area="ProductPackage" controller="ManagePackageQuestion" action="UpdateQuestion"
                      title="ویرایش"
+                     isModal="true"
+                     modalTitle="ویرایش سوال"
                      icon="fa-pencil-square-o"
                      buttonClass="btn-warning"></TableBotton>
 

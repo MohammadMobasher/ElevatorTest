@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebFramework.Base;
+using DataLayer.DataLayer.DTO.Products;
 
 namespace ElevatorAdmin.Areas.ProductPackage.Controllers
 {
@@ -36,7 +37,7 @@ namespace ElevatorAdmin.Areas.ProductPackage.Controllers
         public async Task<IActionResult> Index()
         {
             var model = await _packageQuestionsRepository
-                .GetListAsync<FeatureQuestionsViewModel>(a => a.IsQuestion == true);
+                .GetListAsync<ProductPackageQuestionDTO>(a => a.IsQuestion == true);
 
             return View(model);
         }
@@ -54,9 +55,31 @@ namespace ElevatorAdmin.Areas.ProductPackage.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitQuestion(FeatureQuestionsViewModel vm)
         {
+            vm.IsQuestion = true;
             TempData.AddResult(await _packageQuestionsRepository.SetQuestion(vm));
 
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// ویرایش سوال
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> UpdateQuestion(int id){
+            
+            var model = await _packageQuestionsRepository.GetByConditionAsync(a=>a.Id == id
+            && a.IsQuestion == true);
+
+            if(model == null){
+             
+                TempData.AddResult(SweetAlertExtenstion.Error("اطلاعاتی با این شناسه یافت نشد"));
+            }
+            var listFeatures = await _featureRepository.GetListAsync<FeatureIdTitleDTO>();
+
+            ViewBag.Features = listFeatures;
+
+            return View(model);              
         }
     }
 }
