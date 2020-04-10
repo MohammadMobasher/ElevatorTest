@@ -45,7 +45,7 @@
                     </div>
                 </div>
             }
-            @*else
+            else
             {
                 <div class="form-group">
                     <label for="Text" class="control-label col-sm-2">
@@ -57,10 +57,14 @@
                     </label>
                     <div class="col-sm-10">
 
-                        <input value="@item.Value" @(item.IsRequired ? "required" : "") type="@(item.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint?"number":"text")" placeholder="@item.Title" aria-describedby="Text" name="vm.Items[@i].FeatureValue" class="form-control" />
+                        <input 
+                               @(item.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint ? "step='0.01'" : "")
+                               value="@item.Value" @(item.IsRequired ? "required" : "") 
+                               type="@(item.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint?"number":"text")" 
+                               placeholder="@item.Title" aria-describedby="Text" name="vm.Items[@i].FeatureValue" class="form-control" />
                     </div>
                 </div>
-            }*@
+            }
             i++;
         }
 
