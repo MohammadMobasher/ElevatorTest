@@ -127,5 +127,22 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
         }
 
         #endregion
+
+
+        #region واکشی سوالات
+
+        /// <summary>
+        /// گرفتن تمامی سوالات ثبت شده برای پکیج
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult GetAllQuestions()
+        {
+             var questions =  _featureQuestionForPakageRepository.ListQuestions();
+
+            return PartialView(questions);
+        }
+
+        #endregion
+
     }
 }

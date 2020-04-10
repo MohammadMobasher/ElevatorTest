@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 <link href="~/lib/gallery/cms-create-form/cms-create-form.css" rel="stylesheet" />
 
+<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="~/lib/Image-Uploader/ImageUploader.css" rel="stylesheet" />
+<script src="~/lib/Image-Uploader/ImageUploader.js"></script>
 
 
 
@@ -22,7 +25,9 @@
 
         <div id="progressbarwizard" class="pull-in">
             <ul>
+
                 <li><a href="#ProductInfo-2" data-toggle="tab">اطلاعات پکیج</a></li>
+                <li><a href="#Descriptor-2" data-toggle="tab">توضیحات</a></li>
             </ul>
 
             <div class="tab-content b-0 m-b-0">
@@ -49,52 +54,42 @@
                     </div>
 
                     <div class="">
-                        <div class="col-md-6">
 
-                            <div class="inputs">
-                                <div class="form-group row fileDiv" dir="ltr">
-                                    <label dir="ltr" class="control-label col-sm-3">تصویر</label>
-                                    <div class="col-sm-6">
-                                        <input type="file" input-id="1" name="file" class="form-control" placeholder="Enter email" onchange="checkFile(this)">
-                                    </div>
-                                    <div class="col-sm-3 text-center" style="line-height: 35px;">
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label for="Text" class="control-label col-sm-2">عکس اصلی پکیج <i class="text-danger fa fa-star size-8"></i></label>
+                            <div class="col-sm-10">
+                                <input name="file"
+                                       type="file" class="dropify"
+                                       data-show-loader="true"
+                                       accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
+                                       id="file" size="50">
 
-                        </div>
-                        <div class="col-md-6" style="position: relative;">
-                            <img src="http://placehold.it/1000x2000" alt="" id="picture1">
-                            <video src="" class="hide" id="mainVideo" controls>
-                                Please change your browser to Chrome or firefox to show the video.
-                            </video>
-                            <!-- Gallery Section -->
-                            <div class="gallery col-md-12 hide">
-                                <!-- <div class="gallery-btns"> -->
-                                <div class="gallery-btn gallery-btn--left gallery-btns">
-                                    <i class="fas fa-angle-left fa-lg" onclick="slideLeft()"></i>
-                                </div>
-                                <div class="gallery-btn gallery-btn--right gallery-btns">
-                                    <i class="fas fa-angle-right fa-lg" onclick="slideRight()"></i>
-                                </div>
-                                <!-- </div> -->
-                                <div class="gallery-images">
-                                    <img class="gallery-item hide" img-id="1" src="http://placehold.it/1000x600">
-                                </div>
-                               
                             </div>
                         </div>
+
+                        @*<div class="form-group">
+                            <label for="Text" class="control-label col-sm-2">گالری </label>
+                            <div class="col-sm-10">
+
+                                <div class="input-images-1" style="padding-top: .5rem;"></div>
+
+                            </div>
+                        </div>
+
+                        <script>
+                        $('.input-images-1').imageUploader({
+                            imagesInputName: 'galleryImage',
+                        });
+                        </script>*@
                     </div>
                 </div>
 
-                <!--- گالری تصاویر محصولات-->
-                <div class="tab-pane p-t-10 fade" id="Gallery-2">
 
-
-                    <!-- Form Section -->
-
+                <div class="tab-pane p-t-10 fade" id="Descriptor-2">
+                  
                 </div>
 
+           
             </div>
 
         </div>
@@ -178,3 +173,10 @@
 
 </script>
 <script src="~/lib/gallery/cms-create-form/cms-create-form.js"></script>
+<script>
+    $(function () {
+        $.get("/FeatureQuestionForPakage/ManageFeatureQuestionForPakage/GetAllQuestions", function (result) {
+            $("#Descriptor-2").html(result);
+        });
+    })
+</script>
