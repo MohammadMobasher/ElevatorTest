@@ -79,6 +79,8 @@ namespace DataLayer.DTO.Products
         public virtual Entities.ProductUnit ProductUnit { get; set; }
 
         public virtual ProductDiscount ProductDiscount { get; set; }
+
+        public virtual ICollection<ProductFeature> Features { get; set; }
         #endregion
     }
 }

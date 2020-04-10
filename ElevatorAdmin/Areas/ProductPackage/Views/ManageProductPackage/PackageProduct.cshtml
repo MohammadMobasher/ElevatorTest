@@ -1,12 +1,14 @@
-﻿@using DataLayer.Entities
-@model int?
+﻿@model List<DataLayer.DTO.Products.ProductQueryFullDTO>
+@using DataLayer.Entities
+@using DataLayer.ViewModels.Products
+@using DNTPersianUtils.Core
 @{
-    ViewBag.Title = "ثبت پکیج جدید";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var groups = ViewBag.Groups as List<ProductGroup>;
-    var units = ViewBag.Units as List<ProductUnit>;
-
+    ViewData["Title"] = "لیست کالاها";
+    var anwers = ViewBag.Answers as List<PackageUserAnswers>;
+    var groups = ViewBag.Groups as IEnumerable<ProductGroup>;
 }
+
+
 
 
 <script src="~/lib/ckeditor/ckeditor.js"></script>
@@ -25,9 +27,10 @@
 
         <div id="progressbarwizard" class="pull-in">
             <ul>
-
-                <li><a href="#ProductInfo-2" data-toggle="tab">اطلاعات پکیج</a></li>
-                <li><a href="#Descriptor-2" data-toggle="tab">توضیحات</a></li>
+                @foreach (var item in groups)
+                {
+                    <li><a href="#Group_@item.Id" data-toggle="tab">@item.Title</a></li>
+                }
             </ul>
 
             <div class="tab-content b-0 m-b-0">
@@ -35,61 +38,115 @@
                 <div id="bar" class="progress progress-striped progress-bar-primary-alt active">
                     <div class="bar progress-bar progress-bar-primary"></div>
                 </div>
+                @foreach (var group in groups)
+                {
+                    <div class="tab-pane p-t-10 fade" id="Group_@group.Id">
 
+                        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+
+                            <table class="table-first table-condensed table table-responsive tableWrap table-striped rounded table-hover table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th width="3%"></th>
+                                        <th width="8%">
+                                            ردیف
+                                        </th>
+                                        <th>عنوان</th>
+                                        <th>مبلغ</th>
+                                        <th>قیمت با تخفیف</th>
+                                        <th>عنوان دسته</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <form method="post">
+                                            <th>
+                                                ---
+                                                @*<input  type="checkbox" data-toggle="tooltip" title="انتخاب همه" data-role="confirm">*@
+
+                                            </th>
+                                            <th>
+                                                ---
+                                                @*<input type="text" value="@ViewBag.SearchModel.Id" name="Id" class="form-control searchInput" />*@
+                                            </th>
+                                            <th> --- </th>
+                                            <th>
+                                                ---
+                                            </th>
+                                            <th> ---</th>
+
+                                            <th>
+                                                ----
+                                            </th>
+                                            <th>
+                                                ----
+                                            </th>
+                                            <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
+                                        </form>
+                                    </tr>
+                                </thead>
+                            </table>
+                            @if (anwers.Any(a => a.FeatureQuestionForPakage.GroupId == group.Id))
+                            {
+                                if (Model.Where(a => a.ParentId == group.Id || a.ProductGroupId == group.Id) != null)
+                                {
+                                    <div class="bodycontainer scrollable ">
+                                        <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
+                                            <tbody>
+
+
+
+                                                @{var index = 1;}
+                                                @if (Model != null)
+                                                {
+
+                                                    foreach (var item in Model.Where(a => a.ParentId == group.Id || a.ProductGroupId == group.Id))
+                                                    {
+                                                        <tr>
+                                                            <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                                                            <td>@(index++)</td>
+                                                            <td>@item.Title</td>
+                                                            <td>
+                                                                @item.Price.ToPersianPrice()
+                                                            </td>
+                                                            <td>@item.PriceWithDiscount.ToPersianPrice()</td>
+                                                            <td>@item.GroupTitle</td>
+                                                            <td>
+                                                                <a target="_blank" href="http://liftbazaar.ir/Product/ProductDetail/@item.Id">
+                                                                    <i class="fa fa-eye" aria-hidden="true"></i>
+
+                                                                </a>
+                                                            </td>
+                                                            @*<td>
+                                                                    <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
+                                                                        <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
+                                                                    </a>
+
+                                                                    <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
+                                                                        <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
+                                                                    </a>
+                                                                </td>*@
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                            }
+                            <table class="table table-hover table-striped">
+                                <tfoot>
+                                    @Html.Partial("~/Views/Shared/_Pagination.cshtml")
+                                </tfoot>
+                            </table>
+                        </div>
+
+                    </div>
+                }
                 <!--- اظلاعات کلی محصولات-->
-                <div class="tab-pane p-t-10 fade" id="ProductInfo-2">
-                    <div class="form-group">
-                        <label for="Title" class="control-label col-sm-2">عنوان پکیج <i class="text-danger fa fa-star size-8"></i></label>
-                        <div class="col-sm-10">
-                            <input class="form-control" required="required" name="Title" aria-describedby="Title" placeholder="عنوان پکیج" />
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Text" class="control-label col-sm-2">توضیح کلی <i class="text-danger fa fa-star size-8"></i></label>
-                        <div class="col-sm-10">
-                            <textarea name="Text" id="Text" class="form-control" aria-describedby="Text" required="required"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="">
-
-                        <div class="form-group">
-                            <label for="Text" class="control-label col-sm-2">عکس اصلی پکیج <i class="text-danger fa fa-star size-8"></i></label>
-                            <div class="col-sm-10">
-                                <input name="file"
-                                       type="file" class="dropify"
-                                       data-show-loader="true"
-                                       accept="image/gif, image/jpeg, image/png , image/bmp , image/jpg"
-                                       id="file" size="50">
-
-                            </div>
-                        </div>
-
-                        @*<div class="form-group">
-                            <label for="Text" class="control-label col-sm-2">گالری </label>
-                            <div class="col-sm-10">
-
-                                <div class="input-images-1" style="padding-top: .5rem;"></div>
-
-                            </div>
-                        </div>
-
-                        <script>
-                        $('.input-images-1').imageUploader({
-                            imagesInputName: 'galleryImage',
-                        });
-                        </script>*@
-                    </div>
-                </div>
 
 
-                <div class="tab-pane p-t-10 fade" id="Descriptor-2">
-                  
-                </div>
 
-           
+
             </div>
 
         </div>

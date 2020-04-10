@@ -30,16 +30,20 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         private readonly ProductPackageRepostitory _productPackageRepostitory;
         private readonly ProductPackageDetailsRepostitory _productPackageDetailsRepostitory;
         private readonly PackageUserAnswerRepository _packageUserAnswerRepository;
+        private readonly ProductGroupRepository _productGroupRepository;
+
         public ManageProductPackageController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
             ProductPackageDetailsRepostitory productPackageDetailsRepostitory,
             ProductPackageRepostitory productPackageRepostitory,
-            PackageUserAnswerRepository packageUserAnswerRepository) : base(usersAccessRepository)
+            PackageUserAnswerRepository packageUserAnswerRepository,
+            ProductGroupRepository productGroupRepository) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
             _productPackageDetailsRepostitory = productPackageDetailsRepostitory;
             _productPackageRepostitory = productPackageRepostitory;
             _packageUserAnswerRepository = packageUserAnswerRepository;
+            _productGroupRepository = productGroupRepository;
         }
 
         [ActionRole("صفحه لیست پکیج ها")]
@@ -239,6 +243,19 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         #region ProductPackage
 
+        public async Task<IActionResult> PackageProduct(int id)
+        {
+            ViewBag.Answers= await _packageUserAnswerRepository
+                .GetListAsync(a => a.PackageId == id, null, "FeatureQuestionForPakage");
+
+            ViewBag.Groups = await _productGroupRepository
+                .GetListAsync(a => a.ParentId == null);
+
+
+            var model= await _productRepostitory.GetProductForPackage(id);
+
+            return View(model);
+        }
 
 
         #endregion
