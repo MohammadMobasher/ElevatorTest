@@ -29,14 +29,17 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         private readonly ProductRepostitory _productRepostitory;
         private readonly ProductPackageRepostitory _productPackageRepostitory;
         private readonly ProductPackageDetailsRepostitory _productPackageDetailsRepostitory;
+        private readonly PackageUserAnswerRepository _packageUserAnswerRepository;
         public ManageProductPackageController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
             ProductPackageDetailsRepostitory productPackageDetailsRepostitory,
-            ProductPackageRepostitory productPackageRepostitory) : base(usersAccessRepository)
+            ProductPackageRepostitory productPackageRepostitory,
+            PackageUserAnswerRepository packageUserAnswerRepository) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
             _productPackageDetailsRepostitory = productPackageDetailsRepostitory;
             _productPackageRepostitory = productPackageRepostitory;
+            _packageUserAnswerRepository = packageUserAnswerRepository;
         }
 
         [ActionRole("صفحه لیست پکیج ها")]
@@ -63,10 +66,13 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Create(ProductPackageInsertViewModel product
+            , PackageFeatureInsertViewModel vm
             , IFormFile file)
         {
             // ثبت محصول
-            var productId = await _productPackageRepostitory.SubmitProduct(product, file);
+            var packageId = await _productPackageRepostitory.SubmitProduct(product, file);
+
+            await _packageUserAnswerRepository.AddAnswer(vm, UserId, packageId);
 
             // نمایش پیغام
             TempData.AddResult(SweetAlertExtenstion.Ok());
@@ -230,5 +236,12 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             ViewBag.PackageId = packageId;
             return PartialView("ProductPackageDetail", list);
         }
+
+        #region ProductPackage
+
+
+
+        #endregion
+
     }
 }

@@ -10,4 +10,10 @@ namespace DataLayer.ViewModels.Products
 
         public List<ProductFeatureItemViewModel> Items { get; set; }
     }
+
+    public class PackageFeatureInsertViewModel
+    {
+
+        public List<PackageFeatureItemViewModel> Items { get; set; }
+    }
 }

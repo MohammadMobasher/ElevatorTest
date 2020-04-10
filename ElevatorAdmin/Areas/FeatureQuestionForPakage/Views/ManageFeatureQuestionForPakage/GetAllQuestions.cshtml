@@ -4,13 +4,14 @@
 @{ int row = 1, i = 0;}
 @foreach (var item in Model)
 {
+    <input type="hidden" name="vm.Items[@i].QuestionId" value="@item.Question.QuestionId" />
     <input type="hidden" name="vm.Items[@i].FeatureId" value="@item.Question.Id" />
         <div class="form-group">
-            <label for="Tags" class="control-label col-sm-2">
+            <label for="Tags" class="control-label col-sm-12">
                 @item.Question.QuestionTitle
               
             </label>
-            <div class="col-sm-10">
+            <div class="col-sm-12">
                 <select class="form-control" required name="vm.Items[@i].FeatureValue">
                     <option value="">--لطفا انتخاب کنید--</option>
                     @foreach (var feature in item.Items)

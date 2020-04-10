@@ -126,7 +126,7 @@ namespace Service.Repos.Features
         public List<FeatureQuestionListViewModel> ListQuestions()
         {
             var questionQuery = $@"
-                select FeatureQuestionForPakage.QuestionTitle,Feature.Id from FeatureQuestionForPakage join
+                SELECT FeatureQuestionForPakage.QuestionTitle,Feature.Id,FeatureQuestionForPakage.Id as QuestionId from FeatureQuestionForPakage join
                 Feature on FeatureQuestionForPakage.FeatureId = Feature.Id
                 ";
 

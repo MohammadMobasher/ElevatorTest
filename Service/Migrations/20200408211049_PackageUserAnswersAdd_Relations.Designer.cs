@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200408211049_PackageUserAnswersAdd_Relations")]
+    partial class PackageUserAnswersAdd_Relations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -319,21 +321,15 @@ namespace Service.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Answer");
-
-                    b.Property<int>("FeatureId");
+                    b.Property<int>("Answer");
 
                     b.Property<bool>("IsManager");
-
-                    b.Property<int>("PackageId");
 
                     b.Property<int>("QuestionId");
 
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PackageId");
 
                     b.HasIndex("QuestionId");
 
@@ -1046,11 +1042,6 @@ namespace Service.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.PackageUserAnswers", b =>
                 {
-                    b.HasOne("DataLayer.Entities.ProductPackage", "ProductPackage")
-                        .WithMany()
-                        .HasForeignKey("PackageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("DataLayer.Entities.Features.FeatureQuestionForPakage", "FeatureQuestionForPakage")
                         .WithMany()
                         .HasForeignKey("QuestionId")

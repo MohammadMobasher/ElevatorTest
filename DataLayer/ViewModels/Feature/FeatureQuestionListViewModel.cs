@@ -14,6 +14,8 @@ namespace DataLayer.ViewModels.Feature
     {
         public int Id { get; set; }
 
+        public int QuestionId { get; set; }
+
         public string QuestionTitle { get; set; }
     }
 
