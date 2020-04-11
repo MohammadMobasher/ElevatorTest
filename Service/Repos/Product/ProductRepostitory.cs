@@ -484,5 +484,31 @@ namespace Service.Repos
 
             return model.ToList();
         }
+
+        public List<ProductQueryFullDTO> GetProductForPackage(int packageId,int groupId)
+        {
+            var sqlQuery = $@"
+                With A as (
+                select FeatureQuestionForPakage.GroupId, PackageUserAnswers.Answer,PackageUserAnswers.FeatureId  from PackageUserAnswers
+                join FeatureQuestionForPakage on PackageUserAnswers.QuestionId = FeatureQuestionForPakage.Id
+                where PackageUserAnswers.PackageId= {packageId} and FeatureQuestionForPakage.GroupId = {groupId} 
+                )
+                select
+                Product.Id,Product.Title,Product.Price,Product.PriceWithDiscount,Product.ProductGroupId, 
+                ProductGroup.Title As GroupTitle, ProductGroup.ParentId 
+                from Product
+                join ProductGroup on Product.ProductGroupId = ProductGroup.Id
+                join ProductFeature on Product.Id = ProductFeature.ProductId
+                where ProductGroup.Id in (select GroupId from A) or ProductGroup.ParentId in (select GroupId from A) and 
+                ProductFeature.FeatureId in (select FeatureId from A) and 
+                ProductFeature.FeatureValue in (select Answer from A ) and 
+                Product.IsActive = 1
+                ";
+
+            var model = _connection.Query<ProductQueryFullDTO>(sqlQuery);
+
+            return model.ToList();
+        }
+
     } 
 }

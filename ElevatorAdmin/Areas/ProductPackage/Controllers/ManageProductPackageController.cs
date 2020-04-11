@@ -245,19 +245,13 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         public async Task<IActionResult> PackageProduct(int id)
         {
-            ViewBag.Answers= await _packageUserAnswerRepository
-                .GetListAsync(a => a.PackageId == id, null, "FeatureQuestionForPakage");
-
             ViewBag.Groups = await _productGroupRepository
                 .GetListAsync(a => a.ParentId == null);
 
+            ViewBag.PackageId = id;
 
-            var model= await _productRepostitory.GetProductForPackage(id);
-
-            return View(model);
+            return View();
         }
-
-
         #endregion
 
     }

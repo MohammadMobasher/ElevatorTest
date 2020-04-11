@@ -1,23 +1,17 @@
-﻿@model List<DataLayer.DTO.Products.ProductQueryFullDTO>
+﻿@using Service.Repos
+@inject ProductRepostitory ProductRepostitory
 @using DataLayer.Entities
-@using DataLayer.ViewModels.Products
-@using DNTPersianUtils.Core
 @{
     ViewData["Title"] = "لیست کالاها";
-    var anwers = ViewBag.Answers as List<PackageUserAnswers>;
     var groups = ViewBag.Groups as IEnumerable<ProductGroup>;
 }
 
 
 
 
-<script src="~/lib/ckeditor/ckeditor.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
-<link href="~/lib/gallery/cms-create-form/cms-create-form.css" rel="stylesheet" />
 
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link href="~/lib/Image-Uploader/ImageUploader.css" rel="stylesheet" />
-<script src="~/lib/Image-Uploader/ImageUploader.js"></script>
 
 
 
@@ -40,107 +34,7 @@
                 </div>
                 @foreach (var group in groups)
                 {
-                    <div class="tab-pane p-t-10 fade" id="Group_@group.Id">
-
-                        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
-
-                            <table class="table-first table-condensed table table-responsive tableWrap table-striped rounded table-hover table-bordered ">
-                                <thead>
-                                    <tr>
-                                        <th width="3%"></th>
-                                        <th width="8%">
-                                            ردیف
-                                        </th>
-                                        <th>عنوان</th>
-                                        <th>مبلغ</th>
-                                        <th>قیمت با تخفیف</th>
-                                        <th>عنوان دسته</th>
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-                                        <form method="post">
-                                            <th>
-                                                ---
-                                                @*<input  type="checkbox" data-toggle="tooltip" title="انتخاب همه" data-role="confirm">*@
-
-                                            </th>
-                                            <th>
-                                                ---
-                                                @*<input type="text" value="@ViewBag.SearchModel.Id" name="Id" class="form-control searchInput" />*@
-                                            </th>
-                                            <th> --- </th>
-                                            <th>
-                                                ---
-                                            </th>
-                                            <th> ---</th>
-
-                                            <th>
-                                                ----
-                                            </th>
-                                            <th>
-                                                ----
-                                            </th>
-                                            <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
-                                        </form>
-                                    </tr>
-                                </thead>
-                            </table>
-                            @if (anwers.Any(a => a.FeatureQuestionForPakage.GroupId == group.Id))
-                            {
-                                if (Model.Where(a => a.ParentId == group.Id || a.ProductGroupId == group.Id) != null)
-                                {
-                                    <div class="bodycontainer scrollable ">
-                                        <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
-                                            <tbody>
-
-
-
-                                                @{var index = 1;}
-                                                @if (Model != null)
-                                                {
-
-                                                    foreach (var item in Model.Where(a => a.ParentId == group.Id || a.ProductGroupId == group.Id))
-                                                    {
-                                                        <tr>
-                                                            <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
-                                                            <td>@(index++)</td>
-                                                            <td>@item.Title</td>
-                                                            <td>
-                                                                @item.Price.ToPersianPrice()
-                                                            </td>
-                                                            <td>@item.PriceWithDiscount.ToPersianPrice()</td>
-                                                            <td>@item.GroupTitle</td>
-                                                            <td>
-                                                                <a target="_blank" href="http://liftbazaar.ir/Product/ProductDetail/@item.Id">
-                                                                    <i class="fa fa-eye" aria-hidden="true"></i>
-
-                                                                </a>
-                                                            </td>
-                                                            @*<td>
-                                                                    <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
-                                                                        <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
-                                                                    </a>
-
-                                                                    <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
-                                                                        <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
-                                                                    </a>
-                                                                </td>*@
-                                                        </tr>
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                }
-                            }
-                            <table class="table table-hover table-striped">
-                                <tfoot>
-                                    @Html.Partial("~/Views/Shared/_Pagination.cshtml")
-                                </tfoot>
-                            </table>
-                        </div>
-
-                    </div>
+                <partial name="./_PackageProductByGroup" model="ProductRepostitory.GetProductForPackage(ViewBag.PackageId,group.Id)" />
                 }
                 <!--- اظلاعات کلی محصولات-->
 
@@ -159,41 +53,12 @@
 </form>
 
 
-<style>
-    textarea {
-        resize: none
-    }
-</style>
-<script>
-    $('.dropify').dropify({
-        messages: {
-            'default': 'Drag and drop a file here or click',
-            'replace': 'لطفا فایل خود را اینجا رها کنید',
-            'remove': 'حذف',
-            'error': 'خطایی رخ داده است'
-        }
-    });
 
 
-
-</script>
-
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        CKEDITOR.replace('Text');
-
-    });
-</script>
 
 <script>
 
     $(function () {
-        $('[name="ProductGroupId"]').on("change", function () {
-            $('#Feature-2').html(AjaxCall("/Product/ManageProduct/ProductFeatures", { id: $(this).val() }, "POST"));
-        });
-
-
 
 
         $('#progressbarwizard').bootstrapWizard({
@@ -228,12 +93,4 @@
         //});
     })
 
-</script>
-<script src="~/lib/gallery/cms-create-form/cms-create-form.js"></script>
-<script>
-    $(function () {
-        $.get("/FeatureQuestionForPakage/ManageFeatureQuestionForPakage/GetAllQuestions", function (result) {
-            $("#Descriptor-2").html(result);
-        });
-    })
 </script>
