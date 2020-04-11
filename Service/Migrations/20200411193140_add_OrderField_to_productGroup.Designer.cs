@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200411193140_add_OrderField_to_productGroup")]
+    partial class add_OrderField_to_productGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -332,6 +334,8 @@ namespace Service.Migrations
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FeatureId");
 
                     b.HasIndex("PackageId");
 
@@ -1048,6 +1052,11 @@ namespace Service.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.PackageUserAnswers", b =>
                 {
+                    b.HasOne("DataLayer.Entities.Feature", "Features")
+                        .WithMany()
+                        .HasForeignKey("FeatureId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("DataLayer.Entities.ProductPackage", "ProductPackage")
                         .WithMany()
                         .HasForeignKey("PackageId")

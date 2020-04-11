@@ -67,7 +67,7 @@ namespace WebFramework.SmsManage
         }
 
         /// <summary>
-        /// اهتبار باقی مانده
+        /// اعتبار باقی مانده
         /// </summary>
         /// <returns></returns>
         public string Credit()
@@ -97,6 +97,11 @@ namespace WebFramework.SmsManage
             var model = _faraApi.GetBasePrice(_siteSetting.UserName, _siteSetting.Password);
 
             return model.Value;
+        }
+
+        public void sendTest()
+        {
+            
         }
     }
 }

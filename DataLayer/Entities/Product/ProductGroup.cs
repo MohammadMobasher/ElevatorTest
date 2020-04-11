@@ -24,6 +24,9 @@ namespace DataLayer.Entities
         public virtual ICollection<Product> Products { get; set; }
 
 
+        public int? Order { get; set; }
+
+
         public virtual ProductGroup Parent { get; set; }
         
     }

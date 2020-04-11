@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using DataLayer.SSOT;
 using DataLayer.ViewModels.Feature;
 using DataLayer.DTO;
+using DataLayer.DTO.ProductGroupDependencies;
 
 namespace Service.Repos
 {
@@ -485,29 +486,42 @@ namespace Service.Repos
             return model.ToList();
         }
 
-        public List<ProductQueryFullDTO> GetProductForPackage(int packageId,int groupId)
+        public async Task<List<ProductQueryFullDTO>> GetProductForPackage(int packageId,int groupId)
         {
             var sqlQuery = $@"
+                select * from ProductGroupDependencies where GroupId1 = {groupId} and GroupId2 in (select Id from ProductGroup where [Order] < (select [Order] from ProductGroup where Id = {groupId}))
+                
                 With A as (
-                select FeatureQuestionForPakage.GroupId, PackageUserAnswers.Answer,PackageUserAnswers.FeatureId  from PackageUserAnswers
-                join FeatureQuestionForPakage on PackageUserAnswers.QuestionId = FeatureQuestionForPakage.Id
-                where PackageUserAnswers.PackageId= {packageId} and FeatureQuestionForPakage.GroupId = {groupId} 
+                    select FeatureQuestionForPakage.GroupId, PackageUserAnswers.Answer,PackageUserAnswers.FeatureId  from PackageUserAnswers
+                        join FeatureQuestionForPakage on PackageUserAnswers.QuestionId = FeatureQuestionForPakage.Id
+                        where PackageUserAnswers.PackageId= {packageId} and FeatureQuestionForPakage.GroupId = {groupId} 
                 )
                 select
-                Product.Id,Product.Title,Product.Price,Product.PriceWithDiscount,Product.ProductGroupId, 
-                ProductGroup.Title As GroupTitle, ProductGroup.ParentId 
-                from Product
-                join ProductGroup on Product.ProductGroupId = ProductGroup.Id
-                join ProductFeature on Product.Id = ProductFeature.ProductId
-                where ProductGroup.Id in (select GroupId from A) or ProductGroup.ParentId in (select GroupId from A) and 
-                ProductFeature.FeatureId in (select FeatureId from A) and 
-                ProductFeature.FeatureValue in (select Answer from A ) and 
-                Product.IsActive = 1
+                    Product.Id,
+                    Product.Title,
+                    Product.Price,
+                    Product.PriceWithDiscount,
+                    Product.ProductGroupId, 
+                    ProductGroup.Title As GroupTitle,
+                    ProductGroup.ParentId,
+                    ProductFeature.*
+                from ProductFeature
+                    join Product on Product.Id = ProductFeature.ProductId
+                    join ProductGroup on Product.ProductGroupId = ProductGroup.Id
+                where 
+                    ProductGroup.Id in (select GroupId from A) or
+                    ProductGroup.ParentId in (select GroupId from A) and 
+                    ProductFeature.FeatureId in (select FeatureId from A) and 
+                    ProductFeature.FeatureValue in (select Answer from A ) and 
+                    Product.IsActive = 1
                 ";
 
-            var model = _connection.Query<ProductQueryFullDTO>(sqlQuery);
+            var results = await _connection.QueryMultipleAsync(sqlQuery);
+            var products = await results.ReadAsync<ProductQueryFullDTO>();
+            var Features = await results.ReadAsync<ProductQueryFullDTO>();
+            var dependency = await results.ReadAsync<ProductGroupDependenciesFullDTO>();
 
-            return model.ToList();
+            return products.ToList();
         }
 
     } 

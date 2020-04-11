@@ -31,9 +31,6 @@ namespace DataLayer.Entities
         [ForeignKey(nameof(PackageId))]
         public virtual ProductPackage ProductPackage { get; set; }
 
-        [ForeignKey(nameof(FeatureId))]
-        public virtual Feature Features { get; set; }
-
 
     }
 }
