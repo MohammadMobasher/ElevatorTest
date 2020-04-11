@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataLayer.DTO;
+using DataLayer.DTO.Feature;
 using DataLayer.DTO.FeatureItem;
 using DataLayer.Entities;
 using DataLayer.ViewModels.Feature;
@@ -17,6 +18,7 @@ namespace Service.Mappers
         {
             
             CreateMap<FeatureItem, FeatureItemDTO>();
+            CreateMap<FeatureItem, FeatureIdTitleDTO>();
 
             
         }

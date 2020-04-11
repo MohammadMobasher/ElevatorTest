@@ -170,5 +170,8 @@ namespace Service.Repos.Product
             return Entities.AsNoTracking().ProjectTo<ProductGroupDTO>().ToList();
         }
 
+
+
+
     }
 }

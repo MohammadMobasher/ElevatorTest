@@ -24,18 +24,24 @@ namespace ElevatorAdmin.Areas.ProductGroupDependency.Controllers
         private readonly ProductGroupRepository _productGroupRepository;
         private readonly FeatureRepository _featureRepository;
         private readonly ConditionRepository _conditionRepository;
+        private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
+        private readonly FeatureItemRepository _featureItemRepository;
 
         public ManageProductGroupDependencyController(UsersAccessRepository usersAccessRepository,
             ProductGroupDependenciesRepository productGroupDependenciesRepository,
             ProductGroupRepository productGroupRepository,
             FeatureRepository featureRepository,
-            ConditionRepository conditionRepository
+            ConditionRepository conditionRepository,
+            ProductGroupFeatureRepository productGroupFeatureRepository,
+            FeatureItemRepository featureItemRepository
             ) : base(usersAccessRepository)
         {
             _productGroupDependenciesRepository = productGroupDependenciesRepository;
             _productGroupRepository = productGroupRepository;
             _featureRepository = featureRepository;
             _conditionRepository = conditionRepository;
+            _productGroupFeatureRepository = productGroupFeatureRepository;
+            _featureItemRepository = featureItemRepository;
         }
 
 
@@ -130,6 +136,26 @@ namespace ElevatorAdmin.Areas.ProductGroupDependency.Controllers
             TempData.AddResult(result);
             return RedirectToAction("Index");
         }
+        #endregion
+
+
+        #region api
+        [HttpPost]
+        public async Task<IActionResult> getFeatureByGroupId(int groupId)
+        {
+            var result = await _productGroupFeatureRepository.GetFeaturesByGroupIdRecAsync(groupId);
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> getFeatureValues(int featureId)
+        {
+            var result = await _featureItemRepository.GetitemsByFeatureId(featureId);
+
+            return Json(result);
+        }
+
         #endregion
     }
 }
