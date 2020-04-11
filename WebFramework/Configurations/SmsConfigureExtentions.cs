@@ -13,6 +13,7 @@ namespace WebFramework.Configurations
         {
             services.AddScoped<SmsService>();
             services.AddScoped<FaraApi>();
+            services.AddScoped<SmsRestClient>();
         }
     }
 }

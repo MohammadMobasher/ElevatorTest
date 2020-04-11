@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Core.Utilities;
 using DataLayer.Entities.Users;
+using DataLayer.SSOT;
 using DataLayer.ViewModels.User;
 using DNTPersianUtils.Core;
 using Microsoft.AspNetCore.Authorization;
@@ -18,20 +19,19 @@ namespace Elevator.Controllers
     public class AccountController : BaseController
     {
         private readonly UserRepository _userRepository;
-        private readonly SmsService _smsService;
         private readonly SignInManager<Users> _signInManager;
         private readonly UserManager<Users> _userManager;
-
+        private readonly SmsRestClient _smsRestClient;
         public AccountController(SignInManager<Users> signInManager,
             UserManager<Users> userManager,
             UserRepository userRepository,
-            SmsService smsService
+            SmsRestClient smsRestClient
             )
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _userRepository = userRepository;
-            _smsService = smsService;
+            _smsRestClient = smsRestClient;
         }
 
 
@@ -147,7 +147,9 @@ namespace Elevator.Controllers
                             //await _signInManager.SignInAsync(user, isPersistent: false);
                             var activeCode = await _userRepository.GenerateCode(user.Id);
 
-                            _smsService.SendSms(user.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد احراز هویت شما {activeCode.ToPersianNumbers()} می باشد");
+                            var text = activeCode.ToPersianNumbers();
+
+                            var resultSms= _smsRestClient.SendByBaseNumber(text,user.PhoneNumber, (int)SmsBaseCodeSSOT.Register);
 
                             return RedirectToAction("AuthorizePhoneNumber", "Account", new { sec = user.SecurityStamp });
                         }
@@ -269,13 +271,16 @@ namespace Elevator.Controllers
 
             if (model.ExpireTime > DateTime.Now)
             {
-                _smsService.SendSms(model.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد احراز هویت شما {model.ActiveCode.ToPersianNumbers()} می باشد");
+                var text = model.ActiveCode.ToPersianNumbers();
+
+               var smsResult= _smsRestClient.SendByBaseNumber(text,model.PhoneNumber,(int)SmsBaseCodeSSOT.Register);
             }
             else
             {
                 var activeCode = await _userRepository.GenerateCode(model.Id);
 
-                _smsService.SendSms(model.PhoneNumber, $"با تشکر از ثبت نام شما در لیفت بازار،کد احراز هویت شما {activeCode.ToPersianNumbers()} می باشد");
+                var smsResult = _smsRestClient.SendByBaseNumber(activeCode.ToPersianNumbers(), model.PhoneNumber, (int)SmsBaseCodeSSOT.Register);
+
             }
 
             return RedirectToAction("AuthorizePhoneNumber", new { sec = model.SecurityStamp });
