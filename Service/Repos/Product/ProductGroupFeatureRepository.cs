@@ -190,6 +190,40 @@ namespace Service.Repos.Product
         }
 
 
+        public async Task<List<FeatureIdTitleDTO>> GetFeaturesByGroupIdRecAsync(int productGroupId)
+        {
+            try
+            {
+
+                string query = @"
+                    declare @T table(Id int);
+                        with A as (
+                           select Id, ParentId
+                               from ProductGroup
+                               where Id = " + productGroupId + @"
+                               union all
+                           select c.Id, c.ParentId
+                               from ProductGroup c
+                                   join A p on p.Id = c.ParentId) 
+                    insert into @T(Id) select Id from A;
+
+                    select distinct Feature.Id, Feature.Title from ProductGroupFeature 
+                    join Feature on ProductGroupFeature.FeatureId = Feature.Id
+                    where ProductGroupId in (select Id from @T) and Feature.FeatureType = 2
+                ";
+                var results = await _connection.QueryMultipleAsync(query);
+
+                var resultData = await results.ReadAsync<FeatureIdTitleDTO>();
+                return resultData.ToList();
+
+            }
+            catch(Exception e)
+            {
+                return new List<FeatureIdTitleDTO>();
+            }
+        }
+
+
 
         /// <summary>
         /// در این تابع لیست ویژگی‌هایی برگردانده می‌شود که متعلق به یک گروه باشد

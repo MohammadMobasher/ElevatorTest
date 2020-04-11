@@ -1,4 +1,6 @@
-﻿using Core.Utilities;
+﻿using AutoMapper.QueryableExtensions;
+using Core.Utilities;
+using DataLayer.DTO.Feature;
 using DataLayer.Entities;
 using DataLayer.ViewModels.Feature;
 using Microsoft.EntityFrameworkCore;
@@ -77,10 +79,13 @@ namespace Service.Repos
         }
 
 
+        public async Task<List<FeatureIdTitleDTO>> GetitemsByFeatureId(int featureId)
+        {
+            return await Entities.Where(a => a.FeatureId == featureId).ProjectTo<FeatureIdTitleDTO>().ToListAsync();
+        }
 
 
-
-        public async Task<List<FeatureItem>> GetAllFeatureItemByFeatureId(int featureId)
+            public async Task<List<FeatureItem>> GetAllFeatureItemByFeatureId(int featureId)
             => await TableNoTracking.Where(a => a.FeatureId == featureId).ToListAsync();
         
     }
