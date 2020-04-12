@@ -164,6 +164,7 @@
         var groupId = $(this).val();
 
         if (groupId != "") {
+            $("[name='Feature1'] option").remove();
             var result = AjaxCall("/ProductGroupDependency/ManageProductGroupDependency/getFeatureByGroupId?groupId=" + groupId, null, "post");
 
             $("[name='Feature1']").append(`<option value=""> 
@@ -190,6 +191,7 @@
         var groupId = $(this).val();
 
         if (groupId != "") {
+            $("[name='Feature2'] option").remove();
             var result = AjaxCall("/ProductGroupDependency/ManageProductGroupDependency/getFeatureByGroupId?groupId=" + groupId, null, "post");
 
             $("[name='Feature2']").append(`<option value=""> 
@@ -216,7 +218,7 @@
     $("[name='Feature1']").on("change", function () {
         var featureId = $(this).val();
 
-        if (groupId != "") {
+        if (featureId != "") {
             var result = AjaxCall("/ProductGroupDependency/ManageProductGroupDependency/getFeatureValues?featureId=" + featureId, null, "post");
 
             $("[name='Value1']").append(`<option value=""> 
@@ -244,7 +246,7 @@
     $("[name='Feature2']").on("change", function () {
         var featureId = $(this).val();
 
-        if (groupId != "") {
+        if (featureId != "") {
             var result = AjaxCall("/ProductGroupDependency/ManageProductGroupDependency/getFeatureValues?featureId=" + featureId, null, "post");
 
             $("[name='Value2']").append(`<option value=""> 

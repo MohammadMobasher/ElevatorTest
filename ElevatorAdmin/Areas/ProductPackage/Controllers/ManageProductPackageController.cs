@@ -252,6 +252,14 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             return View();
         }
+
+
+
+        public async Task<IActionResult> getProductForPackge(int groupId, int packageId)
+        {
+            var model = await _productRepostitory.GetProductForPackage(packageId, groupId);
+            return PartialView(model);
+        }
         #endregion
 
     }
