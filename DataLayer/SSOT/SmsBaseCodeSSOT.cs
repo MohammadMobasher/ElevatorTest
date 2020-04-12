@@ -8,6 +8,8 @@ namespace DataLayer.SSOT
     {
         Register = 14508,
 
-        Order = 14509
+        Order = 14509,
+
+        ForgetPassword = 14608
     }
 }

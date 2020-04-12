@@ -1,53 +1,53 @@
 ﻿@model List<DataLayer.DTO.Products.ProductQueryFullDTO>
 
 
-        
-            <div class="bodycontainer scrollable ">
-                <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
-                    <tbody>
+
+<div class="bodycontainer scrollable ">
+    <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
+        <tbody>
 
 
 
-                        @{var index = 1;}
-                        @if (Model != null)
-                        {
+            @{var index = 1;}
+            @if (Model != null)
+            {
 
-                            foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
-                                    <td>@(index++)</td>
-                                    <td>@item.Title</td>
-                                    <td>
-                                        @item.Price.ToPersianPrice()
-                                    </td>
-                                    <td>@item.PriceWithDiscount.ToPersianPrice()</td>
-                                    <td>@item.GroupTitle</td>
-                                    <td>
-                                        <a target="_blank" href="http://liftbazaar.ir/Product/ProductDetail/@item.Id">
-                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                        <td>@(index++)</td>
+                        <td>@item.Title</td>
+                        <td>
+                            @item.Price.ToPersianPrice()
+                        </td>
+                        <td>@item.PriceWithDiscount.ToPersianPrice()</td>
+                        <td>@item.GroupTitle</td>
+                        <td>
+                            <a target="_blank" href="http://liftbazaar.ir/Product/ProductDetail/@item.Id">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
 
-                                        </a>
-                                    </td>
-                                    @*<td>
-                                            <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
-                                                <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
-                                            </a>
+                            </a>
+                        </td>
+                        @*<td>
+                                <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
+                                    <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
+                                </a>
 
-                                            <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
-                                                <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
-                                            </a>
-                                        </td>*@
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
-        
+                                <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
+                                    <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
+                                </a>
+                            </td>*@
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
 
-        <table class="table table-hover table-striped">
-            <tfoot>
-                @Html.Partial("~/Views/Shared/_Pagination.cshtml")
-            </tfoot>
-        </table>
+
+<table class="table table-hover table-striped">
+    <tfoot>
+        @Html.Partial("~/Views/Shared/_Pagination.cshtml")
+    </tfoot>
+</table>

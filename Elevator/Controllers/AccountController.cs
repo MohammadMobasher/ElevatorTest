@@ -68,7 +68,7 @@ namespace Elevator.Controllers
                     return RedirectToAction("AuthorizePhoneNumber", new { sec = model.SecurityStamp });
                 }
 
-                if(model.IsActive == false)
+                if (model.IsActive == false)
                 {
                     await _signInManager.SignOutAsync();
 
@@ -149,7 +149,7 @@ namespace Elevator.Controllers
 
                             var text = activeCode.ToPersianNumbers();
 
-                            var resultSms= _smsRestClient.SendByBaseNumber(text,user.PhoneNumber, (int)SmsBaseCodeSSOT.Register);
+                            var resultSms = _smsRestClient.SendByBaseNumber(text, user.PhoneNumber, (int)SmsBaseCodeSSOT.Register);
 
                             return RedirectToAction("AuthorizePhoneNumber", "Account", new { sec = user.SecurityStamp });
                         }
@@ -244,10 +244,10 @@ namespace Elevator.Controllers
                 return RedirectToAction("Login");
             }
 
-            if(model.ExpireTime < DateTime.Now)
+            if (model.ExpireTime < DateTime.Now)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("تاریخ انقضای این کد گذشته است!"));
-                return RedirectToAction("AuthorizePhoneNumber",new { sec = model.SecurityStamp});
+                return RedirectToAction("AuthorizePhoneNumber", new { sec = model.SecurityStamp });
             }
 
             TempData.AddResult(await _userRepository.PhoneNumberConfirmed(model.Id));
@@ -273,7 +273,7 @@ namespace Elevator.Controllers
             {
                 var text = model.ActiveCode.ToPersianNumbers();
 
-               var smsResult= _smsRestClient.SendByBaseNumber(text,model.PhoneNumber,(int)SmsBaseCodeSSOT.Register);
+                var smsResult = _smsRestClient.SendByBaseNumber(text, model.PhoneNumber, (int)SmsBaseCodeSSOT.Register);
             }
             else
             {
@@ -285,5 +285,88 @@ namespace Elevator.Controllers
 
             return RedirectToAction("AuthorizePhoneNumber", new { sec = model.SecurityStamp });
         }
+
+
+        #region ForgetPassword
+
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel vm)
+        {
+            var model = await _userRepository
+                .GetByConditionAsync(a => a.UserName == vm.UserName && a.PhoneNumber == vm.PhoneNumber);
+
+            if (model == null)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("کاربری یافت نشد"));
+                return View();
+            }
+
+            var resultSms = _smsRestClient.SendByBaseNumber(model.ActiveCode.ToPersianNumbers(), model.PhoneNumber, (int)SmsBaseCodeSSOT.ForgetPassword);
+
+            return RedirectToAction("AuthorizeCode", new { code = model.SecurityStamp });
+        }
+
+        public IActionResult AuthorizeCode(string code)
+        {
+            ViewBag.Code = code;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AuthorizeCode(int activeCode, string code)
+        {
+            var model = await _userRepository.GetByConditionAsync(a => a.SecurityStamp == code);
+
+            if (model.ActiveCode != activeCode)
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("کد تاییده صحیح نمی باشد"));
+
+                return View(code);
+            }
+
+            await _userRepository.ChangeCode(model.Id);
+
+            return RedirectToAction("ResetPassword", new { code });
+        }
+
+        public async Task<IActionResult> ResetPassword(string code)
+        {
+            ViewBag.Code = code;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var model = await _userRepository.GetByConditionAsync(a => a.SecurityStamp == vm.Code);
+
+                if (model == null)
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("اطلاعات وارد شده مغایرت دارد"));
+                    return RedirectToAction("Login");
+                }
+                var password = _userManager.PasswordHasher.HashPassword(model, vm.NewPassword);
+
+                model.PasswordHash = password;
+
+                _userRepository.Update(model);
+
+                TempData.AddResult(SweetAlertExtenstion.Ok("رمز عبور شما با موفقیت ویرایش شد"));
+
+                return RedirectToAction("Login");
+            }
+
+            TempData.AddResult(SweetAlertExtenstion.Error("رمز عبور با تکرارش مغایرت دارد"));
+            return RedirectToAction("ResetPassword", new { code = vm.Code });
+        }
+
+        #endregion
     }
 }

@@ -490,31 +490,45 @@ namespace Service.Repos
         public async Task<List<ProductQueryFullDTO>> GetProductForPackage(int packageId,int groupId)
         {
             var sqlQuery = $@"
-                select * from ProductGroupDependencies where GroupId1 = {groupId} and GroupId2 in (select Id from ProductGroup where [Order] < (select [Order] from ProductGroup where Id = {groupId}))
-                
+               declare @T table(Id int);
+
                 With A as (
-                    select FeatureQuestionForPakage.GroupId, PackageUserAnswers.Answer,PackageUserAnswers.FeatureId  from PackageUserAnswers
-                        join FeatureQuestionForPakage on PackageUserAnswers.QuestionId = FeatureQuestionForPakage.Id
-                        where PackageUserAnswers.PackageId= {packageId} and FeatureQuestionForPakage.GroupId = {groupId} 
+                	select 
+                		FeatureQuestionForPakage.GroupId,
+                		PackageUserAnswers.Answer,
+                		PackageUserAnswers.FeatureId  
+                	from PackageUserAnswers
+                		join FeatureQuestionForPakage on PackageUserAnswers.QuestionId = FeatureQuestionForPakage.Id
+                    where 
+                		PackageUserAnswers.PackageId= 15 and
+                		FeatureQuestionForPakage.GroupId = 14 
                 )
-                select
-                    Product.Id,
-                    Product.Title,
-                    Product.Price,
-                    Product.PriceWithDiscount,
-                    Product.ProductGroupId, 
-                    ProductGroup.Title As GroupTitle,
-                    ProductGroup.ParentId,
-                    ProductFeature.*
-                from ProductFeature
-                    join Product on Product.Id = ProductFeature.ProductId
-                    join ProductGroup on Product.ProductGroupId = ProductGroup.Id
-                where 
-                    ProductGroup.Id in (select GroupId from A) or
-                    ProductGroup.ParentId in (select GroupId from A) and 
-                    ProductFeature.FeatureId in (select FeatureId from A) and 
-                    ProductFeature.FeatureValue in (select Answer from A ) and 
-                    Product.IsActive = 1
+                
+                
+                insert into @T(Id)  select
+                	  Product.Id
+                	  --Product.Title,
+                	  --Product.Price,
+                	  --Product.PriceWithDiscount,
+                	  --Product.ProductGroupId, 
+                	  --ProductGroup.Title As GroupTitle,
+                	  --ProductGroup.ParentId
+                  from ProductFeature
+                  join Product on 
+                		Product.Id = ProductFeature.ProductId
+                  join ProductGroup on Product.ProductGroupId = ProductGroup.Id
+                	where 
+                	  ProductFeature.FeatureId in (select FeatureId from A) and 
+                	  ProductFeature.FeatureValue in (select Answer from A ) and
+                	  (ProductGroup.Id in (select GroupId from A) or ProductGroup.ParentId in (select GroupId from A)) and 
+                	  Product.IsActive = 1
+                
+                
+                select * from Product where Id in (select * from @T)
+                select * from ProductFeature where ProductId in (select * from @T)
+                
+                
+                select * from ProductGroupDependencies where GroupId1 = 14 and GroupId2 in (select Id from ProductGroup where [Order] < (select [Order] from ProductGroup where Id = 14))
                 ";
 
             var results = await _connection.QueryMultipleAsync(sqlQuery);
