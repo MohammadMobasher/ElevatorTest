@@ -21,6 +21,7 @@ using DataLayer.SSOT;
 using DataLayer.ViewModels.Feature;
 using DataLayer.DTO;
 using DataLayer.DTO.ProductGroupDependencies;
+using DataLayer.DTO.ProductFeatures;
 
 namespace Service.Repos
 {
@@ -518,7 +519,7 @@ namespace Service.Repos
 
             var results = await _connection.QueryMultipleAsync(sqlQuery);
             var products = await results.ReadAsync<ProductQueryFullDTO>();
-            var Features = await results.ReadAsync<ProductQueryFullDTO>();
+            var Features = await results.ReadAsync<ProductFeaturesFullDTO>();
             var dependency = await results.ReadAsync<ProductGroupDependenciesFullDTO>();
 
             return products.ToList();
