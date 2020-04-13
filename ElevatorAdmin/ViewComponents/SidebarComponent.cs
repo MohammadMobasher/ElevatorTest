@@ -76,6 +76,8 @@ namespace ElevatorAdmin.ViewComponents
                 }
                 );
 
+            items.Add(new SidebarViewModel { Area = "SuggestionsAndComplaint", Controller = "ManageSuggestionsAndComplaint", Action = "Index", Title = "شکایات و پیشنهادات", Icon = "fa fa-retweet" });
+
             items.Add(
                 new SidebarViewModel
                 {

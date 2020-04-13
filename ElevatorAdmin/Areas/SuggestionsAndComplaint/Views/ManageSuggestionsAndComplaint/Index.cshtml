@@ -1,0 +1,92 @@
+﻿@using DataLayer.DTO.SuggestionsAndComplaint
+@model List<SuggestionsAndComplaintDTO>
+
+@{
+    ViewData["Title"] = "لیست سوالات پرتکرار";
+
+}
+
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 btn-table">
+
+
+    <span class="hidden" data-role-table-btn-area-access="">
+
+
+
+        <TableBotton area="SuggestionsAndComplaint" controller="ManageSuggestionsAndComplaint" action="ShowItem"
+                     isModal="true"
+                     modalTitle="مشاهده"
+                     title="مشاهده"
+                     icon="fa-eye"
+                     buttonClass="btn-info"></TableBotton>
+
+    </span>
+</div>
+
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+
+    <table class="table-first table-condensed table table-responsive tableWrap table-striped rounded table-hover table-bordered ">
+        <thead>
+            <tr>
+                <th width="3%"></th>
+                <th width="8%">
+                    ردیف
+                </th>
+                <th>نام و نام خانوادگی</th>
+                <th>تلفن</th>
+                <th>ایمیل</th>
+            <tr>
+                <form method="post">
+                    <th>
+                        ---
+                    </th>
+                    <th>
+                        ---
+                    </th>
+                    @*<th><input type="text" value="@ViewBag.SearchModel.QuestionText" name="QuestionText" class="form-control searchInput" /></th>*@
+                    <th>---</th>
+                    <th>
+                        ---
+                    </th>
+                    <th>---
+                    </th>
+
+                    <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
+                </form>
+            </tr>
+        </thead>
+    </table>
+    <div class="bodycontainer scrollable ">
+        <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
+            <tbody>
+
+                @{var index = 1;}
+                @if (Model != null)
+                {
+
+                    @foreach (SuggestionsAndComplaintDTO item in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                            <td>@(index++)</td>
+                            <td>@(item.Name + " " + item.Family)</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Email</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <table class="table table-hover table-striped">
+        <tfoot>
+            @Html.Partial("~/Views/Shared/_Pagination.cshtml")
+        </tfoot>
+    </table>
+</div>
+
+
