@@ -15,11 +15,11 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                        <td><input type="checkbox" name="s_@item.Id" data-role="@item.Id"></td>
                         <td>@(index++)</td>
                         <td>@item.Title</td>
                         <td>
-                            @item.Price.ToPersianPrice()
+                            @item.Price.ToPersianPrice()    
                         </td>
                         <td>@item.PriceWithDiscount.ToPersianPrice()</td>
                         <td>@item.GroupTitle</td>

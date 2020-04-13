@@ -12,6 +12,8 @@ namespace DataLayer.Entities
 
         public int ProductId { get; set; }
 
+        public int? ProductGroupId { get; set; }
+
         [ForeignKey(nameof(ProductId))]
         public virtual Product Product { get; set; }
 

@@ -4,6 +4,7 @@ using Core.Utilities;
 using DataLayer.DTO.Feature;
 using DataLayer.DTO.FeatureItem;
 using DataLayer.DTO.Products;
+using DataLayer.Entities;
 using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +35,9 @@ namespace Service.Repos
         }
 
 
+        #region 
+
+
         /// <summary>
         /// محاسبه قیمت کلی محصول
         /// </summary>
@@ -56,14 +60,14 @@ namespace Service.Repos
         }
 
         public async Task<bool> IsExist(int packageId, int productId)
-         =>await TableNoTracking.AnyAsync(a => a.ProductId == productId && a.PackageId == packageId);
+         => await TableNoTracking.AnyAsync(a => a.ProductId == productId && a.PackageId == packageId);
 
 
         public async Task<long> ResultPrice(int packageId)
         {
             var model = await TableNoTracking
                 .Where(a => a.PackageId == packageId)
-                .Include(a=>a.Product)
+                .Include(a => a.Product)
                 .ToListAsync();
 
             var sum = default(long);
@@ -75,5 +79,47 @@ namespace Service.Repos
 
             return sum;
         }
+
+        #endregion
+
+
+        public async Task<SweetAlertExtenstion> ProductPackageAddItem(List<int> products
+            , int packageId, int groupId)
+        {
+            await DeleteProductsbyGroupId();
+
+            return await AddItem();
+
+            #region LocalFunction
+
+            async Task DeleteProductsbyGroupId()
+            {
+                var model = await GetListAsync(a => a.PackageId == packageId && a.ProductGroupId == groupId);
+
+                if (model.Any())
+                    await DeleteRangeAsync(model);
+            }
+
+            async Task<SweetAlertExtenstion> AddItem()
+            {
+                var lst = new List<ProductPackageDetails>();
+                foreach (var item in products)
+                {
+                    lst.Add(new ProductPackageDetails()
+                    {
+                        PackageId = packageId,
+                        ProductGroupId = groupId,
+                        ProductId = item
+                    });
+                }
+
+                await AddRangeAsync(lst, false);
+                return Save();
+            }
+
+            #endregion
+        }
+
+
     }
 }
