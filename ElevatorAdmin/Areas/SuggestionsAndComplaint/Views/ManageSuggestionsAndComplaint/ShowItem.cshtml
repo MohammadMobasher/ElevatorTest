@@ -1,0 +1,16 @@
+﻿@using DataLayer.Entities;
+
+@model SuggestionsAndComplaint
+
+
+@{
+    ViewData["Title"] = "ShowItem";
+    Layout = "~/Views/Shared/_ModalLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">@(Model.Name + " " + Model.Family)</div>
+        <div class="col-12">@Model.Description</div>
+    </div>
+</div>
