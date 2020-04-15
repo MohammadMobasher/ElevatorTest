@@ -34,7 +34,7 @@
                                 <article class="blogitem2">
                                     <div class="blogitem2-image">
                                         <a href="/Blog/NewsDetail/@item.Id">
-                                            <img src="~/Plugins/Template/images/blog/blog-item-image-1.jpg" alt="@item.Title">
+                                            <img src="@Url.Content( ViewBag.Url +"/" + item.ImageAddress)" alt="@item.Title">
                                         </a>
                                     </div>
                                     <div class="blogitem2-content">
@@ -46,7 +46,7 @@
                                             </span>
                                             @*<span><a href="blog-rightsidebar.html">آموزشی</a></span>*@
                                         </div>
-                                        <p>@Html.Raw(item.SummeryNews)</p>
+                                        <p>@Html.Raw(item.SummeryNews.Length > 80 ? item.SummeryNews.Substring(0, 78).ToString() + "..." : item.SummeryNews)</p>
                                         <div class="col-12 text-center" style="padding-top:8px">
                                             <a href="/Blog/NewsDetail/@item.Id" class="ho-readmore">ادامه‌ی مطلب</a>
                                         </div>

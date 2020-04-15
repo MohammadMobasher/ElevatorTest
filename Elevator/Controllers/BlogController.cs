@@ -40,6 +40,9 @@ namespace Elevator.Controllers
                 this.PageSize,
                 searchModel);
 
+            var test = _configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+            ViewBag.Url = test.SiteConfig.UrlAddress;
+
             this.TotalNumber = result.Item1;
             return View(result.Item2);
         }
