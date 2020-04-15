@@ -8,12 +8,12 @@
 
         <article class="blogitem">
             <div class="blogitem-thumb">
-                <a href="blog-details.html">
+                <a href="/Blog/NewsDetail/@item.Id">
                     <img src="@Url.Content( ViewBag.Url +"/" + item.ImageAddress)" class="LastNewsIndexPage__Picture" title="@item.Title" alt="image">
                 </a>
             </div>
             <div class="blogitem-content">
-                <h4 class="blogitem-title"><a href="blog-details.html">@item.Title</a></h4>
+                <h6 class="blogitem-title"><a href="/Blog/NewsDetail/@item.Id">@item.Title</a></h6>
                 <div class="blogitem-meta">
                     <span class="blogitem-date"><i class="ion ion-md-calendar"></i>@item.Date.ToPersianDateTextify()</span>
                     @*<span class="blogitem-author"><a href="blog.html"><i class="ion ion-md-person"></i>از Admin</a></span>*@
