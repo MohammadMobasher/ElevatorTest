@@ -1,11 +1,12 @@
 ﻿using DataLayer.Entities.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataLayer.Entities
 {
-    public class ProductPackage:BaseEntity<int>
+    public class ProductPackage : BaseEntity<int>
     {
         public string Title { get; set; }
 
@@ -30,6 +31,9 @@ namespace DataLayer.Entities
         public int DisLike { get; set; }
 
         public bool IsSpecialPackage { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public long PackagePrice { get; set; }
 
         public DateTime CreateDate { get; set; }
 
