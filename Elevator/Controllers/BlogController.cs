@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,18 +10,21 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using AutoMapper;
 using DataLayer.ViewModels.News;
+using Core;
 
 namespace Elevator.Controllers
 {
     
     public class BlogController : BaseController
     {
-
+        public IConfiguration _configuration { get; }
         private readonly NewsRepository _newsRepository;
 
-        public BlogController(NewsRepository newsRepository) : base()
+        public BlogController(NewsRepository newsRepository,
+            IConfiguration Configuration) : base()
         {
             _newsRepository = newsRepository;
+            _configuration = Configuration;
         }
 
 
@@ -44,6 +48,8 @@ namespace Elevator.Controllers
 
         public async Task<IActionResult> NewsDetail(int Id)
         {
+            var test = _configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+            ViewBag.Url = test.SiteConfig.UrlAddress;
             return View(await _newsRepository.GetItemDetailAsync(Id));
         }
     }
