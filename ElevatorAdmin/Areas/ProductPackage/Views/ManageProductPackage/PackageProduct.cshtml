@@ -15,14 +15,14 @@
 
 
 
-<form asp-action="Create" class="form-horizontal" method="post" style="" enctype="multipart/form-data">
+<form id="frm_Submit" asp-action="Create" class="form-horizontal" method="post" style="" enctype="multipart/form-data">
 
     <div class="container">
         <input type="hidden" name="packageId" value="@ViewBag.PackageId" />
         <input type="hidden" name="groupNumber" value="@(groups != null ? groups.Count() : 0)" />
 
         <div id="progressbarwizard" class="pull-in">
-            <ul >
+            <ul>
                 @foreach (var item in groups)
                 {
                     <li class="Mli" data-role="@item.Id"><a href="#Group_@item.Id" data-toggle="tab">@item.Title</a></li>
@@ -39,7 +39,7 @@
 
                     <div class="tab-pane p-t-10 fade" id="Group_@group.Id">
 
-                        
+
                     </div>
                 }
                 <!--- اظلاعات کلی محصولات-->
@@ -112,11 +112,34 @@
             for (var i = 0; i < parseInt($('[name="groupNumber"]').val()); i++) {
                 $("#Group_" + i).html("");
             }
-            
+
 
             $("#Group_" + selectedGroupId).html(AjaxCall("/ProductPackage/ManageProductPackage/getProductForPackge?groupId=" + selectedGroupId + "&packageId=" + packageId, null, "Get"));
         })
 
     });
 
+
+    $(function () {
+        $('#frm_Submit').submit(function (e) {
+            e.preventDefault();
+            var inputs = $('.cheacker');
+            var packageId = '@ViewBag.PackageId';
+            var list = [];
+
+            $.each(inputs, function (index, key) {
+                if (key.checked) {
+                    let id = $(key).attr('data-role');
+                    list.push(id);
+                };
+            })
+            var selectedGroupId = $("li.Mli.active").attr("data-role");
+
+            $.post('/ProductPackage/ManageProductPackage/ProductPackageAddItem'
+                , { products: list, packageId: packageId, groupId: selectedGroupId}, function () {
+
+
+            });
+        });
+    })
 </script>

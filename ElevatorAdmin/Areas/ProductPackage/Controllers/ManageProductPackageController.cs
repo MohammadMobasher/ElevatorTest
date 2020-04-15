@@ -260,6 +260,16 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             var model = await _productRepostitory.GetProductForPackage(packageId, groupId);
             return PartialView(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductPackageAddItem(List<int> products 
+            , int packageId,int groupId)
+        {
+            var model =await _productPackageDetailsRepostitory
+                .ProductPackageAddItem(products, packageId, groupId);
+
+            return Json(true);
+        }
         #endregion
 
     }
