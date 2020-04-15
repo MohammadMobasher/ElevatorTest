@@ -34,12 +34,12 @@
                      icon="fa-plus"
                      buttonClass="btn-primary"></TableBotton> 
         
-        <TableBotton area="ProductPackage" controller="ManageProductPackage" action="PackageDiscount"
+        @*<TableBotton area="ProductPackage" controller="ManageProductPackage" action="PackageDiscount"
                      isModal="true"
                      modalTitle="تخفیف روی پکیج"
                      title="ثبت تخفیف "
                      icon="fa-plus"
-                     buttonClass="btn-primary"></TableBotton>
+                     buttonClass="btn-primary"></TableBotton>*@
 
         <TableBotton area="ProductPackage" controller="ManageProductPackage" action="ChangeState"
                      isModal="false"
@@ -71,7 +71,7 @@
                 <th>عنوان پکیج</th>
                 <th width="200">تاریخ ثبت</th>
                 <th>قیمت کلی</th>
-                <th>قیمت با تخفیف</th>
+               
                 <th>فعال/غیرفعال</th>
                 <th>پکیج ویژه؟</th>
                 <th>مجموع نظرات</th>
@@ -85,7 +85,6 @@
                         ---
                     </th>
                     <th>  --- </th>
-                    <th> --- </th>
 
                     <th>
                         ----
@@ -129,8 +128,8 @@
                             <td>
                                 @item.CreateDate.ToPersianDateTextify()
                             </td>
-                            <td data-price="@item.Id"></td>
-                            <td data-role="Discount"></td>
+                            <td>@item.PackagePrice.ToPersianPrice()</td>
+                           
                             <td>
                                 @(item.IsActive == true ? "فعال" : "غیر فعال")
                             </td>
@@ -164,17 +163,3 @@
 </div>
 
 
-
-<script>
-    $(function () {
-        var temp = $('[data-price]');
-        $.each(temp, function (index, key) {
-            var pacageId = $(key).attr('data-price');
-            $.get("/ProductPackage/ManageProductPackage/PackagePrice", { id: pacageId }, function (result) {
-                if (result !== false) {
-                    $(key).append(result);
-                }
-            })
-        })
-    })
-</script>
