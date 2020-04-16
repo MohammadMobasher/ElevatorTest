@@ -220,7 +220,7 @@
 
         if (featureId != "") {
             var result = AjaxCall("/ProductGroupDependency/ManageProductGroupDependency/getFeatureValues?featureId=" + featureId, null, "post");
-
+            console.log(result);
             $("[name='Value1']").append(`<option value=""> 
                                        انتخاب نمایید... 
                                   </option>`);

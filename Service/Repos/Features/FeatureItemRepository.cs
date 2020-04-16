@@ -81,7 +81,12 @@ namespace Service.Repos
 
         public async Task<List<FeatureIdTitleDTO>> GetitemsByFeatureId(int featureId)
         {
-            return await Entities.Where(a => a.FeatureId == featureId).ProjectTo<FeatureIdTitleDTO>().ToListAsync();
+            return await Entities.Where(a => a.FeatureId == featureId).Select(x=> 
+            new FeatureIdTitleDTO
+            {
+                Id = x.Id,
+                Title = x.Value
+            }).ToListAsync();
         }
 
 
