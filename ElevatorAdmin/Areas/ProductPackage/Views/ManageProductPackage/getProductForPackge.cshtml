@@ -55,10 +55,14 @@
 
                     foreach (var item in Model)
                     {
-                      
-                        <tr style="background-color:@(true?"yellow":"white")">
+                        <span>
+                            @{
+                                var isSelected = productsId.Contains(item.Id);
+                            }
+                        </span>
+                        <tr style="background-color:@(isSelected?"yellow":"white")">
 
-                            <td><input @(true ? "checked" : "") class="cheacker" type="checkbox" data-role="@item.Id"></td>
+                            <td><input @(isSelected ? "checked" : "") class="cheacker" type="checkbox" data-role="@item.Id"></td>
                             <td>@(index++)</td>
                             <td>@item.Title</td>
                             <td>
@@ -98,13 +102,13 @@
 
 </div>
 <script>
-  $(document).on("click", "[type='checkbox']", function (e) {
+    $(document).on("click", "[type='checkbox']", function (e) {
         if (this.checked) {
-            $(this).parent().parent().css('background-color',"yellow");
+            $(this).parent().parent().css('background-color', "yellow");
         } else {
-            $(this).parent().parent().css('background-color',"white");
+            $(this).parent().parent().css('background-color', "white");
         }
-});
+    });
 
 
 

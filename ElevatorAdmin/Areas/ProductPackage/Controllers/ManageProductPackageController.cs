@@ -267,7 +267,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
 
 
-        public async Task<IActionResult> getProductForPackge(int groupId, int packageId)
+        public async Task<IActionResult> getProductForPackge(int groupId, int packageId, List<int> beforeGroups)
         {
             var model = await _productRepostitory.GetProductForPackage(packageId, groupId);
             ViewBag.SelectedProducts = await _productPackageDetailsRepostitory

@@ -3,7 +3,7 @@
 @using DataLayer.Entities
 @{
     ViewData["Title"] = "لیست کالاها";
-    var groups = ViewBag.Groups as List<ProductPackageGroups>;
+    var groups = (ViewBag.Groups as List<ProductPackageGroups>).OrderBy(x=> x.ProductGroup.Order);
 }
 
 
@@ -24,11 +24,11 @@
         @if (groups != null)
         {
 
-            <div id="progressbarwizard" class="pull-in">
+            <div id="progressbarwizard" class="">
                 <ul>
                     @foreach (var item in groups)
                     {
-                        <li class="Mli" data-role="@item.ProductGroup.Id"><a href="#Group_@item.Id" data-toggle="tab">@item.ProductGroup.Title</a></li>
+                        <li class="Mli" data-order="@item.ProductGroup.Order" data-role="@item.ProductGroup.Id"><a href="#Group_@item.ProductGroup.Id" data-toggle="tab">@item.ProductGroup.Title</a></li>
                     }
                 </ul>
 
@@ -104,22 +104,35 @@
 
     $(function () {
 
-        var selectedGroupId = $("li.Mli.active").attr("data-role");
-        console.log("selectedGroupId => ", selectedGroupId);
-        var packageId = $('[name="packageId"]').val();
-        $("#Group_" + selectedGroupId).html(AjaxCall("/ProductPackage/ManageProductPackage/getProductForPackge?groupId=" + selectedGroupId + "&packageId=" + packageId, null, "Get"));
+        //var selectedGroupId = $("li.Mli.active").attr("data-role");
+        //var packageId = $('[name="packageId"]').val();
+        //$("#Group_" + selectedGroupId).html(AjaxCall("/ProductPackage/ManageProductPackage/getProductForPackge?groupId=" + selectedGroupId + "&packageId=" + packageId, null, "Get"));
+
+        
 
         $("li.Mli").on("click", function () {
             var selectedGroupId = $(this).attr("data-role");
             var packageId = $('[name="packageId"]').val();
+            var order = $(this).attr("data-order");
+
 
             for (var i = 0; i < parseInt($('[name="groupNumber"]').val()); i++) {
                 $("#Group_" + i).html("");
             }
 
+            var beforeGroupsId = [];
+            var beforeGroup = $(".Mli").filter(function () {
+                return $(this).attr("data-order") < order;
+            });
+            for (var i = 0; i < beforeGroup.length; i++) {
+                beforeGroupsId.push($(beforeGroup[i]).attr("data-role"));
+            }
 
-            $("#Group_" + selectedGroupId).html(AjaxCall("/ProductPackage/ManageProductPackage/getProductForPackge?groupId=" + selectedGroupId + "&packageId=" + packageId, null, "Get"));
+
+            $("#Group_" + selectedGroupId).html(AjaxCall("/ProductPackage/ManageProductPackage/getProductForPackge?groupId=" + selectedGroupId + "&packageId=" + packageId + "&beforeGroups=" + beforeGroupsId, null, "Get"));
         })
+
+        $("li.Mli.active").click();
 
     });
 
