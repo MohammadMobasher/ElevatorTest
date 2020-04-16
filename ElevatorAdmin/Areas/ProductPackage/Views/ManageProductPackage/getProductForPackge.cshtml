@@ -3,6 +3,7 @@
 
 @{
     Layout = null;
+    var productsId = ViewBag.SelectedProducts as List<int>;
 }
 
 
@@ -20,23 +21,23 @@
                 <th></th>
             </tr>
             <tr>
-                
-                    <th>
-                        ---
-                    </th>
-                    <th>
-                        ---
-                    </th>
-                    <th> --- </th>
-                    <th>
-                        ---
-                    </th>
-                    <th> ---</th>
-                    <th>
-                        ----
-                    </th>
-                    <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
-         
+
+                <th>
+                    ---
+                </th>
+                <th>
+                    ---
+                </th>
+                <th> --- </th>
+                <th>
+                    ---
+                </th>
+                <th> ---</th>
+                <th>
+                    ----
+                </th>
+                <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
+
             </tr>
         </thead>
     </table>
@@ -54,8 +55,14 @@
 
                     foreach (var item in Model)
                     {
-                        <tr>
-                            <td><input class="cheacker" type="checkbox" data-role="@item.Id"></td>
+                        <span>
+                            @{
+                                var isSelected = productsId.Contains(item.Id);
+                            }
+                        </span>
+                        <tr style="background-color:@(isSelected?"yellow":"white")">
+
+                            <td><input @(isSelected ? "checked" : "") class="cheacker" type="checkbox" data-role="@item.Id"></td>
                             <td>@(index++)</td>
                             <td>@item.Title</td>
                             <td>

@@ -120,6 +120,17 @@ namespace Service.Repos
             #endregion
         }
 
+        /// <summary>
+        /// گرفتن اطلاعات پکیج های ثبت شده بر اساس گروه و شناسه پکیج
+        /// </summary>
+        /// <param name="packageId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        public async Task<List<int>> GetAllByGroupIdAndPackageId(int packageId, int groupId)
+        {
+            var model = TableNoTracking.Where(a => a.PackageId == packageId && a.ProductGroupId == groupId);
 
+            return await model.Select(a => a.ProductId).ToListAsync();
+        }
     }
 }
