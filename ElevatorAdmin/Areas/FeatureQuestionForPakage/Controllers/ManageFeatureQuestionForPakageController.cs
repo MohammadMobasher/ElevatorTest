@@ -25,7 +25,7 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
         private readonly FeatureQuestionForPakageRepository _featureQuestionForPakageRepository;
         private readonly ProductGroupRepository _productGroupRepository;
         private readonly FeatureRepository _featureRepository;
-
+        
         public ManageFeatureQuestionForPakageController(
             UsersAccessRepository usersAccessRepository,
             FeatureQuestionForPakageRepository featureQuestionForPakageRepository,
@@ -135,9 +135,10 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
         /// گرفتن تمامی سوالات ثبت شده برای پکیج
         /// </summary>
         /// <returns></returns>
-        public IActionResult GetAllQuestions()
+        [HttpPost]
+        public IActionResult GetAllQuestions(List<int> groups)
         {
-             var questions =  _featureQuestionForPakageRepository.ListQuestions();
+             var questions =  _featureQuestionForPakageRepository.ListQuestions(groups);
 
             return PartialView(questions);
         }

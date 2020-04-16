@@ -31,19 +31,22 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         private readonly ProductPackageDetailsRepostitory _productPackageDetailsRepostitory;
         private readonly PackageUserAnswerRepository _packageUserAnswerRepository;
         private readonly ProductGroupRepository _productGroupRepository;
+        private readonly ProductPackageGroupRepository _productPackageGroupRepository;
 
         public ManageProductPackageController(UsersAccessRepository usersAccessRepository,
             ProductRepostitory productRepostitory,
             ProductPackageDetailsRepostitory productPackageDetailsRepostitory,
             ProductPackageRepostitory productPackageRepostitory,
             PackageUserAnswerRepository packageUserAnswerRepository,
-            ProductGroupRepository productGroupRepository) : base(usersAccessRepository)
+            ProductGroupRepository productGroupRepository,
+            ProductPackageGroupRepository productPackageGroupRepository) : base(usersAccessRepository)
         {
             _productRepostitory = productRepostitory;
             _productPackageDetailsRepostitory = productPackageDetailsRepostitory;
             _productPackageRepostitory = productPackageRepostitory;
             _packageUserAnswerRepository = packageUserAnswerRepository;
             _productGroupRepository = productGroupRepository;
+            _productPackageGroupRepository = productPackageGroupRepository;
         }
 
         [ActionRole("صفحه لیست پکیج ها")]
@@ -64,6 +67,10 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         [ActionRole("ثبت پکیج جدید")]
         public async Task<IActionResult> Create()
         {
+            var model = await _productGroupRepository.GetListAsync(a => a.Parent == null);
+
+            ViewBag.Groups = model.ToList();
+
             return View();
         }
 
@@ -71,12 +78,15 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ProductPackageInsertViewModel product
             , PackageFeatureInsertViewModel vm
+            , List<int> groups
             , IFormFile file)
         {
             // ثبت محصول
             var packageId = await _productPackageRepostitory.SubmitProduct(product, file);
 
             await _packageUserAnswerRepository.AddAnswer(vm, UserId, packageId);
+
+            await _productPackageGroupRepository.AddGroupRange(groups, packageId);
 
             // نمایش پیغام
             TempData.AddResult(SweetAlertExtenstion.Ok());

@@ -170,6 +170,64 @@ namespace Service.Repos.Features
 
         }
 
+        public List<FeatureQuestionListViewModel> ListQuestions(List<int> group)
+        {
+            var questionQuery = $@"
+                
+            select * Into #tmp from
+            [dbo].[FN_GetTableOfs]('{GroupIds()}')
+
+            SELECT FeatureQuestionForPakage.QuestionTitle,Feature.Id,FeatureQuestionForPakage.Id as QuestionId ,
+	        FeatureQuestionForPakage.GroupId as GroupId
+	        from FeatureQuestionForPakage join
+            Feature on FeatureQuestionForPakage.FeatureId = Feature.Id and FeatureQuestionForPakage.GroupId in (select * from #tmp)
+                ";
+
+            var questionModels = connection.Query<FeatureQuestionViewModel>(questionQuery).ToList();
+
+            var questionItem = $@"
+            select * Into #tmp from
+            [dbo].[FN_GetTableOfs]('{FeatureIds()}')
+            
+            Select  * from FeatureItem
+            where FeatureId in (select * from #tmp)
+            ";
+
+            var items = connection.Query<FeatureQuestionListItemViewModel>(questionItem);
+
+            return GetItems().ToList();
+
+            #region LocalFunctions
+
+            string FeatureIds()
+            {
+                var featureIds = questionModels.Select(a => a.Id).ToList();
+
+                return string.Join(",", featureIds).TrimEnd(',');
+            }
+
+            string GroupIds()
+            {
+                return string.Join(",", group).TrimEnd(',');
+            }
+
+            IEnumerable<FeatureQuestionListViewModel> GetItems()
+            {
+                foreach (var item in questionModels)
+                {
+                    yield return new FeatureQuestionListViewModel()
+                    {
+                        Question = item,
+                        Items = items.Where(a => a.FeatureId == item.Id).ToList()
+                    };
+                }
+
+            }
+
+            #endregion
+
+        }
+
         #endregion
     }
 
