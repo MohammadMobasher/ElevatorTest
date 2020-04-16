@@ -100,10 +100,11 @@
 
     <div id="wrapper" class="wrapper">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/jquery.lazy.js"></script>
         <script src="~/lib/BootstrapPersianDateTimePicker/bootstrap.datetimepicker.js"></script>
         <script src="~/lib/vue.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        
+
         <script src="~/lib/Buefy/buefy.min.js"></script>
 
 
@@ -576,7 +577,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -600,7 +601,23 @@
     <script src="~/Plugins/Template/js/main.js"></script>
     <script src="~/js/site.js"></script>
 
+    <script>
+        $(function () {
 
+
+            $('.lazy').Lazy({
+                // your configuration goes here
+                scrollDirection: 'vertical',
+                effect: 'fadeIn',
+                visibleOnly: true,
+                onError: function (element) {
+                    console.log('error loading ' + element.data('src'));
+                }
+            });
+
+        });
+
+    </script>
 
 
 

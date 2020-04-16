@@ -11,15 +11,15 @@
     <div class="hoproduct-image">
 
         <a class="hoproduct-thumb VisitCounter" data-id="@Model.Id" href="/Product/ProductDetail/@Model.Id">
-            <img class="hoproduct-frontimage" onerror="imgError(this);" src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
-            <img class="hoproduct-backimage" onerror="imgError(this);" src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
+            <img class="hoproduct-frontimage lazy" onerror="imgError(this);" data-src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
+            <img class="hoproduct-backimage lazy" onerror="imgError(this);" data-src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
         </a>
 
         <ul class="hoproduct-flags">
             @*<li class="flag-pack">جدید</li>*@
             @if (isDiscount)
             {
-            <li class="flag-discount">@((Model.Price - Model.PriceWithDiscount).ToPersianPrice()) تومان تخفیف</li>
+                <li class="flag-discount">@((Model.Price - Model.PriceWithDiscount).ToPersianPrice()) تومان تخفیف</li>
             }
         </ul>
     </div>
@@ -46,7 +46,7 @@
                     <span class="price">@Model.Price.ToPersianPrice() تومان</span>
                 }
             </div>
-         
+
         </div>
     </div>
 </article>
