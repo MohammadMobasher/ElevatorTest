@@ -1,6 +1,8 @@
 ﻿using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +33,9 @@ namespace Service.Repos.Product
             await AddRangeAsync(list);
         }
 
-
+        public async Task<List<ProductPackageGroups>> getItemsByPackageId(int packageId)
+        {
+            return await Entities.Include(x=> x.ProductGroup).Where(x => x.PackageId == packageId).ToListAsync();
+        }
     }
 }

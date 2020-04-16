@@ -55,14 +55,10 @@
 
                     foreach (var item in Model)
                     {
-                        <span>
-                            @{
-                                var isSelected = productsId.Contains(item.Id);
-                            }
-                        </span>
-                        <tr style="background-color:@(isSelected?"yellow":"white")">
+                      
+                        <tr style="background-color:@(true?"yellow":"white")">
 
-                            <td><input @(isSelected ? "checked" : "") class="cheacker" type="checkbox" data-role="@item.Id"></td>
+                            <td><input @(true ? "checked" : "") class="cheacker" type="checkbox" data-role="@item.Id"></td>
                             <td>@(index++)</td>
                             <td>@item.Title</td>
                             <td>
