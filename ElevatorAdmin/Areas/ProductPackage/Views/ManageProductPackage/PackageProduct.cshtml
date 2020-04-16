@@ -142,7 +142,18 @@
             $.post('/ProductPackage/ManageProductPackage/ProductPackageAddItem'
                 , { products: list, packageId: packageId, groupId: selectedGroupId}, function () {
 
-
+                    swal.fire({
+                        title: 'موفق' ,
+                        text: 'عملیات با موفقیت انجام شد',
+                        type: "success" ,
+                        confirmButtonText: "تایید",
+                        showClass: {
+                            popup: 'animated fadeInDown faster'
+                        },
+                        hideClass: {
+                            popup: 'animated fadeOutUp faster'
+                        }
+                    });
             });
         });
     })
