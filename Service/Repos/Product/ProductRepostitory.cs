@@ -487,7 +487,8 @@ namespace Service.Repos
             return model.ToList();
         }
 
-        public async Task<List<ProductQueryFullDTO>> GetProductForPackage(int packageId,int groupId)
+        public async Task<List<ProductQueryFullDTO>> GetProductForPackage(int packageId
+            ,int groupId , List<int> beforeGroups)
         {
             try
             {
@@ -529,7 +530,13 @@ namespace Service.Repos
 
                 select * from Product where Id in (select * from @T);
                 select * from ProductFeature where ProductId in (select * from @T);
-                select * from ProductGroupDependencies where GroupId1 = ${groupId} and GroupId2 in (select Id from ProductGroup where [Order] < (select [Order] from ProductGroup where Id = ${groupId}));
+
+                 select * Into #tmp from
+                 [dbo].[FN_GetTableOfs]({string.Join(',', beforeGroups)})
+
+                select * from ProductGroupDependencies where GroupId1 = {groupId} and GroupId2 in (select * from #tmp)
+
+                --select * from ProductGroupDependencies where GroupId1 = ${groupId} and GroupId2 in (select Id from ProductGroup where [Order] < (select [Order] from ProductGroup where Id = ${groupId}));
 
                 ";
 
