@@ -269,7 +269,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         public async Task<IActionResult> getProductForPackge(int groupId, int packageId, List<int> beforeGroups)
         {
-            var model = await _productRepostitory.GetProductForPackage(packageId, groupId);
+            var model = await _productRepostitory.GetProductForPackage(packageId, groupId, beforeGroups);
             ViewBag.SelectedProducts = await _productPackageDetailsRepostitory
                .GetAllByGroupIdAndPackageId(packageId, groupId);
 
@@ -277,10 +277,10 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProductPackageAddItem(List<int> products 
-            , int packageId,int groupId)
+        public async Task<IActionResult> ProductPackageAddItem(List<int> products
+            , int packageId, int groupId)
         {
-            var model =await _productPackageDetailsRepostitory
+            var model = await _productPackageDetailsRepostitory
                 .ProductPackageAddItem(products, packageId, groupId);
 
             return Json(true);
