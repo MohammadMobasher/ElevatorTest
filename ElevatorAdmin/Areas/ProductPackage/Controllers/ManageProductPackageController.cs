@@ -255,8 +255,10 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         public async Task<IActionResult> PackageProduct(int id)
         {
-            ViewBag.Groups = await _productGroupRepository
-                .GetListAsync(a => a.ParentId == null);
+            ViewBag.Groups =  _productPackageGroupRepository.GetByCondition(x => x.PackageId == id);
+            //ViewBag.Groups = 
+            //    await _productGroupRepository
+            //    .GetListAsync(a => a.ParentId == null);
 
             ViewBag.PackageId = id;
 
