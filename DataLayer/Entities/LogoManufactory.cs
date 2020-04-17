@@ -16,6 +16,9 @@ namespace DataLayer.Entities
         public string URL { get; set; }
 
 
+        public string Alt { get; set; }
+
+
         [StringLength(500)]
         public string AddressImg { get; set; }
 

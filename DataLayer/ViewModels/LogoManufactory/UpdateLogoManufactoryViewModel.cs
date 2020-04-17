@@ -17,7 +17,8 @@ namespace DataLayer.ViewModels.LogoManufactory
         public string URL { get; set; }
 
 
-        
+        public string Alt { get; set; }
+
         public string AddressImg { get; set; }
 
         public IFormFile ImageFile { get; set; }
