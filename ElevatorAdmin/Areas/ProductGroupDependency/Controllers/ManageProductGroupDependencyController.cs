@@ -54,6 +54,11 @@ namespace ElevatorAdmin.Areas.ProductGroupDependency.Controllers
                 this.PageSize,
                 searchModel);
 
+            var featureIds = model.Item2.Select(x => x.Feature1.Value).ToList();
+            featureIds.AddRange(model.Item2.Select(x => x.Feature2).ToList());
+
+            ViewBag.featureValueSelected = await _featureItemRepository.GetListAsync(x => featureIds.Contains(x.FeatureId));
+
             this.TotalNumber = model.Item1;
 
             ViewBag.SearchModel = searchModel;
@@ -98,11 +103,19 @@ namespace ElevatorAdmin.Areas.ProductGroupDependency.Controllers
         [HasAccess]
         public async Task<IActionResult> Update(int id)
         {
+            var model = await _productGroupDependenciesRepository.GetByIdAsync(id);
             ViewBag.ProductGroups = await _productGroupRepository.GetAllAsync();
             ViewBag.Products = await _featureRepository.GetAllAsync();
             ViewBag.Conditions = await _conditionRepository.GetAllAsync();
+            ViewBag.Feature1 = await _productGroupFeatureRepository.GetFeaturesByGroupIdRecAsync(model.GroupId1);
+            ViewBag.Feature2 = await _productGroupFeatureRepository.GetFeaturesByGroupIdRecAsync(model.GroupId2);
 
-            var model = await _productGroupDependenciesRepository.GetByIdAsync(id);
+            ViewBag.Value1 = await _featureItemRepository.GetitemsByFeatureId(model.Feature1);
+            ViewBag.Value2 = await _featureItemRepository.GetitemsByFeatureId(model.Feature2);
+            
+
+
+
 
             return View(model);
         }

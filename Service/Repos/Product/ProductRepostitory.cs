@@ -127,13 +127,13 @@ namespace Service.Repos
 
                 vm.IndexPic = await MFile.Save(file, FilePath.Product.GetDescription());
             }
-            
+
 
             var model = GetById(vm.Id);
             if (file == null)
                 vm.IndexPic = model.IndexPic;
             Mapper.Map(vm, model);
-            
+
             DbContext.SaveChanges();
 
             return model.Id;
@@ -234,12 +234,12 @@ namespace Service.Repos
             try
             {
                 var value = new { productId = ID };
-                var results = _connection.Query("[productDeleteSP]", value, commandType:CommandType.StoredProcedure).ToList();
+                var results = _connection.Query("[productDeleteSP]", value, commandType: CommandType.StoredProcedure).ToList();
 
-                
+
                 return SweetAlertExtenstion.Ok();
             }
-            catch(Exception E)
+            catch (Exception E)
             {
                 return SweetAlertExtenstion.Error();
             }
@@ -328,7 +328,7 @@ namespace Service.Repos
         {
 
             string groupAndSubGroupId = "";
-            if(selectedsubGroup != null && selectedsubGroup.Count > 0)
+            if (selectedsubGroup != null && selectedsubGroup.Count > 0)
             {
                 selectedsubGroup.Add(productGroupId);
                 groupAndSubGroupId = string.Join(",", selectedsubGroup);
@@ -344,15 +344,15 @@ namespace Service.Repos
 
                 foreach (var distinctFeature in featureSearchableVM.DistinctBy(x => x.FeaureId))
                 {
-                    
+
                     featureSearchWhere += " (ProductFeature.FeatureId in (" + distinctFeature.FeaureId + ") ";
-                    featureSearchWhere += @" and ProductFeature.FeatureValue in ( " + 
-                        string.Join(",", featureSearchableVM.Where(x=> x.FeaureId == distinctFeature.FeaureId).Select(x=> x.FeatureValue))
+                    featureSearchWhere += @" and ProductFeature.FeatureValue in ( " +
+                        string.Join(",", featureSearchableVM.Where(x => x.FeaureId == distinctFeature.FeaureId).Select(x => x.FeatureValue))
                         + ")) or ";
-                    
+
                 }
                 featureSearchWhere = featureSearchWhere.Substring(0, featureSearchWhere.Length - 3) + @" group by ProductId
-		            having count(ProductId) = "+ featureSearchableVM.DistinctBy(x => x.FeaureId).Count() + ") and ";
+		            having count(ProductId) = " + featureSearchableVM.DistinctBy(x => x.FeaureId).Count() + ") and ";
             }
 
             string sql = @"
@@ -361,7 +361,7 @@ namespace Service.Repos
                         with A as (
                            select Id, ParentId
                                from ProductGroup
-                               where Id = "+productGroupId+@"
+                               where Id = " + productGroupId + @"
                                union all
                            select c.Id, c.ParentId
                                from ProductGroup c
@@ -382,8 +382,8 @@ namespace Service.Repos
                     select Product.* from Product " +
                     (featureSearchableVM != null && featureSearchableVM.Count > 0 ? featureSearchWhere : " where ")
                     + @"
-                    ProductGroupId in ("+ ((selectedsubGroup != null && selectedsubGroup.Count > 0 ? groupAndSubGroupId : "select * from @T")) +@")
-                        and Title LIKE '%"+ titleSearch + @"%' 
+                    ProductGroupId in (" + ((selectedsubGroup != null && selectedsubGroup.Count > 0 ? groupAndSubGroupId : "select * from @T")) + @")
+                        and Title LIKE '%" + titleSearch + @"%' 
                     order by NEWID()
                     OFFSET " + (skip - 1) * take + @" ROWS
                     FETCH NEXT " + take + @" ROWS ONLY;
@@ -391,7 +391,7 @@ namespace Service.Repos
 
             try
             {
-                
+
                 var results = await _connection.QueryMultipleAsync(sql + countQuery + productQuery);
 
                 var CountResult = await results.ReadAsync<CountDTO>();
@@ -482,18 +482,20 @@ namespace Service.Repos
                 Product.IsActive = 1
                 ";
 
-            var model =await _connection.QueryAsync<ProductQueryFullDTO>(sqlQuery);
+            var model = await _connection.QueryAsync<ProductQueryFullDTO>(sqlQuery);
 
             return model.ToList();
         }
 
         public async Task<List<ProductQueryFullDTO>> GetProductForPackage(int packageId
-            ,int groupId , List<int> beforeGroups)
+            , int groupId, List<int> beforeGroups)
         {
             try
             {
                 var sqlQuery = $@"
                 declare @T table(Id int);
+                declare @thisGroup_ table(Id int);
+                declare @beforeGroup_ table(Id int);
 
                 With A as (
 	                select 
@@ -511,12 +513,6 @@ namespace Service.Repos
                 insert into @T(Id)  
                   select
 	                  Product.Id
-	                  --Product.Title,
-	                  --Product.Price,
-	                  --Product.PriceWithDiscount,
-	                  --Product.ProductGroupId, 
-	                  --ProductGroup.Title As GroupTitle,
-	                  --ProductGroup.ParentId
                   from ProductFeature
                   join Product on 
 		                Product.Id = ProductFeature.ProductId
@@ -530,28 +526,182 @@ namespace Service.Repos
 
                 select * from Product where Id in (select * from @T);
                 select * from ProductFeature where ProductId in (select * from @T);
+                
+";
 
-                 select * Into #tmp from
-                 [dbo].[FN_GetTableOfs]({string.Join(',', beforeGroups)})
+                if (beforeGroups != null && beforeGroups.Count > 0)
+                {
+                    sqlQuery += $@"with thisGroup as (
+                           select Id, ParentId
+                               from ProductGroup
+                               where Id = { groupId}
+                    union all
+                           select c.Id, c.ParentId
+                               from ProductGroup c
+                                   join thisGroup p on p.Id = c.ParentId)
 
-                select * from ProductGroupDependencies where GroupId1 = {groupId} and GroupId2 in (select * from #tmp)
+                
+                insert into @thisGroup_(Id)
+                          select Id
+                        from thisGroup;
 
-                --select * from ProductGroupDependencies where GroupId1 = ${groupId} and GroupId2 in (select Id from ProductGroup where [Order] < (select [Order] from ProductGroup where Id = ${groupId}));
+                    with beforeGroup as (
+                               select Id, ParentId
+                                   from ProductGroup
+                                   where Id in ({ string.Join(',', beforeGroups)})
+                               union all
+                           select c.Id, c.ParentId
+                               from ProductGroup c
+                                   join beforeGroup p on p.Id = c.ParentId)
 
-                ";
+                insert into @beforeGroup_(Id)
+                          select Id
+                        from beforeGroup;
+                select 
+                    *,
+                    Condition.Name
+
+                from ProductGroupDependencies 
+                join Condition on ProductGroupDependencies.ConditionId = Condition.Id
+                where 
+                    GroupId1 in (select Id from @thisGroup_) and
+                    GroupId2 in (select Id from @beforeGroup_);
+                    
+                select Distinct
+	                Feature.Id as FeatureId,
+	                ProductFeature.[FeatureValue],
+	                Product.Id as ProductId,
+	                Product.ProductGroupId
+	            from ProductPackageDetails
+	               join Product on ProductPackageDetails.ProductId = Product.Id
+	               join ProductFeature on Product.Id = ProductFeature.ProductId 
+	               join Feature on ProductFeature.FeatureId = Feature.Id
+	            where PackageId = 15 and Feature.FeatureType = 2 and Product.ProductGroupId in (select Id from @beforeGroup_)
+
+                    
+                    ";
+                }
+
+
 
                 var results = await _connection.QueryMultipleAsync(sqlQuery);
                 var products = await results.ReadAsync<ProductQueryFullDTO>();
                 var Features = await results.ReadAsync<ProductFeaturesFullDTO>();
-                var dependency = await results.ReadAsync<ProductGroupDependenciesFullDTO>();
+                if (beforeGroups != null && beforeGroups.Count > 0)
+                {
+                    var dependency = await results.ReadAsync<ProductGroupDependenciesFullDTO>();
+                    if (dependency != null && dependency.Count() > 0)
+                    {
+                        var selectedProduct = await results.ReadAsync<ProductPackageSelectedDTO>();
+                        foreach (ProductGroupDependenciesFullDTO item in dependency)
+                        {
+                            var features = selectedProduct.Where(x => x.FeatureId == item.Feature2 && x.FeatureValue == item.Value2);
+                            if (features.Any())
+                            {
+                                switch (item.Name)
+                                {
+                                    case ">":
+
+                                        products = products.Where(x =>
+
+                                            Features
+                                            .Where(a => 
+                                                a.FeatureId == item.Feature1 && 
+                                                Convert.ToInt32(a.FeatureValue) > Convert.ToInt32(item.Value1))
+                                            .Select(a => a.ProductId).ToList().Contains(x.Id)
+
+                                        );
+
+
+                                        break;
+
+                                    case ">=":
+
+                                        products = products.Where(x =>
+
+                                            Features
+                                            .Where(a =>
+                                                a.FeatureId == item.Feature1 &&
+                                                Convert.ToInt32(a.FeatureValue) >= Convert.ToInt32(item.Value1))
+                                            .Select(a => a.ProductId).ToList().Contains(x.Id)
+
+                                        );
+
+
+                                        break;
+
+
+                                    case "<":
+
+                                        products = products.Where(x =>
+
+                                            Features
+                                            .Where(a =>
+                                                a.FeatureId == item.Feature1 &&
+                                                Convert.ToInt32(a.FeatureValue) < Convert.ToInt32(item.Value1))
+                                            .Select(a => a.ProductId).ToList().Contains(x.Id)
+
+                                        );
+
+
+                                        break;
+
+                                    case "<=":
+
+                                        products = products.Where(x =>
+
+                                            Features
+                                            .Where(a =>
+                                                a.FeatureId == item.Feature1 &&
+                                                Convert.ToInt32(a.FeatureValue) <= Convert.ToInt32(item.Value1))
+                                            .Select(a => a.ProductId).ToList().Contains(x.Id)
+
+                                        );
+
+
+                                        break;
+                                    case "!=":
+
+                                        products = products.Where(x =>
+
+                                            Features
+                                            .Where(a =>
+                                                a.FeatureId == item.Feature1 &&
+                                                Convert.ToInt32(a.FeatureValue) != Convert.ToInt32(item.Value1))
+                                            .Select(a => a.ProductId).ToList().Contains(x.Id)
+
+                                        );
+
+
+                                        break;
+
+                                    case "==":
+
+                                        products = products.Where(x =>
+
+                                            Features
+                                            .Where(a =>
+                                                a.FeatureId == item.Feature1 &&
+                                                Convert.ToInt32(a.FeatureValue) == Convert.ToInt32(item.Value1))
+                                            .Select(a => a.ProductId).ToList().Contains(x.Id)
+
+                                        );
+
+
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
 
                 return products.ToList();
             }
-            catch(Exception E)
+            catch (Exception E)
             {
                 return null;
             }
         }
 
-    } 
+    }
 }

@@ -10,6 +10,10 @@
     List<ProductGroupDTO> ProductGroups = ViewBag.ProductGroups;
     List<FeatureIdTitleDTO> Features = ViewBag.Products;
     List<ConditionDTO> Conditions = ViewBag.Conditions;
+    List<FeatureIdTitleDTO> Feature1 = ViewBag.Feature1;
+    List<FeatureIdTitleDTO> Feature2 = ViewBag.Feature2;
+    List<FeatureIdTitleDTO> Value1 = ViewBag.Value1;
+    List<FeatureIdTitleDTO> Value2 = ViewBag.Value2;
 }
 
 
@@ -20,7 +24,7 @@
     <div class="form-group">
         <label for="Title" class="control-label col-sm-2">عنوان وابستگی <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" required="required" value="@Model.Title" name="Title" aria-describedby="Title" placeholder="عنوان وابستگی" />
+            <input type="text" class="form-control" value="@Model.Title" required="required" name="Title" aria-describedby="Title" placeholder="عنوان وابستگی" />
         </div>
     </div>
 
@@ -58,11 +62,12 @@
                 <div class="form-group">
                     <label for="GroupId1" class="control-label col-sm-6">گروه وابسته <i class="text-danger fa fa-star size-8"></i></label>
                     <div class="col-sm-12">
-                        <select name="GroupId1" data-role="Group1" class="select2">
-                            <option value="">انتخاب نمایید...</option>
+
+                        <select class="form-control" name="GroupId1" required>
+                            <option value="">--لطفا انتخاب کنید--</option>
                             @foreach (ProductGroupDTO item in ProductGroups)
                             {
-                                if (Model.GroupId1 == item.Id)
+                                if (item.Id == Model.GroupId1)
                                 {
                                     <option selected value="@item.Id">@item.Title</option>
                                 }
@@ -72,17 +77,20 @@
                                 }
                             }
                         </select>
+
+
+
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="Feature1" class="control-label col-sm-6">ویژگی <i class="text-danger fa fa-star size-8"></i></label>
                     <div class="col-sm-12">
-                        <select name="Feature1" data-role="Feature1" class="select2">
+                        <select name="Feature1" required class="form-control">
                             <option value="">انتخاب نمایید...</option>
-                            @foreach (FeatureIdTitleDTO item in Features)
+                            @foreach (FeatureIdTitleDTO item in Feature1)
                             {
-                                if (Model.Feature1 == item.Id)
+                                if (item.Id == Model.Feature1)
                                 {
                                     <option selected value="@item.Id">@item.Title</option>
                                 }
@@ -98,7 +106,22 @@
                 <div class="form-group">
                     <label for="Value1" class="control-label col-sm-6">مقدار</label>
                     <div class="col-sm-12">
-                        <input type="text" value="@Model.Value1" class="form-control" name="Value1" aria-describedby="Value1" placeholder="مقدار" />
+
+                        <select name="Value1" required class="form-control">
+                            <option value="">انتخاب نمایید...</option>
+                            @foreach (FeatureIdTitleDTO item in Value1)
+                            {
+                                if (item.Id.ToString() == Model.Value1)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+                            }
+                        </select>
+                        @*<input type="text" class="form-control" name="Value1" aria-describedby="Value1" placeholder="مقدار" />*@
                     </div>
                 </div>
             </div>
@@ -110,13 +133,11 @@
                 <div class="form-group">
                     <label for="Title" class="control-label col-sm-6">گروه وابستگی <i class="text-danger fa fa-star size-8"></i></label>
                     <div class="col-sm-12">
-                        <select name="GroupId2" data-role="Group2" class="select2">
+                        <select name="GroupId2" required class="form-control">
                             <option value="">انتخاب نمایید...</option>
                             @foreach (ProductGroupDTO item in ProductGroups)
                             {
-
-
-                                if (Model.GroupId2 == item.Id)
+                                if (item.Id == Model.GroupId2)
                                 {
                                     <option selected value="@item.Id">@item.Title</option>
                                 }
@@ -124,7 +145,6 @@
                                 {
                                     <option value="@item.Id">@item.Title</option>
                                 }
-
                             }
                         </select>
                     </div>
@@ -133,11 +153,32 @@
                 <div class="form-group">
                     <label for="Feature2" class="control-label col-sm-6">ویژگی <i class="text-danger fa fa-star size-8"></i></label>
                     <div class="col-sm-12">
-                        <select name="Feature2" data-role="Feature2" class="select2">
+                        <select name="Feature2" required class="form-control">
                             <option value="">انتخاب نمایید...</option>
-                            @foreach (FeatureIdTitleDTO item in Features)
+                            @foreach (FeatureIdTitleDTO item in Feature2)
                             {
-                                if (Model.Feature2 == item.Id)
+                                if (item.Id == Model.Feature2)
+                                {
+                                    <option selected value="@item.Id">@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Value2" class="control-label col-sm-6">مقدار <i class="text-danger fa fa-star size-8"></i></label>
+                    <div class="col-sm-12">
+                        <select name="Value2" required class="form-control">
+                            <option value="">انتخاب نمایید...</option>
+                            @foreach (FeatureIdTitleDTO item in Value2)
+                            {
+                                if (item.Id.ToString() == Model.Value2)
                                 {
                                     <option selected value="@item.Id">@item.Title</option>
                                 }
@@ -147,13 +188,7 @@
                                 }
                             }
                         </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="Value2" class="control-label col-sm-6">مقدار</label>
-                    <div class="col-sm-12">
-                        <input type="text" value="@Model.Value2" class="form-control" name="Value2" aria-describedby="Value2" placeholder="عنوان واحد" />
+                        @*<input type="text" class="form-control" name="Value2" aria-describedby="Value2" placeholder="عنوان واحد" />*@
                     </div>
                 </div>
 
@@ -170,12 +205,130 @@
 
 
 <script>
-        jQuery(document).ready(function() {
-            // Select2
-                $("[data-role='Group1']").select2();
-                $("[data-role='Feature1']").select2();
-                $("[data-role='Group2']").select2();
-                $("[data-role='Feature2']").select2();
-            });
+
+
+
+    //jQuery(document).ready(function () {
+    //    // Select2
+    //    $("[data-role='Group1']").select2();
+    //    $("[data-role='Feature1']").select2();
+    //    $("[data-role='Group2']").select2();
+    //    $("[data-role='Feature2']").select2();
+    //});
+
+    $("[name='GroupId1']").on("change", function () {
+        var groupId = $(this).val();
+
+        if (groupId != "") {
+            $("[name='Feature1'] option").remove();
+            var result = AjaxCall("/ProductGroupDependency/ManageProductGroupDependency/getFeatureByGroupId?groupId=" + groupId, null, "post");
+
+            $("[name='Feature1']").append(`<option value=""> 
+                                       انتخاب نمایید... 
+                                  </option>`);
+
+            for (var i = 0; i < result.length; i++) {
+                $("[name='Feature1']").append(`<option value="${result[i].id}"> 
+                                       ${result[i].title}
+                                  </option>`);
+            }
+
+            $("[name='Feature1']").removeAttr("disabled");
+        } else {
+            $("[name='Feature1'] option").remove();
+            $("[name='Feature1']").append(`<option value=""> 
+                                       انتخاب نمایید... 
+                                  </option>`);
+            $("[name='Feature1']").addAttr("disabled");
+        }
+    });
+
+    $("[name='GroupId2']").on("change", function () {
+        var groupId = $(this).val();
+
+        if (groupId != "") {
+            $("[name='Feature2'] option").remove();
+            var result = AjaxCall("/ProductGroupDependency/ManageProductGroupDependency/getFeatureByGroupId?groupId=" + groupId, null, "post");
+
+            $("[name='Feature2']").append(`<option value=""> 
+                                       انتخاب نمایید... 
+                                  </option>`);
+
+            for (var i = 0; i < result.length; i++) {
+                $("[name='Feature2']").append(`<option value="${result[i].id}"> 
+                                       ${result[i].title}
+                                  </option>`);
+            }
+
+            $("[name='Feature2']").removeAttr("disabled");
+        } else {
+            $("[name='Feature2'] option").remove();
+            $("[name='Feature2']").append(`<option value=""> 
+                                       انتخاب نمایید... 
+                                  </option>`);
+            $("[name='Feature2']").addAttr("disabled");
+        }
+    });
+
+
+    $("[name='Feature1']").on("change", function () {
+        var featureId = $(this).val();
+
+        if (featureId != "") {
+            var result = AjaxCall("/ProductGroupDependency/ManageProductGroupDependency/getFeatureValues?featureId=" + featureId, null, "post");
+            console.log(result);
+            $("[name='Value1']").append(`<option value=""> 
+                                       انتخاب نمایید... 
+                                  </option>`);
+
+            for (var i = 0; i < result.length; i++) {
+                $("[name='Value1']").append(`<option value="${result[i].id}"> 
+                                       ${result[i].title}
+                                  </option>`);
+            }
+
+            $("[name='Value1']").removeAttr("disabled");
+        } else {
+            $("[name='Value1'] option").remove();
+            $("[name='Value1']").append(`<option value=""> 
+                                       انتخاب نمایید... 
+                                  </option>`);
+            $("[name='Value1']").addAttr("disabled");
+        }
+    });
+
+
+
+    $("[name='Feature2']").on("change", function () {
+        var featureId = $(this).val();
+
+        if (featureId != "") {
+            var result = AjaxCall("/ProductGroupDependency/ManageProductGroupDependency/getFeatureValues?featureId=" + featureId, null, "post");
+
+            $("[name='Value2']").append(`<option value=""> 
+                                       انتخاب نمایید... 
+                                  </option>`);
+
+            for (var i = 0; i < result.length; i++) {
+                $("[name='Value2']").append(`<option value="${result[i].id}"> 
+                                       ${result[i].title}
+                                  </option>`);
+            }
+
+            $("[name='Value2']").removeAttr("disabled");
+        } else {
+            $("[name='Value2'] option").remove();
+            $("[name='Value2']").append(`<option value=""> 
+                                       انتخاب نمایید... 
+                                  </option>`);
+            $("[name='Value2']").addAttr("disabled");
+        }
+    });
+
+    $('select:not(.searchSelect)').each(function () {
+        $(this).select2({
+            dropdownParent: $(this).parent()
+        });
+    });
 
 </script>

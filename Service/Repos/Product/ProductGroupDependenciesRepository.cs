@@ -25,19 +25,22 @@ namespace Service.Repos.Product
          int take = -1,
          ProductGroupDependenciesSearchViewModel model = null)
         {
-            
+
 
 
             var query = (from productGroupDependencies in DbContext.ProductGroupDependencies
-                          // ارتباط برای گروه وابسته
-                          join productGroup1 in DbContext.ProductGroup on productGroupDependencies.GroupId1 equals productGroup1.Id
-                          // برای ویژگی از جدول وابسته
-                          join feature1 in DbContext.Feature on productGroupDependencies.Feature1 equals feature1.Id
+                             // ارتباط برای گروه وابسته
+                         join productGroup1 in DbContext.ProductGroup on productGroupDependencies.GroupId1 equals productGroup1.Id
+                         // برای ویژگی از جدول وابسته
+                         join feature1 in DbContext.Feature on productGroupDependencies.Feature1 equals feature1.Id
+                         //join featureItem1 in DbContext.FeatureItem on feature1.Id equals featureItem1.FeatureId
+                         //where featureItem1.Id == productGroupDependencies.Value1
 
-                          // ارتباط برای جدولی که وابستگی به آن است
-                          join productGroup2 in DbContext.ProductGroup on productGroupDependencies.GroupId2 equals productGroup2.Id
+                         // ارتباط برای جدولی که وابستگی به آن است
+                         join productGroup2 in DbContext.ProductGroup on productGroupDependencies.GroupId2 equals productGroup2.Id
                           // برای ویژگی از جدول وابسته
                           join feature2 in DbContext.Feature on productGroupDependencies.Feature2 equals feature2.Id
+                         
 
                           select new ProductGroupDependenciesFullDTO
                           {
@@ -51,6 +54,7 @@ namespace Service.Repos.Product
                               Feature1 = productGroupDependencies.Feature1,
                               Feature1Title = feature1.Title,
                               Value1 = productGroupDependencies.Value1,
+                              //FeatureValueSelected = (featureItem1.Value == )
                               #endregion
 
                               #region جدول دوم

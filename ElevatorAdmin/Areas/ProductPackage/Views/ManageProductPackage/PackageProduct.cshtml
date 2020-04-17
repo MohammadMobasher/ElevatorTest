@@ -127,6 +127,7 @@
             for (var i = 0; i < beforeGroup.length; i++) {
                 beforeGroupsId.push($(beforeGroup[i]).attr("data-role"));
             }
+            console.log(beforeGroupsId);
 
 
             $("#Group_" + selectedGroupId).html(AjaxCall("/ProductPackage/ManageProductPackage/getProductForPackge?groupId=" + selectedGroupId + "&packageId=" + packageId + "&beforeGroups=" + beforeGroupsId, null, "Get"));

@@ -13,6 +13,7 @@ namespace DataLayer.DTO.ProductGroupDependencies
         /// </summary>
         public int? ConditionId { get; set; }
         public string ConditionTitle { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// نام وابستگی
@@ -26,6 +27,7 @@ namespace DataLayer.DTO.ProductGroupDependencies
         public int? Feature1 { get; set; }
         public string Feature1Title { get; set; }
         public string Value1 { get; set; }
+        public string FeatureValueSelected { get; set; }
         #endregion
 
 
