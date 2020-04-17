@@ -16,6 +16,8 @@ namespace DataLayer.Entities
         [Required]
         public string ImgAddress { get; set; }
 
+        public string Alt { get; set; }
+
 
         /// <summary>
         /// فعال یا غیر فعال بودن یک آیتم

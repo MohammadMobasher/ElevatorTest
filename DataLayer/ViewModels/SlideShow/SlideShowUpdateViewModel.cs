@@ -10,8 +10,8 @@ namespace DataLayer.ViewModels.SlideShow
         public int Id { get; set; }
         public string ImgAddress { get; set; }
         public string URL { get; set; }
-        
-        
+        public int Alt { get; set; }
+
 
         /// <summary>
         /// فایلی که ارسال شده برای ذخیره

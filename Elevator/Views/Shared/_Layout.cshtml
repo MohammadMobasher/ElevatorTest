@@ -1,26 +1,4 @@
-﻿@*<!DOCTYPE html>
-    <html lang="fa">*@
-
-@*<head>
-        <meta charset="utf-8" />
-        <link rel="apple-touch-icon" sizes="76x76" href="~/Ul/assets/img/apple-icon.png">
-        <link rel="icon" type="image/png" href="~/Ul/assets/img/favicon.png">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-              name='viewport' />
-        <title>Topkala</title>
-        <!--     Fonts and icons     -->
-        <link rel="stylesheet" href="~/Ul/assets/fonts/font-awesome/css/font-awesome.min.css" />
-        <!-- CSS Files -->
-
-        <link href="~/Ul/assets/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="~/Ul/assets/css/now-ui-kit.css" rel="stylesheet" />
-        <link href="~/Ul/assets/css/plugins/owl.carousel.css" rel="stylesheet" />
-        <link href="~/Ul/assets/css/plugins/owl.theme.default.min.css" rel="stylesheet" />
-        <link href="~/Ul/assets/css/main.css" rel="stylesheet" />
-    </head>*@
-
-@using Service.Repos
+﻿@using Service.Repos
 @using DataLayer.Entities
 @using Service.Repos.Product
 
@@ -39,12 +17,12 @@
 <!-- Mirrored from preview.hasthemes.com/haltico-v3/haltico-rtl/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 28 Sep 2019 14:05:59 GMT -->
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="یک دنیا فن‌آوری در لیفت بازار، فروشگاه اینترنتی انواع آسانسور، موتور آسانسو، کابین آسانسور، سیم بکسل و تجهیزات مربوطه ">
+    <meta name="keywords" content="لیفت بازار،آسانسور،کابین آسانسور،موتور آسانسور،لیفت،بازار،لوازام آسانسور،تجهیزات آسانسور،سیم بکسل آسانسور،سیم بکسل،لوازم،چاله آسانسور">
+    <meta name="author" content="لیفت بازار">
     <title>لیفت بازار</title>
-    <meta name="description" content="">
-
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-          name='viewport' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'name='viewport' />
 
     <!-- Favicon -->
     @*<link rel="shortcut icon" href="~/Plugins/Template/images/favicon.ico" type="image/x-icon">*@
@@ -67,7 +45,7 @@
     <link href="~/Ul/assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/lib/BootstrapPersianDateTimePicker/bootstrap.datetimepicker.style.css" rel="stylesheet" />
     <link href="~/Plugins/Template/fonts/flaticon.css?v=1" rel="stylesheet" />
-    <link rel="stylesheet" href="~/Plugins/Template/css/style.css?v=5">
+    <link rel="stylesheet" href="~/Plugins/Template/css/style1.css?v=5">
     <link rel="stylesheet" href="~/Plugins/Template/css/custom.css?v=5">
     <link href="~/Plugins/Template/fonts/Webfonts/style.css" rel="stylesheet" />
     @*<link href="~/Ul/assets/fonts/font-awesome5-11-2/css/all.css" rel="stylesheet" />*@
@@ -102,8 +80,8 @@
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/js/jquery.lazy.js"></script>
         <script src="~/lib/BootstrapPersianDateTimePicker/bootstrap.datetimepicker.js"></script>
-        <script src="~/lib/vue.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        @*<script src="~/lib/vue.js"></script>*@
+        <script src="~/js/Axios.js"></script>
 
         <script src="~/lib/Buefy/buefy.min.js"></script>
 
@@ -406,13 +384,13 @@
         @RenderBody()
 
         @*<!--// Header -->
-            <!-- Hero Area -->
+        <!-- Hero Area -->
 
-            <!--// Hero Area -->
-            <!-- Page Conttent -->
+        <!--// Hero Area -->
+        <!-- Page Conttent -->
 
-            <!--// Page Conttent -->
-            <!-- Footer -->*@
+        <!--// Page Conttent -->
+        <!-- Footer -->*@
         <footer class="" style="border-top:1px solid #eaeaea;background-color:#e5ecf1">
 
             <!-- Footer Top Area -->
@@ -441,11 +419,11 @@
                                 <h5 class="footer-widget-title">محصولات</h5>
                                 <ul>
                                     @*<li><a href="#">قیمت های سعودی</a></li>
-                                        <li><a href="#">محصولات جدید</a></li>
-                                        <li><a href="#">محصولات تخفیفی</a></li>
-                                        <li><a href="#">تماس با ما</a></li>
-                                        <li><a href="#">ورود</a></li>
-                                        <li><a href="#">حساب من</a></li>*@
+                                    <li><a href="#">محصولات جدید</a></li>
+                                    <li><a href="#">محصولات تخفیفی</a></li>
+                                    <li><a href="#">تماس با ما</a></li>
+                                    <li><a href="#">ورود</a></li>
+                                    <li><a href="#">حساب من</a></li>*@
                                 </ul>
                             </div>
                         </div>
@@ -455,11 +433,11 @@
                                 <h5 class="footer-widget-title">شرکت ما</h5>
                                 <ul>
                                     @*<li><a href="#">تحویل</a></li>
-                                        <li><a href="#">اطلاع قانونی</a></li>
-                                        <li><a href="#">درباره ما</a></li>
-                                        <li><a href="#">پرداخت امن</a></li>
-                                        <li><a href="#">نقشه سایت</a></li>
-                                        <li><a href="#">فروشگاه ها</a></li>*@
+                                    <li><a href="#">اطلاع قانونی</a></li>
+                                    <li><a href="#">درباره ما</a></li>
+                                    <li><a href="#">پرداخت امن</a></li>
+                                    <li><a href="#">نقشه سایت</a></li>
+                                    <li><a href="#">فروشگاه ها</a></li>*@
                                 </ul>
                             </div>
                         </div>
