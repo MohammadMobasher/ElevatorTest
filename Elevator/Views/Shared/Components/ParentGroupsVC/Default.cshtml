@@ -1,0 +1,8 @@
+﻿@using DataLayer.DTO
+
+@model List<ProductGroupDTO>;
+
+@foreach (ProductGroupDTO item in Model)
+{
+    <li><a href="/Product/ProductGroup/@item.Id">@item.Title</a></li>
+}
