@@ -33,18 +33,29 @@ namespace ElevatorAdmin.ViewComponents
             items.Add(new SidebarViewModel { Area = "SlideShow", Controller = "ManageSlideShow", Action = "Index", Title = "مدیریت اسلایدشو", Icon = "fa fa-sliders" });
             items.Add(new SidebarViewModel { Area = "LogoManufactory", Controller = "ManageLogoManufactory", Action = "Index", Title = "مدیریت لوگوها", Icon = "fa fa-sliders" });
 
+            //items.Add(new SidebarViewModel
+            //{
+            //    Controller = "",
+            //    Action = "",
+            //    Title = "مدیریت پکیج ها",
+            //    Icon = "fa fa-archive",
+            //    Childs = new List<SidebarChildViewModel> {
+            //        new SidebarChildViewModel {Area = "ProductPackage", Controller = "ManageProductPackageController", Action = "Index", Title = "مدیریت پکیج ‌ها" },
+            //        new SidebarChildViewModel {Area = "ProductPackage", Controller = "ManagePackageQuestionController", Action = "Index" , Title = "مدیریت سوالات پکیح" }
+            //}
+            //});
             items.Add(new SidebarViewModel
             {
                 Controller = "",
                 Action = "",
-                Title = "مدیریت پکیج ها",
-                Icon = "fa fa-cubes",
+                Title = "مدیریت محصولات",
+                Icon = "fa fa-archive",
                 Childs = new List<SidebarChildViewModel> {
-                    new SidebarChildViewModel {Area = "ProductPackage", Controller = "ManageProductPackageController", Action = "Index", Title = "مدیریت پکیج ‌ها" },
-                    new SidebarChildViewModel {Area = "ProductPackage", Controller = "ManagePackageQuestionController", Action = "Index" , Title = "مدیریت سوالات پکیح" }
+                    new SidebarChildViewModel {Area = "FeatureQuestionForPakage", Controller = "ManageFeatureQuestionForPakage", Action = "Index", Title = "مدیریت سوالات پکیج" },
+                    new SidebarChildViewModel {Area = "ProductPackage", Controller = "ManageProductPackage", Action = "Index", Title = "مدیریت پکیج ‌ها" },
+                    new SidebarChildViewModel {Area = "ProductPackage", Controller = "ManagePackageQuestion", Action = "Index" , Title = "مدیریت سوالات پکیح" },
             }
             });
-
 
             items.Add(new SidebarViewModel
             {
@@ -58,7 +69,7 @@ namespace ElevatorAdmin.ViewComponents
                     new SidebarChildViewModel {Area = "ProductUnit", Controller = "ManageProductUnit", Action = "Index" , Title = "مدیریت واحد کالا‌ها" },
                     new SidebarChildViewModel {Area = "Product", Controller = "ManageProduct", Action = "Index" , Title = "مدیریت محصولات" },
                     new SidebarChildViewModel {Area = "ProductGroupDependency", Controller = "ManageProductGroupDependency", Action = "Index" , Title = "مدیریت وابستگی‌ها" },
-                    new SidebarChildViewModel {Area = "ProductPackage", Controller = "ManageProductPackage", Action = "Index" , Title = "مدیریت پیکج" },
+                    //new SidebarChildViewModel {Area = "ProductPackage", Controller = "ManageProductPackage", Action = "Index" , Title = "مدیریت پیکج" },
                     //new SidebarChildViewModel {Area = "Condition", Controller = "ManageCondition", Action = "Index" , Title = "مدیریت شروط" }
             }
             });
