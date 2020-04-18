@@ -1,0 +1,11 @@
+[
+  {
+    "outputFileName": "wwwroot/Plugins/Template/css/minify.css",
+    "inputFiles": [
+      "wwwroot/Plugins/Template/css/bootstrap.min.css",
+      "wwwroot/Plugins/Template/css/custom.css",
+      "wwwroot/Plugins/Template/css/plugins.css",
+      "wwwroot/Plugins/Template/css/style1.css"
+    ]
+  }
+]

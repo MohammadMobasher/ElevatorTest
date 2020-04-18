@@ -77,11 +77,14 @@ namespace Service.Repos
         }
 
 
-        public async Task<int> SubmitProduct(ProductPackageInsertViewModel vm, IFormFile file)
+        public async Task<int> CreateAsync(ProductPackageInsertViewModel vm, IFormFile file)
         {
+
             vm.IndexPic = await MFile.Save(file, FilePath.productPackage.GetDescription());
 
             var mapModel = Map(vm);
+
+            mapModel.IsManager = true;
 
             await AddAsync(mapModel);
 

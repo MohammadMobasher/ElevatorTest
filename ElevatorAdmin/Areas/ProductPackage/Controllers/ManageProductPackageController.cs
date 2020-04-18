@@ -81,8 +81,8 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             , List<int> groups
             , IFormFile file)
         {
-            // ثبت محصول
-            var packageId = await _productPackageRepostitory.SubmitProduct(product, file);
+            // ثبت پکیج
+            var packageId = await _productPackageRepostitory.CreateAsync(product, file);
 
             await _packageUserAnswerRepository.AddAnswer(vm, UserId, packageId);
 
