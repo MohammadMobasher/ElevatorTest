@@ -1,0 +1,22 @@
+﻿@model List<DataLayer.DTO.Products.ProductPackageFullDTO>
+
+<div class="ho-section related-product-area pb-30">
+    <div class="container">
+        <div class="section-title">
+            <h3>پکیج های مرتبط</h3>
+        </div>
+        <div class="product-slider new-best-featured-slider slider-navigation-2">
+            @foreach (var item in Model)
+            {
+            <div class="product-slider-col">
+                <!-- Single Product -->
+                @Html.Partial("_ProductPackageIndexGeneral", item)
+                <!--// Single Product -->
+            </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+ 

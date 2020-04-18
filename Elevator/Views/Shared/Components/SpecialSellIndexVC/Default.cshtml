@@ -2,18 +2,28 @@
 @model List<ProductFullDTO>
 @using DNTPersianUtils.Core
 
-<div class="product-slider deal-of-the-day-slider-2 slider-navigation-2 slider-dots">
 
-    @foreach (var item in Model)
-    {
-    <div class="product-slider-col">
-        @Html.Partial("_ProductWithDiscountPartial", item)
+@if (Model.Any())
+{
+    <div class="ho-section deal-of-the-day-area bg-white ptb-30">
+        <div class="container">
+            <div class="section-title">
+                <h3>فروش ویژه</h3>
+            </div>
+            <div class="product-slider deal-of-the-day-slider-2 slider-navigation-2 slider-dots">
+
+                @foreach (var item in Model)
+                {
+                    <div class="product-slider-col">
+                        @Html.Partial("_ProductWithDiscountPartial", item)
+                    </div>
+                }
+
+                <!--// Single Product -->
+                <!-- Single Product -->
+
+
+            </div>
+        </div>
     </div>
-    }
-
-    <!--// Single Product -->
-    <!-- Single Product -->
-
-
-</div>
-
+}

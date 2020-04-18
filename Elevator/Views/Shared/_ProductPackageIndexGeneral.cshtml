@@ -1,0 +1,43 @@
+﻿@using DataLayer.DTO.Products
+@model ProductPackageFullDTO
+@using Core.Utilities
+
+
+<article class="hoproduct">
+    <div class="hoproduct-image">
+
+        <a class="hoproduct-thumb VisitCounter text-center" data-id="@Model.Id" href="/Product/PackageDetail/@Model.Id">
+            <img class="hoproduct-frontimage " src="@(Model.IndexPic != null && !string.IsNullOrEmpty(Model.IndexPic) ? "http://staffonly.ir/" + "/" + @Model.IndexPic : "/no-image.jpg")" alt="@Model.Title" style="width:200px; height:200px">
+            <img class="hoproduct-backimage" src="@(Model.IndexPic != null && !string.IsNullOrEmpty(Model.IndexPic) ? "http://staffonly.ir/" + "/" + @Model.IndexPic : "/no-image.jpg")" alt="@Model.Title">
+        </a>
+        <ul class="hoproduct-flags">
+            @*<li class="flag-pack">جدید</li>*@
+            @*@if (isDiscount)
+            {
+                <li class="flag-discount">@((Model.Price - Model.PriceWithDiscount).ToPersianPrice()) تومان تخفیف</li>
+            }*@
+        </ul>
+    </div>
+
+    <div class="hoproduct-content">
+        <div class="row">
+            <h5 class="hoproduct-title VisitCounter" data-id="@Model.Id"><a href="/Product/ProductDetail/@Model.Id">@Model.Title</a></h5>
+        </div>
+        <div class="hoproduct-pricebox mt-1">
+            <div class="pricebox text-right">
+                @*@if (isDiscount)
+                {
+                    <del class="oldprice">@Model.Price</del>
+                    <span class="price">@Model.PriceWithDiscount تومان</span>
+                }*@
+
+                @*else
+                {*@
+                    @*<del class="oldprice olPrice_@Model.Id">@Model.Price</del>*@
+                    <span class="price">@Model.PackagePrice تومان</span>
+                @*}*@
+            </div>
+
+        </div>
+    </div>
+</article>

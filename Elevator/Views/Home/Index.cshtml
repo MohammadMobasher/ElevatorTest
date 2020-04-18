@@ -84,34 +84,21 @@
     <!--// Banners Area -->
     <!-- Deal Of The Day Area -->
 
-    <div class="ho-section latest-products-area mtb-30" id="LastProduct">
-        <div class="container">
-            <div class="section-title">
-                <h3>آخرین محصولات</h3>
-            </div>
-            @await Component.InvokeAsync("LastProductIndexVC")
-        </div>
-    </div>
 
-    <div class="ho-section deal-of-the-day-area bg-white ptb-30">
-        <div class="container">
-            <div class="section-title">
-                <h3>فروش ویژه</h3>
-            </div>
+    @await Component.InvokeAsync("LastProductIndexVC")
 
-            @await Component.InvokeAsync("SpecialSellIndexVC")
-        </div>
-    </div>
 
-    <div class="ho-section deal-of-the-day-area bg-white ptb-30">
-        <div class="container">
-            <div class="section-title">
-                <h3>پکیج </h3>
-            </div>
 
-            @await Component.InvokeAsync("LastPackageProductVC")
-        </div>
-    </div>
+    @await Component.InvokeAsync("LastProductDiscountVC")
+
+    @await Component.InvokeAsync("SpecialSellIndexVC")
+
+
+    @await Component.InvokeAsync("LastPackageProductVC")
+
+
+
+
 
     @*<div class="trending-products-area ptb-30">
             @await Component.InvokeAsync("ProductCategoryVC")

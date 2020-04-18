@@ -285,6 +285,61 @@ namespace Service
         #endregion
 
         #region Sync Methods
+
+        public  virtual IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> where = null,
+       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "")
+        {
+            IQueryable<TEntity> query = TableNoTracking;
+
+            if (where != null)
+            {
+                query = query.Where(where);
+            }
+
+            if (orderby != null)
+            {
+                query = orderby(query);
+            }
+
+            if (includes != "")
+            {
+                foreach (string include in includes.Split(','))
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return query.ToList();
+        }
+
+        public virtual IEnumerable<TProject> GetList<TProject>(Expression<Func<TEntity, bool>> where = null,
+         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "") where TProject : class
+        {
+            IQueryable<TEntity> query = TableNoTracking;
+
+            if (where != null)
+            {
+                query = query.Where(where);
+            }
+
+            if (orderby != null)
+            {
+                query = orderby(query);
+            }
+
+            if (includes != "")
+            {
+                foreach (string include in includes.Split(','))
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return  query.ProjectTo<TProject>().ToList();
+        }
+
+
+
         public virtual TEntity GetById(params object[] ids)
         {
             return Entities.Find(ids);
