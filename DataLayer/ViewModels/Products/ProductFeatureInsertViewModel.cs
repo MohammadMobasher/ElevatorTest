@@ -16,4 +16,11 @@ namespace DataLayer.ViewModels.Products
 
         public List<PackageFeatureItemViewModel> Items { get; set; }
     }
+
+    public class PackageIdAnswer
+    {
+        public int FeatureId { get; set; }
+
+        public int Answer { get; set; }
+    }
 }

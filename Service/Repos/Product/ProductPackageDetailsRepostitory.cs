@@ -132,5 +132,13 @@ namespace Service.Repos
 
             return await model.Select(a => a.ProductId).ToListAsync();
         }
+
+        
+        public async Task RemoveProductsbyPackageId(int packageId)
+        {
+            var model = await GetListAsync(a => a.PackageId == packageId);
+
+            await DeleteRangeAsync(model);
+        }
     }
 }
