@@ -11,8 +11,8 @@
     <div class="hoproduct-image">
 
         <a class="hoproduct-thumb VisitCounter" data-id="@Model.Id" href="/Product/ProductDetail/@Model.Id">
-            <img class="hoproduct-frontimage lazy" onerror="imgError(this);" data-src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
-            <img class="hoproduct-backimage lazy" onerror="imgError(this);" data-src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
+            <img  class="hoproduct-frontimage lazy" onerror="imgError(this);" data-src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title" asp-append-version="true">
+            <img  class="hoproduct-backimage lazy" onerror="imgError(this);" data-src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title" asp-append-version="true">
         </a>
 
         <ul class="hoproduct-flags">
