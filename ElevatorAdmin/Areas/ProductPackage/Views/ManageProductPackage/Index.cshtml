@@ -74,7 +74,7 @@
                
                 <th>فعال/غیرفعال</th>
                 <th>پکیج ویژه؟</th>
-                <th>مجموع نظرات</th>
+                
             </tr>
             <tr>
                 <form method="post">
@@ -98,9 +98,7 @@
                     <th>
                         ----
                     </th>
-                    <th>
-                        ----
-                    </th>
+                   
                     <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
                 </form>
             </tr>
@@ -136,18 +134,6 @@
                             <td>
                                 @(item.IsSpecialPackage == true ? " ویژه" : " عادی")
                             </td>
-                            <td>
-                                @(item.Like - item.DisLike)
-                            </td>
-                            @*<td>
-                                    <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
-                                        <i class="fa fa-pencil-square-o text-yellow pe-1x" aria-hidden="true"></i>
-                                    </a>
-
-                                    <a data-toggle="tooltip" title="حذف" href="/ProductGroup/ManageProductGroup/Delete/@item.Id" data-role="confirm">
-                                        <i class="fa fa-trash-o text-danger pe-1x" aria-hidden="true"></i>
-                                    </a>
-                                </td>*@
                         </tr>
                     }
                 }

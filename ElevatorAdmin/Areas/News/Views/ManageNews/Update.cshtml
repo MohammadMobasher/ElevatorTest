@@ -83,7 +83,7 @@
                 <label for="IsActive" class="control-label col-sm-2">وضعیت</label>
                 <div class="col-sm-10">
                     <div class="checkbox checkbox-primary" style="top:-10px;padding-left:0 !important">
-                        <input type="checkbox" value="@Model.IsActive ? true : false" @(Model.IsActive ? "checked": "") name="IsActive" data-role="IsActive" />
+                        <input type="checkbox" value="@(Model.IsActive ? "true" : "false")" @(Model.IsActive ? "checked='checked'": "") name="IsActive" data-role="IsActive" />
 
                         <label>
 

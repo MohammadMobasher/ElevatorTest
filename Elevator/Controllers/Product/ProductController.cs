@@ -33,6 +33,8 @@ namespace Elevator.Controllers
         private readonly ProductFeatureRepository _productFeatureRepository;
         private readonly FeatureItemRepository _featureItemRepository;
         private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
+        private readonly ProductPackageGroupRepository _productPackageGroupRepository;
+        private readonly ProductPackageDetailsRepostitory _productPackageDetailsRepostitory;
 
         public IConfiguration configuration { get; }
         public ProductController(ProductRepostitory productRepostitory,
@@ -43,7 +45,9 @@ namespace Elevator.Controllers
             ProductGroupRepository productGroupRepository,
             ProductFeatureRepository productFeatureRepository,
             FeatureItemRepository featureItemRepository,
-            ProductGroupFeatureRepository productGroupFeatureRepository)
+            ProductGroupFeatureRepository productGroupFeatureRepository,
+            ProductPackageGroupRepository productPackageGroupRepository,
+            ProductPackageDetailsRepostitory productPackageDetailsRepostitory)
         {
             _productRepository = productRepostitory;
             _productDiscountRepository = productDiscountRepository;
@@ -54,6 +58,8 @@ namespace Elevator.Controllers
             _productFeatureRepository = productFeatureRepository;
             _featureItemRepository = featureItemRepository;
             _productGroupFeatureRepository = productGroupFeatureRepository;
+            _productPackageGroupRepository = productPackageGroupRepository;
+            _productPackageDetailsRepostitory = productPackageDetailsRepostitory;
         }
 
         /// <summary>
@@ -113,9 +119,18 @@ namespace Elevator.Controllers
 
         public async Task<IActionResult> PackageDetail(int id)
         {
+
             var package = await _productPackageRepostitory.TableNoTracking
                 .Include(a => a.ProductPackageDetails)
                 .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (package == null)
+                return NotFound();
+
+            ViewBag.Groups = await _productPackageGroupRepository.getItemsByPackageId(id);
+            ViewBag.Products = await _productPackageDetailsRepostitory.GetProductByPackageId(id);
+
+            
 
             var productIds = package.ProductPackageDetails.Select(a => a.ProductId).ToList();
 

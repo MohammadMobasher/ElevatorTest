@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Net.Http.Headers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace Elevator
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
             });
             services.DatabaseConfiguration(Configuration);
             services.AddCustomIdentity(_siteSetting.IdentitySettings);
@@ -67,7 +68,16 @@ namespace Elevator
               
             app.UseRedirectConfigure();
 
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    const int durationInSeconds = 60 * 60 * 24 * 365;
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                        "public,max-age=" + durationInSeconds;
+                }
+            });
             app.UseCookiePolicy();
             app.UseAuthentication();
 

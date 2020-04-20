@@ -9,8 +9,8 @@
     <div class="hoproduct-image">
 
         <a class="hoproduct-thumb VisitCounter text-center" data-id="@Model.Id" href="/Product/ProductDetail/@Model.Id">
-            <img class="hoproduct-frontimage " src="@(Model.IndexPic != null && !string.IsNullOrEmpty(Model.IndexPic) ? "http://staffonly.ir/" + "/" + @Model.IndexPic : "/no-image.jpg")" alt="@Model.Title" style="width:200px; height:200px">
-            <img class="hoproduct-backimage" src="@(Model.IndexPic != null && !string.IsNullOrEmpty(Model.IndexPic) ? "http://staffonly.ir/" + "/" + @Model.IndexPic : "/no-image.jpg")" alt="@Model.Title">
+            <img asp-append-version="true" class="hoproduct-frontimage " src="@(Model.IndexPic != null && !string.IsNullOrEmpty(Model.IndexPic) ? "http://staffonly.ir/" + "/" + @Model.IndexPic : "/no-image.jpg")" alt="@Model.Title" style="width:200px; height:200px">
+            <img asp-append-version="true" class="hoproduct-backimage" src="@(Model.IndexPic != null && !string.IsNullOrEmpty(Model.IndexPic) ? "http://staffonly.ir/" + "/" + @Model.IndexPic : "/no-image.jpg")" alt="@Model.Title">
         </a>
         <ul class="hoproduct-flags">
             @*<li class="flag-pack">جدید</li>*@

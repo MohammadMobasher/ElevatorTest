@@ -7,7 +7,7 @@
 
         <div class="herobanner-single">
             <a target="_blank" href="@Url.Content(item.URL)">
-                <img src="@Url.Content(@ViewBag.Url+"/" + item.ImgAddress)" alt="@(item.Alt + "," + "آسانسور" )">
+                <img asp-append-version="true" src="@Url.Content(@ViewBag.Url+"/" + item.ImgAddress)" alt="@(item.Alt + "," + "آسانسور" )">
                 <span class="herobanner-progress"></span>
             </a>
         </div>

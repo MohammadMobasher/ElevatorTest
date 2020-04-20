@@ -45,22 +45,7 @@ namespace Service.Repos
 
             if (!string.IsNullOrEmpty(model.Title))
                 query = query.Where(x => x.Title.Contains(model.Title));
-
-            if (model.Discount != null)
-            {
-                query = query.Where(x => x.Discount == model.Discount);
-            }
-
-            if (model.Title != null)
-            {
-                query = query.Where(x => x.Title.Contains(model.Title));
-            }
-
-            if (model.Likes != null)
-            {
-                query = query.Where(x => (x.Like - x.DisLike) == model.Likes.Value);
-            }
-
+            
 
             int Count = query.Count();
 

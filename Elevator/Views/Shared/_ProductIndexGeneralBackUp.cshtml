@@ -5,8 +5,8 @@
     <div class="hoproduct-image">
 
         <a class="hoproduct-thumb VisitCounter" data-id="@Model.Id" href="/Product/ProductDetail/@Model.Id">
-            <img class="hoproduct-frontimage" onerror="imgError(this);" src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
-            <img class="hoproduct-backimage" onerror="imgError(this);" src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
+            <img asp-append-version="true" class="hoproduct-frontimage" onerror="imgError(this);" src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
+            <img asp-append-version="true" class="hoproduct-backimage" onerror="imgError(this);" src="@(Model.IndexPic!=null? ViewBag.Url+"/"+@Model.IndexPic:"/no-image.jpg")" alt="@Model.Title">
         </a>
         
         <ul class="hoproduct-flags discountProduct" data-id="@Model.Id">

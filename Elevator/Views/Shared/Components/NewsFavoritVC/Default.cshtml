@@ -5,7 +5,7 @@
     {
     <li>
         <a href="/Blog/NewsDetail/@item.Id" class="image">
-            <img src="@Url.Content( ViewBag.Url +"/" + item.ImageAddress)" title="@item.Title" alt="image">
+            <img asp-append-version="true" src="@Url.Content( ViewBag.Url +"/" + item.ImageAddress)" title="@item.Title" alt="image">
         </a>
         <h6><a href="/Blog/NewsDetail/@item.Id">@(item.Title.Length > 40 ? item.Title.Substring(0,40).ToString() + "..." : item.Title)</a></h6>
         @*<span>از: <a href="blog-rightsideabr.html">Admin</a></span>*@
