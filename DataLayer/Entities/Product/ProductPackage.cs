@@ -37,6 +37,9 @@ namespace DataLayer.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public long PackagePrice { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public long? PackageWithDiscounts { get; set; }
+
         public DateTime CreateDate { get; set; }
 
         public virtual ICollection<ProductPackageDetails> ProductPackageDetails { get; set; }

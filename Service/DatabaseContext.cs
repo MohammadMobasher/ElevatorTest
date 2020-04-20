@@ -68,6 +68,7 @@ namespace Service
 
         public DbSet<ProductDiscount> ProductDiscount { get; set; }
         public DbSet<PackageUserAnswers> PackageUserAnswers { get; set; }
+        public DbSet<ProductPackageDiscount> ProductPackageDiscount { get; set; }
 
         public DbSet<Favorites> Favorites { get; set; }
         #endregion

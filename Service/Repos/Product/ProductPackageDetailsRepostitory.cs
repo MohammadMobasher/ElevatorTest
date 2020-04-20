@@ -94,7 +94,7 @@ namespace Service.Repos
 
             async Task DeleteProductsbyGroupId()
             {
-                var model = await GetListAsync(a => a.PackageId == packageId);
+                var model = await GetListAsync(a => a.PackageId == packageId && a.ProductGroupId == groupId);
 
                 if (model.Any())
                     await DeleteRangeAsync(model);

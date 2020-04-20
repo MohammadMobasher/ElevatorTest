@@ -33,6 +33,7 @@ namespace DataLayer.DTO.Products
         public bool IsSpecialPackage { get; set; }
 
         public long PackagePrice { get; set; }
+        public long? PackageWithDiscounts { get; set; }
 
         public DateTime CreateDate { get; set; }
 

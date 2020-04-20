@@ -1,0 +1,150 @@
+﻿@model DataLayer.DTO.ProductDiscounts.PackageDiscountDTO
+@using DataLayer.SSOT
+@{
+    Layout = null;
+}
+
+
+<form id="frm" asp-area="ProductPackage" asp-controller="ManagePackageDiscount" 
+asp-action="PackageDiscountUpdateManage" class="form-horizontal" method="post" style="" asp-route-url="@ViewBag.Url">
+
+
+    <input type="hidden" name="PackageId" value="@Model.PackageId" />
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">نوع تخفیف <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <select class="form-control" asp-items="@Html.GetEnumSelectList<ProductDiscountSSOT>()" asp-for="DiscountType" required="required">
+                <option value="">--لطفا انتخاب کنید--</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group hide" id="Price">
+        <label for="Title" class="control-label col-sm-2">مبلغ <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            @*<input type="number" class="form-control" required="required" name="Price" aria-describedby="Price" placeholder="قیمت کالا" />*@
+            <priceInput name="PriceDiscount" title="" required="true" value="@(Model.DiscountType == ProductDiscountSSOT.Price? Model.Discount: 0)"></priceInput>
+        </div>
+    </div>
+
+
+    <div class="form-group hide" id="percent">
+        <label for="Title" class="control-label col-sm-2">درصد کالا <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="number" name="PercentDicount" @(Model.DiscountType == ProductDiscountSSOT.Percent ? $"value={Model.Discount}" : "" ) class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group ">
+        <label for="Title" class="control-label col-sm-2">زمان شروع <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" name="StartDate" class="form-control" id="StartDate" />
+            @*<PersianDateTimePicker name="StartDate" hastimepicker="true" required="true"></PersianDateTimePicker>*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Title" class="control-label col-sm-2">زمان پایان <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" name="EndDate" class="form-control" id="EndDate" />
+            @*<PersianDateTimePicker name="EndDate" hastimepicker="true" required="true"></PersianDateTimePicker>*@
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-success" id="sbtForm">ثبت</button>
+
+
+
+</form>
+
+<script src="~/js/MSite.js"></script>
+
+<script>
+    $(function () {
+        $('[name="PercentDicount"]').on("change keyup", function () {
+            var val = $(this).val();
+
+            if (val < 0 || val > 100) {
+                //swal({
+                //    title: 'خطا',
+                //    text: "باید بین 0 تا 100 باشد",
+                //    type: "error",
+                //    confirmButtonText: "تایید",
+                //    html: true
+                //});
+
+                $(this).val('');
+            }
+        })
+    })
+
+     $(function () {
+        $('[name="DiscountType"]').on("change", function () {
+            var val = $(this).val();
+
+            if (val == "1") {
+                $('#percent').removeClass("hide");
+                $('#Price').addClass("hide");
+                $('[name="PercentDicount"]').attr("required","required");
+                $('[name="PriceDiscount_show"]').removeAttr("required");
+            
+            }
+            if (val == "2") {
+                $('#Price').removeClass("hide");
+                $('#percent').addClass("hide");
+                $('[name="PriceDiscount_show"]').attr("required","required");
+                $('[name="PercentDicount"]').removeAttr("required");
+            }
+
+        })
+    })
+
+
+
+</script>
+<link href="~/Plugins/MdDateTimePicker/dist/jquery.md.bootstrap.datetimepicker.style.css" rel="stylesheet" />
+<script src="~/Plugins/MdDateTimePicker/dist/jquery.md.bootstrap.datetimepicker.js"></script>
+<script>
+    var startDateSelected = '@Model.StartDate';
+    $('#StartDate').MdPersianDateTimePicker({
+        targetTextSelector: '#StartDate',
+        targetDateSelector: '#StartDate',
+        selectedDate:new Date(startDateSelected),
+        toDate: true,
+        groupId: 'rangeSelector1',
+        placement: 'bottom',
+        enableTimePicker: true,
+        dateFormat: 'yyyy-MM-dd HH:mm:ss',
+        textFormat: 'yyyy-MM-dd HH:mm:ss',
+    });
+</script>
+<script>
+    var EndDateSelected = '@Model.EndDate';
+    $('#EndDate').MdPersianDateTimePicker({
+        targetTextSelector: '#EndDate',
+        targetDateSelector: '#EndDate',
+        selectedDate:new Date(EndDateSelected),
+        toDate: true,
+        groupId: 'rangeSelector1',
+        placement: 'bottom',
+        enableTimePicker: true,
+        dateFormat: 'yyyy-MM-dd HH:mm:ss',
+        textFormat: 'yyyy-MM-dd HH:mm:ss',
+    });
+
+
+    $(function () {
+        var typeId = $('[name="DiscountType"]').val();
+
+        if (typeId === "1") {
+            $('#percent').removeClass("hide");
+            $('#Price').addClass("hide");
+        }
+        else {
+            $('#Price').removeClass("hide");
+            $('#percent').addClass("hide");
+        }
+    })
+</script>
