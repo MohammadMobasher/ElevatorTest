@@ -1,9 +1,13 @@
-﻿@using DataLayer.Entities
+﻿@using DNTPersianUtils.Core
+@using Core.Utilities
+@using DataLayer.Entities
+
 @model ProductPackage
-@using DNTPersianUtils.Core
 @{
     var gallery = ViewBag.Gallery as List<Product>;
     var discount = ViewBag.Discount as ProductDiscount;
+    List<ProductPackageGroups> Groups = ViewBag.Groups as List<ProductPackageGroups>;
+    List<ProductPackageDetails> Products = ViewBag.Products as List<ProductPackageDetails>;
 
 }
 
@@ -29,59 +33,103 @@
         <div class="container">
 
             <div class="pdetails">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
-                        <div class="pdetails-images pdetails-sliderimages pdetails-imagezoom slider-navigation">
-                            @foreach (var item in gallery)
-                            {
-                            <div class="pdetails-singleimage pdetails-slidersingleimage" data-src="@ViewBag.Url/@item.IndexPic">
-                                <a href="/Product/ProductDetail/@item.Id"><img src="@ViewBag.Url/@item.IndexPic" alt="product image"></a>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="pdetails-images">
+                            <div class="pdetails-largeimages pdetails-imagezoom">
+
+                                <div class="pdetails-singleimage" data-src="@ViewBag.Url/@Model.IndexPic">
+                                    <img asp-append-version="true" src="@ViewBag.Url/@Model.IndexPic" onerror="imgError(this);" alt="product image">
+                                </div>
+
+                                @*@foreach (var item in gallery)
+                                    {
+                                        <div class="pdetails-singleimage" data-src="@ViewBag.Url/@item.Pic">
+                                            <img src="@ViewBag.Url/@item.Pic" onerror="imgError(this);" alt="product image">
+                                        </div>
+                                    }*@
+
+
                             </div>
-                            }
+
+                            <div class="pdetails-thumbs">
+                                <div class="pdetails-singlethumb">
+                                    <img src="@ViewBag.Url/@Model.IndexPic" onerror="imgError(this);" alt="product thumb">
+                                </div>
+                                @*@foreach (var item in gallery)
+                                    {
+                                        <div class="pdetails-singlethumb">
+                                            <img src="@ViewBag.Url/@item.Pic" onerror="imgError(this);" alt="product thumb">
+                                        </div>
+                                    }*@
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-8">
-                        <div class="pdetails-content pt-30 text-center">
+                    <div class="col-lg-6">
+                        <div class="pdetails-content">
 
                             <div class="rattingbox">
                             </div>
                             <h3>@Model.Title</h3>
                             <div class="pdetails-pricebox">
-                                <!--TODO ADD DISCOUNT-->
-                                @*<del class="oldprice">30,000 تومان</del>*@
-                                <span class="price">@Model.PackagePrice تومان</span>
-                                @*<span class="badge">تخیف 5%</span>*@
-                            </div>
-                            <p>@Model.ShortDiscription </p>
+                                @*if (isDisCount)
+                                    {
+                                        <del class="oldprice">@Model.PackagePrice.ToPersianPrice()</del>
+                                        <span class="price">
+                                            @Model.PackagePrice.ToPersianPrice()
+                                        </span>
+                                        <span class="badge">
+                                            @if (isDisCount)
+                                            {
+                                                <span> @((Model.Price - Model.PriceWithDiscount).ToPersianPrice()) تومان تخفیف</span>
+                                            }
 
+                                        </span>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <div class="hoproduct-countdown countdown" data-countdown="@Model.DiscountEndDate.Value.Date"></div>
+                                    }
+                                    else*@
+
+                                <span class="price">@Model.PackagePrice.ToPersianPrice() تومان</span>
+
+                            </div>
+                            <p>@Model.ShortDiscription</p>
                             <div class="pdetails-quantity">
-                                <div class="quantity-select">
-                                    <input type="text" value="1">
-                                    <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
-                                    <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
-                                </div>
-                                <a href="shop-rightsidebar.html" class="ho-button">
-                                    <i class="lnr lnr-cart"></i>
-                                    <span>افزودن به سبد خرید</span>
-                                </a>
+                                <form target="_blank" asp-controller="ShopProduct" asp-action="AddCart">
+                                    <input type="hidden" value="@Model.Id" name="productId" />
+                                    <div class="quantity-select">
+                                        <input type="text" name="count" id="Count" value="1">
+                                        <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
+                                        <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                    </div>
+                                    <button type="submit"
+                                            class="ho-button">
+                                        <i class="lnr lnr-cart"></i>
+                                        <span>افزودن به سبد خرید</span>
+                                    </button>
+                                </form>
                             </div>
-                            <div class="pdetails-categories">
-                            </div>
-                            <div class="pdetails-tags">
-                                <span>تعداد بازدید: </span>
-                                <ul>
-                                    <li>@Model.Visit</li>
-                                </ul>
-                            </div>
-                            <div class="pdetails-socialshare">
-                                <span>اشتراک: </span>
-                                <ul>
-                                    <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
-                                    <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
-                                    <li><a href="#"><i class="ion ion-logo-googleplus"></i></a></li>
-                                    <li><a href="#"><i class="ion ion-logo-pinterest"></i></a></li>
-                                </ul>
-                            </div>
+                            @*<div class="pdetails-categories">
+                                    <span>دسته بندی: </span>
+                                    <ul>
+                                        <li><a href="/Product/ProductGroup/@Model.ProductGroupId">@Model.ProductGroup.Title</a></li>
+                                    </ul>
+                                </div>*@
+                            @*@if (Model.Tags != null)
+                                {
+                                    <div class="pdetails-tags">
+                                        <span>تگ ها: </span>
+                                        <ul>
+                                            @foreach (var item in Model.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries))
+                                            {
+                                                <li><a href="/Product/Index?Title=@item">@item</a></li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                }*@
                         </div>
                     </div>
                 </div>
@@ -91,33 +139,171 @@
 
                 <ul class="nav pdetails-allinfotab justify-content-center" id="product-details" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="product-details-area1-tab" data-toggle="tab" href="#product-details-area1"
+                        <a class="nav-link active" id="product-details-area2-tab" data-toggle="tab" href="#product-details-area2"
+                           role="tab" aria-controls="product-details-area2" aria-selected="false">محصولات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="product-details-area1-tab" data-toggle="tab" href="#product-details-area1"
                            role="tab" aria-controls="product-details-area1" aria-selected="true">توضیحات</a>
                     </li>
-                    
-                  
+
+
                 </ul>
 
                 <div class="tab-content" id="product-details-ontent">
-                    <div class="tab-pane fade show active" id="product-details-area1" role="tabpanel"
+                    <div class="tab-pane fade  " id="product-details-area1" role="tabpanel"
                          aria-labelledby="product-details-area1-tab">
                         <div class="pdetails-description">
                             @Html.Raw(Model.Text)
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="product-details-area2" role="tabpanel" aria-labelledby="product-details-area2-tab">
-                        <div class="pdetails-moreinfo">
-                            <a href="#">
-                                <img src="images/others/product-author-logo.jpg" alt="brand logo">
-                            </a>
+                    <style>
+                        .productDetailTable {
+                            direction: rtl;
+                        }
 
-                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
+                            .productDetailTable > tbody > tr > td:nth-child(odd) {
+                                background-color: #EEE;
+                            }
+                    </style>
+                    <div class="tab-pane fade show active" id="product-details-area2" role="tabpanel" aria-labelledby="product-details-area2-tab">
+                        <div class="pdetails-moreinfo">
+                            @foreach (var group in Groups)
+                            {
+                                <div class="ho-section related-product-area pb-30">
+                                    <div class="container">
+                                        <div class="section-title">
+                                            <h3>@group.ProductGroup.Title</h3>
+                                        </div>
+                                        <div class="product-slider new-best-featured-slider slider-navigation-2">
+                                            @if (Products.Where(x => x.ProductGroupId == group.ProductGroup.Id).Count() > 0)
+                                            {
+                                                @foreach (var product in Products.Where(x => x.ProductGroupId == group.GroupId).ToList())
+                                                {
+
+                                                    <article class="hoproduct border_1_Solid_EEE">
+                                                        <div class="hoproduct-image text-center">
+
+                                                            <a class="hoproduct-thumb VisitCounter text-center" data-id="@product.Product.Id" href="/Product/ProductDetail/@product.Product.Id">
+                                                                <img asp-append-version="true" class="hoproduct-frontimage " src="@(product.Product.IndexPic != null && !string.IsNullOrEmpty(product.Product.IndexPic) ? "http://staffonly.ir/" + "/" + product.Product.IndexPic : "/no-image.jpg")" alt="@product.Product.Title" style="width:200px; height:200px">
+                                                                <img asp-append-version="true" class="hoproduct-backimage" src="@(product.Product.IndexPic != null && !string.IsNullOrEmpty(product.Product.IndexPic) ? "http://staffonly.ir/" + "/" + product.Product.IndexPic : "/no-image.jpg")" alt="@product.Product.Title">
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="hoproduct-content text-center ">
+                                                            <div class="row">
+                                                                <h5 class="hoproduct-title VisitCounter " data-id="@product.Product.Id"><a class="no_border" href="/Product/ProductDetail/@product.Product.Id">@product.Product.Title</a></h5>
+                                                            </div>
+                                                            <div class="hoproduct-pricebox mt-1">
+                                                                <div class="pricebox text-right">
+                                                                    
+                                                                        <span class="price">@product.Product.Price.ToPersianPrice() تومان</span>
+                                                                    
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </article>
+
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
-                    
+
                 </div>
 
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            @*<div class="pdetails">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="pdetails-images pdetails-sliderimages pdetails-imagezoom slider-navigation">
+                                @foreach (var item in gallery)
+                                {
+                                    <div class="pdetails-singleimage pdetails-slidersingleimage" data-src="@ViewBag.Url/@item.IndexPic">
+                                        <a href="/Product/ProductDetail/@item.Id"><img src="@ViewBag.Url/@item.IndexPic" alt="product image"></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="pdetails-content pt-30 text-center">
+
+                                <div class="rattingbox">
+                                </div>
+                                <h3>@Model.Title</h3>
+                                <div class="pdetails-pricebox">
+
+                                    <span class="price">@Model.PackagePrice تومان</span>
+
+                                </div>
+                                <p>@Model.ShortDiscription </p>
+
+                                <div class="pdetails-quantity">
+                                    <div class="quantity-select">
+                                        <input type="text" value="1">
+                                        <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
+                                        <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                    </div>
+                                    <a href="shop-rightsidebar.html" class="ho-button">
+                                        <i class="lnr lnr-cart"></i>
+                                        <span>افزودن به سبد خرید</span>
+                                    </a>
+                                </div>
+                                <div class="pdetails-categories">
+                                </div>
+                                <div class="pdetails-tags">
+                                    <span>تعداد بازدید: </span>
+                                    <ul>
+                                        <li>@Model.Visit</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pdetails-allinfo">
+
+                    <ul class="nav pdetails-allinfotab justify-content-center" id="product-details" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="product-details-area1-tab" data-toggle="tab" href="#product-details-area1"
+                               role="tab" aria-controls="product-details-area1" aria-selected="true">توضیحات</a>
+                        </li>
+
+
+                    </ul>
+
+                    <div class="tab-content" id="product-details-ontent">
+                        <div class="tab-pane fade show active" id="product-details-area1" role="tabpanel"
+                             aria-labelledby="product-details-area1-tab">
+                            <div class="pdetails-description">
+                                @Html.Raw(Model.Text)
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>*@
 
         </div>
     </div>
@@ -125,30 +311,6 @@
     @await Component.InvokeAsync("RelatedPackageVC")
     <!--// Related Product Area -->
     <!-- Newsletter Area -->
-    <div class="ho-section newsletter-area bg-grey ptb-50">
-        <div class="container">
-            <div class="newsletter">
-                <div class="newsletter-title">
-                    <h2>مشترک شدن در <span>خبر نامه</span></h2>
-
-                </div>
-                <div class="newsletter-content">
-                    <form id="mc-form" class="newsletter-form">
-                        <input id="mc-email" type="email" autocomplete="off" placeholder="آدرس ایمیل">
-                        <button id="mc-submit" type="submit">ثبت</button>
-                    </form>
-                    <!-- mailchimp-alerts start -->
-                    <div class="mailchimp-alerts text-centre">
-                        <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                        <div class="mailchimp-success"></div><!-- mailchimp-success end -->
-                        <div class="mailchimp-error"></div><!-- mailchimp-error end -->
-                    </div><!-- mailchimp-alerts end -->
-                </div>
-                <div class="newsletter-socialicons socialicons socialicons-radial">
-                </div>
-            </div>
-        </div>
-    </div>
     <!--// Newsletter Area -->
 
 </main>

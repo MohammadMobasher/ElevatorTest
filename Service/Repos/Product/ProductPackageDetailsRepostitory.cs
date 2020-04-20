@@ -133,6 +133,11 @@ namespace Service.Repos
             return await model.Select(a => a.ProductId).ToListAsync();
         }
 
+        public async Task<List<DataLayer.Entities.ProductPackageDetails>> GetProductByPackageId(int packageId)
+        {
+            return await TableNoTracking.Where(x => x.PackageId == packageId).Include(x => x.Product).ToListAsync();
+        }
+
         
         public async Task RemoveProductsbyPackageId(int packageId)
         {
