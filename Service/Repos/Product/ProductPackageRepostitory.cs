@@ -91,8 +91,10 @@ namespace Service.Repos
             return mapModel.Id;
         }
 
-        public async Task<int> UpdateProduct(ProductPackageUpdateViewModel vm, IFormFile file)
+        public async Task<int> UpdateAsync(ProductPackageUpdateViewModel vm, IFormFile file)
         {
+            var model = GetById(vm.Id);
+
             if (file != null)
             {
                 if (vm.IndexPic != null)
@@ -110,9 +112,9 @@ namespace Service.Repos
                     }
                 }
                 vm.IndexPic = await MFile.Save(file, FilePath.productPackage.GetDescription());
-                
+
             }
-            var model = GetById(vm.Id);
+            else vm.IndexPic = model.IndexPic;
 
             Mapper.Map(vm, model);
 

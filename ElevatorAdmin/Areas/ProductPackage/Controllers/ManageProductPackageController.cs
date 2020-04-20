@@ -105,15 +105,40 @@ namespace ElevatorAdmin.Areas.Product.Controllers
                 .ProjectTo<ProductPackageFullDTO>()
                 .FirstOrDefaultAsync();
 
+            var group = await _productGroupRepository.GetListAsync(a => a.Parent == null);
+            var selectedGroup = await _productPackageGroupRepository.GetListAsync(a => a.PackageId == id);
+
+            ViewBag.SelectedGroup = selectedGroup;
+            ViewBag.Groups = group.ToList();
+            ViewBag.PackageId = id;
+
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(ProductPackageUpdateViewModel product
+        public async Task<IActionResult> Update(ProductPackageUpdateViewModel package
+            , PackageFeatureInsertViewModel vm
+            , List<int> groups
             , IFormFile file)
         {
+
+            if (_productPackageGroupRepository.IsGroupChanged(package.Id, groups))
+            {
+                await _productPackageDetailsRepostitory.RemoveProductsbyPackageId(package.Id);
+            }
+
             // ویرایش پکیج
-            var productId = await _productPackageRepostitory.UpdateProduct(product, file);
+            var productId = await _productPackageRepostitory.UpdateAsync(package, file);
+
+            await _productPackageGroupRepository.AddGroupRange(groups, package.Id);
+            if (vm.Items != null || vm.Items.Count > 0)
+            {
+                await _packageUserAnswerRepository.UpdateAnswer(vm, UserId, package.Id);
+
+            }
+
+
+
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 

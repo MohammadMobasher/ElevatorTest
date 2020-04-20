@@ -25,17 +25,20 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
         private readonly FeatureQuestionForPakageRepository _featureQuestionForPakageRepository;
         private readonly ProductGroupRepository _productGroupRepository;
         private readonly FeatureRepository _featureRepository;
-        
+        private readonly PackageUserAnswerRepository _packageUserAnswerRepository;
+
         public ManageFeatureQuestionForPakageController(
             UsersAccessRepository usersAccessRepository,
             FeatureQuestionForPakageRepository featureQuestionForPakageRepository,
             ProductGroupRepository productGroupRepository,
-            FeatureRepository featureRepository
+            FeatureRepository featureRepository,
+            PackageUserAnswerRepository packageUserAnswerRepository
             ) : base(usersAccessRepository)
         {
             _featureQuestionForPakageRepository = featureQuestionForPakageRepository;
             _productGroupRepository = productGroupRepository;
             _featureRepository = featureRepository;
+            _packageUserAnswerRepository = packageUserAnswerRepository;
         }
 
         [ActionRole("صفحه لیست ویژگی‌ها")]
@@ -112,7 +115,7 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
         [HasAccess]
         public async Task<IActionResult> Delete(int Id)
         {
-            
+
             return View(new DeleteDTO { Id = Id });
         }
 
@@ -138,10 +141,29 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
         [HttpPost]
         public IActionResult GetAllQuestions(List<int> groups)
         {
-             var questions =  _featureQuestionForPakageRepository.ListQuestions(groups);
+            var questions = _featureQuestionForPakageRepository.ListQuestions(groups);
 
             return PartialView(questions);
         }
+
+
+        /// <summary>
+        /// گرفتن تمامی سوالات ثبت شده برای پکیج
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> GetAllQuestionsAnswerd(List<int> groups, int packageId)
+        {
+            var questions =  _featureQuestionForPakageRepository.ListQuestions(groups);
+
+            var answers = await _packageUserAnswerRepository
+                .GetListAsync(a => a.PackageId == packageId);
+
+            ViewBag.Answers = answers.ToList();
+
+            return PartialView(questions);
+        }
+
 
         #endregion
 
