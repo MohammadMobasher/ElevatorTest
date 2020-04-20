@@ -51,9 +51,12 @@ namespace Elevator.Controllers
 
         public async Task<IActionResult> NewsDetail(int Id)
         {
+            var model = await _newsRepository.GetItemDetailAsync(Id);
+            if (model == null)
+                return NotFound();
             var test = _configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
             ViewBag.Url = test.SiteConfig.UrlAddress;
-            return View(await _newsRepository.GetItemDetailAsync(Id));
+            return View(model);
         }
     }
 }
