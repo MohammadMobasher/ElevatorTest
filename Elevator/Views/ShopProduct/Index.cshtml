@@ -43,57 +43,69 @@
                             {
                                 if (item.ProductId != null)
                                 {
-                            <tr>
-                                <td>
-                                    <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="product-image">
-                                        <img onerror="imgError(this);" src="@ViewBag.Url/@item.Product.IndexPic" alt="product image">
-                                    </a>
-                                </td>
-                                <td>
-                                    <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="product-title">@item?.Product?.Title</a>
-                                </td>
-                                <td>@item.Product.Price.ToPersianPrice()</td>
-                                <td>@item.Product.PriceWithDiscount.ToPersianPrice()</td>
-                                <td>
-                                    <div class="quantity-select" data-id="@item.Id">
-                                        <input type="text" class="counterValue" data-id="@item.Id" value="@item.Count">
-                                        <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
-                                        <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
-                                    </div>
-                                </td>
-                                <td class="PriceResult CountPerPrice_@item.Id">@((item.Count * item.Product.PriceWithDiscount).ToPersianPrice())</td>
+                                    <tr>
+                                        <td>
+                                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="product-image">
+                                                <img onerror="imgError(this);" src="@ViewBag.Url/@item.Product.IndexPic" alt="product image">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="product-title">@item?.Product?.Title</a>
+                                        </td>
+                                        <td>@item.Product.Price.ToPersianPrice()</td>
+                                        <td>@item.Product.PriceWithDiscount.ToPersianPrice()</td>
+                                        <td>
+                                            <div class="quantity-select" data-id="@item.Id">
+                                                <input type="text" class="counterValue" data-id="@item.Id" value="@item.Count">
+                                                <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
+                                                <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                            </div>
+                                        </td>
+                                        <td class="PriceResult CountPerPrice_@item.Id">@((item.Count * item.Product.PriceWithDiscount).ToPersianPrice())</td>
 
-                                <td>
-                                    <a asp-action="RemoveCart" asp-route-id="@item.Id" class="remove-product"><i class="ion ion-ios-close"></i></a>
-                                </td>
-                            </tr>
+                                        <td>
+                                            <a asp-action="RemoveCart" asp-route-id="@item.Id" class="remove-product"><i class="ion ion-ios-close"></i></a>
+                                        </td>
+                                    </tr>
                                 }
                                 else
                                 {
                                     <tr>
                                         <td>
-                                            <a href="product-details-right-sidebar.html" class="product-image">
-                                                <img src="~/no-image.jpg" alt="product image">
+                                            <a asp-controller="Product" asp-action="PackageDetail" asp-route-id="@item.PackageId" class="product-image">
+                                                <img onerror="imgError(this);" src="@ViewBag.Url/@item.ProductPackage.IndexPic" alt="product image">
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="product-details-right-sidebar.html" class="product-title">کالای فروشی هالتیکو</a>
+                                            <a asp-controller="Product" asp-action="PackageDetail" asp-route-id="@item.PackageId" class="product-title">@item?.ProductPackage?.Title</a>
                                         </td>
-                                        <td>2,000,000 تومان</td>
+                                        <td>@item.ProductPackage.PackagePrice.ToPersianPrice()</td>
+                                        <td>@(item.ProductPackage.PackageWithDiscounts == null ? "تخفیف ندارد" : item.ProductPackage.PackageWithDiscounts.Value.ToPersianPrice())</td>
                                         <td>
-                                            <div class="quantity-select">
-                                                <input type="text" value="1">
-                                                <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
-                                                <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                            <div class="quantity-select packaged" data-id="@item.Id">
+                                                <input type="text" class="counterValue" data-id="@item.Id" value="@item.Count">
+                                                <div class="inc qtybutton qtybuttonPackage">+<i class="ion ion-ios-arrow-up"></i></div>
+                                                <div class="dec qtybutton qtybuttonPackage">-<i class="ion ion-ios-arrow-down"></i></div>
                                             </div>
                                         </td>
-                                        <td>
-                                            <span class="total-price">2,000,000 تومان</span>
+
+                                        <td class="PriceResult CountPerPrice_@item.Id">
+                                            @if (item.ProductPackage.PackageWithDiscounts == null)
+                                            {
+                                                @((item.Count * item.ProductPackage.PackageWithDiscounts.Value).ToPersianPrice())
+                                            }
+                                            else
+                                            {
+                                                @((item.Count * item.ProductPackage.PackagePrice).ToPersianPrice())
+                                            }
+
                                         </td>
+
                                         <td>
-                                            <button class="remove-product"><i class="ion ion-ios-close"></i></button>
+                                            <a asp-action="RemoveCart" asp-route-id="@item.Id" class="remove-product"><i class="ion ion-ios-close"></i></a>
                                         </td>
                                     </tr>
+
                                 }
 
                             }
@@ -108,16 +120,16 @@
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="cart-content-left">
 
-                                <div class="cart-content-coupon">
+                                @*<div class="cart-content-coupon">
                                     <h6>کد تخفیف</h6>
                                     <p>اگر کد تخفیفی دارید در اینجا وارد کنید.</p>
                                     <form action="#" class="coupon-form">
                                         <input type="text" placeholder="کد">
-                                        <button class="ho-button">
+                                        <button disabled class="ho-button">
                                             <span>اعمال تحفیف</span>
                                         </button>
                                     </form>
-                                </div>
+                                </div>*@
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-12">
@@ -131,9 +143,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <a href="#" class="ho-button">
+                                @*<a  href="#" class="ho-button">
                                     <span>تسویه حساب</span>
-                                </a>
+                                </a>*@
                             </div>
                         </div>
                     </div>
@@ -151,6 +163,7 @@
 <script>
     $(function () {
         $('.qtybutton').on('click', function () {
+            var isPackage = $(this).parent().hasClass('packaged');
             var id = $(this).parent().attr('data-id');
             if ($(this).hasClass('inc')) {
                 type = true;
@@ -159,7 +172,7 @@
                 type = false;
             }
 
-            $.get("/ShopProduct/CartCount", { id: id, isPlus: type }, function (res) {
+            $.get("/ShopProduct/CartCount", { id: id, isPlus: type, isPackage }, function (res) {
                 if (res !== null) {
                     $('.CountPerPrice_' + id).html(res);
                     CalculatePrice();
@@ -168,12 +181,15 @@
         })
 
 
+      
+
 
         $('.counterValue').on('change', function () {
+            var isPackage = $(this).parent().hasClass('packaged');
             var id = $(this).attr('data-id');
             var value = $(this).val();
-            
-            $.get("/ShopProduct/CartCountValue", { id: id, count: value }, function (res) {
+
+            $.get("/ShopProduct/CartCountValue", { id: id, count: value,isPackage }, function (res) {
                 if (res !== null) {
                     $('.CountPerPrice_' + id).html(res);
                     CalculatePrice();

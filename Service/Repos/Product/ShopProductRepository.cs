@@ -39,7 +39,7 @@ namespace Service.Repos
             return SweetAlertExtenstion.Ok();
         }
 
-        public async Task<SweetAlertExtenstion> AddPackageCart(int packageId, int userId)
+        public async Task<SweetAlertExtenstion> AddPackageCart(int packageId, int userId, int count = 1)
         {
             if (await IsPackageExist(packageId, userId))
                 return SweetAlertExtenstion.Error("این پکیج قبلا ثبت شده است");
@@ -47,7 +47,8 @@ namespace Service.Repos
             MapAdd(new ShopProductAddPackageViewModel()
             {
                 PackageId = packageId,
-                UserId = userId
+                UserId = userId,
+                Count = count
             });
 
             return SweetAlertExtenstion.Ok();
@@ -69,6 +70,7 @@ namespace Service.Repos
         {
             var model = TableNoTracking
                 .Include(a => a.Product)
+                .Include(a => a.ProductPackage)
                 .Where(a => a.UserId == userId && a.IsFinaly == false).ToList();
 
             return model;
@@ -100,6 +102,38 @@ namespace Service.Repos
         /// <param name="id"></param>
         /// <param name="isPlus"></param>
         /// <returns></returns>
+        public async Task<string> CartPackageCountFunction(int id, bool isPlus)
+        {
+            var model = await GetByConditionAsync(a => a.Id == id, "ProductPackage");
+            if (model == null) return null;
+
+            if (model.Count == 1 && !isPlus) return null;
+
+            model.Count = isPlus ? model.Count + 1 : model.Count - 1;
+            await UpdateAsync(model);
+
+            var sum = default(string);
+
+            if(model.ProductPackage.PackageWithDiscounts != null)
+            {
+                sum = (model.Count * model.ProductPackage.PackageWithDiscounts.Value).ToPersianPrice();
+            }
+            else
+            {
+                sum = (model.Count * model.ProductPackage.PackagePrice).ToPersianPrice();
+            }
+
+            return sum;
+        }
+
+
+
+        /// <summary>
+        /// فانکشنی که تعداد را تغییر و قیمت را مجدد محاسبه میکند
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isPlus"></param>
+        /// <returns></returns>
         public async Task<string> CartCountFunction(int id, int count)
         {
             var model = await GetByConditionAsync(a => a.Id == id, "Product");
@@ -110,6 +144,38 @@ namespace Service.Repos
 
             return (model.Count * model.Product.PriceWithDiscount).ToPersianPrice();
         }
+
+
+        /// <summary>
+        /// فانکشنی که تعداد را تغییر و قیمت را مجدد محاسبه میکند
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isPlus"></param>
+        /// <returns></returns>
+        public async Task<string> CartPackageCountFunction(int id, int count)
+        {
+            var model = await GetByConditionAsync(a => a.Id == id, "ProductPackage");
+            if (model == null) return null;
+
+            model.Count = count <= 0 ? 1 : count;
+            await UpdateAsync(model);
+
+
+            var sum = default(string);
+
+            if (model.ProductPackage.PackageWithDiscounts != null)
+            {
+                sum = (model.Count * model.ProductPackage.PackageWithDiscounts.Value).ToPersianPrice();
+            }
+            else
+            {
+                sum = (model.Count * model.ProductPackage.PackagePrice).ToPersianPrice();
+            }
+
+            return sum;
+        }
+
+
 
         /// <summary>
         /// محاسبه قیمت سبد خرید
@@ -132,7 +198,15 @@ namespace Service.Repos
                 }
                 else if (item.PackageId != null)
                 {
-                    //TODO
+                    if (item.ProductPackage.PackageWithDiscounts == null)
+                    {
+                        sum += item.ProductPackage.PackageWithDiscounts.Value * item.Count;
+                    }
+                    else
+                    {
+                        sum += item.ProductPackage.PackagePrice * item.Count;
+                    }
+                    
                 }
             }
 
