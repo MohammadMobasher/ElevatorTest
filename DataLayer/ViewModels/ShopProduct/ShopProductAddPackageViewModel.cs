@@ -8,7 +8,6 @@ namespace DataLayer.ViewModels.ShopProduct
     {
         public ShopProductAddPackageViewModel()
         {
-            Count = 1;
             RequestedDate=DateTime.Now;
             IsFinaly = false;
         }
@@ -16,7 +15,7 @@ namespace DataLayer.ViewModels.ShopProduct
 
         public int UserId { get; set; }
 
-        public int Count { get;  }
+        public int Count { get; set; }
 
         public DateTime RequestedDate { get; }
 

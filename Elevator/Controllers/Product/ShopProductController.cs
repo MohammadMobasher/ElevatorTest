@@ -54,7 +54,7 @@ namespace Elevator.Controllers.Product
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCart(int productId, int count )
+        public async Task<IActionResult> AddCart(int productId, int count)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
 
@@ -76,6 +76,17 @@ namespace Elevator.Controllers.Product
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddPackageCart(int packageId, int count)
+        {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+
+            var userId = this.GetUserId();
+
+            TempData.AddResult(await _shopProductRepository.AddPackageCart(packageId, userId, count));
+
+            return RedirectToAction("Index");
+        }
 
         public async Task<IActionResult> RemoveCart(int id)
         {
@@ -99,15 +110,19 @@ namespace Elevator.Controllers.Product
         /// اضافه نمودن و یا کم کردن تعداد محصول
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> CartCount(int id, bool isPlus)
-              => Json(await _shopProductRepository.CartCountFunction(id, isPlus));
+        public async Task<IActionResult> CartCount(int id, bool isPlus, bool isPackage)
+              => isPackage ? Json(await _shopProductRepository.CartPackageCountFunction(id, isPlus))
+            : Json(await _shopProductRepository.CartCountFunction(id, isPlus));
+
+
 
         /// <summary>
         /// اضافه نمودن و یا کم کردن تعداد محصول
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> CartCountValue(int id, int count)
-              => Json(await _shopProductRepository.CartCountFunction(id, count));
+        public async Task<IActionResult> CartCountValue(int id, int count,bool isPackage)
+              => isPackage? Json(await _shopProductRepository.CartPackageCountFunction(id, count))
+            : Json(await _shopProductRepository.CartCountFunction(id, count));
 
     }
 }
