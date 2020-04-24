@@ -1,5 +1,13 @@
 ﻿@charset "utf-8";
 
+.colorTelMobile {
+    color: #53565B !important;
+}
+
+    .colorTelMobile i {
+        color: #53565B !important;
+    }
+
 .border_1_Solid_EEE{
     border:1px solid #EEE
 }
@@ -6253,6 +6261,10 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 
 .bg-white {
     background-color: #fff !important
+}
+
+.bg-blue {
+    background-color: #68CBDD !important;
 }
 
 .bg-transparent {
@@ -33205,7 +33217,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, address, p, pre, blockquot
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: "Roboto",sans-serif;
     line-height: 1.3;
-    color: #454545
+    color:  #53565B !important
 }
 
 h1, .h1 {
@@ -33383,7 +33395,7 @@ input[type="radio"] {
 
 blockquote {
     font-size: 16px;
-    color: #454545;
+    color:  #53565B !important;
     border: 1px solid #e5e5e5;
     border-right: 4px solid #e5e5e5;
     padding: 20px 30px
@@ -34672,8 +34684,8 @@ blockquote {
         }
 
 .ho-button-dark, .ho-button-dark:link {
-    background: #454545;
-    border-color: #454545;
+    background:  #53565B !important;
+    border-color:  #53565B !important;
     color: #fff
 }
 
@@ -34712,7 +34724,7 @@ blockquote {
         }
 
 .ho-readmore {
-    color: #454545;
+    color:  #53565B !important;
     font-size: 13px
 }
 
@@ -34733,6 +34745,7 @@ blockquote {
     }
 
     .section-title h3 {
+        color: #53565B !important;
         font-weight: 700;
         display: inline-block;
         margin-bottom: 0;
@@ -34790,7 +34803,7 @@ blockquote {
             }
 
                 .section-title .nav li a.active, .section-title .nav li a:hover {
-                    color: #454545
+                    color:  #53565B !important
                 }
 
 @media only screen and (min-width:992px) and (max-width:1199px) {
@@ -34901,7 +34914,7 @@ blockquote {
                 }
 
                 .section-title-2 .nav li a.active, .section-title-2 .nav li a:hover {
-                    color: #454545
+                    color:  #53565B !important
                 }
 
 @media only screen and (min-width:768px) and (max-width:991px) {
@@ -34983,7 +34996,7 @@ blockquote {
 
         .socialicons ul li a {
             display: inline-block;
-            color: #454545
+            color:  #53565B !important
         }
 
             .socialicons ul li a:hover {
@@ -34998,7 +35011,7 @@ blockquote {
         position: relative;
         display: inline-block;
         vertical-align: middle;
-        color: #454545;
+        color:  #53565B !important;
         background: white;
         font-size: 18px;
         padding: 0;
@@ -35045,7 +35058,7 @@ blockquote {
 }
 
     .ho-breadcrumb ul li {
-        color: #454545;
+        color:  #53565B !important;
         display: inline-block;
         padding: 8px 0;
         font-size: 13px
@@ -35083,7 +35096,7 @@ blockquote {
     .cr-pagination p {
         padding-bottom: 10px;
         margin-bottom: 0;
-        color: #454545
+        color:  #53565B !important
     }
 
     .cr-pagination ul {
@@ -35225,7 +35238,7 @@ blockquote {
         .hoproduct-actionbox li a {
             display: inline-block;
             background: #ededed;
-            color: #454545;
+            color:  #53565B !important;
             padding: 0;
             border: 0;
             height: 45px;
@@ -35276,7 +35289,7 @@ blockquote {
 }
 
     .hoproduct-title a {
-        color: #454545
+        color:  #53565B !important
     }
 
         .hoproduct-title a:hover {
@@ -35892,11 +35905,11 @@ blockquote {
         }
 
         .herobanner-2 .herobanner-content h1 {
-            color: #454545
+            color:  #53565B !important
         }
 
         .herobanner-2 .herobanner-content p {
-            color: #454545
+            color:  #53565B !important
         }
 
         .herobanner-2 .herobanner-content .ho-button-white, .herobanner-2 .herobanner-content .ho-button-white:link {
@@ -35935,15 +35948,15 @@ blockquote {
         }
 
         .herobanner-3 .herobanner-content h1 {
-            color: #454545
+            color:  #53565B !important
         }
 
             .herobanner-3 .herobanner-content h1 span {
-                color: #454545
+                color:  #53565B !important
             }
 
         .herobanner-3 .herobanner-content p {
-            color: #454545
+            color:  #53565B !important
         }
 
         .herobanner-3 .herobanner-content .ho-button-white, .herobanner-3 .herobanner-content .ho-button-white:link {
@@ -36379,7 +36392,7 @@ blockquote {
     padding-bottom: 5px;
     margin: 0 4px;
     font-size: 24px;
-    color: #454545;
+    color:  #53565B !important;
     font-weight: 700
 }
 
@@ -36707,7 +36720,7 @@ blockquote {
 }
 
     .minicart-productcontent h6 a {
-        color: #454545
+        color:  #53565B !important
     }
 
         .minicart-productcontent h6 a:hover {
@@ -36893,7 +36906,7 @@ blockquote {
             .catmenu-body > ul > li > a {
                 padding: 7px 20px;
                 display: block;
-                color: #454545;
+                color:  #53565B !important;
                 font-size: 15px
             }
 
@@ -37060,7 +37073,7 @@ blockquote {
         background: #ffe11b;
         border-radius: 0;
         border: 0;
-        color: #454545;
+        color:  #53565B !important;
         font-size: 16px;
         text-transform: uppercase;
         height: 50px
@@ -37228,7 +37241,7 @@ blockquote {
 }
 
     .blogitem-title a {
-        color: #454545
+        color:  #53565B !important
     }
 
         .blogitem-title a:hover {
@@ -37243,7 +37256,7 @@ blockquote {
 
     .blogitem-meta span {
         font-size: 13px;
-        color: #454545;
+        color:  #53565B !important;
         display: inline-block
     }
 
@@ -37257,7 +37270,7 @@ blockquote {
         }
 
         .blogitem-meta span a {
-            color: #454545
+            color:  #53565B !important
         }
 
             .blogitem-meta span a:hover {
@@ -37308,7 +37321,7 @@ blockquote {
     }
 
         .blogitem2-content h4 a, .blogitem2-content h2 a {
-            color: #454545
+            color:  #53565B !important
         }
 
             .blogitem2-content h4 a:hover, .blogitem2-content h2 a:hover {
@@ -37338,7 +37351,7 @@ blockquote {
         }
 
         .blogitem2-meta span a {
-            color: #454545
+            color:  #53565B !important
         }
 
             .blogitem2-meta span a:hover {
@@ -37421,7 +37434,7 @@ blockquote {
         }
 
             .single-comment .single-comment-content-top h6 a {
-                color: #454545
+                color:  #53565B !important
             }
 
                 .single-comment .single-comment-content-top h6 a:hover {
@@ -37516,7 +37529,7 @@ blockquote {
             font-weight: 400;
             margin-bottom: 8px;
             display: block;
-            color: #454545
+            color:  #53565B !important
         }
 
         .ho-form-inner .single-input input, .ho-form-inner .single-input select, .ho-form-inner .single-input textarea, .ho-form-inner .single-input .nice-select {
@@ -37592,7 +37605,7 @@ blockquote {
             font-weight: 400;
             margin-bottom: 8px;
             display: block;
-            color: #454545
+            color:  #53565B !important
         }
 
         .ho-form-inner .single-input input, .ho-form-inner .single-input select, .ho-form-inner .single-input textarea, .ho-form-inner .single-input .nice-select {
@@ -37655,7 +37668,7 @@ blockquote {
         margin-right: -30px;
         text-align: center;
         font-size: 14px;
-        color: #454545;
+        color:  #53565B !important;
         z-index: 1
     }
 
@@ -37713,7 +37726,7 @@ blockquote {
         .team-member .team-member-content h5 {
             margin-bottom: 0;
             font-weight: 400;
-            color: #454545;
+            color:  #53565B !important;
             font-size: 16px;
             margin-bottom: 5px;
             -webkit-transition: all .3s ease-in-out 0s;
@@ -37762,7 +37775,7 @@ blockquote {
 .shop-widgets .widget-title {
     font-size: 18px;
     font-weight: 700;
-    color: #454545;
+    color:  #53565B !important;
     position: relative;
     display: block;
     text-transform: uppercase
@@ -37850,7 +37863,7 @@ blockquote {
 .shop-widgets .widget-filters .single-widget-range-price {
     margin-top: 20px;
     font-weight: 600;
-    color: #454545
+    color:  #53565B !important
 }
 
     .shop-widgets .widget-filters .single-widget-range-price b {
@@ -37952,7 +37965,7 @@ blockquote {
 
             .blog-widgets .widget-categories ul li a {
                 display: block;
-                color: #454545
+                color:  #53565B !important
             }
 
                 .blog-widgets .widget-categories ul li a:hover {
@@ -38012,7 +38025,7 @@ blockquote {
             }
 
                 .blog-widgets .widget-recentblogs ul li h6 a {
-                    color: #454545
+                    color:  #53565B !important
                 }
 
                     .blog-widgets .widget-recentblogs ul li h6 a:hover {
@@ -38020,7 +38033,7 @@ blockquote {
                     }
 
             .blog-widgets .widget-recentblogs ul li span a {
-                color: #454545
+                color:  #53565B !important
             }
 
                 .blog-widgets .widget-recentblogs ul li span a:hover {
@@ -38046,7 +38059,7 @@ blockquote {
 
 .header-welcomemsg {
     margin-bottom: 0;
-    color: #454545;
+    color:  #53565B !important;
     font-size: 13px
 }
 
@@ -38099,7 +38112,7 @@ blockquote {
         height: 45px;
         line-height: 45px;
         font-size: 12px;
-        color: #454545
+        color:  #53565B !important
     }
 
         .header-langcurr .select-currency-current:after, .header-langcurr .select-language-current:after {
@@ -38205,14 +38218,14 @@ blockquote {
             position: absolute;
             left: 0;
             top: 0;
-            background: #ffe11b;
+            background: #F89522 !important;
             top: 4px;
             left: 5px;
             height: 40px;
             line-height: 1;
             text-align: center;
             width: 40px;
-            color: #454545;
+            color: white !important;
             padding: 0;
             border: 0;
             font-size: 18px;
@@ -38227,7 +38240,7 @@ blockquote {
             }
 
             .header-searchbox button[type="submit"]:hover, .header-searchbox input[type="submit"]:hover {
-                background: #0b88ee;
+                background: #F89522 !important;
                 color: #fff
             }
 
@@ -38244,13 +38257,14 @@ blockquote {
 
     .header-account button {
         padding: 0;
-        color: white;
         background: transparent;
         line-height: 50px;
         height: 50px;
         font-size: 14px;
         border: 0;
-        font-weight: 700
+        font-weight: 700;
+        color: #53565B !important;
+        
     }
 
         .header-account button span {
@@ -38275,7 +38289,7 @@ blockquote {
     position: relative;
     text-align: center;
     background: #fff;
-    color: #454545;
+    color:  #53565B !important;
     border-radius: 100%;
     font-size: 24px;
     font-weight: 700;
@@ -38301,14 +38315,14 @@ blockquote {
         line-height: 25px;
         font-weight: 400;
         font-size: 13px;
-        color: #454545;
+        color:  #53565B !important;
         background: #ffe11b;
         text-align: center;
         border-radius: 100%
     }
 
     .header-carticon:visited {
-        color: #454545
+        color:  #53565B !important
     }
 
     .header-carticon:hover, .header-carticon.is-active {
@@ -38510,7 +38524,7 @@ blockquote {
 }
 
 .header-2 .header-account button {
-    color: #454545
+    color:  #53565B !important
 }
 
 .header-2 .header-carticon {
@@ -38530,7 +38544,7 @@ blockquote {
 }
 
 .header-2 .header-contactinfo a, .header-2 .header-contactinfo span, .header-2 .header-contactinfo i, .header-2 .header-contactinfo b {
-    color: #454545
+    color:  #53565B !important
 }
 
 .header-2 .header-catmenu {
@@ -38539,7 +38553,7 @@ blockquote {
 }
 
 .header-2 .mean-container a.meanmenu-reveal {
-    color: #454545
+    color:  #53565B !important
 }
 
 .header-2 .mean-container .mean-nav ul {
@@ -38591,11 +38605,11 @@ blockquote {
 }
 
 .header-3 .header-contactinfo a, .header-3 .header-contactinfo span, .header-3 .header-contactinfo i, .header-3 .header-contactinfo b {
-    color: #454545
+    color:  #53565B !important
 }
 
 .header-3 .mean-container a.meanmenu-reveal {
-    color: #454545
+    color:  #53565B !important
 }
 
 .header-3 .mean-container .mean-nav ul {
@@ -38636,7 +38650,7 @@ blockquote {
         }
 
             .ho-navigation ul li a {
-                color: #454545
+                color: #53565B !important
             }
 
     .ho-navigation > ul {
@@ -38855,7 +38869,7 @@ blockquote {
 }
 
 .ho-navigation-2 ul li a, .ho-navigation-3 ul li a {
-    color: #454545
+    color:  #53565B !important
 }
 
     .ho-navigation-2 ul li a:hover, .ho-navigation-3 ul li a:hover {
@@ -38892,7 +38906,7 @@ blockquote {
     .product-slider .product-slider-col {
         margin-top: 7px;
         margin-bottom: 7px
-    }
+    } 
 
 .recommended-products-slider .hoproduct-4, .recommended-products-slider-2 .hoproduct-4 {
     margin-top: 30px
@@ -39119,7 +39133,7 @@ blockquote {
     .pdetails-categories > span, .pdetails-tags > span, .pdetails-socialshare > span, .pdetails-color > span, .pdetails-size > span {
         display: inline-block;
         margin-left: 20px;
-        color: #454545;
+        color:  #53565B !important;
         font-weight: 500
     }
 
@@ -39272,7 +39286,7 @@ blockquote {
         }
 
             .pdetails-allinfotab li a.active {
-                color: #454545
+                color:  #53565B !important
             }
 
 .pdetails-description, .pdetails-moreinfo, .pdetails-reviews {
@@ -39300,7 +39314,7 @@ blockquote {
 }
 
 .pdetails-moreinfo b {
-    color: #454545
+    color:  #53565B !important
 }
 
 .pdetails-moreinfo p {
@@ -39405,7 +39419,7 @@ blockquote {
 
         .pdetails-groupproduct .table .pro-title, .pdetails-groupproduct .table-bordered .pro-title {
             font-weight: 700;
-            color: #454545;
+            color:  #53565B !important;
             min-width: 200px
         }
 
@@ -39909,7 +39923,7 @@ blockquote {
     .cart-content-right h2 {
         margin-top: -8px;
         display: inline-block;
-        border-bottom: 2px solid #454545;
+        border-bottom: 2px solid  #53565B !important;
         margin-bottom: 25px
     }
 
@@ -40007,7 +40021,7 @@ blockquote {
     }
 
     .order-infobox .table {
-        color: #454545;
+        color:  #53565B !important;
         border-bottom: 0;
         min-width: 280px
     }
@@ -40509,7 +40523,7 @@ h5.compare-product-name {
 }
 
     .footer-widget.widget-info ul li {
-        color: #454545;
+        color:  #53565B !important;
         margin-bottom: 10px
     }
 
@@ -40540,7 +40554,7 @@ h5.compare-product-name {
     }
 
 .footer-widget.widget-customerservice {
-    background: #454545;
+    background:  #53565B !important;
     text-align: center;
     padding: 35px 20px;
     border-radius: 7px
@@ -40607,7 +40621,8 @@ body {
 }
 
 .nice-select span.current {
-    text-align: right
+    text-align: right;
+    color: #53565B !important;
 }
 
 .nice-select .list {
@@ -40616,7 +40631,8 @@ body {
 }
 
     .nice-select .list li {
-        text-align: right
+        text-align: right;
+        color: #53565B !important;
     }
 
 .ho-navigation > ul > li.dropdown-holder > a::after, .ho-navigation > ul > li.megamenu-holder > a::after {
