@@ -40554,7 +40554,7 @@ h5.compare-product-name {
     }
 
 .footer-widget.widget-customerservice {
-    background:  #fff !important;
+    background: #53565B !important;
     text-align: center;
     padding: 35px 20px;
     border-radius: 7px
@@ -40565,9 +40565,16 @@ h5.compare-product-name {
         margin-bottom: 5px
     }
 
-    .footer-widget.widget-customerservice .info {
-        padding-bottom: 15px
-    }
+.footer-widget .info h5, .footer-widget .info h6 {
+    color: #a5a5a5 !important;
+}
+
+.footer-widget .payment h6 {
+    color: #a5a5a5 !important;
+}
+.footer-widget.widget-customerservice .info {
+    padding-bottom: 15px
+}
 
         .footer-widget.widget-customerservice .info h2, .footer-widget.widget-customerservice .info h3, .footer-widget.widget-customerservice .info h4, .footer-widget.widget-customerservice .info h5, .footer-widget.widget-customerservice .info h6 {
             color: #a5a5a5;
