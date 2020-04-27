@@ -1,13 +1,14 @@
 ﻿@using Service.Repos
 @using DataLayer.Entities
 @using Service.Repos.Product
+@using DataLayer.ViewModels.Products
 
 @inject SiteSettingRepository _siteSettingRepository
 @inject ProductGroupRepository _productGroupRepository
 @{
 
     SiteSetting siteSetting = await _siteSettingRepository.GetInfo();
-
+    ProductSearchListViewModel vm = ViewBag.Search;
 }
 
 <!doctype html>
@@ -161,10 +162,24 @@
                                         <option value="-1">همه دسته ها</option>
                                         @foreach (var item in await _productGroupRepository.GetParentsAsync())
                                         {
-                                            <option value="@item.Id">@item.Title</option>
+                                            if (vm != null)
+                                            {
+                                                if (vm.Group == item.Id)
+                                                {
+                                                    <option value="@item.Id" selected>@item.Title</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id">@item.Title</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Id">@item.Title</option>
+                                            }
                                         }
                                     </select>
-                                    <input name="Title" type="text" placeholder="جستجو کنید...">
+                                    <input name="Title" type="text" value="@(vm != null ? vm.Title : "")" placeholder="جستجو کنید...">
                                     <button type="submit"><i class="lnr lnr-magnifier"></i></button>
                                 </form>
                             </div>
@@ -232,10 +247,24 @@
                                         <option value="-1">همه دسته ها</option>
                                         @foreach (var item in await _productGroupRepository.GetParentsAsync())
                                         {
-                                            <option value="@item.Id">@item.Title</option>
+                                            if (vm != null)
+                                            {
+                                                if (vm.Group == item.Id)
+                                                {
+                                                    <option value="@item.Id" selected>@item.Title</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id">@item.Title</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Id">@item.Title</option>
+                                            }
                                         }
                                     </select>
-                                    <input name="Title" type="text" placeholder="جستجو کنید...">
+                                    <input name="Title" type="text" value="@(vm != null ? vm.Title : "")" placeholder="جستجو کنید...">
                                     <button type="submit"><i class="lnr lnr-magnifier"></i></button>
                                 </form>
                             </div>
@@ -276,10 +305,24 @@
                                     <option value="-1">همه دسته ها</option>
                                     @foreach (var item in await _productGroupRepository.GetParentsAsync())
                                     {
-                                        <option value="@item.Id">@item.Title</option>
+                                        if (vm != null)
+                                        {
+                                            if (vm.Group == item.Id)
+                                            {
+                                                <option value="@item.Id" selected>@item.Title</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Id">@item.Title</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Title</option>
+                                        }
                                     }
                                 </select>
-                                <input name="Title" type="text" placeholder="جستجو کنید...">
+                                <input name="Title" type="text" value="@(vm != null ? vm.Title : "")" placeholder="جستجو کنید...">
                                 <button type="submit"><i class="lnr lnr-magnifier"></i></button>
                             </form>
                         </div>
@@ -387,13 +430,13 @@
         @RenderBody()
 
         @*<!--// Header -->
-        <!-- Hero Area -->
+            <!-- Hero Area -->
 
-        <!--// Hero Area -->
-        <!-- Page Conttent -->
+            <!--// Hero Area -->
+            <!-- Page Conttent -->
 
-        <!--// Page Conttent -->
-        <!-- Footer -->*@
+            <!--// Page Conttent -->
+            <!-- Footer -->*@
         <footer class="" style="border-top:1px solid #eaeaea;background-color:#e5ecf1">
 
             <!-- Footer Top Area -->
@@ -427,18 +470,18 @@
                         </div>
 
                         @*<div class="col-lg-2 col-md-4">
-                            <div class="footer-widget widget-links">
-                                <h5 class="footer-widget-title">شرکت ما</h5>
-                                <ul>
-                                    <li><a href="#">تحویل</a></li>
-                                    <li><a href="#">اطلاع قانونی</a></li>
-                                    <li><a href="#">درباره ما</a></li>
-                                    <li><a href="#">پرداخت امن</a></li>
-                                    <li><a href="#">نقشه سایت</a></li>
-                                    <li><a href="#">فروشگاه ها</a></li>
-                                </ul>
-                            </div>
-                        </div>*@
+                                <div class="footer-widget widget-links">
+                                    <h5 class="footer-widget-title">شرکت ما</h5>
+                                    <ul>
+                                        <li><a href="#">تحویل</a></li>
+                                        <li><a href="#">اطلاع قانونی</a></li>
+                                        <li><a href="#">درباره ما</a></li>
+                                        <li><a href="#">پرداخت امن</a></li>
+                                        <li><a href="#">نقشه سایت</a></li>
+                                        <li><a href="#">فروشگاه ها</a></li>
+                                    </ul>
+                                </div>
+                            </div>*@
 
                         <div class="col-lg-2 col-md-4">
                             <div class="footer-widget widget-links">
@@ -487,7 +530,6 @@
             </div>
             <!--// Footer Bottom -->
             <!-- Quickview Modal -->
-            
             <!--// Quickview Modal -->
 
         </footer>

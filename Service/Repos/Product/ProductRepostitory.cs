@@ -428,22 +428,29 @@ namespace Service.Repos
             return product.Price;
         }
 
-        public async Task<List<DataLayer.Entities.Product>> GetProducts(ProductSearchListViewModel vm)
+        public async Task<List<DataLayer.Entities.Product>> GetProducts(ProductSearchListViewModel vm, int skip, int take)
         {
+            
             var model = TableNoTracking
                .Include(a => a.ProductGroup)
                .Where(a => a.IsActive == true);
 
-            var result = await model
+            var result = model
                 .WhereIf(!string.IsNullOrEmpty(vm.Title), a => a.Title.Contains(vm.Title)
                 || a.ShortDescription.Contains(vm.Title)
                 || a.Text.Contains(vm.Title)
                 || a.Tags.Contains(vm.Title))
                 .WhereIf(vm.Group != null && vm.Group != -1, a => a.ProductGroupId.Equals(vm.Group.Value))
-                .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice))
-                .ToListAsync();
+                .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice));
+                
 
-            return result;
+            if (skip != 0)
+                result = result.Skip((skip - 1) * take);
+
+            if (take != 0)
+                result = result.Take(take);
+
+            return await result.ToListAsync();
         }
 
         /// <summary>

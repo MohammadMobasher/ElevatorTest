@@ -71,7 +71,7 @@ namespace Elevator.Controllers
         {
             var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
-            var model =await _productRepository.GetProducts(vm);
+            var model = await _productRepository.GetProducts(vm, this.CurrentPage, this.PageSize);
 
             ViewBag.Category = await _productGroupRepository.GetParentsAsync();
             ViewBag.Url = test.SiteConfig.UrlAddress;

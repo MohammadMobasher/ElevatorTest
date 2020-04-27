@@ -43,32 +43,17 @@
                     <div class="col-lg-9 order-1 order-lg-2">
 
                         @*<div class="banner-area">
-                                <div class="imgbanner imgbanner-2">
-                                    <a href="product-details.html">
-                                        <img src="~/Plugins/Template/images/banner/banner-image-20.jpg" alt="banner">
-                                    </a>
-                                </div>
-                            </div>*@
+            <div class="imgbanner imgbanner-2">
+                <a href="product-details.html">
+                    <img src="~/Plugins/Template/images/banner/banner-image-20.jpg" alt="banner">
+                </a>
+            </div>
+        </div>*@
 
                         <div class="shop-filters">
-                            <div class="shop-filters-viewmode">
-                                <a class="is-active" data-view="grid"><i class="ion ion-ios-keypad"></i></a>
-                                <a data-view="list"><i class="ion ion-ios-list"></i></a>
-                            </div>
+
                             <span class="shop-filters-viewitemcount">@(ViewBag.Count) محصول موجود است</span>
-                            <div class="shop-filters-sortby">
-                                <b>مرتب سازی بر اساس:</b>
-                                <div class="select-sortby">
-                                    <a class="select-sortby-current">مرتبط بودن</a>
-                                    <ul class="select-sortby-list dropdown-list">
-                                        <li><input type="submit" class="ShowInputAsLink" name="Sort" value="مرتبط بودن" /></li>
-                                        <li><input type="submit" class="ShowInputAsLink" name="Sort" value="نام, الف - ی" /></li>
-                                        <li><input type="submit" class="ShowInputAsLink" name="Sort" value="نام, ی - الف" /></li>
-                                        <li><input type="submit" class="ShowInputAsLink" name="Sort" value="قیمت, زیاد - کم" /></li>
-                                        <li><input type="submit" class="ShowInputAsLink" name="Sort" value="قیمت, کم - زیاد" /></li>
-                                    </ul>
-                                </div>
-                            </div>
+
                         </div>
 
                         <div class="shop-page-products mt-30">
@@ -87,11 +72,11 @@
                                                          alt="product image">
                                                 </a>
                                                 @*<ul class="hoproduct-actionbox">
-                                                        <li><a href="#"><i class="lnr lnr-cart"></i></a></li>
-                                                        <li><a href="#" class="quickview-trigger"><i class="lnr lnr-eye"></i></a></li>
-                                                        <li><a href="#"><i class="lnr lnr-heart"></i></a></li>
-                                                    </ul>*@
-                                                
+                                    <li><a href="#"><i class="lnr lnr-cart"></i></a></li>
+                                    <li><a href="#" class="quickview-trigger"><i class="lnr lnr-eye"></i></a></li>
+                                    <li><a href="#"><i class="lnr lnr-heart"></i></a></li>
+                                </ul>*@
+
                                             </div>
                                             @await Component.InvokeAsync("CountDownProductVC", new { id = item.Id })
                                             <div class="hoproduct-content">
@@ -116,15 +101,7 @@
                             </div>
                         </div>
 
-                        <div class="cr-pagination pt-30">
-                            <p>نمایش 1-12 از 13 محصول</p>
-                            <ul>
-                                <li><a href="shop-rightsidebar.html"><i class="ion ion-ios-arrow-forward"></i> قبلی</a></li>
-                                <li class="active"><a href="shop-rightsidebar.html">1</a></li>
-                                <li><a href="shop-rightsidebar.html">2</a></li>
-                                <li><a href="shop-rightsidebar.html">بعدی <i class="ion ion-ios-arrow-back"></i></a></li>
-                            </ul>
-                        </div>
+                        @Html.Partial("~/Views/Shared/_Pagination.cshtml")
 
                     </div>
 
@@ -146,90 +123,6 @@
                                 </ul>
                             </div>
 
-                            <div class="shop-widgetbox mt-30">
-                                <div class="single-widget widget-filters">
-                                    <h5 class="widget-title">فیلتر بر اساس قیمت</h5>
-                                    <div class="widget-filter-inner">
-                                        <div class="range-slider" data-range_min="0" data-range_max="@(ViewBag.MaxPrice!=null?ViewBag.MaxPrice: 50000000)"
-                                             data-cur_min="300" data-cur_max="@(5000)">
-                                            <div class="bar"></div>
-                                            <span class="range-slider-leftgrip"></span>
-                                            <span class="range-slider-rightgrip"></span>
-                                        </div>
-                                        <div class="single-widget-range-price">
-                                            <b>قیمت: </b>  <span class="range-slider-rightlabel"></span> تومان -
-                                            <span class="range-slider-leftlabel"></span> تومان
-                                        </div>
-
-                                        <input type="hidden" name="MinPrice" id="range-slider-rightlabel-InputMin" />
-                                        <input type="hidden" name="MaxPrice" id="range-slider-rightlabel-InputMax" />
-
-                                        <input type="submit" class="btn btn-success" value="اعمال قیمت" />
-                                    </div>
-                                </div>
-                                <div class="single-widget widget-color">
-                                    <h5 class="widget-title">فیلتر بر اساس رنگ</h5>
-                                    <ul>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-color-red" id="shop-widget-color-red" checked="checked">
-                                            <label for="shop-widget-color-red">قرمز</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-color-green" id="shop-widget-color-green" checked="checked">
-                                            <label for="shop-widget-color-green">سبز</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-color-blue" id="shop-widget-color-blue" checked="checked">
-                                            <label for="shop-widget-color-blue">آبی</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-color-purple" id="shop-widget-color-purple">
-                                            <label for="shop-widget-color-purple">بنفش</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-color" id="shop-widget-color">
-                                            <label for="shop-widget-color">نقره ای</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-color-black" id="shop-widget-color-black">
-                                            <label for="shop-widget-color-black">سیاه</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-color-lime" id="shop-widget-color-lime">
-                                            <label for="shop-widget-color-lime">صورتی</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-color-violet" id="shop-widget-color-violet">
-                                            <label for="shop-widget-color-violet">لیمویی</label>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="single-widget widget-manufacturer">
-                                    <h5 class="widget-title">شرکت تولید کننده</h5>
-                                    <ul>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-manufacturer-dell" id="shop-widget-manufacturer-dell" checked="checked">
-                                            <label for="shop-widget-manufacturer-dell">دل</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-manufacturer-asus" id="shop-widget-manufacturer-asus" checked="checked">
-                                            <label for="shop-widget-manufacturer-asus">ایسوز</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-manufacturer-apple" id="shop-widget-manufacturer-apple">
-                                            <label for="shop-widget-manufacturer-apple">اپل</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-manufacturer-hp" id="shop-widget-manufacturer-hp">
-                                            <label for="shop-widget-manufacturer-hp">اچ پی</label>
-                                        </li>
-                                        <li>
-                                            <input type="checkbox" name="shop-widget-manufacturer-sony" id="shop-widget-manufacturer-sony">
-                                            <label for="shop-widget-manufacturer-sony">سونی</label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
