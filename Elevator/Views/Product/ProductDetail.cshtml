@@ -81,10 +81,10 @@
                                         }
 
                                     </span>
-                                        <br />
-                                        <br />
-                                        <br />
-                                           <div class="hoproduct-countdown countdown" data-countdown="@Model.DiscountEndDate.Value.Date"></div>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <div class="hoproduct-countdown countdown" data-countdown="@Model.DiscountEndDate.Value.Date"></div>
                                 }
                                 else
                                 {
@@ -93,15 +93,15 @@
                             </div>
                             <p>@Model.ShortDescription</p>
                             <div class="pdetails-quantity">
-                                <form target="_blank" asp-controller="ShopProduct" asp-action="AddCart" >
-                                    <input type="hidden" value="@Model.Id" name="productId"/>
+                                <form target="_blank" asp-controller="ShopProduct" asp-action="AddCart">
+                                    <input type="hidden" value="@Model.Id" name="productId" />
                                     <div class="quantity-select">
                                         <input type="text" name="count" id="Count" value="1">
                                         <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
                                         <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
                                     </div>
                                     <button type="submit"
-                                      class="ho-button">
+                                            class="ho-button">
                                         <i class="lnr lnr-cart"></i>
                                         <span>افزودن به سبد خرید</span>
                                     </button>
@@ -187,10 +187,14 @@
                                             <td style="text-align:right;font-size:13px ">@item.Feature.Title</td>
                                             @if (item.Feature.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fssot)
                                             {
-                                                <td style="text-align:right;font-size:13px">
-                                                    @FeatureSSOTValue.Where(x => x.FeatureId == item.FeatureId && x.Id == Convert.ToInt32(item.FeatureValue)).SingleOrDefault().Value
-                                                    @*@item.Feature*@
-                                                </td>
+
+                                                if (@FeatureSSOTValue.Where(x => x.FeatureId == item.FeatureId && x.Id == Convert.ToInt32(item.FeatureValue)).SingleOrDefault() != null)
+                                                {
+                                                    <td style="text-align:right;font-size:13px">
+                                                        @FeatureSSOTValue.Where(x => x.FeatureId == item.FeatureId && x.Id == Convert.ToInt32(item.FeatureValue)).SingleOrDefault().Value
+                                                        @*@item.Feature*@
+                                                    </td>
+                                                }
                                             }
                                             else
                                             {
