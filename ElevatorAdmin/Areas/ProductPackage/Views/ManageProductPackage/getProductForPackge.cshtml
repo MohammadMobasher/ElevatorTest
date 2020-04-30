@@ -4,6 +4,11 @@
 @{
     Layout = null;
     var productsId = ViewBag.SelectedProducts as List<int>;
+    var packageId = ViewBag.PackageId;
+    var groupId = ViewBag.GroupId;
+    var beforeGroups = ViewBag.BeforeGroups as List<int>;
+
+
 }
 
 
@@ -28,7 +33,9 @@
                 <th>
                     ---
                 </th>
-                <th> --- </th>
+                <th>
+                    <input type="text" name="Title" value="@ViewBag.Title" class="form-control searchInput" />
+                </th>
                 <th>
                     ---
                 </th>
@@ -110,6 +117,32 @@
         }
     });
 
+     var packageId = @(packageId);
+     var groupId = @(groupId)
 
+
+
+
+         $('[name="Title"]').on('change', function () {
+             var title = $(this).val();
+        //     debugger;
+
+        //var order = $(this).attr("data-order");
+        //var beforeGroupsId = [];
+        //var beforeGroup = $(".Mli").filter(function () {
+        //    return $(this).attr("data-order") < order;
+        //});
+        //for (var i = 0; i < beforeGroup.length; i++) {
+        //    beforeGroupsId.push($(beforeGroup[i]).attr("data-role"));
+        //     }
+
+        $.get("/ProductPackage/ManageProductPackage/getProductForPackge",
+            { groupId: groupId, packageId: packageId, beforeGroups: [], title: title}
+            , function (result) {
+                debugger;
+                $("#Group_" + groupId).html(result);
+            })
+
+    })
 
 </script>

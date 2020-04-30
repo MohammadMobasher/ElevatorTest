@@ -20,7 +20,7 @@ namespace Elevator.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            var model = _productRepostitory.TableNoTracking.Where(a => a.IsActive == true
+            var model = _productRepostitory.TableNoTracking.Where(a => a.IsActive == true &&!a.IsDeleted
             && a.PriceWithDiscount != a.Price && a.PriceWithDiscount == a.Price).ProjectTo<ProductFullDTO>();
 
             return View(model.Take(12).OrderByDescending(a=>a.CreateDate).ToList());

@@ -37,7 +37,7 @@ namespace Service.Repos
          int take = -1,
          ProductPackageSearchViewModel model = null)
         {
-            var query = Entities.ProjectTo<ProductPackageFullDTO>();
+            var query = Entities.Where(a => !a.IsDeleted).ProjectTo<ProductPackageFullDTO>();
 
 
             if (model.Id != null)
@@ -45,7 +45,7 @@ namespace Service.Repos
 
             if (!string.IsNullOrEmpty(model.Title))
                 query = query.Where(x => x.Title.Contains(model.Title));
-            
+
 
             int Count = query.Count();
 
@@ -124,6 +124,20 @@ namespace Service.Repos
             await UpdateAsync(model);
         }
 
+        /// <summary>
+        /// حذف پکیج
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> Delete(int id)
+        {
+            var model = await GetByIdAsync(id);
+            if (model == null) return SweetAlertExtenstion.Error();
 
+            model.IsDeleted = true;
+            await UpdateAsync(model, false);
+
+            return Save();
+        }
     }
 }

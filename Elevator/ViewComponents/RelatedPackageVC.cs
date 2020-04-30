@@ -20,7 +20,7 @@ namespace Elevator.ViewComponents
         public IViewComponentResult Invoke()
         {
             var model = _productPackageRepostitory
-                .GetList<ProductPackageFullDTO>(a => a.IsActive && a.IsManager == true);
+                .GetList<ProductPackageFullDTO>(a => a.IsActive && !a.IsDeleted && a.IsManager == true);
                 
 
             return View(model.Take(6).ToList());

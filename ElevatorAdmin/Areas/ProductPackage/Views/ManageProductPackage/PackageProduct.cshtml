@@ -3,7 +3,7 @@
 @using DataLayer.Entities
 @{
     ViewData["Title"] = "لیست کالاها";
-    var groups = (ViewBag.Groups as List<ProductPackageGroups>).OrderBy(x=> x.ProductGroup.Order);
+    var groups = (ViewBag.Groups as List<ProductPackageGroups>).OrderBy(x => x.ProductGroup.Order);
 }
 
 
@@ -67,6 +67,10 @@
 
 <script>
 
+  
+
+
+
     $(function () {
 
 
@@ -108,7 +112,7 @@
         //var packageId = $('[name="packageId"]').val();
         //$("#Group_" + selectedGroupId).html(AjaxCall("/ProductPackage/ManageProductPackage/getProductForPackge?groupId=" + selectedGroupId + "&packageId=" + packageId, null, "Get"));
 
-        
+
 
         $("li.Mli").on("click", function () {
             setTimeout(function () {
@@ -136,7 +140,7 @@
 
             $.get("/ProductPackage/ManageProductPackage/getProductForPackge?groupId=" + selectedGroupId + "&packageId=" + packageId + "&beforeGroups=" + beforeGroupsId, function (result)
             {
-              
+
                 $('.Groups_').html('');
                 $("#Group_" + selectedGroupId).html(result);
             })

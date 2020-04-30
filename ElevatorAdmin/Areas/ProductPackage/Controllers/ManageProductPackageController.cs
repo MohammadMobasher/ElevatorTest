@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using Core.CustomAttributes;
 using Core.Utilities;
+using DataLayer.DTO;
 using DataLayer.DTO.ProductFeatures;
 using DataLayer.DTO.Products;
 using DataLayer.Entities;
@@ -136,9 +137,6 @@ namespace ElevatorAdmin.Areas.Product.Controllers
                 await _packageUserAnswerRepository.UpdateAnswer(vm, UserId, package.Id);
 
             }
-
-
-
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
@@ -292,12 +290,18 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
 
 
-        public async Task<IActionResult> getProductForPackge(int groupId, int packageId, List<int> beforeGroups)
+        public async Task<IActionResult> getProductForPackge(int groupId, int packageId
+            , List<int> beforeGroups, string title = null)
         {
-            var model = await _productRepostitory.GetProductForPackage(packageId, groupId, beforeGroups);
+            var model = await _productRepostitory
+                .GetProductForPackage(packageId, groupId, beforeGroups,title);
             ViewBag.SelectedProducts = await _productPackageDetailsRepostitory
                .GetAllByGroupIdAndPackageId(packageId, groupId);
 
+            ViewBag.BeforeGroups = beforeGroups ?? new List<int>();
+            ViewBag.GroupId = groupId;
+            ViewBag.PackageId = packageId;
+            ViewBag.Title = title;
             return PartialView(model);
         }
 
@@ -311,6 +315,28 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             return Json(true);
         }
         #endregion
+
+
+        #region Delete
+
+        [ActionRole("حذف پکیج")]
+        [HasAccess]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            return View(new DeleteDTO { Id = Id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteViewModel model)
+        {
+            var result = await _productPackageRepostitory.Delete(model.Id);
+            TempData.AddResult(result);
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
 
     }
 }

@@ -21,7 +21,7 @@ namespace Elevator.ViewComponents
         public IViewComponentResult Invoke()
         {
             var lastPackage = _productPackageRepostitory.TableNoTracking
-                .Where(a => a.IsActive == true)
+                .Where(a => a.IsActive == true && !a.IsDeleted)
                 .ProjectTo<ProductPackageFullDTO>()
                 .OrderByDescending(a => a.CreateDate)
                 .Take(12)

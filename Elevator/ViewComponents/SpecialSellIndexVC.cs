@@ -25,7 +25,7 @@ namespace Elevator.ViewComponents
         public IViewComponentResult Invoke()
         {
             var specialProduct = _productRepostitory.TableNoTracking
-                                .Where(a => a.IsSpecialSell && a.IsActive == true)
+                                .Where(a => a.IsSpecialSell && a.IsActive == true && !a.IsDeleted)
                                 .ProjectTo<ProductFullDTO>()
                                 .OrderByDescending(a => a.CreateDate)
                                 .Take(12)

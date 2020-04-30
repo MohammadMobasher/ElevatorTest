@@ -47,7 +47,7 @@ namespace Service.Repos
          int take = -1,
          ProductSearchViewModel model = null)
         {
-            var query = Entities.ProjectTo<ProductFullDTO>();
+            var query = Entities.Where(a => !a.IsDeleted).ProjectTo<ProductFullDTO>();
 
 
             if (model.Id != null)
@@ -430,10 +430,10 @@ namespace Service.Repos
 
         public async Task<List<DataLayer.Entities.Product>> GetProducts(ProductSearchListViewModel vm, int skip, int take)
         {
-            
+
             var model = TableNoTracking
                .Include(a => a.ProductGroup)
-               .Where(a => a.IsActive == true);
+               .Where(a => a.IsActive == true && !a.IsDeleted);
 
             var result = model
                 .WhereIf(!string.IsNullOrEmpty(vm.Title), a => a.Title.Contains(vm.Title)
@@ -442,7 +442,7 @@ namespace Service.Repos
                 || a.Tags.Contains(vm.Title))
                 .WhereIf(vm.Group != null && vm.Group != -1, a => a.ProductGroupId.Equals(vm.Group.Value))
                 .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice));
-                
+
 
             if (skip != 0)
                 result = result.Skip((skip - 1) * take);
@@ -495,7 +495,7 @@ namespace Service.Repos
         }
 
         public async Task<List<ProductQueryFullDTO>> GetProductForPackage(int packageId
-            , int groupId, List<int> beforeGroups)
+            , int groupId, List<int> beforeGroups, string title = null)
         {
             try
             {
@@ -612,8 +612,8 @@ namespace Service.Repos
                                         products = products.Where(x =>
 
                                             Features
-                                            .Where(a => 
-                                                a.FeatureId == item.Feature1 && 
+                                            .Where(a =>
+                                                a.FeatureId == item.Feature1 &&
                                                 Convert.ToInt32(a.FeatureValue) > Convert.ToInt32(item.Value1))
                                             .Select(a => a.ProductId).ToList().Contains(x.Id)
 
@@ -702,12 +702,26 @@ namespace Service.Repos
                     }
                 }
 
-                return products.ToList();
+                var result = products.AsQueryable().WhereIf(title!=null,a=>a.Title.Contains(title)).ToList();
+
+                return result;
             }
             catch (Exception E)
             {
                 return null;
             }
+        }
+
+
+        public async Task<SweetAlertExtenstion> DeletedProduct(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            model.IsDeleted = true;
+
+            await UpdateAsync(model, false);
+
+            return Save();
         }
 
     }

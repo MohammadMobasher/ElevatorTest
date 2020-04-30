@@ -34,6 +34,9 @@ namespace DataLayer.Entities
 
         public bool IsManager { get; set; } = false;
 
+
+        public bool IsDeleted { get; set; } = false;
+
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public long PackagePrice { get; set; }
 

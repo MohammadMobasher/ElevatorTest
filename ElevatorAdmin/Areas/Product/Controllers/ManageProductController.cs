@@ -262,6 +262,31 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         #endregion
 
 
+        #region Delete
+
+
+        [ActionRole("حذف محصول")]
+        [HasAccess]
+        public async Task<IActionResult> Delete(int Id)
+        {
+
+            return View(new DeleteDTO { Id = Id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteViewModel model)
+        {
+
+            var result = await _productRepostitory.DeletedProduct(model.Id);
+            TempData.AddResult(result);
+
+            return RedirectToAction("Index");
+        }
+
+
+        #endregion
+
+
         //[ActionRole("حذف آیتم")]
         //[HasAccess]
         //public async Task<IActionResult> Delete(int Id)

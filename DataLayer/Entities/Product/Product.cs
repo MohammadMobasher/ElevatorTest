@@ -85,6 +85,11 @@ namespace DataLayer.Entities
         /// فعال  / غیرفعال
         /// </summary>
         public bool? IsActive { get; set; }
+
+        /// <summary>
+        /// آیا این محصول حذف شده است یا خیر
+        /// </summary>
+        public bool IsDeleted { get; set; } = false;
         #region Join
 
         [ForeignKey(nameof(ProductGroupId))]
