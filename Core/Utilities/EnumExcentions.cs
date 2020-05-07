@@ -64,6 +64,7 @@ namespace Core.Utilities
         {
             return Enum.GetValues(value.GetType()).Cast<Enum>().ToDictionary(p => Convert.ToInt32(p), q => ToDisplay(q));
         }
+
     }
 
     public enum DisplayProperty

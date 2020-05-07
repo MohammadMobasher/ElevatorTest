@@ -1,9 +1,26 @@
-﻿@using DataLayer.DTO;
+﻿@using DataLayer.SSOT;
+@using DataLayer.DTO;
 @using DNTPersianUtils.Core;
+@using DataLayer.ViewModels
 @model List<FeatureFullDetailDTO>
 @{
     ViewData["Title"] = "لیست ویژگی‌ها";
+    //var d = Enum.GetValues(typeof(FeatureTypeSSOT));
+    //List<IdTitle> items = new List<IdTitle>();
 
+    //var w = ((Enum)FeatureTypeSSOT.Fint).ToDictionary();
+
+
+    //foreach (var item in w)
+    //{
+
+    //    items.Add(new IdTitle {
+    //        Title = item.Value,
+    //        Id = item.Key
+
+    //    });
+    //}
+    //int a = 1;
 }
 
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 btn-table">
@@ -57,15 +74,21 @@
                 <th width="15%">جستجو</th>
             </tr>
             <tr>
-                <form method="post">
+                <form method="get" name="searchForm">
+                    
                     <th>---</th>
                     <th>---</th>
                     <th><input type="text" value="@ViewBag.SearchModel.Title" name="Title" class="form-control searchInput" /></th>
                     <th>
-                        <select name="type" @*asp-for="@ViewBag.SearchModel.FeatureType" *@ asp-items="@Html.GetEnumSelectList<DataLayer.SSOT.FeatureTypeSSOT>()" class="form-control searchSelect">
-                            <option value="">انتخاب نمایید...</option>
-
-                        </select>
+                        ---
+                        @*<SelectSearch 
+                            name="FeatureType" 
+                            isEnum="true"
+                            hasNoneItem="true"
+                            selectedItemId="(ViewBag.SearchModel.FeatureType != null ? (int)ViewBag.SearchModel.FeatureType : null)"
+                            itemsEnum="((Enum)FeatureTypeSSOT.Fint).ToDictionary()"
+                            >
+                        </SelectSearch>*@
                     </th>
                     <th>---</th>
                     <input type="submit" class="hidden searchBtn" value="جستجو" />

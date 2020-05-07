@@ -7,13 +7,14 @@
     int PageCount = ViewBag.pageCount;
     int PageSize = ViewBag.PageSize;
 
-    var querystringDict = Context.Request.Query.Keys.ToDictionary(k => k, v => Context.Request.Query[v]);
-
+    var querystringDict = Context.Request.Query.Keys.Where(x=> x != "newSearch").ToDictionary(k => k, v => Context.Request.Query[v]);
+    
     var queryString = "";
 }
 
 
-<input type="hidden" name="currentPage" />
+<input type="hidden" name="currentPage" value="@CurrentPage"/>
+<input type="hidden" name="oldcurrentPage" />
 
 
 
@@ -188,6 +189,13 @@
             
             //reload();
         });
+
+
+        $('[class="page-link"]').on("click", function(){
+
+            $('[name="currentPage"]').val($(this).attr("data-page"));
+
+        };
 
     });
 

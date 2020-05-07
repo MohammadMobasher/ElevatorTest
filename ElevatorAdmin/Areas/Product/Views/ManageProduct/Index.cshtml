@@ -103,7 +103,7 @@
 
             </tr>
             <tr>
-                <form method="post">
+                <form method="get" name="searchForm">
                     <th>
                         ---
                         @*<input  type="checkbox" data-toggle="tooltip" title="انتخاب همه" data-role="confirm">*@
@@ -117,7 +117,7 @@
                     <th>
                         <input type="text" name="Title" value="@search.Title" class="form-control searchInput" />
                     </th>
-                    <th>  <priceInput name="Price" title="قیمت کالا"></priceInput></th>
+                    <th>  <priceInput name="Price" value="@search.Price" title="قیمت کالا"></priceInput></th>
                     <th> --- </th>
                     <th>
                         <select name="ProductGroupId" class="form-control searchSelect">

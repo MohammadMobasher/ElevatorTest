@@ -144,16 +144,25 @@ function reload(href) {
 //================================================================================
 // این قسمت مربوط به جستجو در قسمت جداول هست
 $(function () {
+
+    
+
     $('.searchInput').on("keypress", function (event) {
         
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
+            $('[name="searchForm"]').append('<input type="hidden" name="newSearch" value="true" />');
+            var pageNum = $('[name="currentPage"]').val();
+            $('[name="searchForm"]').append('<input type="hidden" name="currentPage" value="'+pageNum+'" />');
             $('.searchBtn').trigger('click');
         }
     });
 
 
     $(".searchSelect").on("change", function (event) {
+         $('[name="searchForm"]').append('<input type="hidden" name="newSearch" value="true" />');
+            var pageNum = $('[name="currentPage"]').val();
+            $('[name="searchForm"]').append('<input type="hidden" name="currentPage" value="'+pageNum+'" />');
         $('.searchBtn').trigger('click');
     });
 });

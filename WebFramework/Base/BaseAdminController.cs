@@ -18,7 +18,7 @@ namespace WebFramework.Base
     {
         private readonly UsersAccessRepository _usersAccessRepository;
 
-        public BaseAdminController(UsersAccessRepository usersAccessRepository) 
+        public BaseAdminController(UsersAccessRepository usersAccessRepository)
         {
             _usersAccessRepository = usersAccessRepository;
         }
@@ -47,6 +47,16 @@ namespace WebFramework.Base
         /// تعداد صفحات
         /// </summary>
         public int PageCount { get; set; }
+        ///// <summary>
+        ///// مقدار قبلی شماره صفحه
+        ///// از این فیلد برای جستجو استفاده میشود
+        ///// به طوری که اگر مقدار مفعلی شماره صفحه با شماره قبلی آن
+        ///// برابر نباشد، به معنی جستجو جدید است
+        ///// </summary>
+        //public int OldPageCount { get; set; }
+
+
+        public bool newSearch { get; set; }
 
 
         #endregion
@@ -54,10 +64,11 @@ namespace WebFramework.Base
         /// <summary>
         /// شماره کاربری شخصی که لاگین است
         /// </summary>
-        public int UserId {
+        public int UserId
+        {
             get
             {
-                if(_userId == null)
+                if (_userId == null)
                     _userId = User.Identity.FindFirstValue(ClaimTypes.NameIdentifier).ToInt();
                 return _userId.Value;
             }
@@ -68,7 +79,8 @@ namespace WebFramework.Base
         /// <summary>
         /// شماره نقش فردی که لاگین کرده است
         /// </summary>
-        public string Role {
+        public string Role
+        {
             get
             {
                 if (_roleId == null)
@@ -95,6 +107,15 @@ namespace WebFramework.Base
 
 
             this.CurrentPage = Request.Query["currentPage"].Count != 0 ? Convert.ToInt32(Request.Query["currentPage"][0]) : 1;
+            this.newSearch = Request.Query["newSearch"].Count != 0 ? Convert.ToBoolean(Request.Query["newSearch"][0]) : false;
+            //this.OldPageCount = Request.Query["oldcurrentPage"].Count != 0 ? Convert.ToInt32(Request.Query["oldcurrentPage"][0]) : 1;
+
+            if (this.newSearch)
+            {
+                this.CurrentPage = 1;
+                
+            }
+
             this.PageSize = Request.Query["pageSize"].Count != 0 ? Convert.ToInt32(Request.Query["pageSize"][0]) : 10;
 
         }
@@ -116,11 +137,11 @@ namespace WebFramework.Base
             ViewBag.CurrentPage = this.CurrentPage;
             ViewBag.pageSize = this.PageSize;
 
-            
-            ViewBag.pageCount = (int)Math.Floor((decimal)((this.TotalNumber + this.PageSize - 1) / this.PageSize));
-            
-            ViewBag.totalNumber = this.TotalNumber;
 
+            ViewBag.pageCount = (int)Math.Floor((decimal)((this.TotalNumber + this.PageSize - 1) / this.PageSize));
+
+            ViewBag.totalNumber = this.TotalNumber;
+            //ViewBag.oldCurrentPage = this.CurrentPage;
 
 
         }
