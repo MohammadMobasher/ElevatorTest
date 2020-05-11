@@ -1,27 +1,16 @@
 ﻿using Core.BankCommon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Service.Repos.User;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using WebFramework.Base;
 
-namespace ElevatorAdmin.Controllers
+namespace Elevator.Controllers
 {
-    public class TestController : BaseAdminController
+    public class TestController:Controller
     {
-        public TestController(UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
-        {
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult BankTest()
         {
             var request = new BankPaymentViewModel();
@@ -63,15 +52,21 @@ namespace ElevatorAdmin.Controllers
                     Response.Redirect(string.Format("{0}/Purchase/Index?token={1}", request.PurchasePage, res.Result.Token));
                 }
                 ViewBag.Message = res.Result.Description;
-                return View(); 
+                return View();
             }
 
             return View();
         }
 
+        public IActionResult CallBack(BankVerifyViewModel vm)
+        {
+            return View(vm);
+        }
+
+
         public static async Task<T> CallApi<T>(string apiUrl, object value)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
             using (var client = new HttpClient())
             {
 
@@ -89,6 +84,5 @@ namespace ElevatorAdmin.Controllers
                 return default(T);
             }
         }
-
     }
 }

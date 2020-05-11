@@ -48,7 +48,7 @@ namespace ElevatorAdmin.ViewComponents
             {
                 Controller = "",
                 Action = "",
-                Title = "مدیریت محصولات",
+                Title = "مدیریت پکیج",
                 Icon = "fa fa-archive",
                 Childs = new List<SidebarChildViewModel> {
                     new SidebarChildViewModel {Area = "FeatureQuestionForPakage", Controller = "ManageFeatureQuestionForPakage", Action = "Index", Title = "مدیریت سوالات پکیج" },

@@ -1,6 +1,7 @@
 ﻿using DataLayer.Entities.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataLayer.Entities.Bank
@@ -9,17 +10,17 @@ namespace DataLayer.Entities.Bank
     {
         public int UserId { get; set; }
 
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
 
         public DateTime DateTime { get; set; }
 
         public long Amount { get; set; }
 
-        public int MyProperty { get; set; }
-
         public string Token { get; set; }
 
+        public bool IsSuccessed { get; set; }
 
+        [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }
     }
 }

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
 using Core;
+using Core.Utilities;
+using System.Security.Claims;
 
 namespace Elevator.Controllers
 {
@@ -37,9 +39,20 @@ namespace Elevator.Controllers
         /// </summary>
         public int PageCount { get; set; }
 
+        private int? _userId;
+        public int UserId
+        {
+            get
+            {
+                if (_userId == null)
+                    _userId = User.Identity.FindFirstValue(ClaimTypes.NameIdentifier).ToInt();
+                return _userId.Value;
+            }
+        }
+
 
         #endregion
-        
+
 
         public BaseController()
         {

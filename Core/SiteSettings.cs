@@ -7,6 +7,21 @@
         public SiteConfig SiteConfig { get; set; }
     }
 
+    public class BankConfig
+    {
+        public string TerminalId { get; set; }
+
+        public string MerchantId { get; set; }
+
+        public string MerchantKey { get; set; }
+
+        public string ReturnUrl { get; set; }
+
+        public string PurchasePage { get; set; }
+
+        
+    }
+
     public class IdentitySettings
     {
         public bool PasswordRequireDigit { get; set; }

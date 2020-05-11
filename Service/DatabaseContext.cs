@@ -45,6 +45,7 @@ namespace Service
         public DbSet<UsersAccess> UsersAccess { get; set; }
         public DbSet<UsersPayment> UsersPayment { get; set; }
         public DbSet<ShopProduct> ShopProduct { get; set; }
+        public DbSet<ShopOrder> ShopOrder { get; set; }
 
         public DbSet<ProductPackageGroups> ProductPackageGroups { get; set; }
 

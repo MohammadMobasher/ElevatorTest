@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200511175609_UsersPayments")]
+    partial class UsersPayments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace Service.Migrations
 
                     b.Property<DateTime>("DateTime");
 
-                    b.Property<bool>("IsSuccessed");
+                    b.Property<int>("MyProperty");
 
                     b.Property<string>("OrderId");
 
@@ -37,9 +39,11 @@ namespace Service.Migrations
 
                     b.Property<int>("UserId");
 
+                    b.Property<int?>("UsersId");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UsersId");
 
                     b.ToTable("UsersPayment");
                 });
@@ -718,33 +722,6 @@ namespace Service.Migrations
                     b.ToTable("ProductUnit");
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.ShopOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("Amount");
-
-                    b.Property<DateTime?>("CreateDate");
-
-                    b.Property<string>("DiscountCode");
-
-                    b.Property<bool>("IsSuccessed");
-
-                    b.Property<int?>("OrderId");
-
-                    b.Property<DateTime>("SuccessDate");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ShopOrder");
-                });
-
             modelBuilder.Entity("DataLayer.Entities.ShopProduct", b =>
                 {
                     b.Property<int>("Id")
@@ -761,8 +738,6 @@ namespace Service.Migrations
 
                     b.Property<DateTime>("RequestedDate");
 
-                    b.Property<int?>("ShopOrderId");
-
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
@@ -770,8 +745,6 @@ namespace Service.Migrations
                     b.HasIndex("PackageId");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("ShopOrderId");
 
                     b.ToTable("ShopProduct");
                 });
@@ -1121,8 +1094,7 @@ namespace Service.Migrations
                 {
                     b.HasOne("DataLayer.Entities.Users.Users", "Users")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UsersId");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.FactorItem", b =>
@@ -1327,14 +1299,6 @@ namespace Service.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.ShopOrder", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Users.Users", "Users")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("DataLayer.Entities.ShopProduct", b =>
                 {
                     b.HasOne("DataLayer.Entities.ProductPackage", "ProductPackage")
@@ -1344,10 +1308,6 @@ namespace Service.Migrations
                     b.HasOne("DataLayer.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
-
-                    b.HasOne("DataLayer.Entities.ShopOrder", "ShopOrder")
-                        .WithMany()
-                        .HasForeignKey("ShopOrderId");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Users.RoleClams", b =>

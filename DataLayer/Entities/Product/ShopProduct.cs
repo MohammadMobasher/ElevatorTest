@@ -20,10 +20,16 @@ namespace DataLayer.Entities
 
         public bool IsFinaly { get; set; }
 
+        public int? ShopOrderId { get; set; }
+
+
         [ForeignKey("PackageId")]
         public virtual ProductPackage ProductPackage { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual Product Product{ get; set; }
+
+        [ForeignKey(nameof(ShopOrderId))]
+        public virtual ShopOrder ShopOrder { get; set; }
     }
 }
