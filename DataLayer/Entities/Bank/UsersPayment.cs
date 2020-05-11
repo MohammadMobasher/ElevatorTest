@@ -20,7 +20,13 @@ namespace DataLayer.Entities.Bank
 
         public bool IsSuccessed { get; set; }
 
+        public int? ShopOrderId { get; set; }
+
         [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }
+
+
+        [ForeignKey(nameof(ShopOrderId))]
+        public virtual ShopOrder ShopOrders { get; set; }
     }
 }

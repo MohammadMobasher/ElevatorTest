@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataLayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,5 +17,8 @@ namespace DataLayer.ViewModels.UsersPayments
 
 
         public string Token { get; set; }
+
+        public int ShopOrderId { get; set; }
+
     }
 }

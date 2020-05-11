@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Service;
 using Service.Mappers;
 using WebFramework.Configurations;
+using Elevator.Controllers;
 
 namespace Elevator
 {
@@ -52,6 +53,7 @@ namespace Elevator
 
 
             services.SmsConfiguration();
+            services.AddScoped<ManageBankService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

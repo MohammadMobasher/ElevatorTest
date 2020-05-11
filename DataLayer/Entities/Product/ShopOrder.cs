@@ -22,8 +22,12 @@ namespace DataLayer.Entities
 
         public int? OrderId { get; set; }
 
+
+
         [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }
+
+
 
     }
 }

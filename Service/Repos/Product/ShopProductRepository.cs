@@ -12,6 +12,8 @@ namespace Service.Repos
 {
     public class ShopProductRepository : GenericRepository<ShopProduct>
     {
+
+
         public ShopProductRepository(DatabaseContext dbContext) : base(dbContext)
         {
         }
@@ -211,6 +213,58 @@ namespace Service.Repos
             }
 
             return sum.ToPersianPrice();
+        }
+
+        /// <summary>
+        /// محاسبه قیمت سبد خرید
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<long> CalculateCartPriceNumber(int userId)
+        {
+            var model = await GetListAsync(a => a.UserId == userId && !a.IsFinaly, null, "Product,ProductPackage");
+
+            if (model == null) return 0;
+
+            var sum = default(long);
+
+            foreach (var item in model)
+            {
+                if (item.ProductId != null)
+                {
+                    sum += item.Product.PriceWithDiscount * item.Count;
+                }
+                else if (item.PackageId != null)
+                {
+                    if (item.ProductPackage.PackageWithDiscounts == null)
+                    {
+                        sum += item.ProductPackage.PackageWithDiscounts.Value * item.Count;
+                    }
+                    else
+                    {
+                        sum += item.ProductPackage.PackagePrice * item.Count;
+                    }
+
+                }
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        /// تغییر وضعیت
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<bool> ChangeStatus(List<ShopProduct> list,int orderId)
+        {
+
+            list.ForEach(a=>a.ShopOrderId = orderId);
+
+            await UpdateRangeAsync(list,false);
+
+            return Save();
         }
 
     }

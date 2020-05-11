@@ -1,0 +1,310 @@
+﻿@using Core.Utilities
+@model List<DataLayer.Entities.ShopProduct>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<main class="page-content">
+
+    <!-- Checkout Area -->
+    <div class="checkout-area bg-white ptb-30">
+        <div class="container">
+
+        
+
+            @*<div class="checkout-info-collapsebox">
+                <form action="#" class="ho-form ho-form-boxed checkout-info-login">
+                    <div class="ho-form-inner">
+                        <div class="single-input">
+                            <label for="login-form-email">نام کاربری یا آدرس ایمیل *</label>
+                            <input type="text" name="login-form-email" id="login-form-email">
+                        </div>
+                        <div class="single-input">
+                            <label for="login-form-password">رمز *</label>
+                            <input type="password" name="login-form-password" id="login-form-password">
+                        </div>
+                        <div class="single-input">
+                            <button type="submit" class="ho-button ho-button-sm mr-3">
+                                <span>ورود</span>
+                            </button>
+                            <div class="checkbox-input">
+                                <input type="checkbox" name="login-form-remember" id="login-form-remember">
+                                <label for="login-form-remember">مرا بخاطر بسپار</label>
+                            </div>
+                        </div>
+                        <div class="single-input">
+                            <a href="#">رمز خود را فراموش کرده اید؟</a>
+                        </div>
+                    </div>
+                </form>
+            </div>*@
+
+            @*<div class="checkout-info">
+                <i class="fa fa-window-maximize"></i>
+                آیا کد تخفیف دارید؟ <a class="checkout-info-coupon-trigger" href="#">برای وارد کردن کد تخفیف اینجا کلیک کنید</a>
+            </div>
+
+            <div class="checkout-info-collapsebox">
+                <form action="#" class="checkout-info-coupon">
+                    <input type="text" placeholder="کد">
+                    <button class="ho-button">
+                        <span>اعمال تخفیف</span>
+                    </button>
+                </form>
+            </div>*@
+
+            <form asp-controller="ShopProduct" asp-action="SendToBank" method="post"  class="billing-info">
+                <div class="row">
+
+                    <!-- Billing Details -->
+                    @*<div class="col-lg-6">
+
+                        <h3 class="small-title">جزئیات صورتحساب</h3>
+                        <div class="ho-form">
+                            <div class="ho-form-inner">
+                                <div class="single-input single-input-half">
+                                    <label for="customer-firstname">نام *</label>
+                                    <input type="text" name="customer-firstname" id="customer-firstname">
+                                </div>
+                                <div class="single-input single-input-half">
+                                    <label for="customer-lastname">نام خانوادگی *</label>
+                                    <input type="text" name="customer-lastname" id="customer-lastname">
+                                </div>
+                                <div class="single-input">
+                                    <label for="customer-companyname">نام شرکت</label>
+                                    <input type="text" name="customer-companyname" id="customer-companyname">
+                                </div>
+                                <div class="single-input single-input-half">
+                                    <label for="customer-email">ایمیل *</label>
+                                    <input type="email" name="customer-email" id="customer-email">
+                                </div>
+                                <div class="single-input single-input-half">
+                                    <label for="customer-phone">شماره تلفن *</label>
+                                    <input type="text" name="customer-phone" id="customer-phone">
+                                </div>
+                                <div class="single-input">
+                                    <label for="customer-country">کشور *</label>
+                                    <select name="customer-country" id="customer-country">
+                                        <option value="AU">استرلیا</option>
+                                        <option value="AT">مالزی</option>
+                                        <option value="BD">بنگلادش</option>
+                                        <option value="BE">آلمان</option>
+                                        <option value="CA">کانادا</option>
+                                        <option value="DK">ایالات متحده</option>
+                                        <option value="FR">فرانسه</option>
+                                        <option value="IT">ایتالیا</option>
+                                        <option value="GB">ایران</option>
+                                        <option value="US">اسپانیا</option>
+                                    </select>
+                                </div>
+                                <div class="single-input">
+                                    <label for="customer-address">آدرس*</label>
+                                    <input type="text" name="customer-address" id="customer-address"
+                                           placeholder="آدرس خیابان">
+                                    <input type="text" placeholder="آدرس دقیق">
+                                </div>
+                                <div class="single-input single-input-half">
+                                    <label for="customer-state">شهر *</label>
+                                    <input type="text" name="customer-state" id="customer-state">
+                                </div>
+                                <div class="single-input single-input-half">
+                                    <label for="customer-postalcode">کد پستی *</label>
+                                    <input type="number" name="customer-postalcode" id="customer-postalcode">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="different-address">
+
+                            <div class="different-address-form-trigger">
+                                <input type="checkbox" id="direrent-address-toggle" class="ho-checkbox">
+                                <label for="direrent-address-toggle">حمل و نقل به آدرس مختلف</label>
+                            </div>
+
+                            <div class="different-address-form">
+                                <div class="ho-form">
+                                    <div class="ho-form-inner">
+                                        <div class="single-input single-input-half">
+                                            <label for="customer-firstname">نام *</label>
+                                            <input type="text" name="customer-firstname" id="customer-firstname">
+                                        </div>
+                                        <div class="single-input single-input-half">
+                                            <label for="customer-lastname">نام خانوادگی *</label>
+                                            <input type="text" name="customer-lastname" id="customer-lastname">
+                                        </div>
+                                        <div class="single-input">
+                                            <label for="customer-companyname">نام شرکت</label>
+                                            <input type="text" name="customer-companyname" id="customer-companyname">
+                                        </div>
+                                        <div class="single-input single-input-half">
+                                            <label for="customer-email">ایمیل *</label>
+                                            <input type="email" name="customer-email" id="customer-email">
+                                        </div>
+                                        <div class="single-input single-input-half">
+                                            <label for="customer-phone">شماره تلفن *</label>
+                                            <input type="text" name="customer-phone" id="customer-phone">
+                                        </div>
+                                        <div class="single-input">
+                                            <label for="customer-country">کشور *</label>
+                                            <select name="customer-country" id="customer-country">
+                                                <option value="AU">استرلیا</option>
+                                                <option value="AT">مالزی</option>
+                                                <option value="BD">بنگلادش</option>
+                                                <option value="BE">آلمان</option>
+                                                <option value="CA">کانادا</option>
+                                                <option value="DK">ایالات متحده</option>
+                                                <option value="FR">فرانسه</option>
+                                                <option value="IT">ایتالیا</option>
+                                                <option value="GB">ایران</option>
+                                                <option value="US">اسپانیا</option>
+                                            </select>
+                                        </div>
+                                        <div class="single-input">
+                                            <label for="customer-address">آدرس*</label>
+                                            <input type="text" name="customer-address" id="customer-address"
+                                                   placeholder="آدرس خیابان">
+                                            <input type="text" placeholder="آدرس دقیق">
+                                        </div>
+                                        <div class="single-input single-input-half">
+                                            <label for="customer-state">شهر *</label>
+                                            <input type="text" name="customer-state" id="customer-state">
+                                        </div>
+                                        <div class="single-input single-input-half">
+                                            <label for="customer-postalcode">کد پستی *</label>
+                                            <input type="number" name="customer-postalcode" id="customer-postalcode">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>*@
+                    <!--// Billing Details -->
+                    <!-- Place Order -->
+                    <div class="col-lg-6">
+                        <div class="order-infobox">
+                            <h3 class="small-title">سفارش شما</h3>
+                            <div class="checkout-table table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">محصول</th>
+                                            <th class="text-right">جمع</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                @if (item.ProductId != null)
+                                                {
+                                                    <td class="text-left">@item.Product.Title <span>× @item.Count</span></td>
+                                                    <td class="text-right">@((item.Count * item.Product.PriceWithDiscount).ToPersianPrice()) تومان</td>
+                                                }
+                                                else if (item.PackageId != null)
+                                                {
+                                                    <td class="text-left">@item.ProductPackage.Title <span>× @item.Count</span></td>
+                                                    <td class="text-right">@((item.Count * item.ProductPackage.PackagePrice).ToPersianPrice()) تومان</td>
+                                                }
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="text-left">جمع سبد</th>
+                                            <td class="text-right" id="ResultPriceCart"></td>
+                                        </tr>
+                                        @*<tr>
+                                                <th class="text-left">حمل و نقل</th>
+                                                <td class="text-right">نرخ ارسال: 100,000 تومان</td>
+                                            </tr>*@
+                                        @*<tr class="total-price">
+                                                <th class="text-left">جمع کل</th>
+                                                <td class="text-right">700,000 تومان</td>
+                                            </tr>*@
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="payment-method">
+
+                                @*<div class="check-payment">
+                                    <input type="radio" name="payment-method" id="checkout-payment-method-1"
+                                           class="ho-radio" checked="checked">
+                                    <label for="checkout-payment-method-1"> پرداخت Cheque</label>
+                                    <p>لطفا چک خود را به آدرس فروشگاه ارسال کنید.</p>
+                                </div>*@
+
+                                <div class="paypal-payment">
+                                    <input type="radio" name="payment-method" id="checkout-payment-method-2"
+                                           class="ho-radio" checked="checked">
+                                    <label for="checkout-payment-method-2"> پرداخت Paypal</label>
+                                    <p>انلاین پرداخت کنید.</p>
+                                </div>
+
+                            </div>
+                            <button class="ho-button ho-button-fullwidth mt-30" type="submit">
+                                <span>ادامه دهید</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!--// Place Order -->
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <!--// Checkout Area -->
+    <!-- Newsletter Area -->
+    <div class="ho-section newsletter-area bg-grey ptb-50">
+        <div class="container">
+            <div class="newsletter">
+                <div class="newsletter-title">
+                    <h2>مشترک شدن در <span>خبر نامه</span></h2>
+
+                </div>
+                <div class="newsletter-content">
+                    <form id="mc-form" class="newsletter-form">
+                        <input id="mc-email" type="email" autocomplete="off" placeholder="آدرس ایمیل">
+                        <button id="mc-submit" type="submit">ثبت</button>
+                    </form>
+                    <!-- mailchimp-alerts start -->
+                    <div class="mailchimp-alerts text-centre">
+                        <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
+                        <div class="mailchimp-success"></div><!-- mailchimp-success end -->
+                        <div class="mailchimp-error"></div><!-- mailchimp-error end -->
+                    </div><!-- mailchimp-alerts end -->
+                </div>
+                <div class="newsletter-socialicons socialicons socialicons-radial">
+                    <ul>
+                        <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
+                        <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
+                        <li><a href="#"><i class="ion ion-logo-youtube"></i></a></li>
+                        <li><a href="#"><i class="ion ion-logo-google"></i></a></li>
+                        <li><a href="#"><i class="ion ion-logo-instagram"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--// Newsletter Area -->
+
+</main>
+
+
+<script>
+       $(function() {
+        CalculatePrice();
+        });
+
+
+    function CalculatePrice() {
+         $.get("@Url.Action("CalculateCart","ShopProduct")",
+            function(result) {
+                $('#ResultPriceCart').html(result);
+            });
+    }
+</script>

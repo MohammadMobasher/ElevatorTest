@@ -26,14 +26,15 @@ using System.Security.Claims;
 namespace Elevator.Controllers
 {
     [Authorize]
-    public class ManageBankController : BaseController
+    public class ManageBankService : BaseController
     {
         private readonly BankConfig _bankConfig;
         private readonly UsersPaymentRepository _usersPaymentRepository;
         private readonly ShopProductRepository _shopProductRepository;
         private readonly ShopOrderRepository _shopOrderRepository;
+     
 
-        public ManageBankController(IConfiguration configuration
+        public ManageBankService(IConfiguration configuration
             , UsersPaymentRepository usersPaymentRepository
             , ShopProductRepository shopProductRepository
             , ShopOrderRepository shopOrderRepository)
@@ -44,85 +45,84 @@ namespace Elevator.Controllers
             _shopOrderRepository = shopOrderRepository;
         }
 
-        /// <summary>
-        /// ایجاد درخواست برای اتصال به درگاه بانک
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<IActionResult> RequestBuilder(int id)
-        {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+        ///// <summary>
+        ///// ایجاد درخواست برای اتصال به درگاه بانک
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //public async Task<IActionResult> RequestBuilder(int id,int userId)
+        //{
+        //    //if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
 
-            var cartInfo = await _shopOrderRepository.GetByIdAsync(id);
+        //    var cartInfo = await _shopOrderRepository.GetByIdAsync(id);
 
-            if(cartInfo == null)
-            {
-                TempData.AddResult(SweetAlertExtenstion.Error("اطلاعات سبد خریدی با این عنوان یافت نشد"));
-                return RedirectToAction("Index", "ShopProductController");
-            }
+        //    if(cartInfo == null)
+        //    {
+        //        TempData.AddResult(SweetAlertExtenstion.Error("اطلاعات سبد خریدی با این عنوان یافت نشد"));
+        //        return RedirectToAction("Index", "ShopProductController");
+        //    }
 
-            var OrderId = new Random().Next(1000, int.MaxValue).ToString();
+        //    var OrderId = new Random().Next(1000, int.MaxValue).ToString();
 
-            var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", _bankConfig.TerminalId, OrderId, 1000));
+        //    var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", _bankConfig.TerminalId, OrderId, 1000));
 
-            var symmetric = SymmetricAlgorithm.Create("TripleDes");
-            symmetric.Mode = CipherMode.ECB;
-            symmetric.Padding = PaddingMode.PKCS7;
+        //    var symmetric = SymmetricAlgorithm.Create("TripleDes");
+        //    symmetric.Mode = CipherMode.ECB;
+        //    symmetric.Padding = PaddingMode.PKCS7;
 
-            var encryptor = symmetric.CreateEncryptor(Convert.FromBase64String(_bankConfig.MerchantKey), new byte[8]);
-            var SignData = Convert.ToBase64String(encryptor.TransformFinalBlock(dataBytes, 0, dataBytes.Length));
+        //    var encryptor = symmetric.CreateEncryptor(Convert.FromBase64String(_bankConfig.MerchantKey), new byte[8]);
+        //    var SignData = Convert.ToBase64String(encryptor.TransformFinalBlock(dataBytes, 0, dataBytes.Length));
 
-            var ReturnUrl = string.Format(_bankConfig.ReturnUrl);
+        //    var ReturnUrl = string.Format(_bankConfig.ReturnUrl);
 
-            var ipgUri = string.Format("{0}/api/v0/Request/PaymentRequest", _bankConfig.PurchasePage);
+        //    var ipgUri = string.Format("{0}/api/v0/Request/PaymentRequest", _bankConfig.PurchasePage);
 
-            var data = new 
-            {
-                _bankConfig.TerminalId,
-                _bankConfig.MerchantId,
-                Amount= 1000,
-                SignData,
-                _bankConfig.ReturnUrl,
-                LocalDateTime = DateTime.Now,
-                OrderId,
-                //MultiplexingData = request.MultiplexingData
-            };
+        //    var data = new 
+        //    {
+        //        _bankConfig.TerminalId,
+        //        _bankConfig.MerchantId,
+        //        Amount= 1000,
+        //        SignData,
+        //        _bankConfig.ReturnUrl,
+        //        LocalDateTime = DateTime.Now,
+        //        OrderId,
+        //        //MultiplexingData = request.MultiplexingData
+        //    };
 
-            var res = CallApi<BankResultViewModel>(ipgUri, data);
-            res.Wait();
+        //    var res = CallApi<BankResultViewModel>(ipgUri, data);
+        //    res.Wait();
 
-            if (res != null && res.Result != null)
-            {
-                if (res.Result.ResCode == "0")
-                {
+        //    if (res != null && res.Result != null)
+        //    {
+        //        if (res.Result.ResCode == "0")
+        //        {
                     
-                    await _usersPaymentRepository.MapAddAsync(SetValue(res.Result.Token));
+        //            await _usersPaymentRepository.MapAddAsync(SetValue(res.Result.Token));
 
-                    Response.Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
-                }
-                ViewBag.Message = res.Result.Description;
-                return View();
-            }
+        //            Response.Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
+        //        }
+        //        ViewBag.Message = res.Result.Description;
+        //        return View();
+        //    }
 
-            return View();
+        //    return View();
 
-            #region LocalMethods
+        //    #region LocalMethods
 
-            AddUserPaymentViewModel SetValue(string token)
-            {
-                var userId = User.Identity.FindFirstValue(ClaimTypes.NameIdentifier).ToInt();
-                return new AddUserPaymentViewModel()
-                {
-                    Amount = data.Amount,
-                    DateTime = data.LocalDateTime,
-                    OrderId = data.OrderId,
-                    Token = token,
-                    UserId = UserId
-                };
-            }
+        //    AddUserPaymentViewModel SetValue(string token)
+        //    {
+        //        return new AddUserPaymentViewModel()
+        //        {
+        //            Amount = data.Amount,
+        //            DateTime = data.LocalDateTime,
+        //            OrderId = data.OrderId,
+        //            Token = token,
+        //            UserId = UserId
+        //        };
+        //    }
 
-            #endregion
-        }
+        //    #endregion
+        //}
 
         /// <summary>
         /// بازگشت از درگاه
@@ -176,6 +176,9 @@ namespace Elevator.Controllers
                         vm.VerifyResultData = res.Result;
                         res.Result.Succeed = true;
                         ViewBag.Success = res.Result.Description;
+
+                        var updateStatus = _shopOrderRepository.ChangeStatus(model.ShopOrderId.Value, UserId);
+
                         return View("Verify");
                     }
                     ViewBag.Message = res.Result.Description;
@@ -205,6 +208,8 @@ namespace Elevator.Controllers
                 {
                     var result = response.Content.ReadAsAsync<T>();
                     result.Wait();
+                 
+
                     return result.Result;
                 }
                 return default(T);
