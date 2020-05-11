@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DataLayer.Entities.Features;
+using DataLayer.Entities.Bank;
 
 namespace Service
 {
@@ -42,6 +43,7 @@ namespace Service
         public DbSet<Condition> Condition { get; set; }
         public DbSet<ProductFeature> ProductFeature { get; set; }
         public DbSet<UsersAccess> UsersAccess { get; set; }
+        public DbSet<UsersPayment> UsersPayment { get; set; }
         public DbSet<ShopProduct> ShopProduct { get; set; }
 
         public DbSet<ProductPackageGroups> ProductPackageGroups { get; set; }
