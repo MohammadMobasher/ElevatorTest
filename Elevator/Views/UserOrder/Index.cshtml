@@ -1,0 +1,67 @@
+﻿@using Core.Utilities
+@using DNTPersianUtils.Core
+@model List<DataLayer.Entities.ShopOrder>
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    th {
+        text-align: center !important
+    }
+</style>
+
+<main class="page-content">
+
+    <!-- Shopping Cart Area -->
+    <div class="cart-page-area ptb-30 bg-white">
+        <div class="container">
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning">
+                    <p> شما سفارشی ندارید</p>
+                </div>
+
+            }
+            else
+            {
+                <!-- Cart Products -->
+                <div class="cart-table table-responsive">
+                    <table class="table table-bordered table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th class="cart-column-image" scope="col">ردیف</th>
+                                <th class="cart-column-productname" scope="col">تاریخ سفارش</th>
+                                <th class="cart-column-productname" scope="col">شناسه سفارش</th>
+                                <th class="cart-column-price" scope="col">قیمت</th>
+                                <th class="cart-column-remove" scope="col">جزئیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var row = 1;}
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                     @(row++)
+                                    </td>
+                                    <td>@item.SuccessDate.ToPersianDateTextify()</td>
+                                    <td>@item.OrderId</td>
+                                    <td>@item.Amount.ToPersianPrice()</td>
+                                    <td>
+                                        <a class="remove-product"><i class="ion ion-ios-star"></i></a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <!--// Cart Products -->
+                <!-- Cart Content -->
+            }
+        </div>
+    </div>
+    <!--// Shopping Cart Area -->
+    <!--// Newsletter Area -->
+</main>

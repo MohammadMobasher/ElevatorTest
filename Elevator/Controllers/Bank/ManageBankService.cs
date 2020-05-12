@@ -32,7 +32,6 @@ namespace Elevator.Controllers
         private readonly UsersPaymentRepository _usersPaymentRepository;
         private readonly ShopProductRepository _shopProductRepository;
         private readonly ShopOrderRepository _shopOrderRepository;
-     
 
         public ManageBankService(IConfiguration configuration
             , UsersPaymentRepository usersPaymentRepository
@@ -134,22 +133,22 @@ namespace Elevator.Controllers
         {
             return View(vm);
         }
-        
+
         /// <summary>
         /// تایید اطلاعات
         /// </summary>
         /// <param name="vm"></param>
         /// <returns></returns>
-        [HttpPost]
-        public IActionResult VerifyRequest(BankVerifyViewModel vm)
+        //[HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> VerifyRequest(BankVerifyViewModel vm)
         {
             try
             {
-                //var cookie = Request.Cookies["Data"].Value;
-                //var model = JsonConvert.DeserializeObject<PaymentRequest>(cookie);
-
+                // گرفتن اطلاعات فاکتور بر اساس شناسه خرید و شناسه گاربری
                 var model = _usersPaymentRepository.GetByCondition(a => a.OrderId == vm.OrderId && a.UserId == UserId);
 
+                // رمز گذاری توکن
                 var dataBytes = Encoding.UTF8.GetBytes(vm.Token);
 
                 var symmetric = SymmetricAlgorithm.Create("TripleDes");
@@ -171,18 +170,22 @@ namespace Elevator.Controllers
                 var res = CallApi<BankCallBackResultViewModel>(ipgUri, data);
                 if (res != null && res.Result != null)
                 {
+                    await _usersPaymentRepository.ResultOrder(model.ShopOrderId.Value, model.OrderId, UserId, res.Result.Succeed, res.Result.ResCode);
+
                     if (res.Result.ResCode == "0")
                     {
                         vm.VerifyResultData = res.Result;
                         res.Result.Succeed = true;
                         ViewBag.Success = res.Result.Description;
 
-                        var updateStatus = _shopOrderRepository.ChangeStatus(model.ShopOrderId.Value, UserId);
+                        await _shopOrderRepository.SuccessedOrder(model.ShopOrderId.Value, UserId);
+                        await _shopProductRepository.SuccessedOrder(model.ShopOrderId.Value, UserId);
 
-                        return View("Verify");
+                        return RedirectToAction("Index", "UserOrder");
                     }
+
                     ViewBag.Message = res.Result.Description;
-                    return View("Verify");
+                    return RedirectToAction("Index", "UserOrder");
                 }
             }
             catch (Exception ex)

@@ -12,6 +12,7 @@ using DataLayer.Entities;
 using DataLayer.ViewModels.UsersPayments;
 using DNTPersianUtils.Core;
 using Elevator.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -161,7 +162,7 @@ namespace Elevator.Controllers
 
             var orderId = await _shopOrderRepository.CreateFactor(listOrders.ToList(), UserId);
 
-            if (orderId != 0 )
+            if (orderId != 0)
             {
                 return await RequestBuilder(orderId);
             }
@@ -177,33 +178,46 @@ namespace Elevator.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         public async Task<IActionResult> RequestBuilder(int id)
         {
-            //if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
 
-            var cartInfo = await _shopOrderRepository.GetByIdAsync(id);
+            var factorInfo = await _shopOrderRepository.GetByIdAsync(id);
 
-            if (cartInfo == null)
+            #region BankDependency
+
+            if (factorInfo == null)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("اطلاعات سبد خریدی با این عنوان یافت نشد"));
                 return RedirectToAction("Index", "ShopProductController");
             }
 
+            // شماره خرید 
             var OrderId = new Random().Next(1000, int.MaxValue).ToString();
 
+            // رمز گذاری اطلاعات 
             var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", _bankConfig.TerminalId, OrderId, 1000));
 
             var symmetric = SymmetricAlgorithm.Create("TripleDes");
             symmetric.Mode = CipherMode.ECB;
             symmetric.Padding = PaddingMode.PKCS7;
 
+            // رمز گذاری گلید پایانه
             var encryptor = symmetric.CreateEncryptor(Convert.FromBase64String(_bankConfig.MerchantKey), new byte[8]);
             var SignData = Convert.ToBase64String(encryptor.TransformFinalBlock(dataBytes, 0, dataBytes.Length));
 
+            // ادرس بازگشت از درگاه
             var ReturnUrl = string.Format(_bankConfig.ReturnUrl);
 
+            // ادرس وب سرویس درگاه
             var ipgUri = string.Format("{0}/api/v0/Request/PaymentRequest", _bankConfig.PurchasePage);
 
+            #endregion
+
+            #region Informations
+
+            // آماده سازی اطلاعات برای ا
             var data = new
             {
                 _bankConfig.TerminalId,
@@ -216,21 +230,33 @@ namespace Elevator.Controllers
                 //MultiplexingData = request.MultiplexingData
             };
 
+            #endregion
+
+            #region RequestBuild
+
             var res = ManageBankService.CallApi<BankResultViewModel>(ipgUri, data);
             res.Wait();
+
+            #endregion
+
+            #region Request Result
 
             if (res != null && res.Result != null)
             {
                 if (res.Result.ResCode == "0")
                 {
+                    factorInfo.OrderId = OrderId;
 
                     await _usersPaymentRepository.MapAddAsync(SetValue(res.Result.Token));
+                    await _shopOrderRepository.UpdateAsync(factorInfo);
 
                     Response.Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
                 }
                 ViewBag.Message = res.Result.Description;
                 return View();
             }
+
+            #endregion
 
             return View();
 

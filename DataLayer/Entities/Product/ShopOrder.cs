@@ -20,7 +20,7 @@ namespace DataLayer.Entities
 
         public string DiscountCode { get; set; }
 
-        public int? OrderId { get; set; }
+        public string OrderId { get; set; }
 
 
 

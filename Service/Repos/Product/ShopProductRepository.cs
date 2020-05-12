@@ -19,7 +19,7 @@ namespace Service.Repos
         }
 
         public async Task<bool> IsExist(int productId, int userId)
-        => await GetByConditionAsync(a => a.ProductId == productId && a.UserId == userId) != null;
+        => await GetByConditionAsync(a => a.ProductId == productId && a.UserId == userId && !a.IsFinaly) != null;
 
         public async Task<bool> IsPackageExist(int packageId, int userId)
             => await GetByConditionAsync(a => a.PackageId == packageId && a.UserId == userId) != null;
@@ -252,17 +252,37 @@ namespace Service.Repos
         }
 
         /// <summary>
-        /// تغییر وضعیت
+        /// تغییر وضعیت سبد خرید 
+        /// مشخص کردن فاکتور
         /// </summary>
         /// <param name="list"></param>
         /// <param name="orderId"></param>
         /// <returns></returns>
         public async Task<bool> ChangeStatus(List<ShopProduct> list,int orderId)
         {
-
-            list.ForEach(a=>a.ShopOrderId = orderId);
+            list.ForEach(a=>a.ShopOrderId = orderId );
 
             await UpdateRangeAsync(list,false);
+
+            return Save();
+        }
+
+        /// <summary>
+        /// زمانی که خرید با موفقیت انجام شد ما در دیتا بیس مشخص میکنیم
+        /// و دیگر محصولات ثبت شده را نمایش نمی دهیم
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<bool> SuccessedOrder(int orderId,int userId)
+        {
+            var model =await GetListAsync(a => a.ShopOrderId == orderId && a.UserId == userId);
+
+            if (model == null) return false;
+
+            model.ToList().ForEach(a => a.IsFinaly = true);
+
+            await UpdateRangeAsync(model,false);
 
             return Save();
         }

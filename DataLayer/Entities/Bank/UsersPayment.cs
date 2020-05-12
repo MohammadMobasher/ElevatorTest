@@ -22,6 +22,10 @@ namespace DataLayer.Entities.Bank
 
         public int? ShopOrderId { get; set; }
 
+        public DateTime? UpdateDate { get; set; }
+
+        public string ResCode { get; set; }
+
         [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }
 
