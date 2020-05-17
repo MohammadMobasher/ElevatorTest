@@ -198,7 +198,7 @@ namespace Elevator.Controllers
 
         public static async Task<T> CallApi<T>(string apiUrl, object value)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
             using (var client = new HttpClient())
             {
 
