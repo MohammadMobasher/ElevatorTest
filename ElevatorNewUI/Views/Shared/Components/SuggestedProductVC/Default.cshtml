@@ -1,0 +1,88 @@
+﻿@using DataLayer.DTO.Products
+@model List<ProductFullDTO>
+@using DNTPersianUtils.Core
+
+@if (Model != null && Model.Count() > 0)
+{
+    <div class="content-widget-amazing mt-4">
+        <section id="amazing-slider" class="carousel slide carousel-fade card" data-ride="carousel">
+            <div class="row m-0">
+                <ol class="carousel-indicators pr-0 d-flex flex-column col-lg-3">
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <li class="carousel-item-li" data-target="#amazing-slider" data-slide-to="@i">
+                        </li>
+                    }
+                </ol>
+                <div class="carousel-inner p-0 col-12 col-lg-9 ">
+                    @foreach (var item in Model)
+                    {
+                        <div class="carousel-item suggestedItemContent">
+                            <div class="row m-0">
+                                <div class="right-col col-5 d-flex align-items-center">
+                                    <a class="w-100 text-center img-link-amazing" href="#">
+                                        <img src="@(ViewBag.Url + "/" + item.IndexPic)"
+                                             class="img-fluid" alt="">
+                                    </a>
+                                </div>
+                                <div class="col-7">
+                                    <div class="discount">
+                                        <span class="discount-percent">
+                                            @(item.PriceWithDiscount / item.Price)
+                                            <i class="fa fa-percent"></i>
+                                        </span>
+                                    </div>
+                                    <h2 class="product-title">
+                                        <a href="#">
+                                            @item.Title
+                                        </a>
+                                    </h2>
+                                    <div class="price text-center">
+                                        <del><span>@item.Price<span>تومان</span></span></del>
+                                        <ins><span>@item.PriceWithDiscount<span>تومان</span></span></ins>
+                                    </div>
+                                    @*<ul class="list-group hide" hidden>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-check"></i>
+                                            <span class="title">ظرفیت حافظه داخلی: </span>
+                                            <span class="text">یک ترابایت </span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-check"></i>
+                                            <span class="title">ظرفیت حافظه رم: </span>
+                                            <span class="text">8 گیگابایت </span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-check"></i>
+                                            <span class="title">سری پردازنده: </span>
+                                            <span class="text">Core i5 </span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-check"></i>
+                                            <span class="title">دقت صفحه نمایش: </span>
+                                            <span class="text"> 1080 × 1920 </span>
+                                        </li>
+                                    </ul>*@
+                                    <div class="countdown-timer">
+                                        <div class="countdown h4" data-date-time="@item.DiscountEndDate" data-labels='{"label-day": "روز", "label-hour": "ساعت", "label-minute": "دقیقه", "label-second": "ثانیه"}'></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                   
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <script>
+        $(function () {
+            $(".suggestedItemContent:first").addClass("active");
+            $("[data-target='#amazing-slider']").addClass("active");
+
+        });
+    </script>
+}

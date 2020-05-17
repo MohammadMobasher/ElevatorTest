@@ -65,7 +65,7 @@ namespace Elevator
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             
-                app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
            
               
             app.UseRedirectConfigure();

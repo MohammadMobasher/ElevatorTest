@@ -1,0 +1,87 @@
+﻿@using Service.Repos
+@using DataLayer.Entities
+@model DataLayer.DTO.NewsDTO
+@using DNTPersianUtils.Core
+
+@inject SiteSettingRepository _siteSettingRepository
+@{
+
+    SiteSetting siteSetting = await _siteSettingRepository.GetInfo();
+
+}
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+
+
+<main class="page-content">
+
+    <!-- Blog Details Area -->
+    <div class="blog-area ptb-30">
+        <div class="container">
+            <div class="blog-details">
+                <article class="blogitem2">
+                    <div class="blogitem2-image">
+                        <img src="@Url.Content( ViewBag.Url +"/" + Model.ImageAddress)" title="@Model.Title" alt="@Model.Title">
+                    </div>
+                    <div class="blogitem2-content">
+                        <h2>@Model.Title</h2>
+                        <div class="blogitem2-meta">
+                            <span>
+                                <i class="ion ion-md-calendar"></i>
+                                @Model.Date.ToPersianDateTextify()
+                            </span>
+                        </div>
+                        <p>
+                            @Html.Raw(Model.SummeryNews)
+                        </p>
+                    </div>
+
+                    <div style="font-size:13px;line-height:35px">
+                        @Html.Raw(Model.Description)
+                    </div>
+                </article>
+                <div class="blog-details-footer">
+                    <div class="blog-details-tags">
+                        <h5>تگ ها: </h5>
+                        <ul>
+                            @foreach (string tag in Model.Tags.Split(","))
+                            {
+                                <li><a style="font-size:13px">@tag</a></li>
+                            }
+
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--// Blog Details Area -->
+    <!-- Newsletter Area -->
+    <div class="ho-section newsletter-area bg-green pt-2 pb-2">
+        <div class="container">
+            <div class="newsletter text-center">
+                <div class="newsletter-socialicons socialicons socialicons-radial">
+                    <ul>
+
+                        <li><a target="_blank" href="@siteSetting.TwitterURL"><i class="ion ion-logo-twitter"></i></a></li>
+
+
+                        <li><a target="_blank" href="@siteSetting.InstaURL"><i class="ion ion-logo-instagram"></i></a></li>
+
+                        <li><a target="_blank" href="@siteSetting.WhatsAppURL"><i class="fa fa-whatsapp"></i></a></li>
+
+                        <li><a target="_blank" href="@siteSetting.TelegramURL"><i class="fa fa-telegram"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--// Newsletter Area -->
+
+</main>
+
