@@ -5,13 +5,64 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ElevatorNewUI.Models;
+using Elevator.Controllers;
+using Service.Repos;
+
+using DataLayer.DTO.Products;
+using AutoMapper.QueryableExtensions;
+using Core;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ElevatorNewUI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public IActionResult Index()
+
+        private readonly SlideShowRepository _slideShowRepository;
+        private readonly NewsGroupRepository _newsGroupRepository;
+        private readonly ProductRepostitory productRepostitory;
+        private readonly IConfiguration configuration;
+        public HomeController(SlideShowRepository slideShowRepository,
+            NewsGroupRepository newsGroupRepository,
+            ProductRepostitory productRepostitory, IConfiguration configuration)
         {
+            _slideShowRepository = slideShowRepository;
+            _newsGroupRepository = newsGroupRepository;
+            this.productRepostitory = productRepostitory;
+            this.configuration = configuration;
+        }
+
+
+        public async Task<IActionResult> Index()
+        {
+
+            var specialProduct = await productRepostitory.TableNoTracking
+                .Where(a => a.IsSpecialSell && a.IsActive == true)
+                .ProjectTo<ProductFullDTO>()
+                .OrderByDescending(a => a.CreateDate)
+                .Take(12)
+                .ToListAsync();
+
+            var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+
+            ViewBag.Url = test.SiteConfig.UrlAddress;
+            ViewBag.SpecialProduct = specialProduct;
+            return View();
+        }
+
+        
+        public IActionResult About()
+        {
+            ViewData["Message"] = "Your application description page.";
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            ViewData["Message"] = "Your contact page.";
+
             return View();
         }
 
@@ -25,5 +76,22 @@ namespace ElevatorNewUI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error404()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+
+        public IActionResult testMobasher()
+        {
+
+            ViewBag.MQuery = this._newsGroupRepository.ddd();
+            return View();
+        }
+
     }
 }

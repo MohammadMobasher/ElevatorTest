@@ -1,0 +1,72 @@
+﻿@using DataLayer.ViewModels.User
+@{
+    ViewData["Title"] = "فراموشی رمز عبور";
+    Layout = "~/Views/Shared/_Login.cshtml";
+
+}
+
+
+<style>
+    .fullscreen-bg {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: fixed;
+        background-position: 70% 40%;
+        background: url('/images/ElevatorBack2.jpg') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        background-position: center;
+        min-width: 100%;
+        min-height: 100%;
+    }
+
+    html {
+    }
+</style>
+
+<div class="fullscreen-bg">
+
+</div>
+
+<div class="wrapper defaLoginTemplatet">
+    <div class="container">
+        <div class="row">
+            <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
+                <div class="account-box">
+
+                    <div class="account-box-title text-center">فراموشی رمز عبور</div>
+                    <div class="account-box-content">
+                        <form class="form-account" asp-controller="Account" asp-action="AuthorizeCode" asp-route-code="@ViewBag.Code">
+                            <div class="form-account-title">کد تاییدیه </div>
+                            <div class="form-account-row">
+                                <label class="input-label"><i class="now-ui-icons users_single-02"></i></label>
+                                <input name="activeCode" class="input-field" type="number"
+                                       placeholder="کد تاییدیه ">
+                            </div>
+
+                            <div class="account-box-footer">
+                                <span>آیا کد به دست شما نرسیده است؟؟</span>
+                                <a href="/Account/ResendCode?phoneNumber=@ViewBag.PhoneNumber" class="btn-link-border">ارسال مجدد کد</a>
+                            </div>
+
+
+                            <div class="form-account-row form-account-submit">
+                                <div class="parent-btn">
+                                    <button class="dk-btn dk-btn-info">
+                                        تایید
+                                        <i class="fa fa-sign-in"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+               
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
