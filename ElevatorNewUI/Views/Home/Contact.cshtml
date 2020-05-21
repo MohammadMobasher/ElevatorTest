@@ -2,115 +2,170 @@
     ViewData["Title"] = "تماس با ما";
 }
 
+<div class="container-main">
+    <div class="d-block">
+        <div class="page-content page-row ">
+            <div class="main-row bg-white mt-2 mb-2 " >
+                <div class="container">
+                    <div class="col-12 text-center pb-3 h-25">
+                        <img src="~/images/contact_us.svg" height="300" />
+                    </div>
 
-<main class="page-content">
+                </div>
 
-    <!-- Contact Us Area -->
-    <div class="contact-us-area ptb-30">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7">
-                    <div class="commentbox">
-                        <h5>پیامی بگذارید</h5>
-                        <form id="contact-form" action="http://preview.hasthemes.com/haltico-v3/haltico-rtl/mail.php" method="POST" class="ho-form contact-form">
-                            <div class="ho-form-inner">
-                                <div class="single-input single-input-half">
-                                    <label for="new-review-name">نام*</label>
-                                    <input type="text" name="name" id="new-review-name">
+                    <div class="col-lg-7 col-md-7 col-12 pr ">
+                        <div class="form-ui pr-2">
+                            <h5>پیامی بگذارید</h5>
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <div class="form-row-title mb-2">نام</div>
+                                    <div class="form-row">
+                                        <input class="input-ui pr-2" name="name" type="text" placeholder="نام">
+                                    </div>
                                 </div>
-                                <div class="single-input single-input-half">
-                                    <label for="new-review-email">ایمیل*</label>
-                                    <input type="email" name="email" id="new-review-email">
+
+                                <div class="col-6 mb-3">
+                                    <div class="form-row-title mb-2">ایمیل</div>
+                                    <div class="form-row">
+                                        <input class="input-ui pr-2" name="email" type="text" placeholder="ایمیل">
+                                    </div>
                                 </div>
+
+                                <div class="col-12 mb-3">
+                                    <div class="form-row-title mb-2">موضوع</div>
+                                    <div class="form-row">
+                                        <input class="input-ui pr-2" name="subject" type="text" placeholder="موضوع">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <div class="form-row-title mb-2 ">پیام شما</div>
+                                    <div class="form-row">
+                                        <textarea class="input-ui pr-2" style="height:100px" id="new-review-textbox" name="message" cols="30" rows="5"></textarea>
+
+                                    </div>
+                                </div>
+
+
                                 <div class="single-input">
-                                    <label for="new-review-subject">موضوع*</label>
-                                    <input type="text" name="subject" id="new-review-subject">
-                                </div>
-                                <div class="single-input">
-                                    <label for="new-review-textbox">پیام شما</label>
-                                    <textarea id="new-review-textbox" name="message" cols="30" rows="5"></textarea>
-                                </div>
-                                <div class="single-input">
-                                    <button class="ho-button ho-button-dark" type="submit"><span>ارسال پیام</span></button>
+                                    <button class="btn comment-submit-button">
+                                        ارسال پیام
+                                    </button>
                                 </div>
                             </div>
-                        </form>
-                        <p class="form-message"></p>
-                    </div>
-                </div>
-                <div class="col-lg-5 pt-50 pt-lg-0">
-                    <h2>تماس با ما</h2>
-                    <div class="contact-content">
-                        <div class="single-content">
-                            <span class="single-content-icon">
-                                <i class="lnr lnr-map-marker"></i>
-                            </span>
-                            ایران، تهران، رباط کریم، خیابان ملکی، ساختمان سهند، پلاک 12، واحد 5
-                        </div>
-                        <div class="single-content">
-                            <span class="single-content-icon">
-                                <i class="lnr lnr-phone-handset"></i>
-                            </span>
-                            <b>شماره تماس:</b><br>
-                            <a href="#">09212430949</a>
-                        </div>
-                        <div class="single-content">
-                            <span class="single-content-icon">
-                                <i class="lnr lnr-printer"></i>
-                            </span>
-                            <b>فکس: </b><br>
-                            +(1234)4081234
-                        </div>
-                        <div class="single-content">
-                            <span class="single-content-icon">
-                                <i class="lnr lnr-envelope"></i>
-                            </span>
-                            <b>ایمیل: </b><br>
-                            <a href="#">reza1880z2@gmail.com</a>
                         </div>
                     </div>
-                </div>
+
+                    <div class="col-lg-5 col-md-5 col-12 pl pt-sm-2 pt-xs-2">
+                        <h5>تماس با ما</h5>
+                        <div class="form-ui pr-2">
+
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <div class="single-content">
+                                        <span class="single-content-icon">
+                                            <i class="fa fa-map-marker fa-2x" aria-hidden="true"></i>
+
+                                        </span>
+                                        <p>ایران، تهران، رباط کریم، خیابان ملکی، ساختمان سهند، پلاک 12، واحد 5</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <div class="single-content">
+                                        <span class="single-content-icon">
+                                            <i class="fa fa-mobile fa-2x" aria-hidden="true"></i>
+
+                                        </span>
+                                        <p><a href="tel:۰۹۲۱۲۴۳۰۹۴۹">۰۹۲۱۲۴۳۰۹۴۹</a></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <div class="single-content">
+                                        <span class="single-content-icon">
+                                            <i class="fa fa-phone fa-2x" aria-hidden="true"></i>
+                                        </span>
+                                        <p><a href="tel:۰۲۱۶۶۶۳۷۲۷۳">۰۲۱۶۶۶۳۷۲۷۳</a></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <div class="single-content">
+                                        <span class="single-content-icon">
+                                            <i class="fa fa-fax fa-2x" aria-hidden="true"></i>
+                                        </span>
+                                        <p>info@liftbazar.ir</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
             </div>
         </div>
     </div>
-    <!--// Contact Us Area -->
-    <!-- Google Map -->
-    <div class="google-map-wrapper">
-        <div class="google-map" id="google-map"></div>
-    </div>
-    <!--// Google Map -->
-    <!-- Newsletter Area -->
-    <div class="ho-section newsletter-area bg-grey ptb-50">
-        <div class="container">
-            <div class="newsletter">
-                <div class="newsletter-title">
-                    <h2>مشترک شدن در <span>خبر نامه</span></h2>
+</div>
 
+
+@*<div class="col-lg-7">
+        <div class="commentbox">
+            <h5>پیامی بگذارید</h5>
+            <form id="contact-form" action="http://preview.hasthemes.com/haltico-v3/haltico-rtl/mail.php" method="POST" class="ho-form contact-form">
+                <div class="ho-form-inner">
+                    <div class="single-input single-input-half">
+                        <label for="new-review-name">نام*</label>
+                        <input type="text" name="name" id="new-review-name">
+                    </div>
+                    <div class="single-input single-input-half">
+                        <label for="new-review-email">ایمیل*</label>
+                        <input type="email" name="email" id="new-review-email">
+                    </div>
+                    <div class="single-input">
+                        <label for="new-review-subject">موضوع*</label>
+                        <input type="text" name="subject" id="new-review-subject">
+                    </div>
+                    <div class="single-input">
+                        <label for="new-review-textbox">پیام شما</label>
+                        <textarea id="new-review-textbox" name="message" cols="30" rows="5"></textarea>
+                    </div>
+                    <div class="single-input">
+                        <button class="ho-button ho-button-dark" type="submit"><span>ارسال پیام</span></button>
+                    </div>
                 </div>
-                <div class="newsletter-content">
-                    <form id="mc-form" class="newsletter-form">
-                        <input id="mc-email" type="email" autocomplete="off" placeholder="آدرس ایمیل">
-                        <button id="mc-submit" type="submit">ثبت</button>
-                    </form>
-                    <!-- mailchimp-alerts start -->
-                    <div class="mailchimp-alerts text-centre">
-                        <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                        <div class="mailchimp-success"></div><!-- mailchimp-success end -->
-                        <div class="mailchimp-error"></div><!-- mailchimp-error end -->
-                    </div><!-- mailchimp-alerts end -->
-                </div>
-                <div class="newsletter-socialicons socialicons socialicons-radial">
-                    <ul>
-                        <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
-                        <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
-                        <li><a href="#"><i class="ion ion-logo-youtube"></i></a></li>
-                        <li><a href="#"><i class="ion ion-logo-google"></i></a></li>
-                        <li><a href="#"><i class="ion ion-logo-instagram"></i></a></li>
-                    </ul>
-                </div>
-            </div>
+            </form>
+            <p class="form-message"></p>
         </div>
     </div>
-    <!--// Newsletter Area -->
-
-</main>
+    <div class="col-lg-5 pt-50 pt-lg-0">
+        <h2>تماس با ما</h2>
+        <div class="contact-content">
+            <div class="single-content">
+                <span class="single-content-icon">
+                    <i class="lnr lnr-map-marker"></i>
+                </span>
+                ایران، تهران، رباط کریم، خیابان ملکی، ساختمان سهند، پلاک 12، واحد 5
+            </div>
+            <div class="single-content">
+                <span class="single-content-icon">
+                    <i class="lnr lnr-phone-handset"></i>
+                </span>
+                <b>شماره تماس:</b><br>
+                <a href="#">09212430949</a>
+            </div>
+            <div class="single-content">
+                <span class="single-content-icon">
+                    <i class="lnr lnr-printer"></i>
+                </span>
+                <b>فکس: </b><br>
+                +(1234)4081234
+            </div>
+            <div class="single-content">
+                <span class="single-content-icon">
+                    <i class="lnr lnr-envelope"></i>
+                </span>
+                <b>ایمیل: </b><br>
+                <a href="#">reza1880z2@gmail.com</a>
+            </div>
+        </div>
+    </div>*@
