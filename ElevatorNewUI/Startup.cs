@@ -48,8 +48,8 @@ namespace ElevatorNewUI
             services.AddAutoMapper(typeof(SlideShowMapper));
             #endregion
 
-
             services.SmsConfiguration();
+            services.ClaimFactoryConfiguration();
             //services.AddScoped<ManageBankService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
