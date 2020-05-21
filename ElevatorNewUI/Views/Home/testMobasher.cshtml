@@ -1,248 +1,360 @@
-﻿@*<input type="hidden" value="20" name="page" />
-
-
-    <MGridView HasRowNumber="true"
-                classtype="@new NewsGroupDTO()"
-                pagesize="10"
-                name="momo"
-                pagenumber="1"
-                Query="@ViewBag.MQuery">the red color</MGridView>*@
-
-
-
-<div id="app" class="container">
-
-    <b-table :data="data"
-             :columns="columns"
-             :hoverable="isHoverable"
-             :striped="isStriped"
-             :mobile-cards="hasMobileCards"
-             :checked-rows.sync="checkedRows"
-             :checkbox-position="checkboxPosition"
-             :default-sort-direction="defaultSortDirection"
-             :sort-icon="sortIcon"
-             :sort-icon-size="sortIconSize"
-             :paginated="isPaginated"
-             :per-page="perPage"
-             :current-page="currentPage"
-             :loading="loading"
-             :bordered="true"
-             backend-sorting
-             @@sort="onSort"
-             backend-pagination
-             @@page-change="onPageChange"
-
-             @@search="onSearch"
-
-             ></b-table>
-
-</div>
-
-
-<script>
-
-
-    const example = {
-        data() {
-            //const data = [
-            //    { 'id': 1, 'first_name': 'Jesse', 'last_name': 'Simmons', 'date': '2016/10/15 13:43:27', 'gender': 'Male' },
-            //    { 'id': 2, 'first_name': 'John', 'last_name': 'Jacobs', 'date': '2016/12/15 06:00:53', 'gender': 'Male' },
-            //    { 'id': 3, 'first_name': 'Tina', 'last_name': 'Gilbert', 'date': '2016/04/26 06:26:28', 'gender': 'Female' },
-            //    { 'id': 4, 'first_name': 'Clarence', 'last_name': 'Flores', 'date': '2016/04/10 10:28:46', 'gender': 'Male' },
-            //    { 'id': 5, 'first_name': 'Anne', 'last_name': 'Lee', 'date': '2016/12/06 14:38:38', 'gender': 'Female' }
-            //]
-
-            return {
-                data: [],
-                checkedRows: [],
-                columns: [
-                    {
-                        field: 'userId',
-                        label: 'شماره کاربر',
-                        width: '30',
-                        numeric: true,
-                        searchable: true,
-                        centered: true,
-                        sortable: true,
-                    },
-                    {
-                        field: 'id',
-                        label: 'شماره',
-                        width: '100',
-                        numeric: true,
-                        searchable: true,
-                        centered: true,
-                        sortable: true,
-                    },
-                    {
-                        field: 'title',
-                        label: 'عنوان',
-                        width: '300',
-                        
-                        searchable: true,
-                        centered: true,
-                        sortable: true,
-                    }
-                    //{
-                    //    field: 'id',
-                    //    label: 'ID',
-                    //    width: '100',
-                    //    numeric: true,
-                    //    searchable: true,
-                    //    centered: true,
-                    //    sortable: true,
-                    //},
-                    //{
-                    //    field: 'first_name',
-                    //    label: 'First Name',
-                    //    centered: true,
-                    //    searchable: true,
-                    //    sortable: true,
-                    //},
-                    //{
-                    //    field: 'last_name',
-                    //    label: 'Last Name',
-                    //    centered: true,
-                    //    searchable: true,
-                    //    sortable: true,
-                    //},
-                    //{
-                    //    field: 'date',
-                    //    label: 'Date',
-                    //    centered: true,
-                    //    searchable: true,
-                    //    sortable: true,
-                    //},
-                    //{
-                    //    field: 'gender',
-                    //    label: 'Gender',
-                    //    centered: true,
-                    //    searchable: true,
-                    //    sortable: true,
-                    //}
-                ],
-                sortField: 'ID',
-                sortOrder:'ASC',
-
-
-                isBordered: false,
-                isStriped: true,
-                isNarrowed: false,
-                isHoverable: true,
-                isFocusable: false,
-                isLoading: true,
-                hasMobileCards: true,
-                checkboxPosition: 'left',
-                defaultSortDirection: 'asc',
-                sortIcon: 'arrow-up',
-                sortIconSize: 'is-small',
-                currentPage: 1,
-                perPage: 20,
-                isPaginated: true,
-                isPaginationSimple: false,
-                paginationPosition: 'bottom',
-                loading: false,
-                total:0,
-
-            }
-        },
-        methods: {
-            /*
-        * Load async data
-        */
-            loadAsyncData() {
-                const params = [
-                    'api_key=bb6f51bef07465653c3e553d6ab161a8',
-                    'language=en-US',
-                    'include_adult=false',
-                    'include_video=false',
-                    `sort_by=${this.sortField}.${this.sortOrder}`,
-                    `page=${this.currentPage}`
-                ].join('&')
-
-                this.loading = true
-                //console.log(`https://jsonplaceholder.typicode.com/posts`);
-                
-                axios.get(`https://jsonplaceholder.typicode.com/posts`)
-                    .then(({ data }) => {
-                        // api.themoviedb.org manage max 1000 pages
-                        
-                        this.data = []
-                        let currentTotal = data.length
-                        if (data.total_results / this.perPage > 1000) {
-                            currentTotal = this.perPage * 1000
-                        }
-                        this.total = currentTotal
-                        data.forEach((item) => {                            
-                            this.data.push(item)
-                        })
-                        this.loading = false
-                    })
-                    .catch((error) => {
-                        this.data = []
-                        this.total = 0
-                        this.loading = false
-                        throw error
-                    })
-            },
-            /*
-        * Handle page-change event
-        */
-            onPageChange(page) {
-                this.page = page
-                this.loadAsyncData()
-            },
-            /*
-        * Handle sort event
-        */
-            onSort(field, order) {
-                console.log("sorted");
-                this.sortField = field
-                this.sortOrder = order
-                //this.loadAsyncData()
-
-            },
-
-            onSearch(search) {
-                console.log("mohammad");
-                this.params.search = search
-                this.params.page = 1
-            },
-
-            /*
-        * Type style in relation to the value
-        */
-            type(value) {
-                const number = parseFloat(value)
-                if (number < 6) {
-                    return 'is-danger'
-                } else if (number >= 6 && number < 8) {
-                    return 'is-warning'
-                } else if (number >= 8) {
-                    return 'is-success'
-                }
-            }
-        },
-        filters: {
-            /**
-        * Filter to truncate string, accepts a length parameter
-        */
-            truncate(value, length) {
-                return value.length > length
-                    ? value.substr(0, length) + '...'
-                    : value
-            }
-        },
-        mounted() {
-            this.loadAsyncData()
-        }
+﻿<style>
+    table{
+        width:100%;
+        background-color:#FFFFFF;
+        font-size:12px;
+        
     }
 
-    const app = new Vue(example)
-    app.$mount('#app')
-</script>
+    th {
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #000000;
+    }
+
+    td {
+        text-align: center;
+        padding:10px;
+        border:1px solid #000000;
+    }
+
+    .rotate-270{
+        rotation:270deg;
+    }
 
 
+</style>
 
+<table class="">
+    <thead>
+        <tr>
+            <th width="10px" class="rotate-270">بخش</th>
+            <th width="30px" class="">ردیف</th>
+            <th colspan="2">عنوان فعاليت پژوهشي-فناوري</th>
+            <th>
+                امتیاز
+            </th>
+            <th>
+                امتیاز
+            </th>
+            <th>
+                امتیاز
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="39">الف</td>
+            <td rowspan="3">1-1</td>
+            <td rowspan="3">تدوين و به تصويب رساندن طرح يا پروژه پژوهشي</td>
+            <td>در سطح پژوهشگاه (امانی)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>در سطح صنعت</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>در سطح ملي</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
 
+        <tr>
+            <td>2-1</td>
+            <td colspan="2">تدوين و تصويب استاندارد/اسناد ملي و راهبردي در حوزه فناوري</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
 
+        <tr>
+
+            <td rowspan="3">3-1</td>
+            <td rowspan="3">انجام و یا همكاری در انجام پروژه/ طرح/استاندارد و ... منجر به تهیه گزارش مرحله اي/نهايي</td>
+            <td>در سطح پژوهشگاه (امانی)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>در سطح صنعت</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>در سطح ملي/ طرح¬ كلان ملي</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>4-1</td>
+            <td colspan="2">طراحی و راه اندازي آزمايشگاه¬های تخصصی (حسب اهمیت، میزان بهره¬برداری و ...)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>5-1</td>
+            <td colspan="2">طراحی و تأسیس مراکز تحقیقاتی، مراکز رشد و شرکت¬های دانش بنیان</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>6-1</td>
+            <td colspan="2">داوري علمی- فنی طرح يا پروژه پژوهشي، طرح استاد، پروژه¬های برون سپاری شده و ...</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>7-1</td>
+            <td colspan="2">نظارت علمی- فنی طرح يا پروژه پژوهشي، پروژه¬های برون سپاری شده، طرح استاد و ...</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>8-1</td>
+            <td colspan="2">مديريت علمی- فنی پروژه¬ها</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>9-1</td>
+            <td colspan="2"> كسب رتبه در جشنواره¬های داخلی و خارجی با در نظر گرفتن اعتبار جشنواره و رتبه متقاضی</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>10-1</td>
+            <td colspan="2">اختراع يا اكتشاف ثبت شده در داخل کشور (داراي تأييديه از مراجع ذي صلاح)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>11-1</td>
+            <td colspan="2">اختراع يا اكتشاف ثبت شده در خارج از کشور</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>12-1</td>
+            <td colspan="2">
+                توليد و واگذاري دانش فني/ اختراع يا اكتشاف منجر به توليد و تجاري سازي محصول
+                (با تأييد مراجع ذيصلاح)
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>13-1</td>
+            <td colspan="2">
+                مقاله علمي- پژوهشي، علمی- مروری منتشر شده در نشريات معتبر داخلی و خارجی
+                (بر حسب اعتبار مجله)
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>14-1</td>
+            <td colspan="2">مقاله علمي منتشر شده در نشريات علمي- ترویجي داخلی معتبر </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+
+            <td rowspan="2">15-1</td>
+            <td rowspan="2">مقاله علمي کامل ارائه شده در كنفرانس¬هاي علمی معتبر</td>
+            <td>بین المللی</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ملی</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+
+            <td rowspan="2">16-1</td>
+            <td rowspan="2">خلاصه مقاله علمي ارائه شده در كنفرانس¬هاي علمی معتبر</td>
+            <td>بین المللی</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ملی</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>17-1</td>
+            <td colspan="2">شرکت در کارگاه¬ها و دوره¬های آموزشی تخصصی</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>18-1</td>
+            <td colspan="2">داوري مقاله علمي پژوهشي نشریه¬های معتبر</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>19-1</td>
+            <td colspan="2">داوري مقاله كنفرانس</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>20-1</td>
+            <td colspan="2">راهنمايي پروژه پايان دوره کارشناسی</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>21-1</td>
+            <td colspan="2">استاد راهنماي مشترك پايان نامه كارشناسي ارشد</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>22-1</td>
+            <td colspan="2"> استاد مشاور پايان نامه كارشناسي ارشد</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>23-1</td>
+            <td colspan="2"> استاد راهنماي مشترك رساله دکتراي تخصصي</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>24-1</td>
+            <td colspan="2"> استاد مشاور رساله دکترای تخصصي</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>25-1</td>
+            <td colspan="2">هدايت محقق پسا دکتری، محقق فرصت مطالعاتی صنعتی و ...</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>26-1</td>
+            <td colspan="2"> تأليف يا تصنيف كتاب (به زبان فارسی)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>27-1</td>
+            <td colspan="2">تأليف يا تصنيف كتاب (به زبان خارجي) چاپ شده توسط ناشران معتبر بین¬المللی</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>28-1</td>
+            <td colspan="2">تأليف مجموعه كتاب¬هایی همانند دائره المعارف</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>29-1</td>
+            <td colspan="2">تدوين كتاب به شيوه گردآوري </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>30-1</td>
+            <td colspan="2"> تدوين مجموعه مقالات همایش¬های علمی معتبر</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>31-1</td>
+            <td colspan="2">ويرايش علمي كتاب </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>32-1</td>
+            <td colspan="2">تصحيح انتقادي كتاب </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>33-1</td>
+            <td colspan="2"> ترجمه كتاب مرتبط با تخصص نویسنده </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

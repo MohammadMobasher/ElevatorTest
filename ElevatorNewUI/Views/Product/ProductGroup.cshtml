@@ -1,0 +1,166 @@
+﻿@using DataLayer.ViewModels.Feature
+@using DataLayer.DTO
+@using DataLayer.Entities
+@using DataLayer.DTO.Products
+@using DataLayer.DTO.FeatureItem
+
+@model List<ProductFullDTO>
+@{
+    ProductGroupDTO productGroup = ViewBag.Group;
+    ViewData["Title"] = productGroup.Title;
+
+    List<ProductGroupDTO> ListUndeGroups = ViewBag.UndeGroups as List<ProductGroupDTO>;
+    List<FeatureSearchableViewModel> featureSearchableVM = ViewBag.featureSearchableValue as List<FeatureSearchableViewModel>;
+}
+
+<div class="breadcrumb-area bg-grey">
+    <div class="container">
+        <div class="ho-breadcrumb">
+            <ul>
+                <li><a href="/">صفحه اصلی</a></li>
+                <li>@ViewBag.Group.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<form asp-action="ProductGroup" asp-controller="Product" asp-route-id="@productGroup.Id" method="get">
+    <input type="hidden" name="newSearch" value="false" />
+    <div class="container ">
+        <div class="row">
+            <input type="hidden" name="featureValue" />
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="margin-top:16px; ">
+                <div class="row">
+
+                    <div class="col-12" style="margin-bottom:16px; border:1px solid #EEE; padding:10px 0 15px 0">
+                        <div class="container">
+                            <div class="col-12" style="border-bottom:1px solid #EEE; padding-bottom:8px">جستجو در نتایج</div>
+                            <div class="col-12" style="margin-top:15px">
+                                <div class="row">
+
+                                    <input type="text" value="@ViewBag.titleSearch" name="titleSearch" placeholder="نام محصول مورد نظر را بنویسید">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @{var index = 0; }
+                    @foreach (FeatureFullDetailDTO item in ViewBag.searchableFeature)
+                    {
+                        if (item.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fssot)
+                        {
+                            <div class="col-12" style="margin-bottom:16px; border:1px solid #EEE; padding:10px 0 0 0">
+
+                                <div class="container">
+                                    <div class="col-12" style="border-bottom:1px solid #EEE; padding-bottom:8px">@item.Title</div>
+                                    <div class="col-12" style="margin-top:15px; max-height:250px; overflow-y:auto">
+                                        <div class="row">
+                                            <ul style="list-style:none; padding-right:0px; padding-top:10px">
+
+                                                @foreach (FeatureItemDTO feature in item.FeatureItems)
+                                                {
+                                                    <li>
+                                                        @{var selected = (featureSearchableVM != null && featureSearchableVM.Where(x => x.FeaureId == item.Id && x.FeatureValue == feature.Id.ToString()).Count() > 0);}
+                                                        @*<input type="hidden" name="featureSearchableVM[@index].FeaureId" value="@item.Id" />
+                                                            <input type="checkbox" @(selected ? "checked='checked'" : "") class="featureCheckBox" name="featureSearchableVM[@index].FeatureValue" value="@feature.Id">
+                                                            <input type="hidden" name="featureSearchableVM[@index].FeatureSelected"
+                                                                   value="@(selected ? "true" : "false")" />*@
+                                                        <input type="checkbox" @(selected ? "checked='checked'" : "") data-role-fullDetail="@(item.Id + "_" + feature.Id)" class="featureCheckBox" value="@feature.Id">
+                                                        <label style="font-size:10px">@feature.Value</label>
+                                                    </li>
+
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            index++;
+                        }
+                    }
+
+
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
+                <div class="row">
+                    <div class="col-12 " style="border:1px solid #EEE; margin-top:16px; padding:10px 10px">
+                        <div class="container">
+                            <div class="col-4" style="font-size:13px">تعداد رکورد‌ها @ViewBag.totalNumber</div>
+                            <div class="col-4"></div>
+                            <div class="col-4"></div>
+                        </div>
+                    </div>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        @foreach (ProductFullDTO item in Model)
+                        {
+                            <div class="col-lg-3 col-md-3 col-xl-3 col-sm-12 card-box  mb-3" style="border:1px solid #EEE; padding:10px 10px">
+
+                                @Html.Partial("_ProductIndexGeneral", item)
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12 " style="border:1px solid #EEE; margin-top:16px; padding:10px 10px">
+                            <div class="container text-danger">
+                                موردی یافت نشد
+                            </div>
+                        </div>
+                    }
+                    @*<div class="cr-pagination col-12" style="border:1px solid #EEE; margin-bottom:10px">
+
+                            <p>نمایش 1-12 از @ViewBag.CountResult محصول</p>
+                            <ul>
+                                <li><a href="shop-rightsidebar.html"><i class="ion ion-ios-arrow-forward"></i> قبلی</a></li>
+                                <li class="active"><a href="shop-rightsidebar.html">1</a></li>
+                                <li><a href="shop-rightsidebar.html">2</a></li>
+                                <li><a href="shop-rightsidebar.html">بعدی <i class="ion ion-ios-arrow-back"></i></a></li>
+                            </ul>
+                        </div>*@
+
+
+                    @Html.Partial("~/Views/Shared/_Pagination.cshtml")
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <input type="submit" name="submit" class="hidden" />
+</form>
+<input type="hidden" name="oldValue" value="@ViewBag.titleSearch" />
+
+<script>
+    $(function () {
+
+        $("[name='titleSearch']").on("keypress", function (event) {
+
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                var newVal = $(this).val();
+                var oldVal = $("[name='oldValue']").val();
+                console.log("dd => ", newVal != oldVal);
+                if(newVal != oldVal){
+                    $("[name='newSearch']").val("true");
+                }
+
+                $("[name='submit']").trigger("click");
+            }
+        });
+
+        $(".featureCheckBox").on("click", function () {
+            $("[name='featureValue']").val("");
+            var selectedItems = $(".featureCheckBox:checked");
+
+            for (var i = 0; i < selectedItems.length; i++) {
+                $("[name='featureValue']").val($("[name='featureValue']").val() + $(selectedItems[i]).attr("data-role-fullDetail") + ",");
+            }
+
+            $("[name='submit']").trigger("click");
+        });
+
+    });
+</script>

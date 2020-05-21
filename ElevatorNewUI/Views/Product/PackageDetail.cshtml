@@ -1,0 +1,317 @@
+﻿@using DNTPersianUtils.Core
+@using Core.Utilities
+@using DataLayer.Entities
+
+@model ProductPackage
+@{
+    var gallery = ViewBag.Gallery as List<Product>;
+    var discount = ViewBag.Discount as ProductDiscount;
+    List<ProductPackageGroups> Groups = ViewBag.Groups as List<ProductPackageGroups>;
+    List<ProductPackageDetails> Products = ViewBag.Products as List<ProductPackageDetails>;
+
+}
+
+<!-- Breadcrumb Area -->
+<div class="breadcrumb-area bg-grey">
+    <div class="container">
+        <div class="ho-breadcrumb">
+            <ul>
+                <li><a href="/">خانه</a></li>
+                <li><a href="/">فروشگاه</a></li>
+                <li><a href="/">پکیج ها</a></li>
+                <li>@Model.Title</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--// Breadcrumb Area -->
+<!-- Page Conttent -->
+<main class="page-content">
+
+    <!-- Product Details Area -->
+    <div class="product-details-area bg-white ptb-30">
+        <div class="container">
+
+            <div class="pdetails">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="pdetails-images">
+                            <div class="pdetails-largeimages pdetails-imagezoom">
+
+                                <div class="pdetails-singleimage" data-src="@ViewBag.Url/@Model.IndexPic">
+                                    <img asp-append-version="true" src="@ViewBag.Url/@Model.IndexPic" onerror="imgError(this);" alt="product image">
+                                </div>
+
+                                @*@foreach (var item in gallery)
+                                    {
+                                        <div class="pdetails-singleimage" data-src="@ViewBag.Url/@item.Pic">
+                                            <img src="@ViewBag.Url/@item.Pic" onerror="imgError(this);" alt="product image">
+                                        </div>
+                                    }*@
+
+
+                            </div>
+
+                            <div class="pdetails-thumbs">
+                                <div class="pdetails-singlethumb">
+                                    <img src="@ViewBag.Url/@Model.IndexPic" onerror="imgError(this);" alt="product thumb">
+                                </div>
+                                @*@foreach (var item in gallery)
+                                    {
+                                        <div class="pdetails-singlethumb">
+                                            <img src="@ViewBag.Url/@item.Pic" onerror="imgError(this);" alt="product thumb">
+                                        </div>
+                                    }*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="pdetails-content">
+
+                            <div class="rattingbox">
+                            </div>
+                            <h3>@Model.Title</h3>
+                            <div class="pdetails-pricebox">
+                                @*if (isDisCount)
+                                    {
+                                        <del class="oldprice">@Model.PackagePrice.ToPersianPrice()</del>
+                                        <span class="price">
+                                            @Model.PackagePrice.ToPersianPrice()
+                                        </span>
+                                        <span class="badge">
+                                            @if (isDisCount)
+                                            {
+                                                <span> @((Model.Price - Model.PriceWithDiscount).ToPersianPrice()) تومان تخفیف</span>
+                                            }
+
+                                        </span>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <div class="hoproduct-countdown countdown" data-countdown="@Model.DiscountEndDate.Value.Date"></div>
+                                    }
+                                    else*@
+
+                                <span class="price">@Model.PackagePrice.ToPersianPrice() تومان</span>
+
+                            </div>
+                            <p>@Model.ShortDiscription</p>
+                            <div class="pdetails-quantity">
+                                <form target="_blank" asp-controller="ShopProduct" asp-action="AddPackageCart">
+                                    <input type="hidden" value="@Model.Id" name="packageId" />
+                                    <div class="quantity-select">
+                                        <input type="text" name="count" id="Count" value="1">
+                                        <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
+                                        <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                    </div>
+                                    <button type="submit"
+                                            class="ho-button">
+                                        <i class="lnr lnr-cart"></i>
+                                        <span>افزودن به سبد خرید</span>
+                                    </button>
+                                </form>
+                            </div>
+                            @*<div class="pdetails-categories">
+                                    <span>دسته بندی: </span>
+                                    <ul>
+                                        <li><a href="/Product/ProductGroup/@Model.ProductGroupId">@Model.ProductGroup.Title</a></li>
+                                    </ul>
+                                </div>*@
+                            @*@if (Model.Tags != null)
+                                {
+                                    <div class="pdetails-tags">
+                                        <span>تگ ها: </span>
+                                        <ul>
+                                            @foreach (var item in Model.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries))
+                                            {
+                                                <li><a href="/Product/Index?Title=@item">@item</a></li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                }*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pdetails-allinfo">
+
+                <ul class="nav pdetails-allinfotab justify-content-center" id="product-details" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="product-details-area2-tab" data-toggle="tab" href="#product-details-area2"
+                           role="tab" aria-controls="product-details-area2" aria-selected="false">محصولات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="product-details-area1-tab" data-toggle="tab" href="#product-details-area1"
+                           role="tab" aria-controls="product-details-area1" aria-selected="true">توضیحات</a>
+                    </li>
+
+
+                </ul>
+
+                <div class="tab-content" id="product-details-ontent">
+                    <div class="tab-pane fade  " id="product-details-area1" role="tabpanel"
+                         aria-labelledby="product-details-area1-tab">
+                        <div class="pdetails-description">
+                            @Html.Raw(Model.Text)
+                        </div>
+                    </div>
+                    <style>
+                        .productDetailTable {
+                            direction: rtl;
+                        }
+
+                            .productDetailTable > tbody > tr > td:nth-child(odd) {
+                                background-color: #EEE;
+                            }
+                    </style>
+                    <div class="tab-pane fade show active" id="product-details-area2" role="tabpanel" aria-labelledby="product-details-area2-tab">
+                        <div class="pdetails-moreinfo">
+                            @foreach (var group in Groups)
+                            {
+                                <div class="ho-section related-product-area pb-30">
+                                    <div class="container">
+                                        <div class="section-title">
+                                            <h3>@group.ProductGroup.Title</h3>
+                                        </div>
+                                        <div class="product-slider new-best-featured-slider slider-navigation-2">
+                                            @if (Products.Where(x => x.ProductGroupId == group.ProductGroup.Id).Count() > 0)
+                                            {
+                                                @foreach (var product in Products.Where(x => x.ProductGroupId == group.GroupId).ToList())
+                                                {
+
+                                                    <article class="hoproduct border_1_Solid_EEE">
+                                                        <div class="hoproduct-image text-center">
+
+                                                            <a class="hoproduct-thumb VisitCounter text-center" data-id="@product.Product.Id" href="/Product/ProductDetail/@product.Product.Id">
+                                                                <img asp-append-version="true" class="hoproduct-frontimage " src="@(product.Product.IndexPic != null && !string.IsNullOrEmpty(product.Product.IndexPic) ? "http://staffonly.ir/" + "/" + product.Product.IndexPic : "/no-image.jpg")" alt="@product.Product.Title" style="width:200px; height:200px">
+                                                                <img asp-append-version="true" class="hoproduct-backimage" src="@(product.Product.IndexPic != null && !string.IsNullOrEmpty(product.Product.IndexPic) ? "http://staffonly.ir/" + "/" + product.Product.IndexPic : "/no-image.jpg")" alt="@product.Product.Title">
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="hoproduct-content text-center ">
+                                                            <div class="row">
+                                                                <h5 class="hoproduct-title VisitCounter " data-id="@product.Product.Id"><a class="no_border" href="/Product/ProductDetail/@product.Product.Id">@product.Product.Title</a></h5>
+                                                            </div>
+                                                            <div class="hoproduct-pricebox mt-1">
+                                                                <div class="pricebox text-right">
+                                                                    
+                                                                        <span class="price">@product.Product.Price.ToPersianPrice() تومان</span>
+                                                                    
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </article>
+
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            @*<div class="pdetails">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="pdetails-images pdetails-sliderimages pdetails-imagezoom slider-navigation">
+                                @foreach (var item in gallery)
+                                {
+                                    <div class="pdetails-singleimage pdetails-slidersingleimage" data-src="@ViewBag.Url/@item.IndexPic">
+                                        <a href="/Product/ProductDetail/@item.Id"><img src="@ViewBag.Url/@item.IndexPic" alt="product image"></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="pdetails-content pt-30 text-center">
+
+                                <div class="rattingbox">
+                                </div>
+                                <h3>@Model.Title</h3>
+                                <div class="pdetails-pricebox">
+
+                                    <span class="price">@Model.PackagePrice تومان</span>
+
+                                </div>
+                                <p>@Model.ShortDiscription </p>
+
+                                <div class="pdetails-quantity">
+                                    <div class="quantity-select">
+                                        <input type="text" value="1">
+                                        <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
+                                        <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                    </div>
+                                    <a href="shop-rightsidebar.html" class="ho-button">
+                                        <i class="lnr lnr-cart"></i>
+                                        <span>افزودن به سبد خرید</span>
+                                    </a>
+                                </div>
+                                <div class="pdetails-categories">
+                                </div>
+                                <div class="pdetails-tags">
+                                    <span>تعداد بازدید: </span>
+                                    <ul>
+                                        <li>@Model.Visit</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pdetails-allinfo">
+
+                    <ul class="nav pdetails-allinfotab justify-content-center" id="product-details" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="product-details-area1-tab" data-toggle="tab" href="#product-details-area1"
+                               role="tab" aria-controls="product-details-area1" aria-selected="true">توضیحات</a>
+                        </li>
+
+
+                    </ul>
+
+                    <div class="tab-content" id="product-details-ontent">
+                        <div class="tab-pane fade show active" id="product-details-area1" role="tabpanel"
+                             aria-labelledby="product-details-area1-tab">
+                            <div class="pdetails-description">
+                                @Html.Raw(Model.Text)
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>*@
+
+        </div>
+    </div>
+    <!--// Product Details Area -->
+    @await Component.InvokeAsync("RelatedPackageVC")
+    <!--// Related Product Area -->
+    <!-- Newsletter Area -->
+    <!--// Newsletter Area -->
+
+</main>
+<!--// Page Conttent -->

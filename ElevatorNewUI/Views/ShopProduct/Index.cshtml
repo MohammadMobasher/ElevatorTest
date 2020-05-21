@@ -1,0 +1,218 @@
+﻿@using Core.Utilities
+@model List<DataLayer.Entities.ShopProduct>
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    th {
+        text-align: center !important
+    }
+</style>
+
+<main class="page-content">
+
+    <!-- Shopping Cart Area -->
+    <div class="cart-page-area ptb-30 bg-white">
+        <div class="container">
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning">
+                    <p> سبد خرید شما خالی می باشد</p>
+                </div>
+
+            }
+            else
+            {
+                <!-- Cart Products -->
+                <div class="cart-table table-responsive">
+                    <table class="table table-bordered table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th class="cart-column-image" scope="col">عکس</th>
+                                <th class="cart-column-productname" scope="col">محصول</th>
+                                <th class="cart-column-price" scope="col">قیمت</th>
+                                <th class="cart-column-price" scope="col">قیمت باتخفیف</th>
+                                <th class="cart-column-price" scope="col">تعداد</th>
+                                <th class="cart-column-price" scope="col">قیمت کلی</th>
+                                <th class="cart-column-remove" scope="col">حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.ProductId != null)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="product-image">
+                                                <img onerror="imgError(this);" src="@ViewBag.Url/@item.Product.IndexPic" alt="product image">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="product-title">@item?.Product?.Title</a>
+                                        </td>
+                                        <td>@item.Product.Price.ToPersianPrice()</td>
+                                        <td>@item.Product.PriceWithDiscount.ToPersianPrice()</td>
+                                        <td>
+                                            <div class="quantity-select" data-id="@item.Id">
+                                                <input type="text" class="counterValue" data-id="@item.Id" value="@item.Count">
+                                                <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
+                                                <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
+                                            </div>
+                                        </td>
+                                        <td class="PriceResult CountPerPrice_@item.Id">@((item.Count * item.Product.PriceWithDiscount).ToPersianPrice())</td>
+
+                                        <td>
+                                            <a asp-action="RemoveCart" asp-route-id="@item.Id" class="remove-product"><i class="ion ion-ios-close"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-controller="Product" asp-action="PackageDetail" asp-route-id="@item.PackageId" class="product-image">
+                                                <img onerror="imgError(this);" src="@ViewBag.Url/@item.ProductPackage.IndexPic" alt="product image">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Product" asp-action="PackageDetail" asp-route-id="@item.PackageId" class="product-title">@item?.ProductPackage?.Title</a>
+                                        </td>
+                                        <td>@item.ProductPackage.PackagePrice.ToPersianPrice()</td>
+                                        <td>@(item.ProductPackage.PackageWithDiscounts == null ? "تخفیف ندارد" : item.ProductPackage.PackageWithDiscounts.Value.ToPersianPrice())</td>
+                                        <td>
+                                            <div class="quantity-select packaged" data-id="@item.Id">
+                                                <input type="text" class="counterValue" data-id="@item.Id" value="@item.Count">
+                                                <div class="inc qtybutton qtybuttonPackage">+<i class="ion ion-ios-arrow-up"></i></div>
+                                                <div class="dec qtybutton qtybuttonPackage">-<i class="ion ion-ios-arrow-down"></i></div>
+                                            </div>
+                                        </td>
+
+                                        <td class="PriceResult CountPerPrice_@item.Id">
+                                            @if (item.ProductPackage.PackageWithDiscounts == null)
+                                            {
+                                                @((item.Count * item.ProductPackage.PackageWithDiscounts.Value).ToPersianPrice())
+                                            }
+                                            else
+                                            {
+                                                @((item.Count * item.ProductPackage.PackagePrice).ToPersianPrice())
+                                            }
+
+                                        </td>
+
+                                        <td>
+                                            <a asp-action="RemoveCart" asp-route-id="@item.Id" class="remove-product"><i class="ion ion-ios-close"></i></a>
+                                        </td>
+                                    </tr>
+
+                                }
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <!--// Cart Products -->
+                <!-- Cart Content -->
+                <div class="cart-content">
+                    <div class="row justify-content-between">
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="cart-content-left">
+
+                                @*<div class="cart-content-coupon">
+                                    <h6>کد تخفیف</h6>
+                                    <p>اگر کد تخفیفی دارید در اینجا وارد کنید.</p>
+                                    <form action="#" class="coupon-form">
+                                        <input type="text" placeholder="کد">
+                                        <button disabled class="ho-button">
+                                            <span>اعمال تحفیف</span>
+                                        </button>
+                                    </form>
+                                </div>*@
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <div class="cart-content-right">
+                                <h2>جمع سبد</h2>
+                                <table class="cart-pricing-table">
+                                    <tbody>
+                                        <tr class="cart-total">
+                                            <th>جمع کل</th>
+                                            <td id="ResultPriceCart"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <a  asp-controller="ShopProduct" asp-action="Checkout" class="ho-button">
+                                    <span>تسویه حساب</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--// Cart Content -->
+
+            }
+
+        </div>
+    </div>
+    <!--// Shopping Cart Area -->
+    <!--// Newsletter Area -->
+
+</main>
+<script>
+    $(function () {
+        $('.qtybutton').on('click', function () {
+            var isPackage = $(this).parent().hasClass('packaged');
+            var id = $(this).parent().attr('data-id');
+            if ($(this).hasClass('inc')) {
+                type = true;
+            }
+            else if ($(this).hasClass('dec')) {
+                type = false;
+            }
+
+            $.get("/ShopProduct/CartCount", { id: id, isPlus: type, isPackage }, function (res) {
+                if (res !== null) {
+                    $('.CountPerPrice_' + id).html(res);
+                    CalculatePrice();
+                }
+            });
+        })
+
+
+      
+
+
+        $('.counterValue').on('change', function () {
+            var isPackage = $(this).parent().hasClass('packaged');
+            var id = $(this).attr('data-id');
+            var value = $(this).val();
+
+            $.get("/ShopProduct/CartCountValue", { id: id, count: value,isPackage }, function (res) {
+                if (res !== null) {
+                    $('.CountPerPrice_' + id).html(res);
+                    CalculatePrice();
+                }
+            });
+        })
+
+    })
+
+</script>
+
+<script>
+
+    $(function() {
+        CalculatePrice();
+     });
+
+
+    function CalculatePrice() {
+         $.get("@Url.Action("CalculateCart","ShopProduct")",
+            function(result) {
+                $('#ResultPriceCart').html(result);
+            });
+    }
+
+</script>
