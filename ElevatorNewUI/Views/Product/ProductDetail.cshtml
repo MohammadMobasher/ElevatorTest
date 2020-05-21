@@ -9,224 +9,264 @@
     var isDisCount = Model.Price != Model.PriceWithDiscount;
 }
 
-<div class="breadcrumb-area bg-grey">
-    <div class="container">
-        <div class="ho-breadcrumb">
-            <ul>
-                <li><a href="/">خانه</a></li>
-                <li><a href="/Product/ProductGroup/@Model?.ProductGroupId">@Model?.ProductGroup.Title</a></li>
-                <li>@Model?.Title</li>
-            </ul>
+<link href="~/css/vendor/noUISlider.min.css" rel="stylesheet" />
+<link href="~/css/vendor/lightgallery.css" rel="stylesheet" />
+<link href="~/css/vendor/nice-select.css" rel="stylesheet" />
+
+
+<script src="~/js/vendor/lightgallery-all.js"></script>
+<script src="~/js/vendor/jquery.ez-plus.js"></script>
+<script src="~/js/vendor/jquery.nice-select.min.js"></script>
+
+<div class="container-main">
+    <div class="d-block">
+        <div class="page-content page-row">
+            <div class="main-row">
+                <div id="breadcrumb">
+                    <i class="mdi mdi-home"></i>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">خانه</a></li>
+                            <li class="breadcrumb-item"><a href="/Product/ProductGroup/@Model?.ProductGroupId">@Model?.ProductGroup.Title</a></li>
+                            <li class="breadcrumb-item">@Model?.Title</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg">
+                    <div class="product type-product">
+                        <div class="col-lg-5 col-xs-12 pr mt-2 d-block">
+                            <section class="product-gallery">
+                                <div class="gallery">
+                                    <div class="gallery-item">
+                                        <div>
+
+                                        </div>
+                                    </div>
+                                    <div class="gallery-item">
+                                        <div class="gallery-img">
+                                            <a href="#">
+                                                <img class="zoom-img" id="img-product-zoom" src="http://staffonly.ir/@Model.IndexPic"
+                                                     data-zoom-image="http://staffonly.ir/@Model.IndexPic" width="411" />
+                                                <div id="gallery_01f" style="width:420px;float:right;">
+                                            </a>
+
+
+                                            <ul class="gallery-items owl-carousel owl-theme" id="gallery-slider">
+                                                <li class="item">
+                                                    <a href="#" class="elevatezoom-gallery active" data-update=""
+                                                       data-image="http://staffonly.ir/@Model.IndexPic"
+                                                       data-zoom-image="http://staffonly.ir/@Model.IndexPic">
+                                                        <img src="http://staffonly.ir/@Model.IndexPic" width="100" />
+                                                    </a>
+                                                </li>
+                                                @foreach (var item in gallery)
+                                                {
+                                                    <li class="item">
+                                                        <a href="#" class="elevatezoom-gallery" data-update=""
+                                                           data-image="http://staffonly.ir/@Model.IndexPic"
+                                                           data-zoom-image="http://staffonly.ir/@Model.IndexPic">
+                                                            <img src="http://staffonly.ir/@Model.IndexPic" width="100" />
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        </section>
+                    </div>
+                    <div class="col-lg-7 col-xs-12 pl mt-5 d-block">
+                        <section class="product-info">
+                            <div class="product-headline">
+                                <h1 class="product-title">
+                                    @Model.Title
+                                </h1>
+
+                            </div>
+
+                            <div class="product-config-wrapper">
+                                <div class="product-directory">
+                                    <ul>
+                                        <li>
+                                            <span>
+                                                <i class="fa fa-archive"></i> دسته:
+                                            </span>
+                                            <a href="/Product/ProductGroup/@Model?.ProductGroupId" class="product-link product-cat-title">@Model.ProductGroup.Title</a>
+
+                                        </li>
+                                        @if (!string.IsNullOrEmpty(Model.Tags))
+                                        {
+                                            <li>
+                                                <span>
+                                                    <i class="fa fa-tags"></i> برچسب:
+                                                </span>
+                                                @foreach (var item in Model.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries))
+                                                {
+                                                    <a href="/Product/Index?Title=@item" class="product-link product-tag-title">@item</a>
+                                                }
+                                            </li>
+                                        }
+                                        @*<li>
+                                                <span>
+                                                    برند:
+                                                </span>
+                                                <a href="#" class="product-link product-tag-title">سامسونگ</a>
+                                            </li>*@
+                                    </ul>
+                                </div>
+                                <div class="col=lg-12 col-md-12 col-xs-12 pr">
+
+                                    <div class="product-params pt-3">
+                                        <ul data-title="ویژگی‌های محصول" class="ul-liststyle-none" style="list-style:none !important">
+                                            <li>
+                                                <p style="line-height:2.3">@Model.ShortDescription</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="col=lg-12 col-md-12 col-xs-12 pr">
+                                    <div class="product-seller-info">
+                                        <div class="seller-info-changable">
+
+                                            @*<div class="product-seller-row guarantee">
+                                                    <span class="title"> گارانتی:</span>
+                                                    <a href="#" class="product-name">۱۸ ماهه دیجی اسمارت</a>
+                                                </div>*@
+                                            <div class="product-seller-row price">
+                                                <span class="title"> قیمت:</span>
+                                                <a href="#" class="product-name">
+                                                    <span class="amount">
+                                                        @Model.Price.ToPersianPrice()
+                                                        <span>تومان</span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            @if (Model.PriceWithDiscount != Model.Price)
+                                            {
+                                                <div class="product-seller-row vendor">
+                                                    <span class="title"> قیمت با تخفیف:</span>
+                                                    <a href="#" class="product-name">
+                                                        <span class="amount">
+                                                            @Model.PriceWithDiscount.ToPersianPrice()
+                                                            <span>تومان</span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            <div class="product-seller-row guarantee">
+                                                <span class="title mt-3"> تعداد:</span>
+                                                <div class="quantity pl">
+                                                    <input type="number" min="1" max="100" step="1" value="1"><div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>
+                                                </div>
+                                            </div>
+                                            <div class="product-seller-row add-to-cart">
+                                                <a href="#" class="btn-add-to-cart btn btn-primary">
+                                                    <span class="btn-add-to-cart-txt">افزودن به سبد خرید</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="tabs">
+            <div class="tab-box">
+                <ul class="tab nav nav-tabs" id="myTab" role="tablist">
+                    @if (!string.IsNullOrEmpty(Model.Text))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active" id="Review-tab" data-toggle="tab" href="#Review" role="tab" aria-controls="Review" aria-selected="true">
+                                <i class="mdi mdi-glasses"></i>
+                                نقد و بررسی
+                            </a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link @(string.IsNullOrEmpty(Model.Text) ? "active" : "")" id="Specifications-tab" data-toggle="tab" href="#Specifications" role="tab" aria-controls="Specifications" aria-selected="false">
+                            <i class="mdi mdi-format-list-checks"></i>
+                            مشخصات
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg">
+                <div class="tabs-content">
+                    <div class="tab-content" id="myTabContent">
+                        @if (!string.IsNullOrEmpty(Model.Text))
+                        {
+                            <div class="tab-pane fade show active" id="Review" role="tabpanel" aria-labelledby="Review-tab">
+                                <h2 class="params-headline">نقد و بررسی اجمالی</h2>
+                                <section class="content-expert-summary">
+                                    <div class="mask pm-3">
+                                        <div class="mask-text">
+                                            @Html.Raw(Model.Text)
+                                        </div>
+                                        <a href="#" class="mask-handler">
+                                            <span class="show-more">+ ادامه مطلب</span>
+                                            <span class="show-less">- بستن</span>
+                                        </a>
+                                        <div class="shadow-box"></div>
+                                    </div>
+                                </section>
+                            </div>
+                        }
+                        <div class="tab-pane fade @(string.IsNullOrEmpty(Model.Text) ? "show active" : "")" id="Specifications" role="tabpanel" aria-labelledby="Specifications-tab">
+                            <article>
+                                <h2 class="params-headline">
+                                    مشخصات فنی
+                                    <span>@Model.Title</span>
+                                </h2>
+                                <section>
+                                    <ul class="params-list">
+
+
+                                        @foreach (var item in ViewBag.Features as List<ProductFeature>)
+                                        {
+                                            <li class="params-list-item">
+                                                <div class="params-list-key">
+                                                    <span class="block">@item.Feature.Title</span>
+                                                </div>
+                                                @if (item.Feature.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fssot)
+                                                {
+
+                                                    if (@FeatureSSOTValue.Where(x => x.FeatureId == item.FeatureId && x.Id == Convert.ToInt32(item.FeatureValue)).SingleOrDefault() != null)
+                                                    {
+                                                        <div class="params-list-value">
+                                                            <span class="block">
+                                                                @FeatureSSOTValue.Where(x => x.FeatureId == item.FeatureId && x.Id == Convert.ToInt32(item.FeatureValue)).SingleOrDefault().Value
+                                                            </span>
+                                                        </div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="params-list-value">
+                                                        <span class="block">
+                                                            @item.FeatureValue
+                                                        </span>
+                                                    </div>
+                                                }
+                                            </li>
+                                        }
+                                    </ul>
+                                </section>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<!--// Breadcrumb Area -->
-<!-- Page Conttent -->
-<main class="page-content">
-
-    <!-- Product Details Area -->
-    <div class="product-details-area bg-white ptb-30">
-        <div class="container">
-
-            <div class="pdetails">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="pdetails-images">
-                            <div class="pdetails-largeimages pdetails-imagezoom">
-
-                                <div class="pdetails-singleimage" data-src="@ViewBag.Url/@Model.IndexPic">
-                                    <img src="@ViewBag.Url/@Model.IndexPic" onerror="imgError(this);" alt="product image">
-                                </div>
-
-                                @foreach (var item in gallery)
-                                {
-                                    <div class="pdetails-singleimage" data-src="@ViewBag.Url/@item.Pic">
-                                        <img src="@ViewBag.Url/@item.Pic" onerror="imgError(this);" alt="product image">
-                                    </div>
-                                }
 
 
-                            </div>
-
-                            <div class="pdetails-thumbs">
-                                <div class="pdetails-singlethumb">
-                                    <img src="@ViewBag.Url/@Model.IndexPic" onerror="imgError(this);" alt="product thumb">
-                                </div>
-                                @foreach (var item in gallery)
-                                {
-                                    <div class="pdetails-singlethumb">
-                                        <img src="@ViewBag.Url/@item.Pic" onerror="imgError(this);" alt="product thumb">
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="pdetails-content">
-
-                            <div class="rattingbox">
-                            </div>
-                            <h3>@Model.Title</h3>
-                            <div class="pdetails-pricebox">
-                                @if (isDisCount)
-                                {
-                                    <del class="oldprice">@Model.Price.ToPersianPrice()</del>
-                                    <span class="price">
-                                        @Model.PriceWithDiscount.ToPersianPrice()
-                                    </span>
-                                    <span class="badge">
-                                        @if (isDisCount)
-                                        {
-                                            <span> @((Model.Price - Model.PriceWithDiscount).ToPersianPrice()) تومان تخفیف</span>
-                                        }
-
-                                    </span>
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <div class="hoproduct-countdown countdown" data-countdown="@Model.DiscountEndDate.Value.Date"></div>
-                                }
-                                else
-                                {
-                                    <span class="price">@Model.Price.ToPersianPrice() تومان</span>
-                                }
-                            </div>
-                            <p>@Model.ShortDescription</p>
-                            <div class="pdetails-quantity">
-                                <form target="_blank" asp-controller="ShopProduct" asp-action="AddCart">
-                                    <input type="hidden" value="@Model.Id" name="productId" />
-                                    <div class="quantity-select">
-                                        <input type="text" name="count" id="Count" value="1">
-                                        <div class="inc qtybutton">+<i class="ion ion-ios-arrow-up"></i></div>
-                                        <div class="dec qtybutton">-<i class="ion ion-ios-arrow-down"></i></div>
-                                    </div>
-                                    <button type="submit"
-                                            class="ho-button">
-                                        <i class="lnr lnr-cart"></i>
-                                        <span>افزودن به سبد خرید</span>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="pdetails-categories">
-                                <span>دسته بندی: </span>
-                                <ul>
-                                    <li><a href="/Product/ProductGroup/@Model.ProductGroupId">@Model.ProductGroup.Title</a></li>
-                                </ul>
-                            </div>
-                            @if (Model.Tags != null)
-                            {
-                                <div class="pdetails-tags">
-                                    <span>تگ ها: </span>
-                                    <ul>
-                                        @foreach (var item in Model.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries))
-                                        {
-                                            <li><a href="/Product/Index?Title=@item">@item</a></li>
-                                        }
-
-                                    </ul>
-                                </div>
-                            }
-                            @*<div class="pdetails-socialshare">
-                                    <span>اشتراک: </span>
-                                    <ul>
-                                        <li><a href="#"><i class="ion ion-logo-facebook"></i></a></li>
-                                        <li><a href="#"><i class="ion ion-logo-twitter"></i></a></li>
-                                        <li><a href="#"><i class="ion ion-logo-googleplus"></i></a></li>
-                                        <li><a href="#"><i class="ion ion-logo-pinterest"></i></a></li>
-                                    </ul>
-                                </div>*@
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pdetails-allinfo">
-
-                <ul class="nav pdetails-allinfotab justify-content-center" id="product-details" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="product-details-area2-tab" data-toggle="tab" href="#product-details-area2"
-                           role="tab" aria-controls="product-details-area2" aria-selected="false">مشخصات فنی</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " id="product-details-area1-tab" data-toggle="tab" href="#product-details-area1"
-                           role="tab" aria-controls="product-details-area1" aria-selected="true">توضیحات</a>
-                    </li>
-
-
-                </ul>
-
-                <div class="tab-content" id="product-details-ontent">
-                    <div class="tab-pane fade  " id="product-details-area1" role="tabpanel"
-                         aria-labelledby="product-details-area1-tab">
-                        <div class="pdetails-description">
-                            @Html.Raw(Model.Text)
-                        </div>
-                    </div>
-                    <style>
-                        .productDetailTable {
-                            direction: rtl;
-                        }
-
-                            .productDetailTable > tbody > tr > td:nth-child(odd) {
-                                background-color: #EEE;
-                            }
-                    </style>
-                    <div class="tab-pane fade show active" id="product-details-area2" role="tabpanel" aria-labelledby="product-details-area2-tab">
-                        <div class="pdetails-moreinfo">
-                            <table class="productDetailTable table">
-                                <thead>
-                                    <tr style="">
-                                        <th width="20%" style="text-align:right;font-size:20px;margin-bottom:20px">مشخصات فنی</th>
-                                        <th width="80%" style="text-align:right"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in ViewBag.Features as List<ProductFeature>)
-                                    {
-                                        <tr>
-                                            <td style="text-align:right;font-size:13px ">@item.Feature.Title</td>
-                                            @if (item.Feature.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fssot)
-                                            {
-
-                                                if (@FeatureSSOTValue.Where(x => x.FeatureId == item.FeatureId && x.Id == Convert.ToInt32(item.FeatureValue)).SingleOrDefault() != null)
-                                                {
-                                                    <td style="text-align:right;font-size:13px">
-                                                        @FeatureSSOTValue.Where(x => x.FeatureId == item.FeatureId && x.Id == Convert.ToInt32(item.FeatureValue)).SingleOrDefault().Value
-                                                        @*@item.Feature*@
-                                                    </td>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <td style="text-align:right;font-size:13px">@item.FeatureValue</td>
-                                            }
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-    <!--// Product Details Area -->
-    <!-- Related Product Area -->
-    @await Component.InvokeAsync("RelatedProductVC", new { groupId = Model.ProductGroupId })
-    <!--// Related Product Area -->
-    <!-- Newsletter Area -->
-    <!--// Newsletter Area -->
-
-</main>
-<!--// Page Conttent -->
-
-<script>
-    $(function () {
-        $('')
-
-    })
-</script>
