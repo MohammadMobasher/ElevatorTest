@@ -170,7 +170,7 @@ namespace Elevator.Controllers
                 var res = CallApi<BankCallBackResultViewModel>(ipgUri, data);
                 if (res != null && res.Result != null)
                 {
-                    await _usersPaymentRepository.ResultOrder(model.ShopOrderId.Value, model.OrderId, UserId, res.Result.Succeed, res.Result.ResCode);
+                    await _usersPaymentRepository.ResultOrder(model.ShopOrderId.Value, model.OrderId, model.UserId, res.Result.Succeed, res.Result.ResCode);
 
                     if (res.Result.ResCode == "0")
                     {
