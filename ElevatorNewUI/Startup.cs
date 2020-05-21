@@ -67,16 +67,16 @@ namespace ElevatorNewUI
 
             app.UseRedirectConfigure();
 
-            //app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                OnPrepareResponse = ctx =>
-                {
-                    const int durationInSeconds = 60 * 60 * 24 * 365;
-                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
-                        "public,max-age=" + durationInSeconds;
-                }
-            });
+            app.UseStaticFiles();
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    OnPrepareResponse = ctx =>
+            //    {
+            //        const int durationInSeconds = 60 * 60 * 24 * 365;
+            //        ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+            //            "public,max-age=" + durationInSeconds;
+            //    }
+            //});
             app.UseCookiePolicy();
             app.UseAuthentication();
 
