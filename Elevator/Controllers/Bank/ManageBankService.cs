@@ -146,7 +146,7 @@ namespace Elevator.Controllers
             try
             {
                 // گرفتن اطلاعات فاکتور بر اساس شناسه خرید و شناسه گاربری
-                var model = _usersPaymentRepository.GetByCondition(a => a.OrderId == vm.OrderId && a.UserId == UserId);
+                var model = _usersPaymentRepository.GetByCondition(a => a.OrderId == vm.OrderId && a.Token == vm.Token);
 
                 // رمز گذاری توکن
                 var dataBytes = Encoding.UTF8.GetBytes(vm.Token);
@@ -178,8 +178,8 @@ namespace Elevator.Controllers
                         res.Result.Succeed = true;
                         ViewBag.Success = res.Result.Description;
 
-                        await _shopOrderRepository.SuccessedOrder(model.ShopOrderId.Value, UserId);
-                        await _shopProductRepository.SuccessedOrder(model.ShopOrderId.Value, UserId);
+                        await _shopOrderRepository.SuccessedOrder(model.ShopOrderId.Value, model.UserId);
+                        await _shopProductRepository.SuccessedOrder(model.ShopOrderId.Value, model.UserId);
 
                         return RedirectToAction("Index", "UserOrder");
                     }
@@ -198,7 +198,7 @@ namespace Elevator.Controllers
 
         public static async Task<T> CallApi<T>(string apiUrl, object value)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
             using (var client = new HttpClient())
             {
 
