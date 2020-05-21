@@ -1,169 +1,138 @@
 ﻿@model List<DataLayer.Entities.Product>
 @using DNTPersianUtils.Core
+@using Core.Utilities
 @{
     var categorys = ViewBag.Category as List<DataLayer.DTO.ProductGroupDTO>;
     var Search = ViewBag.Searcg as DataLayer.ViewModels.Products.ProductSearchListViewModel;
 }
 
-<style>
-    .ShowInputAsLink {
-        display: block !important;
-        width: 100% !important;
-        clear: both !important;
-        font-weight: 400 !important;
-        white-space: nowrap !important;
-        background: none !important;
-        border: 0 !important;
-        padding: 10px 0 !important;
-        color: #7e7e7e !important;
-        line-height: 25px !important;
-        font-size: 13px !important;
-    }
-</style>
-<!-- Breadcrumb Area -->
-<div class="breadcrumb-area bg-grey">
-    <div class="container">
-        <div class="ho-breadcrumb">
-            <ul>
-                <li><a href="index.html">خانه</a></li>
-                <li>فروشگاه</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<!--// Breadcrumb Area -->
-<!-- Page Conttent -->
-<form asp-action="Index" method="get">
-    <main class="page-content">
+<div class="container-main">
+    <div class="d-block">
+        <div class="page-content page-row">
+            <div class="main-row">
+                <div id="breadcrumb">
+                    <i class="mdi mdi-home"></i>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">خانه</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">فروشگاه</li>
+                        </ol>
+                    </nav>
+                </div>
 
-        <!-- Shop Page Area -->
-        <div class="shop-page-area bg-white ptb-30">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-9 order-1 order-lg-2">
-
-                        @*<div class="banner-area">
-            <div class="imgbanner imgbanner-2">
-                <a href="product-details.html">
-                    <img src="~/Plugins/Template/images/banner/banner-image-20.jpg" alt="banner">
-                </a>
-            </div>
-        </div>*@
-
-                        <div class="shop-filters">
-
-                            <span class="shop-filters-viewitemcount">@(ViewBag.Count) محصول موجود است</span>
-
-                        </div>
-
-                        <div class="shop-page-products mt-30">
-                            <div class="row no-gutters">
-
-                                @foreach (var item in Model)
-                                {
-                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                        <!-- Single Product -->
-                                        <article class="hoproduct">
-                                            <div class="hoproduct-image">
-                                                <a class="hoproduct-thumb" href="/Product/ProductDetail/@item.Id">
-                                                    <img class="hoproduct-frontimage" src="@(item.IndexPic!=null? ViewBag.Url+"/"+@item.IndexPic:"/no-image.jpg")"
-                                                         alt="product image">
-                                                    <img class="hoproduct-backimage" src="@(item.IndexPic!=null? ViewBag.Url+"/"+@item.IndexPic:"/no-image.jpg")"
-                                                         alt="product image">
-                                                </a>
-                                                @*<ul class="hoproduct-actionbox">
-                                    <li><a href="#"><i class="lnr lnr-cart"></i></a></li>
-                                    <li><a href="#" class="quickview-trigger"><i class="lnr lnr-eye"></i></a></li>
-                                    <li><a href="#"><i class="lnr lnr-heart"></i></a></li>
-                                </ul>*@
-
-                                            </div>
-                                            @await Component.InvokeAsync("CountDownProductVC", new { id = item.Id })
-                                            <div class="hoproduct-content">
-                                                <h5 class="hoproduct-title"><a href="/Product/ProductDetail/@item.Id">@item.Title</a></h5>
-                                                <div class="hoproduct-rattingbox">
-                                                    <div class="rattingbox">
+                <!-- start sidebar--------------------->
+                <div class="col-lg-3 col-md-3 col-xs-12 pr sticky-sidebar">
+                    <div class="shop-archive-sidebar">
+                        <div class="sidebar-archive mb-3">
+                            <section class="widget-product-categories">
+                                <header class="cat-header">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-block text-right" data-toggle="collapse" href="#headingOne" role="button" aria-expanded="false" aria-controls="headingOne">
+                                            دسته بندی محصولات
+                                            <i class="mdi mdi-chevron-down"></i>
+                                        </button>
+                                    </h2>
+                                </header>
+                                <div class="product-filter">
+                                    <div class="card">
+                                        <div class="collapse show" id="headingOne">
+                                            <div class="card-main mb-0">
+                                                @foreach (var item in categorys)
+                                                {
+                                                    <div class="form-auth-row">
+                                                        <a asp-controller="Product" asp-action="Index" asp-route-Group="@item.Id">@item.Title</a>
                                                     </div>
-                                                </div>
-                                                <div class="hoproduct-pricebox ">
-                                                    <div class="pricebox">
-                                                        @*<del class="oldprice olPrice_@item.Id">@item.Price</del>*@
-                                                        <span class="price DiscountPrice_@item.Id">@item.Price تومان</span>
-                                                    </div>
-                                                    <span class="dicountValue_@item.Id"></span>
-                                                </div>
-                                                <p class="hoproduct-content-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و .</p>
+                                                }
                                             </div>
-                                        </article>
-                                        <!--// Single Product -->
+                                        </div>
                                     </div>
-                                }
-                            </div>
+                                </div>
+                            </section>
                         </div>
-
-                        @Html.Partial("~/Views/Shared/_Pagination.cshtml")
-
                     </div>
-
-                    <div class="col-lg-3 order-2 order-lg-1">
-                        <div class="shop-widgets">
-
-                            <div class="single-widget widget-categories">
-                                <h5 class="widget-title">همه دسته ها</h5>
-                                <ul>
-                                    <input type="hidden" name="Group" value="@Search?.Group" />
-                                    @foreach (var item in categorys)
-                                    {
-                                        <li>
-
-                                            <a asp-controller="Product" asp-action="Index" asp-route-Group="@item.Id">@item.Title</a>
+                </div>
+                <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                    <div class="shop-archive-content mt-3 d-block">
+                        @*<div class="archive-header">
+                                <h2 class="archive-header-title">آرشیو محصولات</h2>
+                                <div class="sort-tabs mt-0 d-inline-block pr">
+                                    <h4>مرتب‌سازی بر اساس :</h4>
+                                </div>
+                                <div class="nav-sort-tabs-res">
+                                    <ul class="nav sort-tabs-options" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="Most-visited-tab" data-toggle="tab" href="#Most-visited" role="tab" aria-controls="Most-visited" aria-selected="true">پربازدیدترین</a>
                                         </li>
-                                    }
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="Bestselling-tab" data-toggle="tab" href="#Bestselling" role="tab" aria-controls="Bestselling" aria-selected="false">پرفروش‌ترین‌</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="Most-Popular-tab" data-toggle="tab" href="#Most-Popular" role="tab" aria-controls="Most-Popular" aria-selected="false">محبوب‌ترین</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="newest-tab" data-toggle="tab" href="#newest" role="tab" aria-controls="newest" aria-selected="false">جدیدترین</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="cheapest-tab" data-toggle="tab" href="#cheapest" role="tab" aria-controls="cheapest" aria-selected="false">ارزان‌ترین</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="most-expensive-tab" data-toggle="tab" href="#most-expensive" role="tab" aria-controls="most-expensive" aria-selected="false">گران‌ترین</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>*@
+                        <div class="product-items">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="Most-visited" role="tabpanel" aria-labelledby="Most-visited-tab">
+                                    <div class="row">
 
-                                </ul>
+                                        @foreach (var item in Model)
+                                        {
+                                            <div class="col-lg-3 col-md-3 col-xs-12 order-1 d-block mb-3">
+                                                <section class="product-box product product-type-simple">
+                                                    <div class="thumb">
+                                                        <a href="/Product/ProductDetail/@item.Id" class="d-block">
+                                                            @if (item.Price != item.PriceWithDiscount)
+                                                            {
+                                                                <div class="promotion-badge">فروش ویژه</div>
+                                                                @*<div class="discount-d">
+                                                                    <span>@((float)(item.Price ) )%</span>
+                                                                    <span>@((float)(item.PriceWithDiscount) )%</span>
+                                                                    <span>@((float)((float) item.Price / (float)item.PriceWithDiscount) * 100)%</span>
+                                                                </div>*@
+                                                            }
+                                                            <img title="@item.Title" src="http://staffonly.ir/@item.IndexPic">
+                                                        </a>
+                                                    </div>
+                                                    <div class="title">
+                                                        <a href="/Product/ProductDetail/@item.Id" title="@item.Title">@item.Title</a>
+                                                    </div>
+                                                    <div class="price">
+                                                        <span class="amount">
+                                                            @if (item.Price != item.PriceWithDiscount)
+                                                            {
+                                                                @item.PriceWithDiscount.ToPersianPrice()
+                                                            }
+                                                            else
+                                                            {
+                                                                @item.Price.ToPersianPrice()
+                                                            }
+                                                            <span>تومان</span>
+                                                        </span>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+
                             </div>
-
                         </div>
+                        
                     </div>
-
                 </div>
             </div>
         </div>
-    </main>
-
-</form>
-
-
-
-<script>
-    $(function () {
-
-        var productBoxes = $('.discountProduct');
-        $.each(productBoxes, function (index, key) {
-            var id = $(key).attr('data-id');
-
-            $.get("/Product/CalculateDiscount", { id: id }, function (result) {
-                if (result !== false) {
-
-                    console.log(result);
-                    $(key).append('<li class="flag-discount" style="list-style-type:none;">' + result.item2 + "  " + (result.item3 == 1 ? "% تخفیف" : "تومان تخفیف") + '</li>');
-
-                    $('.DiscountPrice_' + id).html(result.item1 + " تومان ");
-                    $('.countdown_Id_' + id).html('<div class="hoproduct-countdown countdown" data-countdown="' + result.item4 + '"></div>');
-                }
-                else {
-                    //$('.olPrice_' + id).css('display','none');
-                }
-            })
-
-        })
-
-    })
-
-    $(function () {
-        $('.VisitCounter').on('click', function () {
-            var id = $(this).attr('data-id');
-            $.get("/Product/AddVisit", { id: id }, function () { });
-        })
-    })
-</script>
+    </div>
+</div>
