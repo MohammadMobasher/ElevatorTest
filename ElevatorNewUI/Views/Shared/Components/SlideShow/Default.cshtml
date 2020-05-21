@@ -9,7 +9,7 @@
             @foreach (DataLayer.DTO.SlideShowDTO item in Model)
             {
                 <div class="carousel-item">
-                    <img asp-append-version="true" src="@Url.Content(ViewBag.Url + "/" + item.ImgAddress)" alt="@(item.Alt + "," + "آسانسور" )">
+                    <img asp-append-version="true" src="@Url.Content("http://staffonly.ir/" + item.ImgAddress)" alt="@(item.Alt + "," + "آسانسور" )">
                 </div>
             }
         </div>

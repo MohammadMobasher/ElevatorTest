@@ -52,12 +52,12 @@
         <div class="container-main">
             <div>
                 <section class="h-main-row">
-                    <div class="col-lg-9 col-md-9 col-xs-12 pr">
+                    <div class="col-lg-10 col-md-10 col-xs-12 pr">
                         <div class="header-right">
                             <div class="col-lg-3 pr">
-                                <div class="header-logo row text-right">
+                                <div class="header-logo row">
                                     <a href="#">
-                                        <img src="@( string.IsNullOrEmpty(siteSetting.Logo) ? "staffonly.ir/Uploads/SiteSetting/Logo.png" : Url.Content("staffonly.ir/" + siteSetting.Logo))" title="LiftBazar, لیفت بازار" alt="LiftBazar, لیفت بازار" asp-append-version="true" />
+                                        <img src="@( string.IsNullOrEmpty(siteSetting.Logo) ? "http://staffonly.ir/Uploads/SiteSetting/Logo.png" : Url.Content("http://staffonly.ir/" + siteSetting.Logo))" title="LiftBazar, لیفت بازار" alt="LiftBazar, لیفت بازار" asp-append-version="true" />
                                     </a>
                                 </div>
                             </div>
@@ -65,23 +65,34 @@
                                 <div class="header-search row text-right">
                                     <div class="header-search-box">
                                         <form action="/Product/Index" class="form-search">
-                                            <input type="search" class="header-search-input input-bg" name="search-input" placeholder="جستجو کنید…">
+                                            <input type="search" value="@(vm != null ? vm.Title : "")" class="header-search-input" name="Title" placeholder="جستجو کنید…">
                                             <div class="action-btns">
-                                                <button class="btn btn-search btn-bg" type="submit">
+                                                <button class="btn btn-search" type="submit">
                                                     <i class="fa fa-search"></i>
                                                 </button>
                                                 <div class="search-filter">
                                                     <div class="form-ui">
                                                         <div class="custom-select-ui">
                                                             <select class="right">
-                                                                <option>همه دسته ها</option>
-                                                                <option>کالای دیجیتال</option>
-                                                                <option>آرایشی بهداشتی</option>
-                                                                <option>ابزاری اداری</option>
-                                                                <option>مد پوشاک</option>
-                                                                <option>خانه آشپز خانه</option>
-                                                                <option>لوازم تحریر و هنر</option>
-                                                                <option>کودک و نوزاد</option>
+                                                                <option value="-1">همه دسته ها</option>
+                                                                @foreach (var item in await _productGroupRepository.GetParentsAsync())
+                                                                {
+                                                                    if (vm != null)
+                                                                    {
+                                                                        if (vm.Group == item.Id)
+                                                                        {
+                                                                            <option value="@item.Id" selected>@item.Title</option>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option value="@item.Id">@item.Title</option>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@item.Id">@item.Title</option>
+                                                                    }
+                                                                }
                                                             </select>
                                                         </div>
                                                     </div>
@@ -93,32 +104,45 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-xs-12 pl">
+                    <div class="col-lg-2 col-md-2 col-xs-12 pl">
                         <div class="header-left">
                             <div class="header-account text-left">
                                 <div class="d-block">
                                     <div class="account-box">
                                         <div class="nav-account d-block pl">
-                                            <span class="icon-account">
-                                                <img src="~/images/man.png" class="avator">
-                                            </span>
-                                            <span class="title-account">حساب کاربری</span>
-                                            <div class="dropdown-menu">
-                                                <ul class="account-uls mb-0">
-                                                    <li class="account-item">
-                                                        <a href="#" class="account-link">پنل کاربری</a>
-                                                    </li>
-                                                    <li class="account-item">
-                                                        <a href="#" class="account-link">سفارشات من</a>
-                                                    </li>
-                                                    <li class="account-item">
-                                                        <a href="#" class="account-link">تنظیمات</a>
-                                                    </li>
-                                                    <li class="account-item">
-                                                        <a href="#" class="account-link">خروج</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                <span class="icon-account">
+                                                    <img src="~/images/man.png" class="avator">
+                                                </span>
+                                                <span class="title-account">محمد مبشر زرقانی</span>
+                                                <div class="dropdown-menu">
+                                                    <ul class="account-uls mb-0">
+                                                        <li class="account-item">
+                                                            <a href="#" class="account-link">پنل کاربری</a>
+                                                        </li>
+                                                        <li class="account-item">
+                                                            <a href="#" class="account-link">سفارشات من</a>
+                                                        </li>
+                                                        <li class="account-item">
+                                                            <a href="#" class="account-link">تنظیمات</a>
+                                                        </li>
+                                                        <li class="account-item">
+                                                            <a href="#" class="account-link">خروج</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <a href="/Account/Login">
+                                                    <span class="icon-account">
+                                                        <img src="~/images/man.png" class="avator">
+                                                    </span>
+                                                    <span class="title-account">حساب کاربری</span>
+                                                </a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -137,10 +161,10 @@
                                         </a>
                                     </li>
                                     @*<li id="nav-menu-item" class="menu-item">
-            <a href="#" class="current-link-menu category-link">
-                آرشیو محصولات
-            </a>
-        </li>*@
+                                            <a href="#" class="current-link-menu category-link">
+                                                آرشیو محصولات
+                                            </a>
+                                        </li>*@
                                     <li id="nav-menu-item" class="menu-item">
                                         <a href="/Blog/Index" class="current-link-menu category-link">
                                             خبرنامه
@@ -163,15 +187,15 @@
                                     </li>
                                     <div class="divider-space-card d-block">
                                         <div class="header-cart-basket">
-                                            <a href="#" class="cart-basket-box cart-basket-box-bg">
+                                            <a href="#" class="cart-basket-box">
                                                 <span class="icon-cart">
                                                     <i class="mdi mdi-cart"></i>
                                                 </span>
-                                                <span class="title-cart">سبد خرید</span>
-                                                <span class="price-cart">
-                                                    25,000,000
-                                                    <span>تومان</span>
-                                                </span>
+                                                @*<span class="title-cart">سبد خرید</span>*@
+                                                @*<span class="price-cart">
+                                                        25,000,000
+                                                        <span>تومان</span>
+                                                    </span>*@
                                                 <span class="count-cart count-bg">2</span>
                                             </a>
                                             <div class="widget-shopping-cart">
@@ -475,7 +499,7 @@
                                                 </a>
                                             </div>
                                             @await Component.InvokeAsync("ParentGroupsVC")
-                                            
+
                                         </section>
                                     </div>
                                 </div>
@@ -497,7 +521,7 @@
                                                 <li class="menu-item-type-custom">
                                                     <a href="/Suggestions/Insert">شکایات و پیشنهادات</a>
                                                 </li>
-                                                
+
                                             </ul>
                                         </section>
                                     </div>
@@ -505,18 +529,18 @@
                             </div>
                         </div>
                         @*<div class="col-lg-4 d-block pl">
-                            <div class="shortcode-widget-area">
-                                <form action="#" class="form-newsletter">
-                                    <fieldset>
-                                        <span class="form-newsletter-title"> با عضویت در خبرنامه از آخرین اخبار و محصولات سایت مطلع شوید...</span>
-                                        <div class="input-group-newsletter">
-                                            <input type="email" class="input-field form-control" placeholder="آدرس ایمیل خود را وارد کنید">
-                                            <button class="btn btn-info btn-secondary" type="submit">ارسال</button>
-                                        </div>
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>*@
+                                <div class="shortcode-widget-area">
+                                    <form action="#" class="form-newsletter">
+                                        <fieldset>
+                                            <span class="form-newsletter-title"> با عضویت در خبرنامه از آخرین اخبار و محصولات سایت مطلع شوید...</span>
+                                            <div class="input-group-newsletter">
+                                                <input type="email" class="input-field form-control" placeholder="آدرس ایمیل خود را وارد کنید">
+                                                <button class="btn btn-info btn-secondary" type="submit">ارسال</button>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>*@
                         <div class="footer-more-info">
                             <div class="col-lg-10 pr">
                                 <div class="footer-content d-block">

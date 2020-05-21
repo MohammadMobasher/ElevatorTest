@@ -680,7 +680,7 @@ header.header-main{
 }
 
 .header-main-nav .divider-space-card{
-    width: 180px;
+    /*width: 180px;*/
     height: 50px;
     float: left;
     clear: both;
@@ -735,17 +735,17 @@ header.header-main{
 }
 
 .header-main-nav .divider-space-card .header-cart-basket .cart-basket-box span.count-cart{
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     background: #fff;
     color: #00bfd6;
     position: absolute;
     left: 10px;
     line-height: 20px;
     text-align: center;
-    top: 10px;
+    top: 5px;
     border-radius: 50px;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .header-main-nav .divider-space-card .header-cart-basket .cart-basket-box span.count-bg{
@@ -2070,7 +2070,7 @@ header.header-main{
 .brand-slider .card-header {
     border-radius: 0;
     padding: 0;
-    margin-right: 0;
+    margin-right: 10px;
     -webkit-box-shadow: none;
     box-shadow: none;
     position: relative;
