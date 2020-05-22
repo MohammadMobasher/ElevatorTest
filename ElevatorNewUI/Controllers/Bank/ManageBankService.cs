@@ -96,7 +96,7 @@ namespace ElevatorNewUI.Controllers
         //    {
         //        if (res.Result.ResCode == "0")
         //        {
-                    
+
         //            await _usersPaymentRepository.MapAddAsync(SetValue(res.Result.Token));
 
         //            Response.Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
@@ -147,7 +147,7 @@ namespace ElevatorNewUI.Controllers
             try
             {
                 // گرفتن اطلاعات فاکتور بر اساس شناسه خرید و شناسه گاربری
-                var model = _usersPaymentRepository.GetByCondition(a => a.OrderId == vm.OrderId && a.UserId == UserId);
+                var model = _usersPaymentRepository.GetByCondition(a => a.OrderId == vm.OrderId && a.Token == vm.Token);
 
                 // رمز گذاری توکن
                 var dataBytes = Encoding.UTF8.GetBytes(vm.Token);
@@ -179,14 +179,14 @@ namespace ElevatorNewUI.Controllers
                         res.Result.Succeed = true;
                         ViewBag.Success = res.Result.Description;
 
-                        await _shopOrderRepository.SuccessedOrder(model.ShopOrderId.Value, UserId);
-                        await _shopProductRepository.SuccessedOrder(model.ShopOrderId.Value, UserId);
+                        await _shopOrderRepository.SuccessedOrder(model.ShopOrderId.Value, model.UserId);
+                        await _shopProductRepository.SuccessedOrder(model.ShopOrderId.Value, model.UserId);
 
-                        return RedirectToAction("Index", "UserOrder");
+                        return RedirectToAction("Result", "UserOrder", new { orderId = res.Result.OrderId, shopOrderId = model.ShopOrderId });
                     }
 
                     ViewBag.Message = res.Result.Description;
-                    return RedirectToAction("Index", "UserOrder");
+                    return RedirectToAction("Result", "UserOrder", new { orderId = model.OrderId, shopOrderId = model.ShopOrderId });
                 }
             }
             catch (Exception ex)
@@ -212,7 +212,7 @@ namespace ElevatorNewUI.Controllers
                 {
                     var result = response.Content.ReadAsAsync<T>();
                     result.Wait();
-                 
+
 
                     return result.Result;
                 }

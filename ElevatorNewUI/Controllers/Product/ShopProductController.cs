@@ -9,6 +9,7 @@ using Core;
 using Core.BankCommon.ViewModels;
 using Core.Utilities;
 using DataLayer.Entities;
+using DataLayer.ViewModels.User;
 using DataLayer.ViewModels.UsersPayments;
 using DNTPersianUtils.Core;
 using Elevator.Controllers;
@@ -34,7 +35,7 @@ namespace ElevatorNewUI.Controllers
         private readonly BankConfig _bankConfig;
         private readonly UsersPaymentRepository _usersPaymentRepository;
         private readonly UserAddressRepository _userAddressRepository;
-
+        private readonly UserRepository _userRepository;
         public ShopProductController(ShopProductRepository shopProductRepository
             , IConfiguration configuration
             , ProductRepostitory productRepostitory
@@ -42,7 +43,8 @@ namespace ElevatorNewUI.Controllers
             , ShopOrderRepository shopOrderRepository
             , ManageBankService manageBankService
             , UsersPaymentRepository usersPaymentRepository
-            , UserAddressRepository userAddressRepository)
+            , UserAddressRepository userAddressRepository
+            , UserRepository userRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _shopProductRepository = shopProductRepository;
@@ -53,6 +55,7 @@ namespace ElevatorNewUI.Controllers
             _manageBankService = manageBankService;
             _usersPaymentRepository = usersPaymentRepository;
             _userAddressRepository = userAddressRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -156,16 +159,28 @@ namespace ElevatorNewUI.Controllers
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
              && !a.IsFinaly, null, "Product,ProductPackage");
 
+            ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
+
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
+
+            ViewBag.SumPrice =await _shopProductRepository.CalculateCartPrice(UserId);
 
             return View(listOrders);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendToBank()
+        public async Task<IActionResult> SendToBank(UserAddress vm)
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
             && !a.IsFinaly);
+
+            #region Address
+
+            vm.UserId = UserId;
+            _userAddressRepository.Submit(vm);
+
+            #endregion
+
 
             var orderId = await _shopOrderRepository.CreateFactor(listOrders.ToList(), UserId);
 

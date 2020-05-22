@@ -77,7 +77,7 @@ namespace Service.Repos
             model.IsSuccessed = true;
             model.SuccessDate = DateTime.Now;
 
-            Update(model);
+            await UpdateAsync(model);
             return true;
         }
     }
