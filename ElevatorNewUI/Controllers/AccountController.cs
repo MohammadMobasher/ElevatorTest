@@ -46,7 +46,7 @@ namespace ElevatorNewUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel vm, string redirect)
         {
-            var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.UserName == vm.UserName);
+            var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.UserName == vm.UserName || a.PhoneNumber == vm.UserName);
 
             if (model == null)
             {

@@ -44,7 +44,7 @@ namespace ElevatorNewUI.Controllers.Profile
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
             ViewBag.SidebarActive = ProfileSidebarSSOT.Orders;
 
-            var orders = await _shopOrderRepository.GetListAsync(a => a.UserId == UserId);
+            var orders = await _shopOrderRepository.GetListAsync(a => a.UserId == UserId && a.IsSuccessed);
 
             return View(orders.ToList());
         }
