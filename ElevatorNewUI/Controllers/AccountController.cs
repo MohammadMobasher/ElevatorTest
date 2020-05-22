@@ -203,21 +203,21 @@ namespace ElevatorNewUI.Controllers
                 {
                     TempData.AddResult(SweetAlertExtenstion.Error("کاربر گرامی دسترسی شما محدود شده است لطفا با پشتیبانی تماس بگیرید"));
 
-                    return Redirect("/");
+                    return RedirectToAction("Index", "Profile");
                 }
 
                 var result = await _userManager.ChangePasswordAsync(user, vm.CurrentPassword, vm.NewPassword);
                 if (result.Succeeded)
                 {
                     TempData.AddResult(SweetAlertExtenstion.Ok("رمز عبور با موفقیت تغییر یافت"));
-                    return Redirect("/");
+                    return RedirectToAction("Index","Profile");
                 }
 
             }
             catch (System.Exception)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("خطایی در سایت رخ داده است لطفا با پشتیبانی تماس بگیرید"));
-                return Redirect("/");
+                return RedirectToAction("Index", "Profile");
             }
 
             return View();

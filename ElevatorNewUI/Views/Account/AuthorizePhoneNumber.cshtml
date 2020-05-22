@@ -27,84 +27,53 @@
     }
 </style>
 
+
 <div class="fullscreen-bg">
 
 </div>
 
-<div class="wrapper default">
-    <div class="container">
-        <div class="row">
-            <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
-                <div class="account-box">
-                    
-                    <div class="account-box-title text-center">احراز هویت شماره تماس</div>
-                    @if (ViewBag.ErrorMessages != null)
-                    {
-                        <div class="message-light">
-                            @ViewBag.ErrorMessages
-                        </div>
-                    }
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <section class="page-account-box">
+                <div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
+                    <div class="ds-userlogin">
+                        <a href="#" class="account-box-logo">لیفت بازار</a>
+                        <div class="account-box">
+                            <div class="Login-to-account mt-4">
+                                <div class="account-box-content">
+                                    <h4 class="mb-2">تغییر رمز عبور</h4>
+                                    @if (ViewBag.ErrorMessages != null)
+                                    {
+                                        <div class="message-light">
+                                            @ViewBag.ErrorMessages
+                                        </div>
+                                    }
+                                    <form class="form-account" asp-action="AuthorizePhoneNumber" asp-controller="Account" asp-route-PhoneNumber="@ViewBag.PhoneNumber">
+                                        <div class="form-account-title">
+                                            <label for="password">کد فعال سازی</label>
+                                            <input class="password-input" name="ActiveCode" type="number"
+                                                   placeholder="کد فعال سازی">
+                                        </div>
 
-                    <div class="account-box-content">
-                        <form class="form-account" asp-action="AuthorizePhoneNumber" asp-controller="Account" asp-route-PhoneNumber="@ViewBag.PhoneNumber">
-                        
-                            @*<div class="form-account-title">شماره تماس</div>
-                            <div class="form-account-row">
-                                <label class="input-label"><i class="now-ui-icons tech_mobile"></i></label>
-                                <input class="input-field" type="text" asp-for="PhoneNumber" placeholder=" شماره موبایل خود را وارد نمایید">
-                            </div>*@
-
-                            <div class="form-account-title">کد فعال سازی</div>
-                            <div class="form-account-row">
-                                <label class="input-label">
-                                    <i class="now-ui-icons ui-1_lock-circle-open"></i>
-                                </label>
-                                <input class="input-field" name="ActiveCode" type="number"
-                                       placeholder="کد فعال سازی">
-                            </div>
-                            
-                            <div class="form-account-row form-account-submit">
-                                <div class="parent-btn">
-                                    <button class="dk-btn dk-btn-info">
-                                        ثبت
-                                        <i class="now-ui-icons users_circle-08"></i>
-                                    </button>
+                                        <div class="form-row-account">
+                                            <button class="btn btn-primary btn-login">فعال سازی</button>
+                                        </div>
+                                    </form>
+                                    <div class="account-box-footer">
+                                        <span>آیا کد به دست شما نرسیده است؟؟</span>
+                                        <a href="/Account/ResendCode?phoneNumber=@ViewBag.PhoneNumber" class="btn-link-border">ارسال مجدد کد</a>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="account-box-footer">
-                        <span>آیا کد به دست شما نرسیده است؟؟</span>
-                        <a href="/Account/ResendCode?phoneNumber=@ViewBag.PhoneNumber" class="btn-link-border">ارسال مجدد کد</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
-
-    <footer class="mini-footer">
-        <nav>
-            <div class="container">
-                <ul class="menu">
-                    <li>
-                        <a href="#">درباره لیفت بازار</a>
-                    </li>
-                    <li>
-                        <a href="#">تماس با ما</a>
-                    </li>
-                    <li>
-                        <a href="#">درخت کاری</a>
-                    </li>
-
-                </ul>
-            </div>
-        </nav>
-        <div class="copyright-bar">
-            <div class="container">
-                <p>
-                    استفاده از مطالب فروشگاه اینترنتی لیفت‌بازار فقط برای مقاصد غیرتجاری و با ذکر منبع بلامانع است. کلیه حقوق این سایت متعلق به لیفت‌بازار می‌باشد.
-                </p>
-            </div>
-        </div>
-    </footer>
 </div>
+
+
+
+
