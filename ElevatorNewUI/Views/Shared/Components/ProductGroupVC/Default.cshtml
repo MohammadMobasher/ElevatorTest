@@ -9,22 +9,30 @@
 
         foreach (ProductGroupDTO item in Model.Where(x => x.ParentId == null))
         {
+            output += "<li style='padding:10px; border-bottom:1px solid #EEE'>";
 
-            output += @"
-            <li class='main-menu-item category-menu-item menu-item-type-custom'><a class='main-menu-link-category' href='/Product/ProductGroup/" + item.Id + "'>" + item.Title + @"</a>
-                <ul class='megamenu catmenu-megamenu'>"
-                     + createMenu(item.Id) +
-                @"</ul> 
-            </li>
-        ";
+            if (Model.Where(x => x.ParentId == item.Id).Count() > 0)
+            {
+                output += "<a href='/Product/ProductGroup/" + item.Id + "' style='color:#000' class='collapsed' type='button' data-toggle='collapse' data-target='#collapse_" + item.Id + "' aria-expanded='false' aria-controls='collapse_" + item.Id + "'><i class='mdi mdi-chevron-down' style='float:left'></i>" + item.Title + "</a>";
+                output += "<div id='collapse_" + item.Id + "' class='collapse' aria-labelledby='heading" + item.Id + "' data-parent='#accordionExample' style=''><ul>";
+                output += createMenu(item.Id);
+                output += "</ul></div>";
+            }
+            else
+            {
+                output += "<a href='/Product/ProductGroup/" + item.Id + "'>" + item.Title + "</a>";
+            }
+
+            output += "</li>";
 
         }
 
-        return output ;
+        return output;
     }
 
 
-    string createMenu(int parentId)
+
+    string createMenu(int parentId, int level = 2)
     {
         string outPut = "";
 
@@ -32,20 +40,24 @@
 
         foreach (var item in items)
         {
-            if(Model.Where(x=> x.ParentId == item.Id).Count() > 0)
+            if (Model.Where(x => x.ParentId == item.Id).Count() > 0)
             {
-                outPut += " <li class='main-menu-item category-menu-item menu-item-type-custom'> ";
-                outPut += @" <a class='main-menu-link-category' href='/Product/ProductGroup/" + item.Id + "'>" + item.Title + @"</a> ";
-                //outPut += " <ul class='megamenu catmenu-megamenu'>";
-                //outPut += " " + createMenu(item.Id) + " ";
-                //outPut += " </ul> ";
-                outPut += " </li> ";
+                outPut += "<li class='has-sub' style='padding:10px; border-bottom:1px dashed #000'>";
+                outPut += "<a style='color:#000' href='#' class='category-level-" + level + "'>" + item.Id + "</a>";
+                outPut += "<ul>";
+
+                outPut += createMenu(item.Id, level + 1);
+
+                outPut += "</ul>";
+                outPut += "</li>";
             }
             else
             {
-                //outPut += " <li class='main-menu-item category-menu-item menu-item-type-custom'> ";
-                //outPut += @" <a class='main-menu-link-category' href='/Product/ProductGroup/" + item.Id + "'>" + item.Title + @"</a> ";
-                //outPut += " </li> ";
+                outPut += "<li style='padding:10px; border-bottom:1px dashed #000'>";
+
+                outPut += "<a style='color:#000' href='#' class='category-level-" + level + "'>" + item.Title + "</a>";
+
+                outPut += "</li>";
             }
         }
 
@@ -53,499 +65,502 @@
     }
 }
 
+<nav class="slider">
+    <ul class="nav-categories ul-base">
 
-<ul class="main-menu-ul category-menu mega-menu-level-one">
-    @Html.Raw(createParentMenu())
- </ul>
+        @Html.Raw(createParentMenu())
+
+    </ul>
+</nav>
 
 
 
 
-<ul class="main-menu-ul category-menu mega-menu-level-one">
-    <li class="main-menu-item category-menu-item menu-item-type-custom">
-        <a href="#" class="main-menu-link-category">
-            <img src="~/images/menu-main/category/smartphone.png">
-            کالای دیجیتال
-        </a>
-        <ul class='mega-menu-category sub-menu mega-menu-level-two'>
-            <li class="menu-category-item menu-item-type-custom menu-item">
-                <a href="#" class="menu-category-link-title">
-                    موبایل
+    @*<ul class="main-menu-ul category-menu mega-menu-level-one">
+            <li class="main-menu-item category-menu-item menu-item-type-custom">
+                <a href="#" class="main-menu-link-category">
+                    <img src="~/images/menu-main/category/smartphone.png">
+                    کالای دیجیتال
                 </a>
-                <ul class="sub-menu-category mega-menu-level-there">
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اپل
+                <ul class='mega-menu-category sub-menu mega-menu-level-two'>
+                    <li class="menu-category-item menu-item-type-custom menu-item">
+                        <a href="#" class="menu-category-link-title">
+                            موبایل
                         </a>
+                        <ul class="sub-menu-category mega-menu-level-there">
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اپل
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سامسونگ
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    نوکیا
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    ایسوس
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    هواوی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    الجی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اچ تی سی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سونی
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سامسونگ
+                    <li class="menu-category-item menu-item-type-custom menu-item">
+                        <a href="#" class="menu-category-link-title">
+                            موبایل
                         </a>
+                        <ul class="sub-menu-category mega-menu-level-there">
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اپل
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سامسونگ
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    نوکیا
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    ایسوس
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    هواوی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    الجی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اچ تی سی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سونی
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            نوکیا
+                    <li class="menu-category-item menu-item-type-custom menu-item">
+                        <a href="#" class="menu-category-link-title">
+                            موبایل
                         </a>
+                        <ul class="sub-menu-category mega-menu-level-there">
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اپل
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سامسونگ
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    نوکیا
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    ایسوس
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    هواوی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    الجی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اچ تی سی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سونی
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            ایسوس
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            هواوی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            الجی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اچ تی سی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سونی
-                        </a>
-                    </li>
+                    <div class="bg-image">
+                        <img src="~/images/menu-main/digital.png" alt="">
+                    </div>
                 </ul>
             </li>
-            <li class="menu-category-item menu-item-type-custom menu-item">
-                <a href="#" class="menu-category-link-title">
-                    موبایل
+            <li class="main-menu-item category-menu-item menu-item-type-custom">
+                <a href="#" class="main-menu-link-category">
+                    <img src="~/images/menu-main/category/makeup.png">
+                    آرایشی و بهداشتی
                 </a>
-                <ul class="sub-menu-category mega-menu-level-there">
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اپل
+                <ul class="mega-menu-category sub-menu mega-menu-level-two" style="top: 50px;">
+                    <li class="menu-category-item menu-item-type-custom menu-item">
+                        <a href="#" class="menu-category-link-title">
+                            موبایل
                         </a>
+                        <ul class="sub-menu-category mega-menu-level-there">
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اپل
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سامسونگ
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    نوکیا
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    ایسوس
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    هواوی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    الجی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اچ تی سی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سونی
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سامسونگ
+                    <li class="menu-category-item menu-item-type-custom menu-item">
+                        <a href="#" class="menu-category-link-title">
+                            موبایل
                         </a>
+                        <ul class="sub-menu-category mega-menu-level-there">
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اپل
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سامسونگ
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    نوکیا
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    ایسوس
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    هواوی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    الجی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اچ تی سی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سونی
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            نوکیا
+                    <li class="menu-category-item menu-item-type-custom menu-item">
+                        <a href="#" class="menu-category-link-title">
+                            موبایل
                         </a>
+                        <ul class="sub-menu-category mega-menu-level-there">
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اپل
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سامسونگ
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    نوکیا
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    ایسوس
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    هواوی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    الجی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اچ تی سی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سونی
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            ایسوس
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            هواوی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            الجی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اچ تی سی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سونی
-                        </a>
-                    </li>
+                    <div class="bg-image">
+                        <img src="~/images/menu-main/cosmetic.png" alt="">
+                    </div>
                 </ul>
             </li>
-            <li class="menu-category-item menu-item-type-custom menu-item">
-                <a href="#" class="menu-category-link-title">
-                    موبایل
+            <li class="main-menu-item category-menu-item menu-item-type-custom">
+                <a href="#" class="main-menu-link-category">
+                    <img src="~/images/menu-main/category/print.png">
+                    ابزار و اداری
                 </a>
-                <ul class="sub-menu-category mega-menu-level-there">
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اپل
+            </li>
+            <li class="main-menu-item category-menu-item menu-item-type-custom">
+                <a href="#" class="main-menu-link-category">
+                    <img src="~/images/menu-main/category/suit.png">
+                    مد و پوشاک
+                </a>
+            </li>
+            <li class="main-menu-item category-menu-item menu-item-type-custom">
+                <a href="#" class="main-menu-link-category">
+                    <img src="~/images/menu-main/category/home.png">
+                    خانه و آشپزخانه
+                </a>
+                <ul class="mega-menu-category sub-menu mega-menu-level-two" style="top: 150px;">
+                    <li class="menu-category-item menu-item-type-custom menu-item">
+                        <a href="#" class="menu-category-link-title">
+                            موبایل
                         </a>
+                        <ul class="sub-menu-category mega-menu-level-there">
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اپل
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سامسونگ
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    نوکیا
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    ایسوس
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    هواوی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    الجی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اچ تی سی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سونی
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سامسونگ
+                    <li class="menu-category-item menu-item-type-custom menu-item">
+                        <a href="#" class="menu-category-link-title">
+                            موبایل
                         </a>
+                        <ul class="sub-menu-category mega-menu-level-there">
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اپل
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سامسونگ
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    نوکیا
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    ایسوس
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    هواوی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    الجی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اچ تی سی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سونی
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            نوکیا
+                    <li class="menu-category-item menu-item-type-custom menu-item">
+                        <a href="#" class="menu-category-link-title">
+                            موبایل
                         </a>
+                        <ul class="sub-menu-category mega-menu-level-there">
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اپل
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سامسونگ
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    نوکیا
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    ایسوس
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    هواوی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    الجی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    اچ تی سی
+                                </a>
+                            </li>
+                            <li class="menu-category-item-there">
+                                <a href="#">
+                                    سونی
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            ایسوس
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            هواوی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            الجی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اچ تی سی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سونی
-                        </a>
-                    </li>
+                    <div class="bg-image">
+                        <img src="~/images/menu-main/kitchen.png" alt="">
+                    </div>
                 </ul>
             </li>
-            <div class="bg-image">
-                <img src="~/images/menu-main/digital.png" alt="">
-            </div>
-        </ul>
-    </li>
-    <li class="main-menu-item category-menu-item menu-item-type-custom">
-        <a href="#" class="main-menu-link-category">
-            <img src="~/images/menu-main/category/makeup.png">
-            آرایشی و بهداشتی
-        </a>
-        <ul class="mega-menu-category sub-menu mega-menu-level-two" style="top: 50px;">
-            <li class="menu-category-item menu-item-type-custom menu-item">
-                <a href="#" class="menu-category-link-title">
-                    موبایل
+            <li class="main-menu-item category-menu-item menu-item-type-custom">
+                <a href="#" class="main-menu-link-category">
+                    <img src="~/images/menu-main/category/edit.png">
+                    لوازم و تحریر
                 </a>
-                <ul class="sub-menu-category mega-menu-level-there">
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اپل
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سامسونگ
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            نوکیا
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            ایسوس
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            هواوی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            الجی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اچ تی سی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سونی
-                        </a>
-                    </li>
-                </ul>
             </li>
-            <li class="menu-category-item menu-item-type-custom menu-item">
-                <a href="#" class="menu-category-link-title">
-                    موبایل
+            <li class="main-menu-item category-menu-item menu-item-type-custom">
+                <a href="#" class="main-menu-link-category">
+                    <img src="~/images/menu-main/category/child.png">
+                    کودک و نوزاد
                 </a>
-                <ul class="sub-menu-category mega-menu-level-there">
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اپل
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سامسونگ
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            نوکیا
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            ایسوس
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            هواوی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            الجی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اچ تی سی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سونی
-                        </a>
-                    </li>
-                </ul>
             </li>
-            <li class="menu-category-item menu-item-type-custom menu-item">
-                <a href="#" class="menu-category-link-title">
-                    موبایل
+            <li class="main-menu-item category-menu-item menu-item-type-custom">
+                <a href="#" class="main-menu-link-category">
+                    <img src="~/images/menu-main/category/cup.png">
+                    ورزشی و اسپرت
                 </a>
-                <ul class="sub-menu-category mega-menu-level-there">
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اپل
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سامسونگ
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            نوکیا
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            ایسوس
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            هواوی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            الجی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اچ تی سی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سونی
-                        </a>
-                    </li>
-                </ul>
             </li>
-            <div class="bg-image">
-                <img src="~/images/menu-main/cosmetic.png" alt="">
-            </div>
-        </ul>
-    </li>
-    <li class="main-menu-item category-menu-item menu-item-type-custom">
-        <a href="#" class="main-menu-link-category">
-            <img src="~/images/menu-main/category/print.png">
-            ابزار و اداری
-        </a>
-    </li>
-    <li class="main-menu-item category-menu-item menu-item-type-custom">
-        <a href="#" class="main-menu-link-category">
-            <img src="~/images/menu-main/category/suit.png">
-            مد و پوشاک
-        </a>
-    </li>
-    <li class="main-menu-item category-menu-item menu-item-type-custom">
-        <a href="#" class="main-menu-link-category">
-            <img src="~/images/menu-main/category/home.png">
-            خانه و آشپزخانه
-        </a>
-        <ul class="mega-menu-category sub-menu mega-menu-level-two" style="top: 150px;">
-            <li class="menu-category-item menu-item-type-custom menu-item">
-                <a href="#" class="menu-category-link-title">
-                    موبایل
-                </a>
-                <ul class="sub-menu-category mega-menu-level-there">
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اپل
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سامسونگ
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            نوکیا
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            ایسوس
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            هواوی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            الجی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اچ تی سی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سونی
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="menu-category-item menu-item-type-custom menu-item">
-                <a href="#" class="menu-category-link-title">
-                    موبایل
-                </a>
-                <ul class="sub-menu-category mega-menu-level-there">
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اپل
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سامسونگ
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            نوکیا
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            ایسوس
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            هواوی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            الجی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اچ تی سی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سونی
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="menu-category-item menu-item-type-custom menu-item">
-                <a href="#" class="menu-category-link-title">
-                    موبایل
-                </a>
-                <ul class="sub-menu-category mega-menu-level-there">
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اپل
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سامسونگ
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            نوکیا
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            ایسوس
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            هواوی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            الجی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            اچ تی سی
-                        </a>
-                    </li>
-                    <li class="menu-category-item-there">
-                        <a href="#">
-                            سونی
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <div class="bg-image">
-                <img src="~/images/menu-main/kitchen.png" alt="">
-            </div>
-        </ul>
-    </li>
-    <li class="main-menu-item category-menu-item menu-item-type-custom">
-        <a href="#" class="main-menu-link-category">
-            <img src="~/images/menu-main/category/edit.png">
-            لوازم و تحریر
-        </a>
-    </li>
-    <li class="main-menu-item category-menu-item menu-item-type-custom">
-        <a href="#" class="main-menu-link-category">
-            <img src="~/images/menu-main/category/child.png">
-            کودک و نوزاد
-        </a>
-    </li>
-    <li class="main-menu-item category-menu-item menu-item-type-custom">
-        <a href="#" class="main-menu-link-category">
-            <img src="~/images/menu-main/category/cup.png">
-            ورزشی و اسپرت
-        </a>
-    </li>
-</ul>
+        </ul>*@

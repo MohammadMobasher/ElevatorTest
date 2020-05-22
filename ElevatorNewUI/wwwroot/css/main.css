@@ -2214,7 +2214,9 @@ header.header-main{
 }
 
 .product-carousel-brand .owl-item a.hover-img-link .img-brand{
-    width: 60%;
+    /*width: 60%;*/
+    margin-top:20px;
+    margin-bottom:20px;
 }
 
 .widget-product .product-carousel .item,

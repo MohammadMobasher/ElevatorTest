@@ -26,12 +26,12 @@
                                     </a>
                                 </div>
                                 <div class="col-7">
-                                    <div class="discount">
+                                    @*<div class="discount">
                                         <span class="discount-percent">
                                             @(item.PriceWithDiscount / item.Price)
                                             <i class="fa fa-percent"></i>
                                         </span>
-                                    </div>
+                                    </div>*@
                                     <h2 class="product-title">
                                         <a href="#">
                                             @item.Title
@@ -41,28 +41,13 @@
                                         <del><span>@item.Price<span>تومان</span></span></del>
                                         <ins><span>@item.PriceWithDiscount<span>تومان</span></span></ins>
                                     </div>
-                                    @*<ul class="list-group hide" hidden>
+                                    <ul class="list-group hide" hidden>
                                         <li class="list-group-item">
                                             <i class="fa fa-check"></i>
-                                            <span class="title">ظرفیت حافظه داخلی: </span>
-                                            <span class="text">یک ترابایت </span>
+                                            <span class="title">توضیحات: </span>
+                                            <span class="text">@item.ShortDescription</span>
                                         </li>
-                                        <li class="list-group-item">
-                                            <i class="fa fa-check"></i>
-                                            <span class="title">ظرفیت حافظه رم: </span>
-                                            <span class="text">8 گیگابایت </span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="fa fa-check"></i>
-                                            <span class="title">سری پردازنده: </span>
-                                            <span class="text">Core i5 </span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="fa fa-check"></i>
-                                            <span class="title">دقت صفحه نمایش: </span>
-                                            <span class="text"> 1080 × 1920 </span>
-                                        </li>
-                                    </ul>*@
+                                    </ul>
                                     <div class="countdown-timer">
                                         <div class="countdown h4" data-date-time="@item.DiscountEndDate" data-labels='{"label-day": "روز", "label-hour": "ساعت", "label-minute": "دقیقه", "label-second": "ثانیه"}'></div>
                                     </div>
