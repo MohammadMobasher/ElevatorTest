@@ -11,8 +11,13 @@
                 25,000,000
                 <span>تومان</span>
             </span>*@
+        @if (User.Identity.IsAuthenticated)
+        {
         <span class="count-cart count-bg">@Model.Count</span>
+        }
     </a>
+    @if (User.Identity.IsAuthenticated)
+    {
     <div class="widget-shopping-cart">
         <div class="widget-shopping-cart-content">
             @if (Model.Any())
@@ -81,10 +86,14 @@
             }
             <div class="mini-card-button">
                 <a href="/ShopProduct/Index" class="view-card">مشاهده سبد خرید</a>
-                <a href="/ShopProduct/Checkout" class="card-checkout">تسویه حساب</a>
+                @if (Model.Count != 0)
+                {
+                    <a href="/ShopProduct/Checkout" class="card-checkout">تسویه حساب</a>
+                }
             </div>
         </div>
     </div>
+    }
 </div>
 
 
