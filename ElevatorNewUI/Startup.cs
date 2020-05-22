@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Core;
+using ElevatorNewUI.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -50,7 +51,7 @@ namespace ElevatorNewUI
 
             services.SmsConfiguration();
             services.ClaimFactoryConfiguration();
-            //services.AddScoped<ManageBankService>();
+            services.AddScoped<ManageBankService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

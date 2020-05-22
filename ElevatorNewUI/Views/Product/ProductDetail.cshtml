@@ -134,9 +134,9 @@
                                         <div class="seller-info-changable">
 
                                             @*<div class="product-seller-row guarantee">
-                                                    <span class="title"> گارانتی:</span>
-                                                    <a href="#" class="product-name">۱۸ ماهه دیجی اسمارت</a>
-                                                </div>*@
+            <span class="title"> گارانتی:</span>
+            <a href="#" class="product-name">۱۸ ماهه دیجی اسمارت</a>
+        </div>*@
                                             <div class="product-seller-row price">
                                                 <span class="title"> قیمت:</span>
                                                 <a href="#" class="product-name">
@@ -158,17 +158,20 @@
                                                     </a>
                                                 </div>
                                             }
-                                            <div class="product-seller-row guarantee">
-                                                <span class="title mt-3"> تعداد:</span>
-                                                <div class="quantity pl">
-                                                    <input type="number" min="1" max="100" step="1" value="1"><div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>
-                                                </div>
-                                            </div>
-                                            <div class="product-seller-row add-to-cart">
-                                                <a href="#" class="btn-add-to-cart btn btn-primary">
-                                                    <span class="btn-add-to-cart-txt">افزودن به سبد خرید</span>
-                                                </a>
-                                            </div>
+                                                <form target="_blank" asp-controller="ShopProduct" asp-action="AddCart">
+                                                    <input type="hidden" value="@Model.Id" name="ProductId" />
+                                                    <div class="product-seller-row guarantee">
+                                                        <span class="title mt-3"> تعداد:</span>
+                                                        <div class="quantity pl">
+                                                            <input name="count" type="number" min="1" max="100" step="1" value="1"><div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-seller-row add-to-cart">
+                                                        <button href="#" class="btn-add-to-cart btn btn-primary">
+                                                            <span class="btn-add-to-cart-txt">افزودن به سبد خرید</span>
+                                                        </button>
+                                                    </div>
+                                                </form>
                                         </div>
                                     </div>
                                 </div>
