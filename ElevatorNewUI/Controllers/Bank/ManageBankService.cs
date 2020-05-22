@@ -189,7 +189,7 @@ namespace ElevatorNewUI.Controllers
                         await _shopOrderRepository.SuccessedOrder(model.ShopOrderId.Value, model.UserId);
                         await _shopProductRepository.SuccessedOrder(model.ShopOrderId.Value, model.UserId);
 
-                        var text = $"{model.OrderId},{DateTime.Now.ToPersianDay()}";
+                        var text = $"{model.OrderId};{DateTime.Now.ToPersianDay()}";
                         var phoneNumber = _userRepository.GetByCondition(a => a.Id == model.UserId).PhoneNumber;
 
                         var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
