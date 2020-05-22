@@ -123,12 +123,12 @@ namespace ElevatorNewUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!model.IsAccept)
-                {
-                    TempData.AddResult(SweetAlertExtenstion.Error("لطفا شرایط را مطالعه و تایید کنید"));
+                //if (!model.IsAccept)
+                //{
+                //    TempData.AddResult(SweetAlertExtenstion.Error("لطفا شرایط را مطالعه و تایید کنید"));
 
-                    return View(model);
-                }
+                //    return View(model);
+                //}
 
                 var user = AutoMapper.Mapper.Map<Users>(model);
 
