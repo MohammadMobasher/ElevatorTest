@@ -486,6 +486,67 @@ namespace Service.Repos
             return await model.ToListAsync();
         }
 
+
+
+        public async Task<List<DataLayer.Entities.Product>> GetProductsDiscount(ProductSearchListViewModel vm, int skip, int take)
+        {
+
+            var model = TableNoTracking
+               .Include(a => a.ProductGroup)
+               .Where(a => a.IsActive == true && !a.IsDeleted && a.Price != a.PriceWithDiscount);
+            if (vm.Group != null && vm.Group != -1)
+            {
+                string sql = @"
+                        declare @T table(Id int);
+
+                        with A as (
+                           select Id, ParentId
+                               from ProductGroup
+                               where Id = " + vm.Group.Value + @"
+                               union all
+                           select c.Id, c.ParentId
+                               from ProductGroup c
+                                   join A p on p.Id = c.ParentId) 
+
+                        select Id from A";
+
+                var result = await _connection.QueryMultipleAsync(sql);
+                var groupsId = await result.ReadAsync<int>();
+
+
+                model = model
+                .WhereIf(!string.IsNullOrEmpty(vm.Title), a => a.Title.Contains(vm.Title)
+                || a.ShortDescription.Contains(vm.Title)
+                || a.Text.Contains(vm.Title)
+                || a.Tags.Contains(vm.Title))
+                //.WhereIf(vm.Group != null && vm.Group != -1, a => a.ProductGroupId.Equals(vm.Group.Value))
+                .WhereIf(vm.Group != null && vm.Group != -1, a => groupsId.Contains(a.ProductGroupId))
+                .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice));
+
+            }
+
+            else
+            {
+                model = model
+                    .WhereIf(!string.IsNullOrEmpty(vm.Title), a => a.Title.Contains(vm.Title)
+                    || a.ShortDescription.Contains(vm.Title)
+                    || a.Text.Contains(vm.Title)
+                    || a.Tags.Contains(vm.Title))
+
+                    .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice));
+            }
+
+
+            if (skip != 0)
+                model = model.Skip((skip - 1) * take);
+
+            if (take != 0)
+                model = model.Take(take);
+
+            return await model.ToListAsync();
+        }
+
+
         /// <summary>
         /// گرفتن اطلاعات محصول بر اساس شناسه برا نمایش جزِئیات محصول
         /// </summary>

@@ -83,6 +83,28 @@ namespace ElevatorNewUI.Controllers
             return View(model);
         }
 
+
+        /// <summary>
+        /// لیست تمامی محصولات
+        /// </summary>
+        /// <param name="vm"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> ProductDiscountIndex(ProductSearchListViewModel vm)
+        {
+            var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+
+            var model = await _productRepository.GetProductsDiscount(vm, this.CurrentPage, this.PageSize);
+
+            ViewBag.Category = await _productGroupRepository.GetParentsAsync();
+            ViewBag.Url = test.SiteConfig.UrlAddress;
+            ViewBag.Search = vm;
+            ViewBag.MaxPrice = model != null && model.Count > 0 ? model.Max(a => a.Price) : 1000000;
+            ViewBag.Count = model.Count().ToPersianNumbers();
+
+            return View(model);
+        }
+
+
         /// <summary>
         /// جزئیات محصول
         /// </summary>

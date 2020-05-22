@@ -27,11 +27,11 @@
                                 </div>
                                 <div class="col-7">
                                     @*<div class="discount">
-                                        <span class="discount-percent">
-                                            @(item.PriceWithDiscount / item.Price)
-                                            <i class="fa fa-percent"></i>
-                                        </span>
-                                    </div>*@
+                <span class="discount-percent">
+                    @(item.PriceWithDiscount / item.Price)
+                    <i class="fa fa-percent"></i>
+                </span>
+            </div>*@
                                     <h2 class="product-title">
                                         <a href="#">
                                             @item.Title
@@ -50,8 +50,10 @@
                                     </ul>
                                     <div class="countdown-timer">
                                         <div class="countdown h4" data-date-time="@item.DiscountEndDate" data-labels='{"label-day": "روز", "label-hour": "ساعت", "label-minute": "دقیقه", "label-second": "ثانیه"}'></div>
+                                        <a style="margin-top:20px" href="/Product/ProductDiscountIndex" target="_blank" class="link-spoiler-edit btn btn-primary btn-block">مشاهده تمامی پیشنهادات</a>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     }
