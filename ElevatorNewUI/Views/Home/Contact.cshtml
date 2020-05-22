@@ -14,46 +14,54 @@
                 </div>
 
                 <div class="col-lg-7 col-md-7 col-12 pr ">
-                    <div class="form-ui pr-2">
-                        <h5>پیامی بگذارید</h5>
-                        <div class="row">
-                            <div class="col-6 mb-3">
-                                <div class="form-row-title mb-2">نام</div>
-                                <div class="form-row">
-                                    <input class="input-ui pr-2" name="name" type="text" placeholder="نام">
+                    <form asp-controller="Suggestions" asp-action="Insert">
+
+                        <div class="form-ui pr-2 ">
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <div class="form-row-title mb-2">نام</div>
+                                    <div class="form-row">
+                                        <input class="input-ui pr-2" name="Name" type="text" placeholder="نام">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-6 mb-3">
-                                <div class="form-row-title mb-2">ایمیل</div>
-                                <div class="form-row">
-                                    <input class="input-ui pr-2" name="email" type="text" placeholder="ایمیل">
+                                <div class="col-6 mb-3">
+                                    <div class="form-row-title mb-2">نام خانوادگی</div>
+                                    <div class="form-row">
+                                        <input class="input-ui pr-2" name="Family" type="text" placeholder="نام خانوادگی">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-12 mb-3">
-                                <div class="form-row-title mb-2">موضوع</div>
-                                <div class="form-row">
-                                    <input class="input-ui pr-2" name="subject" type="text" placeholder="موضوع">
+                                <div class="col-6 mb-3">
+                                    <div class="form-row-title mb-2">ایمیل</div>
+                                    <div class="form-row">
+                                        <input class="input-ui pr-2" name="Email" type="text" placeholder="ایمیل">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-12 mb-3">
-                                <div class="form-row-title mb-2 ">پیام شما</div>
-                                <div class="form-row">
-                                    <textarea class="input-ui pr-2" style="height:100px" id="new-review-textbox" name="message" cols="30" rows="5"></textarea>
-
+                                <div class="col-6 mb-3">
+                                    <div class="form-row-title mb-2">تلفن</div>
+                                    <div class="form-row">
+                                        <input class="input-ui pr-2" name="Phone" type="text" placeholder="تلفن">
+                                    </div>
                                 </div>
-                            </div>
 
+                                <div class="col-12 mb-3">
+                                    <div class="form-row-title mb-2 ">پیام شما</div>
+                                    <div class="form-row">
+                                        <textarea class="input-ui pr-2" style="height:100px" id="new-review-textbox" name="Description" cols="30" rows="5"></textarea>
 
-                            <div class="single-input">
-                                <button class="btn comment-submit-button">
-                                    ارسال پیام
-                                </button>
+                                    </div>
+                                </div>
+
+                                <div class="single-input">
+                                    <button class="btn comment-submit-button">
+                                        ارسال پیام
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
                 <div class="col-lg-5 col-md-5 col-12 pl pt-sm-2 pt-xs-2">
