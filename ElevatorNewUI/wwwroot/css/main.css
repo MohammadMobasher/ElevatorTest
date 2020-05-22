@@ -33,6 +33,14 @@ h1,h2,h3,h4,h5,h6,span,div{
     font-family: IRANSans;
 }
 
+.font-size-14 {
+    font-size: 14px !important;
+}
+
+.font-size-80 {
+    font-size: 80px !important;
+}
+
 @font-face {
     font-family: 'IRANSans';
     font-style: normal;
@@ -7452,7 +7460,7 @@ footer.footer-main-site .footer-shopping-features .item{
     text-align: right;
     position: relative;
     width: 20%;
-    float: right;
+    /*float: right;*/
     margin: 0 auto;
     display: inline-block;
 }
