@@ -2,8 +2,8 @@
 @model List<DataLayer.Entities.ShopProduct>
 @{
     ViewData["Title"] = "Index";
+    var address = ViewBag.UserAddress as UserAddress;
 }
-
 
 <div class="container-main">
     <div class="d-block">
@@ -11,36 +11,15 @@
             <div class="col-lg">
                 <div class="checkout woocommerce-checkout">
                     <div class="content-checkout container">
-                        @*<div class="notices-wrapper">
-                            <div class="col-12">
-                                <div class="form-coupon-toggle">
-                                    <div class="info">
-                                        کد تخفیف دارید؟
-                                        <a href="#" class="showcoupon">برای نوشتن کد اینجا کلیک کنید</a>
-                                    </div>
-                                    <div class="checkout-coupon form-coupon">
-                                        <p>اگر کد تخفیف دارید، لطفا وارد کنید.</p>
-                                        <form action="#" class="form-coupon">
-                                            <div class="form-row">
-                                                <input type="text" name="coupon-code" class="checkout-discount-code" placeholder="کد تخفیف">
-                                                <div class="append pl">
-                                                    <button class="btn-append btn btn-primary" type="submit">اعمال تخفیف</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
                         <div class="middle-container">
-                            <form action="#" class="form-checkout">
+                            <form action="#" class="form-checkout" >
                                 <div class="col2-set" id="customer-details">
                                     <div class="col-12">
                                         <div class="billing-fields mt-4">
                                             <h4>جزئیات صورتحساب</h4>
                                             <div class="form-checkout-row">
                                                 <div class="validate-required">
-                                                    <label for="name">نام تحویل گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
+                                                    <label for="name">نام تحویل گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                                     <input type="text" id="name" class="input-name-checkout form-control">
                                                 </div>
 
@@ -50,77 +29,34 @@
                                                 </div>
 
                                                 <div class="validate-required">
-                                                    <label for="post-code">کد پستی <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" id="post-code" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
+                                                    <label for="fixed-number">شماره تلفن ثابت <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                    <input type="text" name="Telephone" value="@address?.Telephone" id="fixed-number" class="input-name-checkout form-control text-left">
                                                 </div>
 
                                                 <div class="validate-required">
-                                                    <label for="Street">خیابان <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" id="post-code" class="input-name-checkout form-control">
+                                                    <label for="post-code">کد پستی <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                    <input type="text" name="ZipCode" value="@address?.ZipCode" id="post-code" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
                                                 </div>
 
-                                                <div class="Order-another-shipping-address mt-5">
-                                                    <div class="Order-address d-inline-block">
-                                                        <button class="btn btn-block text-right collapsed" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                            <span>سفارش به آدرس دیگری حمل شود؟</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="shipping-address">
-                                                        <div id="collapseExample" class="collapse">
-                                                            <div class="middle-container">
-                                                                <form action="#" class="form-checkout">
-                                                                    <div class="form-checkout-row">
-                                                                        <label for="name">نام تحویل گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
-                                                                        <input type="text" id="name" class="input-name-checkout form-control">
-                                                                        <label for="phone-number">شماره موبایل <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                                        <input type="text" id="phone-number" class="input-name-checkout form-control text-left">
-                                                                        <label for="fixed-number">شماره تلفن ثابت <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                                        <input type="text" id="fixed-number" class="input-name-checkout form-control text-left">
 
-                                                                        <div class="form-checkout-valid-row">
-                                                                            <label for="province">
-                                                                                استان
-                                                                                <abbr class="required" title="ضروری" style="color:red;">*</abbr>
-                                                                            </label>
-                                                                            <select name="" id="province" class="form-control">
-                                                                                <option value="date-desc" selected="selected">استان مورد نظر خود را انتخاب کنید </option>
-                                                                                <option value="date-asc">تهران</option>
-                                                                                <option value="rate">مشهد</option>
-                                                                                <option value="views">اصفهان</option>
-                                                                                <option value="comments">شیراز</option>
-                                                                            </select>
-                                                                            <label for="bld-num">
-                                                                                پلاک
-                                                                                <abbr class="required" title="ضروری" style="color:red;">*</abbr>
-                                                                            </label>
-                                                                            <input type="text" id="bld-num" class="input-name-checkout js-input-bld-num form-control">
 
-                                                                        </div>
+                                                <div class="validate-required">
+                                                    <label for="Street">آدرس <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                    <input type="text" name="Address" value="@address?.Address" id="post-code" class="input-name-checkout form-control">
+                                                </div>
 
-                                                                        <div class="form-checkout-valid-row">
-                                                                            <label for="city">
-                                                                                شهر
-                                                                                <abbr class="required" title="ضروری" style="color:red;">*</abbr>
-                                                                            </label>
-                                                                            <select name="" id="city" class="form-control">
-                                                                                <option value="date-desc" selected="selected">شهر مورد نظر خود را انتخاب کنید</option>
-                                                                                <option value="date-asc">آشخانه</option>
-                                                                                <option value="rate">شیروان</option>
-                                                                                <option value="views">اسفراین</option>
-                                                                                <option value="comments">جاجرم</option>
-                                                                            </select>
-                                                                            <label for="apt-id">واحد</label>
-                                                                            <input type="text" id="apt-id" class="input-name-checkout js-input-apt-id form-control">
-                                                                        </div>
 
-                                                                        <label for="post-code">کد پستی<abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                                        <input type="text" id="post-code" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
+                                                <div class="validate-required">
+                                                    <label for="bld-num">
+                                                        پلاک
+                                                        <abbr class="required" title="ضروری" style="color:red;">*</abbr>
+                                                    </label>
+                                                    <input type="text" name="Plaque" value="@address?.Plaque" id="bld-num" class="input-name-checkout js-input-bld-num form-control">
+                                                </div>
 
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="validate-required">
+                                                    <label for="apt-id">واحد</label>
+                                                    <input type="text" id="apt-id" name="Floor" value="@address?.Floor"  class="input-name-checkout js-input-apt-id form-control">
                                                 </div>
 
                                                 <label for="address">

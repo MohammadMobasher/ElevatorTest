@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Service.Repos;
 using Service.Repos.BankRepository;
+using Service.Repos.User;
 
 namespace ElevatorNewUI.Controllers
 {
@@ -32,7 +33,7 @@ namespace ElevatorNewUI.Controllers
         private readonly ManageBankService _manageBankService;
         private readonly BankConfig _bankConfig;
         private readonly UsersPaymentRepository _usersPaymentRepository;
-
+        private readonly UserAddressRepository _userAddressRepository;
 
         public ShopProductController(ShopProductRepository shopProductRepository
             , IConfiguration configuration
@@ -40,7 +41,8 @@ namespace ElevatorNewUI.Controllers
             , ProductPackageDetailsRepostitory productPackageDetailsRepostitory
             , ShopOrderRepository shopOrderRepository
             , ManageBankService manageBankService
-            , UsersPaymentRepository usersPaymentRepository)
+            , UsersPaymentRepository usersPaymentRepository
+            , UserAddressRepository userAddressRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _shopProductRepository = shopProductRepository;
@@ -50,6 +52,7 @@ namespace ElevatorNewUI.Controllers
             _shopOrderRepository = shopOrderRepository;
             _manageBankService = manageBankService;
             _usersPaymentRepository = usersPaymentRepository;
+            _userAddressRepository = userAddressRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -152,6 +155,8 @@ namespace ElevatorNewUI.Controllers
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
              && !a.IsFinaly, null, "Product,ProductPackage");
+
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
 
             return View(listOrders);
         }

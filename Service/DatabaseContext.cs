@@ -75,6 +75,7 @@ namespace Service
         public DbSet<ProductPackageDiscount> ProductPackageDiscount { get; set; }
 
         public DbSet<Favorites> Favorites { get; set; }
+        public DbSet<UserAddress> UserAddress { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
