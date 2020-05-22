@@ -15,10 +15,13 @@
 </style>
 
 
+
+
+
 <div class="container-main">
     <div class="d-block">
         <div class="page-content page-row ">
-            <div class="main-row bg-white mt-2 mb-2 pl-5 pr-5">
+            <div class="main-row bg-white mt-2 mb-2 ">
 
                 <div class="col-lg-12 col-md-12 col-xs-12 col-xl-12 ">
 
@@ -30,35 +33,52 @@
                         height: 600px !important;
                         padding-top:280px">
                             </div>
-                            <div class="col-lg-7 col-md-7 col-12">
+                            <div class="col-lg-7 col-md-7 col-12 pt3">
                                 <form asp-controller="Suggestions" asp-action="Insert">
-                                    <div class="ho-form-inner mt-2">
-                                        <div class="single-input single-input-half">
-                                            <label for="new-review-name">نام*</label>
-                                            <input type="text" required name="Name">
-                                        </div>
+                                    
+                                    <div class="form-ui pr-2 ">
+                                        <div class="row">
+                                            <div class="col-6 mb-3">
+                                                <div class="form-row-title mb-2">نام</div>
+                                                <div class="form-row">
+                                                    <input class="input-ui pr-2" name="Name" type="text" placeholder="نام">
+                                                </div>
+                                            </div>
 
-                                        <div class="single-input single-input-half">
-                                            <label for="new-review-name">نام خانوادگی*</label>
-                                            <input type="text" required name="Family">
-                                        </div>
-                                        <div class="single-input single-input-half">
-                                            <label for="new-review-email">ایمیل</label>
-                                            <input type="email" name="Email">
-                                        </div>
+                                            <div class="col-6 mb-3">
+                                                <div class="form-row-title mb-2">نام خانوادگی</div>
+                                                <div class="form-row">
+                                                    <input class="input-ui pr-2" name="Family" type="text" placeholder="نام خانوادگی">
+                                                </div>
+                                            </div>
 
-                                        <div class="single-input single-input-half">
-                                            <label for="new-review-email">تلفن</label>
-                                            <input type="number" name="Phone">
-                                        </div>
+                                            <div class="col-6 mb-3">
+                                                <div class="form-row-title mb-2">ایمیل</div>
+                                                <div class="form-row">
+                                                    <input class="input-ui pr-2" name="Email" type="text" placeholder="ایمیل">
+                                                </div>
+                                            </div>
 
+                                            <div class="col-6 mb-3">
+                                                <div class="form-row-title mb-2">تلفن</div>
+                                                <div class="form-row">
+                                                    <input class="input-ui pr-2" name="Phone" type="text" placeholder="تلفن">
+                                                </div>
+                                            </div>
 
-                                        <div class="single-input">
-                                            <label for="new-review-textbox">پیام شما</label>
-                                            <textarea name="Description" cols="30" rows="5"></textarea>
-                                        </div>
-                                        <div class="single-input text-center">
-                                            <button class="ho-button ho-button-dark" type="submit"><span>ارسال پیام</span></button>
+                                            <div class="col-12 mb-3">
+                                                <div class="form-row-title mb-2 ">پیام شما</div>
+                                                <div class="form-row">
+                                                    <textarea class="input-ui pr-2" style="height:100px" id="new-review-textbox" name="Description" cols="30" rows="5"></textarea>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="single-input">
+                                                <button class="btn comment-submit-button">
+                                                    ارسال پیام
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
