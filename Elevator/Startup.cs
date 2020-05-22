@@ -55,8 +55,8 @@ namespace Elevator
             services.SmsConfiguration();
             services.AddScoped<ManageBankService>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+             .AddSessionStateTempDataProvider();
 
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
         }

@@ -32,10 +32,14 @@ namespace WebFramework.ClaimFactory
             if (principal.FindFirst("UserProfile") != null)
                 ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("UserProfile"));
 
+            if (principal.FindFirst("PhoneNumber") != null)
+                ((ClaimsIdentity)principal.Identity).RemoveClaim(principal.FindFirst("PhoneNumber"));
+
             ((ClaimsIdentity)principal.Identity).AddClaims(new[]
             {
                  new Claim("FirstName", user.FirstName ?? ""),
                  new Claim("LastName",  user.LastName ?? ""),
+                 new Claim("PhoneNumber",  user.PhoneNumber ?? ""),
                  new Claim("FullName",  user.FirstName + " " + user.LastName),
                  new Claim("UserProfile" , user.ProfilePic ?? "Uploads/UserImage/NoPhoto.jpg")
             });
