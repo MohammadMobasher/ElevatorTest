@@ -9,12 +9,12 @@
 
         foreach (ProductGroupDTO item in Model.Where(x => x.ParentId == null))
         {
-            output += "<li style='padding:10px; border-bottom:1px solid #EEE'>";
+            output += "<li class='padding10 border-bottom-1px-solid-EEE' >";
 
             if (Model.Where(x => x.ParentId == item.Id).Count() > 0)
             {
-                output += "<a href='/Product/ProductGroup/" + item.Id + "' style='color:#000' class='collapsed' type='button' data-toggle='collapse' data-target='#collapse_" + item.Id + "' aria-expanded='false' aria-controls='collapse_" + item.Id + "'><i class='mdi mdi-chevron-down' style='float:left'></i>" + item.Title + "</a>";
-                output += "<div id='collapse_" + item.Id + "' class='collapse' aria-labelledby='heading" + item.Id + "' data-parent='#accordionExample' style=''><ul>";
+                output += "<a href='/Product/ProductGroup/" + item.Id + "' class='collapsed color000' type='button' data-toggle='collapse' data-target='#collapse_" + item.Id + "' aria-expanded='false' aria-controls='collapse_" + item.Id + "'><i class='mdi mdi-chevron-down float-left' ></i>" + item.Title + "</a>";
+                output += "<div id='collapse_" + item.Id + "' class='collapse' aria-labelledby='heading" + item.Id + "' data-parent='#accordionExample'><ul>";
                 output += createMenu(item.Id);
                 output += "</ul></div>";
             }
@@ -42,8 +42,8 @@
         {
             if (Model.Where(x => x.ParentId == item.Id).Count() > 0)
             {
-                outPut += "<li class='has-sub' style='padding:10px; border-bottom:1px dashed #000'>";
-                outPut += "<a style='color:#000' href='#' class='category-level-" + level + "'>" + item.Id + "</a>";
+                outPut += "<li class='has-sub padding10 border-bottom-1px-dashed-EEE'>";
+                outPut += "<a href='/Product/ProductGroup/" + item.Id + "' class='color000 category-level-" + level + "'>" + item.Id + "</a>";
                 outPut += "<ul>";
 
                 outPut += createMenu(item.Id, level + 1);
@@ -53,9 +53,9 @@
             }
             else
             {
-                outPut += "<li style='padding:10px; border-bottom:1px dashed #000'>";
+                outPut += "<li class='padding10 border-bottom-1px-dashed-EEE' >";
 
-                outPut += "<a style='color:#000' href='#' class='category-level-" + level + "'>" + item.Title + "</a>";
+                outPut += "<a href='/Product/ProductGroup/" + item.Id + "' class='color000 category-level-" + level + "'>" + item.Title + "</a>";
 
                 outPut += "</li>";
             }
