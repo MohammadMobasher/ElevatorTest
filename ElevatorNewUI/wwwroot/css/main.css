@@ -1745,7 +1745,7 @@ header.header-main{
 }
 
 .content-widget-amazing #amazing-slider .carousel-inner .carousel-item {
-    margin-top: 63px;
+    /*margin-top: 63px;*/
     height: 399px;
 }
 
