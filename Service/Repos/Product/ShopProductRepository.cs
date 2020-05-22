@@ -281,7 +281,7 @@ namespace Service.Repos
             if (model == null) return false;
 
             model.ToList().ForEach(a => a.IsFinaly = true);
-
+            
             await UpdateRangeAsync(model,false);
 
             return Save();

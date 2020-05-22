@@ -16,7 +16,8 @@
                                             <tr>
                                                 <th scope="col">شماره سفارش</th>
                                                 <th scope="col">تاریخ ثبت سفارش</th>
-                                                <th scope="col">وضعیت</th>
+                                                <th scope="col">نتیجه پرداخت</th>
+                                                <th scope="col">وضعیت سفارش</th>
                                                 <th scope="col">مبلغ کل</th>
                                                 <th scope="col">جزئیات</th>
                                             </tr>
@@ -28,6 +29,7 @@
                                                     <td class="order-code">@item.OrderId</td>
                                                     <td>@item.SuccessDate.ToPersianDateTextify()</td>
                                                     <td class="Waiting @(item.IsSuccessed ? "text-success" :"text-danger")">@(item.IsSuccessed?"پرداخت شده":"ناموفق")</td>
+                                                    <td>@item.Status.ToDisplay()</td>
                                                     <td class="totla">
                                                         <span class="amount">
                                                             @item.Amount.ToPersianPrice()

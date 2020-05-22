@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities.Common;
+using DataLayer.SSOT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,7 +23,7 @@ namespace DataLayer.Entities
 
         public string OrderId { get; set; }
 
-
+        public OrderStatusSSOT? Status{ get; set; }
 
         [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }

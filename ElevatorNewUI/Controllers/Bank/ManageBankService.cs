@@ -23,7 +23,9 @@ using DataLayer.ViewModels.UsersPayments;
 using Core.Utilities;
 using System.Security.Claims;
 using Elevator.Controllers;
-
+using Service.Repos.User;
+using DataLayer.SSOT;
+using DNTPersianUtils.Core;
 namespace ElevatorNewUI.Controllers
 {
     [Authorize]
@@ -33,16 +35,21 @@ namespace ElevatorNewUI.Controllers
         private readonly UsersPaymentRepository _usersPaymentRepository;
         private readonly ShopProductRepository _shopProductRepository;
         private readonly ShopOrderRepository _shopOrderRepository;
-
+        private readonly SmsRestClient _smsRestClient;
+        private readonly UserRepository _userRepository;
         public ManageBankService(IConfiguration configuration
             , UsersPaymentRepository usersPaymentRepository
             , ShopProductRepository shopProductRepository
-            , ShopOrderRepository shopOrderRepository)
+            , ShopOrderRepository shopOrderRepository
+            , SmsRestClient smsRestClient
+            , UserRepository userRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _usersPaymentRepository = usersPaymentRepository;
             _shopProductRepository = shopProductRepository;
             _shopOrderRepository = shopOrderRepository;
+            _smsRestClient = smsRestClient;
+            _userRepository = userRepository;
         }
 
         ///// <summary>
@@ -182,6 +189,12 @@ namespace ElevatorNewUI.Controllers
                         await _shopOrderRepository.SuccessedOrder(model.ShopOrderId.Value, model.UserId);
                         await _shopProductRepository.SuccessedOrder(model.ShopOrderId.Value, model.UserId);
 
+                        var text = $"{model.OrderId},{DateTime.Now.ToPersianDay()}";
+                        var phoneNumber = _userRepository.GetByCondition(a => a.Id == model.UserId).PhoneNumber;
+
+                        var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
+
+
                         return RedirectToAction("Result", "UserOrder", new { orderId = res.Result.OrderId, shopOrderId = model.ShopOrderId });
                     }
 
@@ -219,5 +232,8 @@ namespace ElevatorNewUI.Controllers
                 return default(T);
             }
         }
+
+
+      
     }
 }

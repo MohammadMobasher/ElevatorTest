@@ -17,6 +17,8 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using DNTPersianUtils.Core;
+using DataLayer.SSOT;
 
 namespace Elevator.Controllers
 {
@@ -27,14 +29,17 @@ namespace Elevator.Controllers
         private readonly NewsGroupRepository _newsGroupRepository;
         private readonly ProductRepostitory productRepostitory;
         private readonly IConfiguration configuration;
+        private readonly SmsRestClient _smsRestClient;
+
         public HomeController(SlideShowRepository slideShowRepository,
             NewsGroupRepository newsGroupRepository,
-            ProductRepostitory productRepostitory, IConfiguration configuration)
+            ProductRepostitory productRepostitory, IConfiguration configuration, SmsRestClient smsRestClient)
         {
             _slideShowRepository = slideShowRepository;
             _newsGroupRepository = newsGroupRepository;
             this.productRepostitory = productRepostitory;
             this.configuration = configuration;
+            _smsRestClient = smsRestClient;
         }
 
 
@@ -93,8 +98,24 @@ namespace Elevator.Controllers
         {
             
             ViewBag.MQuery = this._newsGroupRepository.ddd();
+
+            var text = $"{12345},{DateTime.Now.ToPersianDay()}";
+            var phoneNumber = "09034537712";
+
+            var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
+
             return View();
         }
-   
+
+        //public IActionResult TestSms()
+        //{
+        //    var text = $"{12345},{DateTime.Now.ToPersianDay()}";
+        //    var phoneNumber = "09034537712";
+
+        //    var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
+        //    return Json(true);
+        //}
+
+
     }
 }

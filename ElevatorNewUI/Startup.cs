@@ -55,7 +55,6 @@ namespace ElevatorNewUI
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
         }
 
