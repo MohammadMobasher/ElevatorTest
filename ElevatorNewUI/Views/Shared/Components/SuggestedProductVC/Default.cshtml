@@ -2,6 +2,62 @@
 @model List<ProductFullDTO>
 @using DNTPersianUtils.Core
 
+
+@if (Model != null && Model.Count() > 0)
+{
+    <div class="slider-widget-products slider-content-tabs slider-amazing-product pr-0 pl-0">
+        <div class="widget widget-product card slider-content-tabs pr-0 pl-0">
+            <header class="card-header">
+                <span class="title-one">محصولات شگفت انگیز</span>
+                <h3 class="card-title"></h3>
+            </header>
+            <div class="product-carousel product-amazing owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+                <div class="owl-stage-outer">
+                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1162px;">
+                        @foreach (var item in Model)
+                        {
+                            <div class="owl-item tab-item SuggestionMobile" style="width: 222.313px; margin-left: 10px;">
+                                <div class="item">
+                                    <a href="/Product/ProductDetail/@item.Id" class="d-block hover-img-link">
+                                        <img src="@("http://staffonly.ir/" + item.IndexPic)" class="img-fluid" alt="">
+                                    </a>
+                                    <h2 class="post-title">
+                                        <a href="#">
+                                            @item.Title
+                                        </a>
+                                    </h2>
+                                    <div class="price">
+                                        <del><span>@item.Price<span>تومان</span></span></del>
+                                        <ins><span>@item.PriceWithDiscount<span>تومان</span></span></ins>
+                                    </div>
+                                    <div class="countdown-timer">
+                                        <div class="countdown h4" data-date-time="@item.DiscountEndDate" data-labels="{&quot;label-day&quot;: &quot;روز&quot;, &quot;label-hour&quot;: &quot;ساعت&quot;, &quot;label-minute&quot;: &quot;دقیقه&quot;, &quot;label-second&quot;: &quot;ثانیه&quot;}"><div class="countdown-item"><div class="countdown-value">155</div><div class="countdown-label">روز</div></div><div class="countdown-item"><div class="countdown-value">10</div><div class="countdown-label">ساعت</div></div><div class="countdown-item"><div class="countdown-value">16</div><div class="countdown-label">دقیقه</div></div><div class="countdown-item"><div class="countdown-value">01</div><div class="countdown-label">ثانیه</div></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+                <div class="owl-nav">
+                    <button type="button" role="presentation" class="owl-prev disabled">
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                    <button type="button" role="presentation" class="owl-next">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                </div>
+                <div class="owl-dots disabled"></div>
+                <div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><i class="fa fa-angle-right"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-angle-left"></i></button></div><div class="owl-dots disabled"></div><div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><i class="fa fa-angle-right"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-angle-left"></i></button></div><div class="owl-dots disabled"></div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
 @if (Model != null && Model.Count() > 0)
 {
     <div class="content-widget-amazing mt-4">
@@ -23,18 +79,18 @@
                         <div class="carousel-item suggestedItemContent">
                             <div class="row m-0">
                                 <div class="right-col col-5 d-flex align-items-center">
-                                    <a class="w-100 text-center img-link-amazing" href="#">
+                                    <a class="w-100 text-center img-link-amazing" href="/Product/ProductDetail/@item.Id">
                                         <img src="@("http://staffonly.ir/" + item.IndexPic)"
                                              class="img-fluid" alt="">
                                     </a>
                                 </div>
                                 <div class="col-7">
                                     @*<div class="discount">
-                <span class="discount-percent">
-                    @(item.PriceWithDiscount / item.Price)
-                    <i class="fa fa-percent"></i>
-                </span>
-            </div>*@
+                                            <span class="discount-percent">
+                                                @(item.PriceWithDiscount / item.Price)
+                                                <i class="fa fa-percent"></i>
+                                            </span>
+                                        </div>*@
                                     <h2 class="product-title">
                                         <a href="/Product/ProductDetail/@item.Id">
                                             @item.Title
@@ -55,23 +111,23 @@
                                         <div class="countdown h4" data-date-time="@item.DiscountEndDate" data-labels='{"label-day": "روز", "label-hour": "ساعت", "label-minute": "دقیقه", "label-second": "ثانیه"}'></div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     }
 
-                   
+
                 </div>
             </div>
         </section>
     </div>
-
-
-    <script>
-        $(function () {
-            $(".suggestedItemContent:first").addClass("active");
-            $("[data-target='#amazing-slider']").addClass("active");
-
-        });
-    </script>
 }
+
+
+<script>
+    $(function () {
+        $(".suggestedItemContent:first").addClass("active");
+        $("[data-target='#amazing-slider']").addClass("active");
+
+    });
+</script>
