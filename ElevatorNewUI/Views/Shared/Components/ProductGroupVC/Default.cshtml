@@ -43,7 +43,7 @@
             if (Model.Where(x => x.ParentId == item.Id).Count() > 0)
             {
                 outPut += "<li class='has-sub padding10 border-bottom-1px-dashed-EEE'>";
-                outPut += "<a href='/Product/ProductGroup/" + item.Id + "' class='color000 category-level-" + level + "'>" + item.Id + "</a>";
+                outPut += "<a href='/Product/ProductGroup/" + item.Id + "' style='font-size:12px' class='color000 category-level-" + level + "'>" + item.Id + "</a>";
                 outPut += "<ul>";
 
                 outPut += createMenu(item.Id, level + 1);
@@ -55,7 +55,7 @@
             {
                 outPut += "<li class='padding10 border-bottom-1px-dashed-EEE' >";
 
-                outPut += "<a href='/Product/ProductGroup/" + item.Id + "' class='color000 category-level-" + level + "'>" + item.Title + "</a>";
+                outPut += "<a href='/Product/ProductGroup/" + item.Id + "' style='font-size:12px' class='color000 category-level-" + level + "'>" + item.Title + "</a>";
 
                 outPut += "</li>";
             }

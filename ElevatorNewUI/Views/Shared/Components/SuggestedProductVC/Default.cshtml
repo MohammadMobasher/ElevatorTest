@@ -7,7 +7,10 @@
     <div class="content-widget-amazing mt-4">
         <section id="amazing-slider" class="carousel slide carousel-fade card" data-ride="carousel">
             <div class="row m-0">
-                <ol class="carousel-indicators d-flex flex-column col-lg-2">
+                <a href="/Product/ProductDiscountIndex" class="bg-info w50px">
+                    <p class="rotated carousel-title">پیشنهادات ویژه</p>
+                </a>
+                <ol class="carousel-indicators d-flex flex-column col-lg-1">
                     @for (int i = 0; i < Model.Count; i++)
                     {
                         <li class="carousel-item-li" data-target="#amazing-slider" data-slide-to="@i">
@@ -50,7 +53,6 @@
                                     </ul>
                                     <div class="countdown-timer">
                                         <div class="countdown h4" data-date-time="@item.DiscountEndDate" data-labels='{"label-day": "روز", "label-hour": "ساعت", "label-minute": "دقیقه", "label-second": "ثانیه"}'></div>
-                                        <a style="margin-top:20px" href="/Product/ProductDiscountIndex" target="_blank" class="link-spoiler-edit btn btn-primary btn-block">مشاهده تمامی پیشنهادات</a>
                                     </div>
                                 </div>
                                 

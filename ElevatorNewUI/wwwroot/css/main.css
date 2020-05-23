@@ -65,6 +65,26 @@ h1,h2,h3,h4,h5,h6,span,div{
     color:green !important;
 }
 
+.rotated {
+    -ms-transform: rotate(270deg); /* IE 9 */
+    -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+    transform: rotate(270deg);
+}
+
+.w50px {
+    width: 50px !important;
+}
+
+.carousel-title {
+    position: absolute;
+    margin-right: -26px;
+    color: #FFF;
+    top: 50% !important;
+    
+}
+
+
+
 .big-screan-menu {
 }
     .big-screan-menu > menuitem > li{
@@ -1658,12 +1678,13 @@ header.header-main{
 
 .content-widget-amazing #amazing-slider .carousel-indicators {
     left: auto;
-    margin-right: 0;
+    /*margin-right: 0;*/
     margin-left: 0;
     top: 0;
     bottom: 0;
+    margin-right:8% !important;
     margin-bottom: 0;
-    background-color: #fff;
+    background-color: transparent;
     border-top-left-radius: 8px !important;
     border-bottom-left-radius: 8px !important;
 }
