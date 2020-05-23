@@ -314,13 +314,31 @@ namespace Service.Repos
         }
 
 
-        public async Task<List<ProductFullDTO>> GetProductByGroupId(int groupId)
+        public List<ProductFullDTO> GetProductByGroupId(int groupId, int take = -1)
         {
 
-            var result = await TableNoTracking.ProjectTo<ProductFullDTO>().Where(x =>
+            var result =  TableNoTracking.ProjectTo<ProductFullDTO>().Where(x =>
             x.IsActive == true &&
-            x.ProductGroupId == groupId).ToListAsync();
-            return result;
+            x.ProductGroupId == groupId);
+
+            if (take != -1)
+                result = result.Skip(1).Take(take);
+
+            return  result.ToList();
+        }
+
+
+        public async Task<List<ProductFullDTO>> GetProductByGroupIdAsync(int groupId, int take = -1)
+        {
+
+            var result = TableNoTracking.ProjectTo<ProductFullDTO>().Where(x =>
+           x.IsActive == true &&
+           x.ProductGroupId == groupId);
+
+            if (take != -1)
+                result = result.Skip(1).Take(take);
+
+            return await result.ToListAsync();
         }
 
 

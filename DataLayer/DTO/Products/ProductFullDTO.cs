@@ -72,6 +72,9 @@ namespace DataLayer.DTO.Products
         /// تاریخ ثبت محصول
         /// </summary>
         public DateTime? CreateDate { get; set; }
+
+        public int NewProductGroupId { get; set; }
+
         #region Join
 
         public virtual ProductGroup ProductGroup { get; set; }

@@ -1,0 +1,94 @@
+﻿@using DataLayer.DTO
+@using DataLayer.DTO.Products
+
+@model Tuple<List<ProductGroupDTO>, List<ProductFullDTO>>
+<!-- tabs---------------------------------->
+<div class="tab-count-product">
+    <section class="section-header-tab">
+        <div class="tab-scroll">
+            <ul class="tabs nav" id="myTab" role="tablist">
+
+                @foreach (ProductGroupDTO item in Model.Item1)
+                {
+
+                    {
+                        <li class="tab-item nav-item">
+                            <a class="tab-link" id="tab_@item.Id" data-toggle="tab" href="#href_@item.Id" role="tab" aria-controls="aria_@item.Id" aria-selected="true">@item.Title</a>
+                        </li>
+                    }
+                }
+
+            </ul>
+        </div>
+    </section>
+    <div class="tab-content" id="myTabContent">
+        @foreach (ProductGroupDTO item in Model.Item1)
+        {
+
+            {
+                <div class="tab tabitems camera tab-pane fade show" id="href_@item.Id" role="tabpanel" aria-labelledby="tab_@item.Id">
+                    <div class="slider-widget-products slider-content-tabs pr-0 pl-0">
+                        <div class="widget widget-product card slider-content-tabs pr-0 pl-0">
+                            <div class="product-carousel owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+                                <div class="owl-stage-outer">
+                                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 2234px;">
+                                        @{ var index = 0;}
+                                        @foreach (var product in Model.Item2.Where(x => x.NewProductGroupId == item.Id).ToList())
+                                        {
+                                            <div class="owl-item @(index <= 4 ? "active" : "") @(index++) tab-item" style="width: 309.083px; margin-left: 10px;">
+                                                <div class="item">
+                                                    <a href="/Product/ProductDetail/@product.Id" class="d-block hover-img-link">
+                                                        <img src="http://staffonly.ir/@product.IndexPic" class="img-fluid" alt="">
+                                                    </a>
+                                                    <h2 class="post-title">
+                                                        <a href="/Product/ProductDetail/@product.Id">
+                                                            @product.Title
+                                                        </a>
+                                                    </h2>
+                                                    <div class="price">
+                                                        @if (product.Price != product.PriceWithDiscount)
+                                                        {
+                                                            <del><span>@product.PriceWithDiscount.ToPersianPrice()<span>تومان</span></span></del>
+                                                            <ins><span>@product.Price.ToPersianPrice()<span>تومان</span></span></ins>
+                                                        }
+                                                        else
+                                                        {
+                                                            <ins><span>@product.Price.ToPersianPrice()<span>تومان</span></span></ins>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        }
+
+                                    </div>
+                                </div>
+                                <div class="owl-nav">
+                                    <button type="button" role="presentation" class="owl-prev disabled">
+                                        <i class="fa fa-angle-right"></i>
+                                    </button>
+                                    <button type="button" role="presentation" class="owl-next">
+                                        <i class="fa fa-angle-left"></i>
+                                    </button>
+                                </div>
+                                <div class="owl-dots disabled"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+
+    </div>
+</div>
+<!-- tabs---------------------------------->
+
+<script>
+    $(function () {
+        $(".tab-link:first").addClass("active");
+        $(".tabitems:first").addClass("active");
+
+
+    });
+</script>

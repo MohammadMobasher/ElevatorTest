@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Core.Utilities;
+using Dapper;
 using DataLayer.DTO;
+using DataLayer.DTO.Products;
 using DataLayer.Entities;
 using DataLayer.ViewModels.ProductGroup;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,9 +18,15 @@ namespace Service.Repos.Product
 {
     public class ProductGroupRepository : GenericRepository<ProductGroup>
     {
-        public ProductGroupRepository(DatabaseContext dbContext) : base(dbContext)
-        {
+        private readonly ProductRepostitory _productRepostitory;
+        private readonly IDbConnection _connection;
 
+        public ProductGroupRepository(DatabaseContext dbContext,
+            ProductRepostitory productRepostitory, 
+            IDbConnection connection) : base(dbContext)
+        {
+            _productRepostitory = productRepostitory;
+            _connection = connection;
         }
 
         public async Task<Tuple<int, List<ProductGroupDTO>>> LoadAsyncCount(
@@ -51,6 +60,51 @@ namespace Service.Repos.Product
             return new Tuple<int, List<ProductGroupDTO>>(Count, await query.ToListAsync());
         }
 
+        /// <summary>
+        /// گرفتن تمام گروه های پدر به همراه 7 محصول در آن گروه ها برای صفحه اول 
+        /// </summary>
+        /// <returns></returns>
+        public Tuple<List<ProductGroupDTO>, List<ProductFullDTO>> GetAllWith7Product()
+        {
+
+            //=============================================================================
+            List<ProductFullDTO> items = new List<ProductFullDTO>();
+            //=============================================================================
+            var groups = Entities.ProjectTo<ProductGroupDTO>().Where(x=> x.Parent == null).ToList();
+
+            string querySelect = "";
+            string queryWith = "with ";
+
+            foreach (var item in groups)
+            {
+                queryWith += $@" A{item.Id} as (
+                                    select Id, ParentId
+                                    from ProductGroup
+                                    where Id = {item.Id}
+                                    union all
+                                    select c.Id, c.ParentId
+                                    from ProductGroup c
+                                    join A{item.Id} p on p.Id = c.ParentId), ";
+
+                querySelect += $" select TOP 7 *, NewProductGroupId = {item.Id} from Product where ProductGroupId in (select Id  from A{item.Id}) ";
+                if (item != groups.Where(x => x.Parent == null).LastOrDefault())
+                    querySelect += " UNION ALL ";
+
+                //items.AddRange(_productRepostitory.GetProductByGroupId(item.Id, 7));
+            }
+
+
+            queryWith = queryWith.Substring(0, queryWith.Length - 2);
+            //querySelect = querySelect.Substring(0, querySelect.Length - " UNION ALL ".Length);
+
+            string q = queryWith + querySelect;
+            var result = _connection.Query<ProductFullDTO>(q);
+            
+
+            return new Tuple<List<ProductGroupDTO>, List<ProductFullDTO>>(groups, result.ToList());
+        }
+
+        
 
         /// <summary>
         /// گرفتن تمام پدرها
