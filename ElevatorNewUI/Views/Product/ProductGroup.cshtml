@@ -130,10 +130,10 @@
                                                                 {
                                                                     <div class="promotion-badge">فروش ویژه</div>
                                                                     @*<div class="discount-d">
-                                                                            <span>@((float)(item.Price ) )%</span>
-                                                                            <span>@((float)(item.PriceWithDiscount) )%</span>
-                                                                            <span>@((float)((float) item.Price / (float)item.PriceWithDiscount) * 100)%</span>
-                                                                        </div>*@
+                                                    <span>@((float)(item.Price ) )%</span>
+                                                    <span>@((float)(item.PriceWithDiscount) )%</span>
+                                                    <span>@((float)((float) item.Price / (float)item.PriceWithDiscount) * 100)%</span>
+                                                </div>*@
                                                                 }
                                                                 <img title="@item.Title" src="http://staffonly.ir/@item.IndexPic">
                                                             </a>
@@ -163,7 +163,7 @@
 
                                 </div>
                             </div>
-
+                            @Html.Partial("~/Views/Shared/_Pagination.cshtml")
                         </div>
                     </div>
                 </div>

@@ -317,14 +317,14 @@ namespace Service.Repos
         public List<ProductFullDTO> GetProductByGroupId(int groupId, int take = -1)
         {
 
-            var result =  TableNoTracking.ProjectTo<ProductFullDTO>().Where(x =>
-            x.IsActive == true &&
-            x.ProductGroupId == groupId);
+            var result = TableNoTracking.ProjectTo<ProductFullDTO>().Where(x =>
+           x.IsActive == true &&
+           x.ProductGroupId == groupId);
 
             if (take != -1)
                 result = result.Skip(1).Take(take);
 
-            return  result.ToList();
+            return result.ToList();
         }
 
 
@@ -446,7 +446,7 @@ namespace Service.Repos
             return product.Price;
         }
 
-        public async Task<List<DataLayer.Entities.Product>> GetProducts(ProductSearchListViewModel vm, int skip, int take)
+        public async Task<Tuple<int, List<DataLayer.Entities.Product>>> GetProducts(ProductSearchListViewModel vm, int skip, int take)
         {
 
             var model = TableNoTracking
@@ -490,10 +490,11 @@ namespace Service.Repos
                     || a.ShortDescription.Contains(vm.Title)
                     || a.Text.Contains(vm.Title)
                     || a.Tags.Contains(vm.Title))
-                    
+
                     .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice));
             }
 
+            var count = model.Count();
 
             if (skip != 0)
                 model = model.Skip((skip - 1) * take);
@@ -501,12 +502,12 @@ namespace Service.Repos
             if (take != 0)
                 model = model.Take(take);
 
-            return await model.ToListAsync();
+            return new Tuple<int, List<DataLayer.Entities.Product>>(count, await model.ToListAsync());
         }
 
 
 
-        public async Task<List<DataLayer.Entities.Product>> GetProductsDiscount(ProductSearchListViewModel vm, int skip, int take)
+        public async Task<Tuple<int, List<DataLayer.Entities.Product>>> GetProductsDiscount(ProductSearchListViewModel vm, int skip, int take)
         {
 
             var model = TableNoTracking
@@ -553,7 +554,7 @@ namespace Service.Repos
 
                     .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice));
             }
-
+            var count = model.Count();
 
             if (skip != 0)
                 model = model.Skip((skip - 1) * take);
@@ -561,7 +562,7 @@ namespace Service.Repos
             if (take != 0)
                 model = model.Take(take);
 
-            return await model.ToListAsync();
+            return new Tuple<int, List<DataLayer.Entities.Product>>(count, await model.ToListAsync());
         }
 
 
@@ -814,7 +815,7 @@ namespace Service.Repos
                     }
                 }
 
-                var result = products.AsQueryable().WhereIf(title!=null,a=>a.Title.Contains(title)).ToList();
+                var result = products.AsQueryable().WhereIf(title != null, a => a.Title.Contains(title)).ToList();
 
                 return result;
             }
