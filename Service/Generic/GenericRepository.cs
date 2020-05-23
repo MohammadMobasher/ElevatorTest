@@ -286,7 +286,7 @@ namespace Service
 
         #region Sync Methods
 
-        public  virtual IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> where = null,
+        public virtual IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> where = null,
        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "")
         {
             IQueryable<TEntity> query = TableNoTracking;
@@ -312,6 +312,39 @@ namespace Service
             return query.ToList();
         }
 
+
+        public virtual IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> where = null,
+      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "",int take = 0)
+        {
+            IQueryable<TEntity> query = TableNoTracking;
+
+            if (where != null)
+            {
+                query = query.Where(where);
+            }
+
+            if (orderby != null)
+            {
+                query = orderby(query);
+            }
+
+            if (includes != "")
+            {
+                foreach (string include in includes.Split(','))
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            if(take != 0)
+            {
+                query = query.Take(take);
+            }
+
+            return query.ToList();
+        }
+
+
         public virtual IEnumerable<TProject> GetList<TProject>(Expression<Func<TEntity, bool>> where = null,
          Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "") where TProject : class
         {
@@ -335,7 +368,7 @@ namespace Service
                 }
             }
 
-            return  query.ProjectTo<TProject>().ToList();
+            return query.ProjectTo<TProject>().ToList();
         }
 
 
