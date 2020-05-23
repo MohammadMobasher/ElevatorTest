@@ -70,7 +70,7 @@ namespace Service.Repos.Product
             //=============================================================================
             List<ProductFullDTO> items = new List<ProductFullDTO>();
             //=============================================================================
-            var groups = Entities.ProjectTo<ProductGroupDTO>().Where(x=> x.Parent == null).ToList();
+            var groups = Entities.ProjectTo<ProductGroupDTO>().Where(x=> x.Parent == null ).ToList();
 
             string querySelect = "";
             string queryWith = "with ";
@@ -86,7 +86,7 @@ namespace Service.Repos.Product
                                     from ProductGroup c
                                     join A{item.Id} p on p.Id = c.ParentId), ";
 
-                querySelect += $" select TOP 7 *, NewProductGroupId = {item.Id} from Product where ProductGroupId in (select Id  from A{item.Id}) ";
+                querySelect += $" select TOP 7 *, NewProductGroupId = {item.Id} from Product where ProductGroupId in (select Id  from A{item.Id}) and IsDeleted = 0";
                 if (item != groups.Where(x => x.Parent == null).LastOrDefault())
                     querySelect += " UNION ALL ";
 

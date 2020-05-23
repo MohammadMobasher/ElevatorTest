@@ -13,5 +13,7 @@ namespace DataLayer.SSOT
         ForgetPassword = 14608,
 
         SetOrder = 14509,
+
+        Result = 15920,
     }
 }

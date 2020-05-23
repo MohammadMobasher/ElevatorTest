@@ -195,6 +195,11 @@ namespace ElevatorNewUI.Controllers
                         var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
 
 
+                        var ResultTest = $"{DateTime.Now.ToPersianDay()};{model.OrderId}";
+
+                        var ResultSms = _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
+
+
                         return RedirectToAction("Result", "UserOrder", new { orderId = res.Result.OrderId, shopOrderId = model.ShopOrderId });
                     }
 

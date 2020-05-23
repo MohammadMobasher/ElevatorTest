@@ -575,7 +575,7 @@ namespace Service.Repos
         {
             var model = await TableNoTracking
                 .Include(a => a.ProductGroup)
-                .Where(a => a.Id == id)
+                .Where(a => a.Id == id && !a.IsDeleted)
                 .ProjectTo<ProductFullDTO>()
                 .FirstOrDefaultAsync();
 

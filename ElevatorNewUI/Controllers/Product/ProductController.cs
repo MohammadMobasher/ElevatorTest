@@ -149,7 +149,7 @@ namespace ElevatorNewUI.Controllers
 
             var package = await _productPackageRepostitory.TableNoTracking
                 .Include(a => a.ProductPackageDetails)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
 
             if (package == null)
                 return NotFound();
