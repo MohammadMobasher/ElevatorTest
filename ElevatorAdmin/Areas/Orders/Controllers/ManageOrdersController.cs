@@ -6,20 +6,25 @@ using Core.CustomAttributes;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using Service.Repos.BankRepository;
+using WebFramework.Base;
 
 namespace ElevatorAdmin.Areas.Orders.Controllers
 {
     [Area("Orders")]
     [ControllerRole("مدیریت سفارشات")]
-    public class ManageOrdersController : Controller
+    public class ManageOrdersController : BaseAdminController
     {
         private readonly ShopOrderRepository _shopOrderRepository;
         private readonly UsersPaymentRepository _usersPaymentRepository;
+        private readonly ShopProductRepository _shopProductRepository;
 
-        public ManageOrdersController(ShopOrderRepository shopOrderRepository,UsersPaymentRepository usersPaymentRepository)
+        public ManageOrdersController(ShopOrderRepository shopOrderRepository
+            , UsersPaymentRepository usersPaymentRepository
+            , ShopProductRepository shopProductRepository)
         {
             _shopOrderRepository = shopOrderRepository;
             _usersPaymentRepository = usersPaymentRepository;
+            _shopProductRepository = shopProductRepository;
         }
 
         [ActionRole("لیست سفارشات")]
@@ -29,6 +34,14 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
 
             return View(model);
         }
+
+        public IActionResult OrderDetail(int id)
+        {
+            var model = _shopProductRepository.GetList(a => a.ShopOrderId == id && a.IsFinaly == true);
+
+            return View(model);
+        }
+
 
         [ActionRole("لیست تمامی اقدامات مالی انجام شده کاربر")]
         public IActionResult UserLog()

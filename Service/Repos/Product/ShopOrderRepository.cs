@@ -39,7 +39,14 @@ namespace Service.Repos
                     await _shopProductRepository.ChangeStatus(list, model.Id);
                     return model.Id;
                 }
+                else
+                {
+                    var model = GetByCondition(a => a.Id == _orderId);
 
+                    model.Amount =await _shopProductRepository.CalculateCartPriceNumber(userId);
+
+                    await UpdateAsync(model);
+                }
                 await _shopProductRepository.ChangeStatus(list, _orderId);
                 return _orderId;
 

@@ -260,7 +260,7 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<bool> ChangeStatus(List<ShopProduct> list,int orderId)
         {
-            list.ForEach(a=>a.ShopOrderId = orderId );
+            list.ForEach(a=>a.ShopOrderId = orderId);
 
             await UpdateRangeAsync(list,false);
 
@@ -276,9 +276,28 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<bool> SuccessedOrder(int orderId,int userId)
         {
-            var model =await GetListAsync(a => a.ShopOrderId == orderId && a.UserId == userId);
+            var model =await GetListAsync(a => a.ShopOrderId == orderId && a.UserId == userId,null, "Product,ProductPackage");
 
             if (model == null) return false;
+
+            foreach (var item in model)
+            {
+                item.IsFinaly = true;
+
+                if(item.ProductId != null)
+                {
+                    item.OrderName = item.Product.Title;
+                    item.OrderPrice = item.Product.Price.ToPersianPrice();
+                    item.OrderPriceDiscount = item.Product.PriceWithDiscount.ToPersianPrice();
+                }
+                else
+                {
+                    item.OrderName = item.ProductPackage.Title;
+                    item.OrderPrice = item.ProductPackage.PackagePrice.ToPersianPrice();
+                    item.OrderPriceDiscount = item.ProductPackage.PackageWithDiscounts.ToString() ?? "0";
+                }
+               
+            }
 
             model.ToList().ForEach(a => a.IsFinaly = true);
             

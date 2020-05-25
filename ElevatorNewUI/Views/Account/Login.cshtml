@@ -1,4 +1,5 @@
-﻿
+﻿@model DataLayer.ViewModels.User.LoginViewModel
+
 @{
     ViewData["Title"] = "ورود";
     Layout = "~/Views/Shared/_Login.cshtml";
@@ -30,14 +31,14 @@
 
 <div class="fullscreen-bg">
 
-    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-lg">
             <section class="page-account-box">
                 <div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
                     <div class="ds-userlogin">
-                        <a href="" class="account-box-logo">LiftBazar</a>
+                        <a href="/" class="account-box-logo">لیفت بازار</a>
                         <div class="account-box">
                             <div class="account-box-headline">
                                 <a href="Login" class="login-ds active">
@@ -55,12 +56,14 @@
                                     <form asp-action="Login" asp-controller="Account" class="form-account text-right">
                                         <div class="form-account-title">
                                             <label for="UserName">نام کاربری / شماره موبایل</label>
-                                            <input type="text" class="number-email-input" id="UserName" name="UserName">
+                                            <input type="text" class="number-email-input" id="UserName" asp-for="UserName">
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
                                         </div>
                                         <div class="form-account-title">
                                             <label for="Password">رمز عبور</label>
                                             <a href="/Account/ForgetPassword" class="account-link-password">رمز خود را فراموش کرده ام</a>
-                                            <input type="password" class="password-input" name="Password">
+                                            <input type="password" class="password-input" asp-for="Password">
+                                            <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
                                         <div class="form-auth-row">
                                             <label for="#" class="ui-checkbox mt-1">
@@ -89,3 +92,5 @@
         <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
     </svg>
 </div>
+
+<partial name="_ValidationScriptsPartial" />

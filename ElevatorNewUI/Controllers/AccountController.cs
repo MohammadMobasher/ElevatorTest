@@ -46,49 +46,56 @@ namespace ElevatorNewUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel vm, string redirect)
         {
-            var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.UserName == vm.UserName || a.PhoneNumber == vm.UserName);
-
-            if (model == null)
+            if (ModelState.IsValid)
             {
-                TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این نام کاربری یافت نشد!"));
+                var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.UserName == vm.UserName || a.PhoneNumber == vm.UserName);
 
-                return RedirectToAction("Login");
-            }
-
-            var result = await _signInManager.PasswordSignInAsync(model, vm.Password, vm.IsRemember, false);
-
-            if (result.Succeeded)
-            {
-
-                if (model.IsPhoneNumberConfirm == null || model.IsPhoneNumberConfirm == null)
+                if (model == null)
                 {
-                    TempData.AddResult(SweetAlertExtenstion.Error("لطفا شماره تلفن خود را تایید کنید!"));
-
-                    await _signInManager.SignOutAsync();
-
-                    return RedirectToAction("AuthorizePhoneNumber", new { sec = model.SecurityStamp });
-                }
-
-                if (model.IsActive == false)
-                {
-                    await _signInManager.SignOutAsync();
-
-                    TempData.AddResult(SweetAlertExtenstion.Error("اکانت شما مسدود شده است!"));
+                    TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این نام کاربری یافت نشد!"));
 
                     return RedirectToAction("Login");
                 }
 
+                var result = await _signInManager.PasswordSignInAsync(model, vm.Password, vm.IsRemember, false);
 
-                // درصورتی که کاربر قبل از لاگین به آدرس صفحه ایی را وارد کرده بود که نیاز به لاگین داشته است
-                // در این صورت باید به آن صفحه هدایت شود
-                if (!string.IsNullOrEmpty(redirect) && Url.IsLocalUrl(redirect))
-                    return Redirect(redirect);
-                else
-                    return RedirectToAction("Index", "Home");
+                if (result.Succeeded)
+                {
+
+                    if (model.IsPhoneNumberConfirm == null || model.IsPhoneNumberConfirm == null)
+                    {
+                        TempData.AddResult(SweetAlertExtenstion.Error("لطفا شماره تلفن خود را تایید کنید!"));
+
+                        await _signInManager.SignOutAsync();
+
+                        return RedirectToAction("AuthorizePhoneNumber", new { sec = model.SecurityStamp });
+                    }
+
+                    if (model.IsActive == false)
+                    {
+                        await _signInManager.SignOutAsync();
+
+                        TempData.AddResult(SweetAlertExtenstion.Error("اکانت شما مسدود شده است!"));
+
+                        return RedirectToAction("Login");
+                    }
+
+
+                    // درصورتی که کاربر قبل از لاگین به آدرس صفحه ایی را وارد کرده بود که نیاز به لاگین داشته است
+                    // در این صورت باید به آن صفحه هدایت شود
+                    if (!string.IsNullOrEmpty(redirect) && Url.IsLocalUrl(redirect))
+                        return Redirect(redirect);
+                    else
+                        return RedirectToAction("Index", "Home");
+                }
+
+                TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور یا نام کاربری نادرست است"));
+                return RedirectToAction("Login");
             }
 
-            TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور یا نام کاربری نادرست است"));
-            return RedirectToAction("Login");
+            TempData.AddResult(SweetAlertExtenstion.Error("لطفا اطلاعات را به درستی وارد کنید"));
+
+            return View();
         }
 
 
@@ -196,21 +203,24 @@ namespace ElevatorNewUI.Controllers
         {
             try
             {
-                var userId = int.Parse(User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
-                var user = await _userRepository.GetByConditionAsync(a => a.Id == userId && a.IsActive);
-
-                if (user == null)
+                if (ModelState.IsValid)
                 {
-                    TempData.AddResult(SweetAlertExtenstion.Error("کاربر گرامی دسترسی شما محدود شده است لطفا با پشتیبانی تماس بگیرید"));
+                    var userId = int.Parse(User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
+                    var user = await _userRepository.GetByConditionAsync(a => a.Id == userId && a.IsActive);
 
-                    return RedirectToAction("Index", "Profile");
-                }
+                    if (user == null)
+                    {
+                        TempData.AddResult(SweetAlertExtenstion.Error("کاربر گرامی دسترسی شما محدود شده است لطفا با پشتیبانی تماس بگیرید"));
 
-                var result = await _userManager.ChangePasswordAsync(user, vm.CurrentPassword, vm.NewPassword);
-                if (result.Succeeded)
-                {
-                    TempData.AddResult(SweetAlertExtenstion.Ok("رمز عبور با موفقیت تغییر یافت"));
-                    return RedirectToAction("Index","Profile");
+                        return RedirectToAction("Index", "Profile");
+                    }
+
+                    var result = await _userManager.ChangePasswordAsync(user, vm.CurrentPassword, vm.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        TempData.AddResult(SweetAlertExtenstion.Ok("رمز عبور با موفقیت تغییر یافت"));
+                        return RedirectToAction("Index", "Profile");
+                    }
                 }
 
             }
@@ -220,6 +230,7 @@ namespace ElevatorNewUI.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
+            TempData.AddResult(SweetAlertExtenstion.Error("لطفا اطلاعات را به درستی وارد کنید"));
             return View();
         }
 
@@ -298,18 +309,24 @@ namespace ElevatorNewUI.Controllers
         [HttpPost]
         public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel vm)
         {
-            var model = await _userRepository
+            if (ModelState.IsValid)
+            {
+                var model = await _userRepository
                 .GetByConditionAsync(a => a.UserName == vm.UserName && a.PhoneNumber == vm.PhoneNumber);
 
-            if (model == null)
-            {
-                TempData.AddResult(SweetAlertExtenstion.Error("کاربری یافت نشد"));
-                return View();
+                if (model == null)
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("کاربری یافت نشد"));
+                    return View();
+                }
+
+                var resultSms = _smsRestClient.SendByBaseNumber(model.ActiveCode.ToPersianNumbers(), model.PhoneNumber, (int)SmsBaseCodeSSOT.ForgetPassword);
+
+                return RedirectToAction("AuthorizeCode", new { code = model.SecurityStamp });
             }
 
-            var resultSms = _smsRestClient.SendByBaseNumber(model.ActiveCode.ToPersianNumbers(), model.PhoneNumber, (int)SmsBaseCodeSSOT.ForgetPassword);
-
-            return RedirectToAction("AuthorizeCode", new { code = model.SecurityStamp });
+            TempData.AddResult(SweetAlertExtenstion.Error("لطفا اطلاعات را به درستی وارد نمایید"));
+            return View();
         }
 
         public IActionResult AuthorizeCode(string code)
@@ -335,7 +352,7 @@ namespace ElevatorNewUI.Controllers
             return RedirectToAction("ResetPassword", new { code });
         }
 
-        public async Task<IActionResult> ResetPassword(string code)
+        public IActionResult ResetPassword(string code)
         {
             ViewBag.Code = code;
             return View();
