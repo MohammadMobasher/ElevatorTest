@@ -52,7 +52,6 @@
   <ItemGroup>
 	 <Folder Include="Areas\Orders\Data\" />
 	 <Folder Include="Areas\Orders\Models\" />
-	 <Folder Include="Areas\Orders\Views\ManageOrders\" />
 	 <Folder Include="Areas\ProductDiscount\Data\" />
 	 <Folder Include="Areas\ProductDiscount\Models\" />
 	 <Folder Include="Areas\ProductGroup\Data\" />

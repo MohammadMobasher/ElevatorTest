@@ -29,14 +29,16 @@
                                                     <td class="order-code">@item.OrderId</td>
                                                     <td>@item.SuccessDate.ToPersianDateTextify()</td>
                                                     <td class="Waiting @(item.IsSuccessed ? "text-success" :"text-danger")">@(item.IsSuccessed?"پرداخت شده":"ناموفق")</td>
-                                                    <td>@item.Status.ToDisplay()</td>
+                                                    <td>
+                                                        @(item.Status == null?"درحال بررسی ": item.Status.ToDisplay())
+                                                    </td>
                                                     <td class="totla">
                                                         <span class="amount">
                                                             @item.Amount.ToPersianPrice()
                                                             <span>تومان</span>
                                                         </span>
                                                     </td>
-                                                    <td class="detail"><a href="#" class="btn btn-secondary d-block">نمایش</a></td>
+                                                    <td class="detail"><a href="/Profile/OrderDetail/@item.Id" class="btn btn-secondary d-block">نمایش</a></td>
                                                 </tr>
 
                                             }
@@ -48,7 +50,7 @@
                                                 @foreach (var item in Model)
                                                 {
                                                     <div class="profile-orders-header">
-                                                        <a href="profile-order-2.html" class="profile-orders-header-details">
+                                                        <a href="/Profile/OrderDetail/@item.Id" class="profile-orders-header-details">
                                                             <div class="profile-orders-header-summary">
                                                                 <div class="profile-orders-header-row">
                                                                     <span class="profile-orders-header-id">@item.OrderId</span>

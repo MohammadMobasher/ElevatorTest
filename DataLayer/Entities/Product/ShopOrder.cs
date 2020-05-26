@@ -15,7 +15,7 @@ namespace DataLayer.Entities
 
         public bool IsSuccessed { get; set; }
 
-        public DateTime SuccessDate { get; set; }
+        public DateTime? SuccessDate { get; set; }
 
         public int UserId { get; set; }
 

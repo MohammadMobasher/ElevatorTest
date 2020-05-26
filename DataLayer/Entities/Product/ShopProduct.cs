@@ -23,6 +23,12 @@ namespace DataLayer.Entities
         public int? ShopOrderId { get; set; }
 
 
+        public string OrderName { get; set; }
+
+        public string OrderPrice { get; set; }
+
+        public string OrderPriceDiscount { get; set; }
+
         [ForeignKey("PackageId")]
         public virtual ProductPackage ProductPackage { get; set; }
 

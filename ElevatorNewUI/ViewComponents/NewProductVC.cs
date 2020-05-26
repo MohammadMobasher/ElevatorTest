@@ -22,7 +22,7 @@ namespace ElevatorNewUI.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            return View(_productRepostitory.GetList(a=>!a.IsDeleted, o => o.OrderByDescending(a => a.CreateDate), "", 7));
+            return View(_productRepostitory.GetListWithTake(a=>!a.IsDeleted, o => o.OrderByDescending(a => a.CreateDate), "", 7));
         }
 
     }

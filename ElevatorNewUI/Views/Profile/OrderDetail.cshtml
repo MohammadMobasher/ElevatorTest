@@ -1,0 +1,95 @@
+﻿@model List<ShopProduct>
+
+
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+
+                    <partial name="_SidebarProfile" model="@ViewBag.Model">
+
+                        <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                            <div class="profile-content">
+                                <div class="profile-stats">
+                                    <div class="table-orders">
+                                        <table class="table table-profile-orders">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">ردیف</th>
+                                                    <th scope="col">عنوان کالا</th>
+                                                    <th scope="col">قیمت اصلی کالا</th>
+                                                    <th scope="col">قیمت با تخفیف</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{ var raw = 1;}
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td class="order-code">@(raw++)</td>
+                                                        <td>@item.OrderName</td>
+                                                        <td>@item.OrderPrice</td>
+                                                        <td>@item.OrderPriceDiscount</td>
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <div class="profile-orders">
+                                            <div class="collapse">
+                                                <div class="profile-orders-item">
+                                                    @{ raw = 1;}
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <div class="profile-orders-header">
+                                                            <a href="profile-order-2.html" class="profile-orders-header-details">
+                                                                <div class="profile-orders-header-summary">
+                                                                    <div class="profile-orders-header-row">
+                                                                        <span class="profile-orders-header-id">@raw</span>
+                                                                        <span class="profile-orders-header-state text-success">@item.OrderName</span>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                            <!-- <hr class="ui-separator"> -->
+                                                            <div class="profile-orders-header-data">
+
+
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-label">قیمت اصلی کالا</div>
+                                                                    <div class="profile-info-value">
+                                                                        <span class="amount">
+                                                                            @item.OrderPrice
+                                                                            <span>تومان</span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-label">قیمت با تخفیف</div>
+                                                                    <div class="profile-info-value">
+                                                                        <span class="amount">
+                                                                            @item.OrderPriceDiscount
+                                                                            <span>تومان</span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="btn btn-danger pull-left" style="margin-left:16px" href="/Profile/Orders">بازگشت</a>
+                        </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>

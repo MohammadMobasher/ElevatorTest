@@ -76,10 +76,12 @@ namespace Elevator.Controllers
             ViewBag.Category = await _productGroupRepository.GetParentsAsync();
             ViewBag.Url = test.SiteConfig.UrlAddress;
             ViewBag.Search = vm;
-            ViewBag.MaxPrice = model != null && model.Count > 0 ? model.Max(a => a.Price) : 1000000;
-            ViewBag.Count = model.Count().ToPersianNumbers();
+            ViewBag.MaxPrice = model != null && model.Item2.Count > 0 ? model.Item2.Max(a => a.Price) : 1000000;
+            ViewBag.Count = model.Item2.Count().ToPersianNumbers();
 
-            return View(model);
+            this.TotalNumber = model.Item1;
+
+            return View(model.Item2);
         }
 
         /// <summary>

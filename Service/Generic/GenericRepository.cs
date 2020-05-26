@@ -313,7 +313,7 @@ namespace Service
         }
 
 
-        public virtual IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> where = null,
+        public virtual IEnumerable<TEntity> GetListWithTake(Expression<Func<TEntity, bool>> where = null,
       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "",int take = 0)
         {
             IQueryable<TEntity> query = TableNoTracking;
