@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Threading.Tasks;
 using Core.CustomAttributes;
+using DataLayer.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using Service.Repos.BankRepository;
@@ -31,13 +33,17 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
         }
 
         [ActionRole("لیست سفارشات")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(ShopOrdersSearchViewModel search)
         {
-            var model = _shopOrderRepository.GetList(includes: "Users");
+            var model = await _shopOrderRepository.OrderLoadAsync(search,this.CurrentPage,this.PageSize);
 
-            return View(model);
+            this.TotalNumber = model.Item1;
+
+            ViewBag.SearchModel = search;
+            return View(model.Item2);
         }
 
+        [ActionRole("جزئیات سفارش")]
         public IActionResult OrderDetail(int id)
         {
             var model = _shopProductRepository.GetList(a => a.ShopOrderId == id && a.IsFinaly == true);
