@@ -60,7 +60,7 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
 
             ViewBag.UserInfo =await _userRepository.GetByConditionAsync(a => a.Id == info.UserId);
 
-            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == a.UserId);
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == info.UserId);
             ViewBag.Order = info;
 
 
