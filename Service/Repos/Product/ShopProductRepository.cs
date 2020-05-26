@@ -35,7 +35,8 @@ namespace Service.Repos
             {
                 ProductId = productId,
                 UserId = userId,
-                Count= count
+                Count= count,
+                
             });
 
             return SweetAlertExtenstion.Ok();

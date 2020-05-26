@@ -41,7 +41,7 @@ namespace ElevatorAdmin.ViewComponents
                 Icon = "fa fa-line-chart",
                 Childs = new List<SidebarChildViewModel> {
                     new SidebarChildViewModel {Area = "Orders", Controller = "ManageOrders", Action = "Index", Title = "مدیریت سفارشات" },
-                    new SidebarChildViewModel {Area = "Orders", Controller = "ManageOrders", Action = "UserLog", Title = "لیست تمامی اقدامات انجام شده" },
+                    //new SidebarChildViewModel {Area = "Orders", Controller = "ManageOrders", Action = "UserLog", Title = "لیست تمامی اقدامات انجام شده" },
             }
             });
 

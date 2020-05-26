@@ -201,10 +201,11 @@ h1,h2,h3,h4,h5,h6,span,div{
 }
 
 /* header------------------------- */
-header.header-main{
+header.header-main {
     width: 100%;
     height: auto;
-    background: #fff;
+    /*background: #fff;*/
+    background: #21d7bb;
     z-index: 999;
     position: relative;
     float: right;
@@ -312,12 +313,13 @@ header.header-main{
     opacity: 0.8 !important;
 }
 
-.account-box{
+.account-box {
     width: auto;
     height: 50px;
     border-radius: 10px;
-    background-color: #FFF;
-    color: #555!important;
+    /*background-color: #FFF;*/
+    background-color: #30cbdd;
+    color: #555 !important;
     line-height: 44px;
     padding: 5px 10px 5px 43px;
     float: left;
@@ -341,17 +343,22 @@ header.header-main{
     float: left;
 }
 
+.search-header-backgroundColor {
+    background-color: #d1f1ec
+}
+
 .account-box span.icon-account img{
     max-width: 100%;
 }
 
-.account-box span.title-account{
-    float: right;
-    font-size: 14px;
-    margin-left: 20px;
-    color: #8a8a8a;
-    font-weight: 500;
-}
+    .account-box span.title-account {
+        float: right;
+        font-size: 14px;
+        margin-left: 20px;
+        color: #ffffff;
+        /*color: #8a8a8a;*/
+        font-weight: 500;
+    }
 
 .account-box .dropdown-menu{
     display: block;
@@ -450,13 +457,14 @@ header.header-main{
 /* top-bar------------------------*/
 
 /* main-menu--------------------- */
-.header-main-nav{
+.header-main-nav {
     width: 100%;
     height: 60px;
     position: relative;
     line-height: 55px;
     float: right;
-    background-color: #fdfdfd;
+    /*background-color: #fdfdfd;*/
+    background-color: #b5fff4;
     margin-top: 10px;
     border-bottom: 1px solid #e0e0e0;
     border-top: 1px solid #f5f5f5;
@@ -1407,7 +1415,9 @@ header.header-main{
     border-top-right-radius: 20px;
     padding: 10px 0 1px 0;
     text-align: center;
-    background-color: #f9f6f6;
+    background-color: #00d1b1de;
+    color:#fff
+    /*background-color: #f9f6f6;*/
 }
 
 .megamenu-widget .header-main-menu ul.main-menu-ul li.main-menu-item {
