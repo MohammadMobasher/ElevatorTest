@@ -6,6 +6,7 @@ using Core.CustomAttributes;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using Service.Repos.BankRepository;
+using Service.Repos.User;
 using WebFramework.Base;
 
 namespace ElevatorAdmin.Areas.Orders.Controllers
@@ -20,17 +21,19 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
 
         public ManageOrdersController(ShopOrderRepository shopOrderRepository
             , UsersPaymentRepository usersPaymentRepository
-            , ShopProductRepository shopProductRepository)
+            , ShopProductRepository shopProductRepository
+            , UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
         {
             _shopOrderRepository = shopOrderRepository;
             _usersPaymentRepository = usersPaymentRepository;
             _shopProductRepository = shopProductRepository;
+
         }
 
         [ActionRole("لیست سفارشات")]
         public IActionResult Index()
         {
-            var model = _shopOrderRepository.GetList();
+            var model = _shopOrderRepository.GetList(includes: "Users");
 
             return View(model);
         }
