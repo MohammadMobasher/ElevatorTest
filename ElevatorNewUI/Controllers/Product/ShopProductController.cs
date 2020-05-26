@@ -219,7 +219,7 @@ namespace ElevatorNewUI.Controllers
             var OrderId = new Random().Next(1000, int.MaxValue).ToString();
 
             // رمز گذاری اطلاعات 
-            var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", _bankConfig.TerminalId, OrderId, /*factorInfo.Amount*/1000));
+            var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", _bankConfig.TerminalId, OrderId, factorInfo.Amount));
 
             var symmetric = SymmetricAlgorithm.Create("TripleDes");
             symmetric.Mode = CipherMode.ECB;
@@ -244,7 +244,7 @@ namespace ElevatorNewUI.Controllers
             {
                 _bankConfig.TerminalId,
                 _bankConfig.MerchantId,
-                Amount = /*factorInfo.Amount*/ 1000,
+                Amount = factorInfo.Amount,
                 SignData,
                 _bankConfig.ReturnUrl,
                 LocalDateTime = DateTime.Now,
