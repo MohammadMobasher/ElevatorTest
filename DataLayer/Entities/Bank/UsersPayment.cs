@@ -26,6 +26,8 @@ namespace DataLayer.Entities.Bank
 
         public string ResCode { get; set; }
 
+        public bool? IsCallBackRecive { get; set; }
+
         [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }
 

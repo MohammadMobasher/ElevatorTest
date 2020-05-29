@@ -458,6 +458,7 @@
                         <th scope="col">عنوان کالا</th>
                         <th scope="col">قیمت اصلی کالا</th>
                         <th scope="col">قیمت با تخفیف</th>
+                        <th scope="col">تعداد کالا</th>
                         <th scope="col">مشاهده</th>
                     </tr>
                     <tr>
@@ -474,6 +475,9 @@
                             <th> --- </th>
 
 
+                            <th>
+                                ----
+                            </th>
                             <th>
                                 ----
                             </th>
@@ -504,6 +508,7 @@
                                     <td>@(item.OrderName ?? item.Product.Title) </td>
                                     <td>@(item.OrderPrice ?? item.Product.Price.ToPersianPrice())</td>
                                     <td>@(item.OrderPriceDiscount ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                    <td>@item.Count </td>
                                     <td>
                                         @if (item.ProductId != null)
                                         {

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.SSOT;
 using DataLayer.ViewModels;
-using DataLayer.ViewModels.ShopOrderStatus;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using Service.Repos.BankRepository;
@@ -104,7 +99,7 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
                     bodyId = (int)SmsBaseCodeSSOT.Ordered;
                     break;
                 case ShopOrderStatusSSOT.Preparation:
-                    bodyId = (int)SmsBaseCodeSSOT.Loading;
+                    bodyId = (int)SmsBaseCodeSSOT.Preparation;
                     break;
                 case ShopOrderStatusSSOT.Loading:
                     bodyId = (int)SmsBaseCodeSSOT.Loading;
@@ -118,7 +113,6 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
             }
             string text = $"{fullName};{orderId}";
             var result = _smsRestClient.SendByBaseNumber(text, phoneNumber, bodyId);
-            
         }
 
 

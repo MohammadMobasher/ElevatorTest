@@ -26,6 +26,9 @@ using Elevator.Controllers;
 using Service.Repos.User;
 using DataLayer.SSOT;
 using DNTPersianUtils.Core;
+using Service.Repos.Product;
+using DataLayer.ViewModels.ShopOrderStatus;
+
 namespace ElevatorNewUI.Controllers
 {
     [Authorize]
@@ -37,12 +40,15 @@ namespace ElevatorNewUI.Controllers
         private readonly ShopOrderRepository _shopOrderRepository;
         private readonly SmsRestClient _smsRestClient;
         private readonly UserRepository _userRepository;
+        private readonly ShopOrderStatusRepository _shopOrderStatusRepository;
+
         public ManageBankService(IConfiguration configuration
             , UsersPaymentRepository usersPaymentRepository
             , ShopProductRepository shopProductRepository
             , ShopOrderRepository shopOrderRepository
             , SmsRestClient smsRestClient
-            , UserRepository userRepository)
+            , UserRepository userRepository
+            , ShopOrderStatusRepository shopOrderStatusRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _usersPaymentRepository = usersPaymentRepository;
@@ -50,6 +56,7 @@ namespace ElevatorNewUI.Controllers
             _shopOrderRepository = shopOrderRepository;
             _smsRestClient = smsRestClient;
             _userRepository = userRepository;
+            _shopOrderStatusRepository = shopOrderStatusRepository;
         }
 
         ///// <summary>
@@ -156,6 +163,8 @@ namespace ElevatorNewUI.Controllers
                 // گرفتن اطلاعات فاکتور بر اساس شناسه خرید و شناسه گاربری
                 var model = _usersPaymentRepository.GetByCondition(a => a.OrderId == vm.OrderId && a.Token == vm.Token);
 
+                await _usersPaymentRepository.ResultOrderCallBack(model.ShopOrderId.Value, model.OrderId, UserId);
+
                 // رمز گذاری توکن
                 var dataBytes = Encoding.UTF8.GetBytes(vm.Token);
 
@@ -186,19 +195,28 @@ namespace ElevatorNewUI.Controllers
                         res.Result.Succeed = true;
                         ViewBag.Success = res.Result.Description;
 
+                        // تغییر وضعیت فاکتور از پیش خرید به خرید شده
                         await _shopOrderRepository.SuccessedOrder(model.ShopOrderId.Value, model.UserId);
+                        // تغییر وضعیت سبد خرید
                         await _shopProductRepository.SuccessedOrder(model.ShopOrderId.Value, model.UserId);
+                        // ثبت کردن اطلاعات در وضعیت 
+                        await _shopOrderStatusRepository.InsertAsync(new ShopOrderStatusInsertViewModel()
+                        {
+                            Date = DateTime.Now,
+                            ShopOrderId = model.ShopOrderId.Value,
+                            Status = ShopOrderStatusSSOT.Ordered
+                        }); 
 
+                        // ارسال اس ام اس به کاربر جهت ثبت سفارش
                         var text = $"{model.OrderId};{DateTime.Now.ToPersianDay()}";
                         var phoneNumber = _userRepository.GetByCondition(a => a.Id == model.UserId).PhoneNumber;
 
                         var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
 
-
+                        // ارسال اس ام اس به مدیریت 
                         var ResultTest = $"{DateTime.Now.ToPersianDay()};{model.OrderId}";
 
                         var ResultSms = _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
-
 
                         return RedirectToAction("Result", "UserOrder", new { orderId = res.Result.OrderId, shopOrderId = model.ShopOrderId });
                     }

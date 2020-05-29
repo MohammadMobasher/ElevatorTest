@@ -27,8 +27,8 @@
                                         </a>
                                     </h2>
                                     <div class="price">
-                                        <del><span>@item.Price<span>تومان</span></span></del>
-                                        <ins><span>@item.PriceWithDiscount<span>تومان</span></span></ins>
+                                        <del><span>@item.Price.ToPersianPrice()<span>تومان</span></span></del>
+                                        <ins><span>@item.PriceWithDiscount.ToPersianPrice()<span>تومان</span></span></ins>
                                     </div>
                                     <div class="countdown-timer">
                                         <div class="countdown h4" data-date-time="@item.DiscountEndDate" data-labels="{&quot;label-day&quot;: &quot;روز&quot;, &quot;label-hour&quot;: &quot;ساعت&quot;, &quot;label-minute&quot;: &quot;دقیقه&quot;, &quot;label-second&quot;: &quot;ثانیه&quot;}"><div class="countdown-item"><div class="countdown-value">155</div><div class="countdown-label">روز</div></div><div class="countdown-item"><div class="countdown-value">10</div><div class="countdown-label">ساعت</div></div><div class="countdown-item"><div class="countdown-value">16</div><div class="countdown-label">دقیقه</div></div><div class="countdown-item"><div class="countdown-value">01</div><div class="countdown-label">ثانیه</div></div></div>
@@ -101,8 +101,8 @@
                                         </a>
                                     </h2>
                                     <div class="price text-center">
-                                        <del><span>@item.Price<span>تومان</span></span></del>
-                                        <ins><span>@item.PriceWithDiscount<span>تومان</span></span></ins>
+                                        <del><span>@item.Price.ToPersianPrice()<span>تومان</span></span></del>
+                                        <ins><span>@item.PriceWithDiscount.ToPersianPrice()<span>تومان</span></span></ins>
                                     </div>
                                     <ul class="list-group hide" hidden>
                                         <li class="list-group-item">

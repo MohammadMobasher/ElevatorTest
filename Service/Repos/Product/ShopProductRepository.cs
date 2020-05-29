@@ -28,16 +28,26 @@ namespace Service.Repos
         public async Task<SweetAlertExtenstion> AddCart(int productId, int userId,int count=1)
         {
 
-            if (await IsExist(productId, userId))
-                return SweetAlertExtenstion.Error("این کالا قبلا ثبت شده است");
+            var model = await GetByConditionAsync(a => a.ProductId == productId && a.UserId == userId);
 
-            MapAdd(new ShopProductAddViewModel()
+            if (model != null)
             {
-                ProductId = productId,
-                UserId = userId,
-                Count= count,
-                
-            });
+                model.Count = count;
+
+                await UpdateAsync(model);
+            }
+            else
+            {
+                MapAdd(new ShopProductAddViewModel()
+                {
+                    ProductId = productId,
+                    UserId = userId,
+                    Count = count,
+
+                });
+            }
+
+         
 
             return SweetAlertExtenstion.Ok();
         }
