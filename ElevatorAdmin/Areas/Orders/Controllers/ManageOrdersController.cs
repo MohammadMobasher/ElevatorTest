@@ -66,14 +66,17 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
         {
             var model = _shopProductRepository.GetList(a => a.ShopOrderId == id  ,includes: "Product");
 
-            var info = _shopOrderRepository.GetById(id);
-
-            ViewBag.UserInfo =await _userRepository.GetByConditionAsync(a => a.Id == info.UserId);
-
+            // اطلاعات فاکتور
+            var info = await _shopOrderRepository.GetByIdAsync(id);
+            // اطلاعات کاربر
+            ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == info.UserId);
+            // اطلاعات آدرس کاربر
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == a.UserId);
             ViewBag.Order = info;
 
-            
+            // روند نمایی وضعیت فاکتور
+            ViewBag.shopOrderStatuses = await _shopOrderStatusRepository.GetItemsByOrderId(id);
+
             return View(model);
         }
 
@@ -85,7 +88,7 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
             var result = await _shopOrderStatusRepository.SendNextStatus(id);
             TempData.AddResult(result.Item1);
             if(result.Item2 != ShopOrderStatusSSOT.Nothing)
-                SendSmsChangeStatus(result.Item2, order.Users.PhoneNumber, order.OrderId, order.Users.FirstName + order.Users.LastName);
+                SendSmsChangeStatus(result.Item2, order.Users.PhoneNumber, order.OrderId, order.Users.FirstName +" "+ order.Users.LastName);
             return RedirectToAction("Index");
         }
 

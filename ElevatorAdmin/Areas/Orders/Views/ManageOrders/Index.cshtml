@@ -117,10 +117,10 @@
                         @item.Amount.ToPersianPrice()
                     </td>
                     <td>
-                        @(item.CreateDate == null ? " - - -" : item.CreateDate.ToPersianDateTextify())
+                        @(item.CreateDate == null ? " - - -" : item.CreateDate.ToShortPersianDateString())
                     </td>
                     <td>
-                        @(item.SuccessDate == null ? " - - - " : item.SuccessDate.ToPersianDateTextify())
+                        @(item.SuccessDate == null ? " - - - " : item.SuccessDate.ToShortPersianDateString())
                     </td>
                     <td>@(item.IsSuccessed ? "پرداخت شده " : " پرداخت نشده")</td>
                     <td>
