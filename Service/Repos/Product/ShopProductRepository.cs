@@ -28,7 +28,7 @@ namespace Service.Repos
         public async Task<SweetAlertExtenstion> AddCart(int productId, int userId,int count=1)
         {
 
-            var model = await GetByConditionAsync(a => a.ProductId == productId && a.UserId == userId);
+            var model = await GetByConditionAsync(a => a.ProductId == productId && a.UserId == userId && !a.IsFinaly);
 
             if (model != null)
             {
