@@ -28,6 +28,7 @@ namespace Service
         #region Tables
 
         public DbSet<SiteSetting> SiteSetting { get; set; }
+        public DbSet<ShopOrderStatus> ShopOrderStatus { get; set; }
         public DbSet<SuggestionsAndComplaint> SuggestionsAndComplaint { get; set; }
         public DbSet<FeatureQuestionForPakage> FeatureQuestionForPakage { get; set; }
         public DbSet<Feature> Feature { get; set; }

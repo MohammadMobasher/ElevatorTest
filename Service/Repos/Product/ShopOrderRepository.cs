@@ -108,5 +108,10 @@ namespace Service.Repos
             return new Tuple<int, List<ShopOrder>>(count,await model.Skip((page-1) * pageSize).Take(pageSize).ToListAsync());
         }
 
+
+        public async Task<ShopOrder> GetItemByIdWithUserAsync(int Id)
+        {
+            return await TableNoTracking.Include(x => x.Users).Where(x => x.Id == Id).SingleOrDefaultAsync();
+        }
     }
 }
