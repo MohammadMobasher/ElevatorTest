@@ -204,8 +204,8 @@ h1,h2,h3,h4,h5,h6,span,div{
 header.header-main {
     width: 100%;
     height: auto;
-    /*background: #fff;*/
-    background: #21d7bb;
+    background: #fff;
+    /*background: #21d7bb;*/
     z-index: 999;
     position: relative;
     float: right;
@@ -317,8 +317,8 @@ header.header-main {
     width: auto;
     height: 50px;
     border-radius: 10px;
-    /*background-color: #FFF;*/
-    background-color: #30cbdd;
+    background-color: #FFF;
+    /*background-color: #30cbdd;*/
     color: #555 !important;
     line-height: 44px;
     padding: 5px 10px 5px 43px;
@@ -355,8 +355,8 @@ header.header-main {
         float: right;
         font-size: 14px;
         margin-left: 20px;
-        color: #ffffff;
-        /*color: #8a8a8a;*/
+        /*color: #ffffff;*/
+        color: #8a8a8a;
         font-weight: 500;
     }
 
@@ -463,8 +463,8 @@ header.header-main {
     position: relative;
     line-height: 55px;
     float: right;
-    /*background-color: #fdfdfd;*/
-    background-color: #b5fff4;
+    background-color: #fdfdfd;
+    /*background-color: #b5fff4;*/
     margin-top: 10px;
     border-bottom: 1px solid #e0e0e0;
     border-top: 1px solid #f5f5f5;

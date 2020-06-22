@@ -257,6 +257,8 @@ namespace Service.Repos.User
             var model =await GetByIdAsync(userId);
 
             model.IsPhoneNumberConfirm = true;
+            model.IsActive = true;
+
             await UpdateAsync(model);
 
             return await SaveAsync();

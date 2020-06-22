@@ -191,9 +191,9 @@ namespace Service
             return Entities.FindAsync(ids);
         }
 
-        public virtual Task<TEntity> GetByConditionAsync(Expression<Func<TEntity, bool>> where = null, string includes = "")
+        public virtual Task<TEntity> GetByConditionAsync(Expression<Func<TEntity, bool>> where = null, string includes = "", bool isTracked = false)
         {
-            var query = TableNoTracking;
+            var query = isTracked ? Table : TableNoTracking;
 
             if (where != null) query = query.Where(where);
 
@@ -207,6 +207,9 @@ namespace Service
 
             return query.FirstOrDefaultAsync();
         }
+
+
+
 
         public virtual Task<TProject> GetByConditionAsync<TProject>(Expression<Func<TEntity, bool>> where = null, string includes = "") where TProject : class
         {
@@ -314,7 +317,7 @@ namespace Service
 
 
         public virtual IEnumerable<TEntity> GetListWithTake(Expression<Func<TEntity, bool>> where = null,
-      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "",int take = 0)
+      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "", int take = 0)
         {
             IQueryable<TEntity> query = TableNoTracking;
 
@@ -336,7 +339,7 @@ namespace Service
                 }
             }
 
-            if(take != 0)
+            if (take != 0)
             {
                 query = query.Take(take);
             }

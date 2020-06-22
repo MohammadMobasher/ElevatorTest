@@ -8,6 +8,8 @@ namespace DataLayer.SSOT
     {
         Profile,
 
+        EditProfile,
+
         Orders,
 
         Favorite,

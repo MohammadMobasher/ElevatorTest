@@ -7,7 +7,7 @@
                 </div>
             </header>
             <footer class="profile-box-content-footer">
-                <span class="profile-box-nameuser">@User.Identity.FindFirstValue("FullName")</span>
+                <span class="profile-box-nameuser">@Model.FirstName @Model.LastName</span>
                 <span class="profile-box-registery-date"></span>
                 <span class="profile-box-phone">شماره همراه :  @Model.PhoneNumber</span>
                 <div class="profile-box-tabs">
@@ -24,17 +24,23 @@
                     </a>
                 </li>
                 <li class="profile-account-nav-item navigation-link-dashboard">
+                    <a asp-action="EditProfile" class="@(ViewBag.SidebarActive == ProfileSidebarSSOT.EditProfile?"active":"")">
+                        <i class="mdi mdi-credit-card"></i>
+                       ویرایش پروفایل
+                    </a>
+                </li>
+                <li class="profile-account-nav-item navigation-link-dashboard">
                     <a asp-action="Orders" class="@(ViewBag.SidebarActive == ProfileSidebarSSOT.Orders?"active":"")">
                         <i class="mdi mdi-cart"></i>
                         همه سفارش ها
                     </a>
                 </li>
                 @*<li class="profile-account-nav-item navigation-link-dashboard">
-                    <a asp-action="Favorite" class="@(ViewBag.SidebarActive == ProfileSidebarSSOT.Favorite?"active":"")">
-                        <i class="mdi mdi-tooltip-text-outline"></i>
-                        علاقه مندی هاُ
-                    </a>
-                </li>*@
+            <a asp-action="Favorite" class="@(ViewBag.SidebarActive == ProfileSidebarSSOT.Favorite?"active":"")">
+                <i class="mdi mdi-tooltip-text-outline"></i>
+                علاقه مندی هاُ
+            </a>
+        </li>*@
             </ul>
         </section>
     </div>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -9,9 +8,7 @@ using Core;
 using Core.BankCommon.ViewModels;
 using Core.Utilities;
 using DataLayer.Entities;
-using DataLayer.ViewModels.User;
 using DataLayer.ViewModels.UsersPayments;
-using DNTPersianUtils.Core;
 using Elevator.Controllers;
 using ElevatorNewUI.Helpers;
 using Microsoft.AspNetCore.Authorization;

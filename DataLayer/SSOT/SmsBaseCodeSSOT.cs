@@ -21,11 +21,12 @@ namespace DataLayer.SSOT
         Result = 15920,
 
 
-        Ordered = 16031,
-        Preparation = 16712,
-        Loading = 16032,
-        transmission = 16033,
-        Delivery = 16034
+        Ordered = 17335,
+        Preparation = 17572,
+        Loading = 17569,
+        transmission = 17570,
+        Delivery = 17571,
+        TestSms = 17335,
 
     }
 }

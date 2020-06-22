@@ -206,7 +206,7 @@ namespace ElevatorNewUI.Controllers
                 if (ModelState.IsValid)
                 {
                     var userId = int.Parse(User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
-                    var user = await _userRepository.GetByConditionAsync(a => a.Id == userId && a.IsActive);
+                    var user = await _userRepository.GetByConditionAsync(a => a.Id == userId && a.IsActive, isTracked: true);
 
                     if (user == null)
                     {
@@ -221,6 +221,8 @@ namespace ElevatorNewUI.Controllers
                         TempData.AddResult(SweetAlertExtenstion.Ok("رمز عبور با موفقیت تغییر یافت"));
                         return RedirectToAction("Index", "Profile");
                     }
+                    TempData.AddResult(SweetAlertExtenstion.Error(string.Join(",", result.Errors.Select(a => a.Description))));
+                    return View();
                 }
 
             }
@@ -386,5 +388,15 @@ namespace ElevatorNewUI.Controllers
         }
 
         #endregion
+
+        public IActionResult SmsTest()
+        {
+            var text = "عمران جدیدی;522551445";
+
+            var resultSms = _smsRestClient.SendByBaseNumber(text, "09034537712", (int)SmsBaseCodeSSOT.TestSms);
+
+            return Json(true);
+        }
+
     }
 }

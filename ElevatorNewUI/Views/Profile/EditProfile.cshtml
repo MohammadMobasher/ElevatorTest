@@ -1,0 +1,65 @@
+﻿@using DataLayer.Entities.Users
+@model Users
+@{
+    var userAddress = ViewBag.UserAddress as UserAddress;
+}
+
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+                    <partial name="_SidebarProfile">
+                        <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                            <div class="profile-content">
+                                <div class="profile-stats">
+                                    <div class="profile-address">
+                                        <div class="middle-container">
+                                            <form asp-action="EditProfile" class="form-checkout">
+                                                <div class="form-checkout-row">
+                                                    <label for="name">نام  <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
+                                                    <input type="text" id="name" asp-for="@Model.FirstName" class="input-name-checkout form-control">
+
+                                                    <label for="name">نام خانوادگی <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
+                                                    <input type="text" id="name" asp-for="@Model.LastName" class="input-name-checkout form-control">
+
+
+                                                    <label for="name">آدرس ایمیل  <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
+                                                    <input type="text" id="name" disabled value="@Model.Email" class="input-name-checkout form-control">
+
+
+                                                    <label for="name">شماره موبایل   <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
+                                                    <input type="text" id="name" disabled value="@Model.PhoneNumber" class="input-name-checkout form-control">
+
+
+                                                    <label for="name">شماره تلفن ثابت  <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
+                                                    <input type="text" id="name" name="Telephone" asp-for="@userAddress.Telephone" class="input-name-checkout form-control">
+
+
+                                                    <label for="name">آدرس  <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
+                                                    <input type="text" id="name" name="Address" asp-for="@userAddress.Address" class="input-name-checkout form-control">
+
+
+                                                    <label for="name">پلاک  <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
+                                                    <input type="number" id="name" name="Plaque" asp-for="@userAddress.Plaque" class="input-name-checkout form-control">
+
+
+                                                    <label for="name">کد پستی  <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
+                                                    <input type="text" id="name" name="ZipCode" asp-for="@userAddress.ZipCode" class="input-name-checkout form-control">
+
+                                                    <div class="AR-CR">
+                                                        <button class="btn-registrar" type="submit"> ویرایش اطلاعات</button>
+                                                        <a asp-action="Index" class="cancel-edit-address" data-dismiss="modal" aria-label="Close">بازگشت</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

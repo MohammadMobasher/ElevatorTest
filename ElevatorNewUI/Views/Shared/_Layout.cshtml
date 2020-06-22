@@ -116,7 +116,7 @@
                                                 <span class="icon-account">
                                                     <img src="~/images/man.png" class="avator">
                                                 </span>
-                                                <span class="title-account">@User.Identity.FindFirstValue("FullName")</span>
+                                                <span class="title-account">@(string.IsNullOrWhiteSpace(User.Identity.FindFirstValue("FullName")) ? "حساب کاربری" : User.Identity.FindFirstValue("FullName") )</span>
                                                 <div class="dropdown-menu">
                                                     <ul class="account-uls mb-0">
                                                         <li class="account-item">
@@ -342,7 +342,7 @@
                                     </fieldset>
                                 </form>
                             </div>
-                           
+
                         </div>
                         <div class="footer-more-info">
                             <div class="col-lg-10 pr">

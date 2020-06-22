@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.SSOT;
+using DataLayer.ViewModels.User;
 using Elevator.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
@@ -15,14 +16,16 @@ namespace ElevatorNewUI.Controllers.Profile
         private readonly UserRepository _userRepository;
         private readonly ShopOrderRepository _shopOrderRepository;
         private readonly ShopProductRepository _shopProductRepository;
-
+        private readonly UserAddressRepository _userAddressRepository;
         public ProfileController(UserRepository userRepository
             , ShopOrderRepository shopOrderRepository
-            , ShopProductRepository shopProductRepository)
+            , ShopProductRepository shopProductRepository
+            , UserAddressRepository userAddressRepository)
         {
             _userRepository = userRepository;
             _shopOrderRepository = shopOrderRepository;
             _shopProductRepository = shopProductRepository;
+            _userAddressRepository = userAddressRepository;
         }
 
 
@@ -85,5 +88,30 @@ namespace ElevatorNewUI.Controllers.Profile
             return View();
         }
 
+
+        #region Change Account Info 
+
+        public async Task<IActionResult> EditProfile()
+        {
+            var model = await _userRepository.GetByConditionAsync(a => a.Id == this.UserId);
+            ViewBag.SidebarActive = ProfileSidebarSSOT.EditProfile;
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(EditProfileViewModel vm, EditProfileUserAddressViewModel model)
+        {
+            vm.Id = UserId;
+            model.UserId = UserId;
+
+            await _userRepository.MapUpdateAsync(vm,vm.Id);
+            await _userAddressRepository.MapUpdateAsync(model, model.UserId);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        #endregion
     }
 }
