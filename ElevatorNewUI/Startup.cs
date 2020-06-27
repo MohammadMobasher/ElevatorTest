@@ -49,6 +49,10 @@ namespace ElevatorNewUI
             services.AddAutoMapper(typeof(SlideShowMapper));
             #endregion
 
+            services.Configure<CookieTempDataProviderOptions>(options => {
+                options.Cookie.IsEssential = true;
+            });
+
             services.SmsConfiguration();
             services.ClaimFactoryConfiguration();
             services.AddScoped<ManageBankService>();

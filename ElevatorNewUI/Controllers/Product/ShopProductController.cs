@@ -186,6 +186,8 @@ namespace ElevatorNewUI.Controllers
                 return await RequestBuilder(orderId);
             }
 
+           
+
             return RedirectToAction("Index");
         }
 
@@ -269,15 +271,18 @@ namespace ElevatorNewUI.Controllers
                     await _usersPaymentRepository.MapAddAsync(SetValue(res.Result.Token));
                     await _shopOrderRepository.UpdateAsync(factorInfo);
 
-                    Response.Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
+                   return Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
                 }
-                ViewBag.Message = res.Result.Description;
-                return View();
+                TempData["Result"] = res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token);
+
+                return RedirectToAction("BankMessage");
             }
 
             #endregion
 
-            return View();
+            TempData["Result"] = res.Result.Description;
+
+            return RedirectToAction("BankMessage");
 
             #region LocalMethods
 
@@ -295,6 +300,15 @@ namespace ElevatorNewUI.Controllers
             }
 
             #endregion
+        }
+
+        public IActionResult BankMessage()
+        {
+            if (TempData["Result"] != null)
+            {
+                ViewBag.Result = TempData["Result"];
+            }
+            return View();
         }
 
         #endregion
