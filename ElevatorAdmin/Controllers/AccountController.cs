@@ -28,7 +28,7 @@ namespace ElevatorAdmin.Controllers
         private readonly UserManager<Users> _userManager;
         private readonly RoleRepository _roleRepository;
         private readonly SmsRestClient _smsRestClient;
-
+        
         public AccountController(SignInManager<Users> signInManager,
             UserManager<Users> userManager,
             UserRepository userRepository,
@@ -55,6 +55,7 @@ namespace ElevatorAdmin.Controllers
         [AllowAnonymous()]
         public IActionResult Login()
         {
+
             return View();
         }
 

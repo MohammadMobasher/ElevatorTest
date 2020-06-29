@@ -22,7 +22,7 @@ namespace ElevatorAdmin.Areas.FAQ.Controllers
     {
         private readonly FAQRepository _fAQRepository;
         private readonly FaqGroupRepository _faqGroupRepository;
-
+        
         public ManageFAQController(
             UsersAccessRepository usersAccessRepository,
             FAQRepository fAQRepository,
@@ -47,6 +47,7 @@ namespace ElevatorAdmin.Areas.FAQ.Controllers
 
             ViewBag.SearchModel = searchModel;
 
+
             return View(model.Item2);
 
         }
@@ -67,7 +68,7 @@ namespace ElevatorAdmin.Areas.FAQ.Controllers
         {
             TempData.AddResult(await _fAQRepository.AddAsync(model));
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -89,7 +90,7 @@ namespace ElevatorAdmin.Areas.FAQ.Controllers
 
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -111,7 +112,7 @@ namespace ElevatorAdmin.Areas.FAQ.Controllers
             var result = await _fAQRepository.DeleteAsync(model.Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

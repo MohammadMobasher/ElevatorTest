@@ -59,6 +59,9 @@ namespace WebFramework.Base
         public bool newSearch { get; set; }
 
 
+        public static string IndexUrlWithQueryString = "";
+
+
         #endregion
 
         /// <summary>
@@ -105,6 +108,10 @@ namespace WebFramework.Base
         {
             base.OnActionExecuting(context);
 
+            if(context.RouteData.Values["action"].ToString() == "Index")
+            {
+                IndexUrlWithQueryString = context.HttpContext.Request.Path + context.HttpContext.Request.QueryString;
+            }
 
             this.CurrentPage = Request.Query["currentPage"].Count != 0 ? Convert.ToInt32(Request.Query["currentPage"][0]) : 1;
             this.newSearch = Request.Query["newSearch"].Count != 0 ? Convert.ToBoolean(Request.Query["newSearch"][0]) : false;
@@ -159,6 +166,12 @@ namespace WebFramework.Base
             ViewBag.ListAccess = _usersAccessRepository.GetAllUserAccesss(this.UserId);
         }
 
+
+
+        private void SetStaticValue(string url)
+        {
+            IndexUrlWithQueryString = url;
+        }
 
     }
 }

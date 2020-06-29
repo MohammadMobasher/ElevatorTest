@@ -57,7 +57,7 @@ namespace ElevatorAdmin.Areas.FaqGroup.Controllers
         {
             TempData.AddResult(await _faqGroupRepository.AddAsync(model));
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -79,7 +79,7 @@ namespace ElevatorAdmin.Areas.FaqGroup.Controllers
 
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -101,7 +101,7 @@ namespace ElevatorAdmin.Areas.FaqGroup.Controllers
             var result = await _faqGroupRepository.DeleteAsync(model.Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
