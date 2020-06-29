@@ -93,6 +93,7 @@ namespace ElevatorAdmin.Controllers
                 return RedirectToAction("Index", "Home");
             }
             TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور یا نام کاربری نادرست است"));
+            
             return RedirectToAction("Index");
         }
 
@@ -125,6 +126,7 @@ namespace ElevatorAdmin.Controllers
                 TempData.AddResult(SweetAlertExtenstion.Error("کاربری یافت نشد"));
                 return View();
             }
+            var text = "param1;param2";
 
             var resultSms = _smsRestClient.SendByBaseNumber(model.ActiveCode.ToPersianNumbers(), model.PhoneNumber, (int)SmsBaseCodeSSOT.ForgetPassword);
 
