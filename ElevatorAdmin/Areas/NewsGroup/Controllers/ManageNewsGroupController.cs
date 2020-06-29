@@ -61,7 +61,7 @@ namespace ElevatorAdmin.Areas.NewsGroup.Controllers
 
             TempData.AddResult(result);
             
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -83,7 +83,7 @@ namespace ElevatorAdmin.Areas.NewsGroup.Controllers
 
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -97,7 +97,7 @@ namespace ElevatorAdmin.Areas.NewsGroup.Controllers
             var result = await _newsGroupRepository.DeleteAsync(Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

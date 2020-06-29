@@ -69,7 +69,7 @@ namespace ElevatorAdmin.Areas.News.Controllers
 
             TempData.AddResult(await _newsRepository.Insert(model));
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -92,7 +92,7 @@ namespace ElevatorAdmin.Areas.News.Controllers
 
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -106,7 +106,7 @@ namespace ElevatorAdmin.Areas.News.Controllers
             var result = await _newsRepository.DeleteAsync(Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -122,7 +122,7 @@ namespace ElevatorAdmin.Areas.News.Controllers
             var result = await _newsRepository.ActiveDeactive(Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

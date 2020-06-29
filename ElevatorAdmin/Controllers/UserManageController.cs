@@ -75,7 +75,7 @@ namespace ElevatorAdmin.Controllers
             if (vm.Password != vm.RePassword)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور با تکرار آن یکسان نیست"));
-                return RedirectToAction("Index");
+                return Redirect(IndexUrlWithQueryString);
             }
 
             var user = AutoMapper.Mapper.Map<Users>(vm);
@@ -98,13 +98,13 @@ namespace ElevatorAdmin.Controllers
                     if (resultCreatUser.Succeeded)
                     {
                         TempData.AddResult(SweetAlertExtenstion.Ok());
-                        return RedirectToAction("Index");
+                        return Redirect(IndexUrlWithQueryString);
                     }
                 }
                 else
                 {
                     TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این شماره تلفن از قبل وجود دارد"));
-                    return RedirectToAction("Index");
+                    return Redirect(IndexUrlWithQueryString);
                 }
                 //else
                 //{
@@ -120,9 +120,9 @@ namespace ElevatorAdmin.Controllers
             else
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("چنین کاربری از قبل وجود دارد"));
-                return RedirectToAction("Index");
+                return Redirect(IndexUrlWithQueryString);
             }
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

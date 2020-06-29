@@ -85,7 +85,7 @@ namespace ElevatorAdmin.Controllers
             // اضافه کردن دسترسی های نقش جاری
             _usersAccessRepository.AddAccessRole(vm, roleId);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
 
@@ -116,7 +116,7 @@ namespace ElevatorAdmin.Controllers
             // اضافه کردن دسترسی های نقش جاری
             _usersAccessRepository.UpdateAccessRole(vm, role.Id);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
 

@@ -123,6 +123,7 @@ namespace WebFramework.Base
 
             if (context.RouteData.Values["action"].ToString() == "Index")
             {
+                // ================================= Develop by Jadidi ================================= //
                 context.HttpContext.Response.Cookies.Append("IndexUrlWithQueryString", context.HttpContext.Request.Path + context.HttpContext.Request.QueryString);
             }
 
@@ -178,13 +179,6 @@ namespace WebFramework.Base
         {
             ViewBag.ListAccess = _usersAccessRepository.GetAllUserAccesss(this.UserId);
         }
-
-
-
-        private void SetStaticValue(string url)
-        {
-            IndexUrlWithQueryString = url;
-        }
-
+        
     }
 }

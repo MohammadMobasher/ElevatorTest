@@ -37,7 +37,7 @@ namespace ElevatorAdmin.Areas.SiteSetting.Controllers
         public async Task<IActionResult> Index(SiteSettingInsertViewModel vm)
         {
             TempData.AddResult(await _siteSettingRepository.UpdateInfo(vm));
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
     }
 }

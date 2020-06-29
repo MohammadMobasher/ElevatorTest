@@ -95,7 +95,7 @@ namespace ElevatorAdmin.Controllers
             }
             TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور یا نام کاربری نادرست است"));
             
-            return RedirectToAction("Index");
+            return Redirect("Index");
         }
 
         [AllowAccess]

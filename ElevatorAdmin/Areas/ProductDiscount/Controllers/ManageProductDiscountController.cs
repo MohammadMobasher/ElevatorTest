@@ -68,7 +68,7 @@ namespace ElevatorAdmin.Areas.ProductDiscount.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
 

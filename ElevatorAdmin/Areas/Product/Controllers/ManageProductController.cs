@@ -281,7 +281,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             var result = await _productRepostitory.DeletedProduct(model.Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
 
@@ -303,7 +303,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
         //    var result = await _productRepostitory.Delete(model.Id);
 
-        //    return RedirectToAction("Index");
+        //    return Redirect(IndexUrlWithQueryString);
         //}
     }
 }

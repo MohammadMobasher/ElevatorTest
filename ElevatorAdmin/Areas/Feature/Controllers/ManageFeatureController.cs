@@ -75,13 +75,13 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
             if (model.FeatureType != DataLayer.SSOT.FeatureTypeSSOT.Fssot)
             {
                 TempData.AddResult(await _featureRepository.Insert(model));
-                return RedirectToAction("Index");
+                return Redirect(IndexUrlWithQueryString);
             }
             
             var featureId = await _featureRepository.InsertFeature(model);
             vm.FeatureId = featureId.Value;
             TempData.AddResult(await _featureItemRepository.InsertFeatureItem(vm));
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -112,7 +112,7 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
 
             TempData.AddResult(await _featureRepository.UpdateAsync(model, vm));
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -158,7 +158,7 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
             var result = await _featureRepository.DeleteAsync(model.Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -170,7 +170,7 @@ namespace ElevatorAdmin.Areas.Feature.Controllers
         {
             TempData.AddResult(await _featureRepository.ShowInSearchSite(Id));
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

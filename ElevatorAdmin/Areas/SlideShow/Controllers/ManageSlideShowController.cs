@@ -59,7 +59,7 @@ namespace ElevatorAdmin.Areas.SlideShow.Controllers
         {
             TempData.AddResult(await _slideShowRepository.AddAsync(model));
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -81,7 +81,7 @@ namespace ElevatorAdmin.Areas.SlideShow.Controllers
 
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -104,7 +104,7 @@ namespace ElevatorAdmin.Areas.SlideShow.Controllers
             var result = await _slideShowRepository.DeleteAsync(model.Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

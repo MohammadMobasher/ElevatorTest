@@ -58,7 +58,7 @@ namespace ElevatorAdmin.Areas.Condition.Controllers
         public async Task<IActionResult> Insert(ConditionInsertViewModel model)
         {
             TempData.AddResult(await _conditionRepository.InsertAsync(model));
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -78,7 +78,7 @@ namespace ElevatorAdmin.Areas.Condition.Controllers
         public async Task<IActionResult> Update(ConditionUpdateViewModel model)
         {
             TempData.AddResult(await _conditionRepository.UpdateAsync(model));
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -101,7 +101,7 @@ namespace ElevatorAdmin.Areas.Condition.Controllers
             var result = await _conditionRepository.DeleteAsync(model.Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

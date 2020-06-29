@@ -60,7 +60,7 @@ namespace ElevatorAdmin.Areas.LogoManufactory
         {
             TempData.AddResult(await _logoManufactoryRepository.Insert(model));
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -82,7 +82,7 @@ namespace ElevatorAdmin.Areas.LogoManufactory
 
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -105,7 +105,7 @@ namespace ElevatorAdmin.Areas.LogoManufactory
             var result = await _logoManufactoryRepository.Delete(model.Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

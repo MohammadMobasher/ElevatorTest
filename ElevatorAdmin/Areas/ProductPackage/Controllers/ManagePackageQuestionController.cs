@@ -58,7 +58,7 @@ namespace ElevatorAdmin.Areas.ProductPackage.Controllers
             vm.IsQuestion = true;
             TempData.AddResult(await _packageQuestionsRepository.SetQuestion(vm));
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         /// <summary>

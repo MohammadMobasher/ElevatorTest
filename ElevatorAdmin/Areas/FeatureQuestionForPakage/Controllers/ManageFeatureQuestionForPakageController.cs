@@ -77,7 +77,7 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
         {
 
             TempData.AddResult(await _featureQuestionForPakageRepository.Insert(model));
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -103,7 +103,7 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
 
             TempData.AddResult(await _featureQuestionForPakageRepository.UpdateAsync(model));
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -126,7 +126,7 @@ namespace ElevatorAdmin.Areas.FeatureQuestionForPakage.Controllers
             var result = await _featureQuestionForPakageRepository.DeleteAsync(model.Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

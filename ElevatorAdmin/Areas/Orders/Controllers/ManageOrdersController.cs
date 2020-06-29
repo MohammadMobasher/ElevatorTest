@@ -86,7 +86,7 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
             TempData.AddResult(result.Item1);
             if(result.Item2 != ShopOrderStatusSSOT.Nothing)
                 SendSmsChangeStatus(result.Item2, order.Users.PhoneNumber, order.OrderId, order.Users.FirstName +" "+ order.Users.LastName);
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
 

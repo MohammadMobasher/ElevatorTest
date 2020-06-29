@@ -64,7 +64,7 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
 
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -88,7 +88,7 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
 
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -102,7 +102,7 @@ namespace ElevatorAdmin.Areas.ProductGroup.Controllers
             var result = await _productGroupRepository.DeleteAsync(Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

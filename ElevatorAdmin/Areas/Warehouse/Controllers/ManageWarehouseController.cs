@@ -46,7 +46,7 @@ namespace ElevatorAdmin.Areas.Warehouse.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction("Index"); 
+            return Redirect(IndexUrlWithQueryString); 
         }
 
         public async Task<IActionResult> Update(int id)
@@ -62,7 +62,7 @@ namespace ElevatorAdmin.Areas.Warehouse.Controllers
         {
             TempData.AddResult(await _warehouseRepository.UpdateMappingAsync(vm));
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
 

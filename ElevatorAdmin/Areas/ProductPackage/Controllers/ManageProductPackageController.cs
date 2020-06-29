@@ -332,7 +332,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             var result = await _productPackageRepostitory.Delete(model.Id);
             TempData.AddResult(result);
 
-            return RedirectToAction("Index");
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
