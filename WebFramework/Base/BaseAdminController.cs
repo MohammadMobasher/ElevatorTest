@@ -59,7 +59,20 @@ namespace WebFramework.Base
         public bool newSearch { get; set; }
 
 
-        public static string IndexUrlWithQueryString = "";
+        public string IndexUrlWithQueryString
+        {
+            get
+            {
+                if (HttpContext.Request.Cookies["IndexUrlWithQueryString"] != null)
+                    return HttpContext.Request.Cookies["IndexUrlWithQueryString"];
+                else
+                    return "/";
+            }
+            set
+            {
+
+            }
+        }
 
 
         #endregion
@@ -108,9 +121,9 @@ namespace WebFramework.Base
         {
             base.OnActionExecuting(context);
 
-            if(context.RouteData.Values["action"].ToString() == "Index")
+            if (context.RouteData.Values["action"].ToString() == "Index")
             {
-                IndexUrlWithQueryString = context.HttpContext.Request.Path + context.HttpContext.Request.QueryString;
+                context.HttpContext.Response.Cookies.Append("IndexUrlWithQueryString", context.HttpContext.Request.Path + context.HttpContext.Request.QueryString);
             }
 
             this.CurrentPage = Request.Query["currentPage"].Count != 0 ? Convert.ToInt32(Request.Query["currentPage"][0]) : 1;
@@ -120,7 +133,7 @@ namespace WebFramework.Base
             if (this.newSearch)
             {
                 this.CurrentPage = 1;
-                
+
             }
 
             this.PageSize = Request.Query["pageSize"].Count != 0 ? Convert.ToInt32(Request.Query["pageSize"][0]) : 10;
