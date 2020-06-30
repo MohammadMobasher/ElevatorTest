@@ -108,7 +108,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
             // بازگشت به لیست محصولات
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
         }
 
 
@@ -155,7 +155,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
             // بازگشت به لیست محصولات
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
         }
 
 
@@ -208,7 +208,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -233,7 +233,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             TempData.AddResult(model);
 
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -247,7 +247,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
         }
 
         [ActionRole("تغییر محصول عادی به محصول ویژه")]
@@ -257,7 +257,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             TempData.AddResult(SweetAlertExtenstion.Ok());
 
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion

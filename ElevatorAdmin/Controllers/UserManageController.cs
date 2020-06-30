@@ -151,7 +151,7 @@ namespace ElevatorAdmin.Controllers
 
             TempData.AddResult(swMessage);
 
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
         }
 
 
@@ -170,7 +170,7 @@ namespace ElevatorAdmin.Controllers
 
             TempData.AddResult(sweetMessage);
 
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
@@ -194,13 +194,13 @@ namespace ElevatorAdmin.Controllers
             if(model == null)
             {
                 TempData.AddResult(SweetAlertExtenstion.Error("برای این شخص شماره تماسی ثبت نشده است"));
-                return RedirectToAction(nameof(Index));
+                return Redirect(IndexUrlWithQueryString);
             }
             var swMessage = _smsService.SendSms(model, vm.Message);
 
             TempData.AddResult(swMessage);
 
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
         }
         #endregion
 
@@ -225,7 +225,7 @@ namespace ElevatorAdmin.Controllers
 
             TempData.AddResult(swMessage);
 
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
 
         }
         #endregion
@@ -241,7 +241,7 @@ namespace ElevatorAdmin.Controllers
 
             TempData.AddResult(swMessage);
 
-            return RedirectToAction(nameof(Index));
+            return Redirect(IndexUrlWithQueryString);
         }
 
         #endregion
