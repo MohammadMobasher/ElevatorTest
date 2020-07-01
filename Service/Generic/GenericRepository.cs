@@ -26,9 +26,7 @@ namespace Service
             DbContext = dbContext;
             Entities = DbContext.Set<TEntity>(); // City => Cities
         }
-
-
-
+        
 
         #region By Mobasher : خوب حالا  :) => By JADIDI
 

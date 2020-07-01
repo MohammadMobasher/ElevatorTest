@@ -257,9 +257,23 @@
         <script src="~/lib/simple.money.format.js"></script>
         <script src="~/js/isotope.pkgd.min.js"></script>
         <script src="~/lib/vue.js"></script>
+        <script src="~/lib/jsPDF/dist/jspdf.min.js"></script>
 
         <script src="~/Plugins/sweetalert2/dist/sweetalert2.js"></script>
         <input type="hidden" name="selectedRowInTable" />
+
+        <script src="~/lib/html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
+
+        <script>
+            function generatePDF(id) {
+                // Choose the element that our invoice is rendered in.
+                const element = document.getElementById(id);
+                // Choose the element and save the PDF for our user.
+                html2pdf()
+                    .from(element)
+                    .save();
+            }
+        </script>
 
 
 
