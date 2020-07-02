@@ -9,7 +9,7 @@
     var order = ViewBag.Order as ShopOrder;
     var address = ViewBag.UserAddress as UserAddress;
     var shopOrderStatuses = ViewBag.shopOrderStatuses as List<ShopOrderStatusDTO>;
-
+    var unit = ViewBag.Unit as List<ProductUnit>;
 }
 
 <style>
@@ -282,6 +282,8 @@
                             <th scope="col">قیمت اصلی کالا</th>
                             <th scope="col">قیمت با تخفیف</th>
                             <th scope="col">تعداد کالا</th>
+                            <th scope="col">قیمت کل</th>
+                            <th scope="col">واحد کالا</th>
                             <th scope="col">مشاهده</th>
                         </tr>
 
@@ -301,6 +303,19 @@
                                     <td>@(item.OrderPriceDiscount ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
                                     <td>@item.Count </td>
                                     <td>
+                                        @if (item.OrderPriceDiscount != null)
+                                        {
+                                            var price = item.OrderPriceDiscount.Replace(",", "");
+
+                                            <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                        }
+                                        else
+                                        {
+                                            <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                        }
+                                    </td>
+                                    <td>@(item.Product.ProductUnitId!=null ? unit.FirstOrDefault(a=>a.Id == item.Product.ProductUnitId).Name :"واحدی ثبت نشده")</td>
+                                    <td>
                                         @if (item.ProductId != null)
                                         {
                                             <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
@@ -317,8 +332,13 @@
                                         }
                                     </td>
                                 </tr>
+
                             }
                         }
+                        <tr>
+                            <td colspan="2">جمع کل :</td>
+                            <td colspan="6">@order.Amount.ToPersianPrice() تومان</td>
+                        </tr>
                     </tbody>
                 </table>
 

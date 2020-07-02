@@ -24,7 +24,7 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
         private readonly UserAddressRepository _userAddressRepository;
         private readonly ShopOrderStatusRepository _shopOrderStatusRepository;
         private readonly SmsRestClient _smsRestClient;
-
+        private readonly ProductUnitRepository _productUnitRepository;
         public ManageOrdersController(ShopOrderRepository shopOrderRepository
             , UsersPaymentRepository usersPaymentRepository
             , ShopProductRepository shopProductRepository
@@ -33,7 +33,8 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
             , UserRepository userRepository
             , UserAddressRepository userAddressRepository,
             ShopOrderStatusRepository shopOrderStatusRepository,
-            SmsRestClient smsRestClient) : base(usersAccessRepository)
+            SmsRestClient smsRestClient,
+            ProductUnitRepository productUnitRepository) : base(usersAccessRepository)
         {
             _shopOrderRepository = shopOrderRepository;
             _usersPaymentRepository = usersPaymentRepository;
@@ -43,6 +44,7 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
             _userAddressRepository = userAddressRepository;
             _shopOrderStatusRepository = shopOrderStatusRepository;
             _smsRestClient = smsRestClient;
+            _productUnitRepository = productUnitRepository;
         }
 
         [ActionRole("لیست سفارشات")]
@@ -73,7 +75,7 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
             ViewBag.shopOrderStatuses = await _shopOrderStatusRepository.GetItemsByOrderId(id);
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == info.UserId);
             ViewBag.Order = info;
-
+            ViewBag.Unit = await _productUnitRepository.GetListAsync();
             return View(model);
         }
 
