@@ -105,7 +105,14 @@ namespace Service.Repos
 
         public async Task<int> SubmitProduct(DataLayer.ViewModels.Products.ProductInsertViewModel vm, IFormFile file)
         {
-            vm.IndexPic = await MFile.Save(file, FilePath.Product.GetDescription());
+            if (file == null)
+            {
+                vm.IndexPic = "Images/no-Pic.jpg";
+            }
+            else
+            {
+                vm.IndexPic = await MFile.Save(file, FilePath.Product.GetDescription());
+            }
 
             var mapModel = Map(vm);
 
@@ -121,8 +128,8 @@ namespace Service.Repos
                 if (vm.IndexPic != null)
                 {
                     var WebContent = _hostingEnvironment.WebRootPath;
-
-                    System.IO.File.Delete(WebContent + FilePath.Product.GetDescription());
+                    if(vm.IndexPic != "Images/no-Pic.jpg")
+                         System.IO.File.Delete(WebContent + FilePath.Product.GetDescription());
                 }
 
                 vm.IndexPic = await MFile.Save(file, FilePath.Product.GetDescription());
