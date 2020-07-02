@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities.FAQs;
+﻿using DataLayer.BaseClasses;
+using DataLayer.Entities.FAQs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,9 +7,9 @@ using System.Text;
 
 namespace DataLayer.DTO.FAQs
 {
-    public class FAQDTO
+    public class FAQDTO : BaseMapping<FAQDTO, FAQ, int>
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         /// <summary>
         /// متن مربوط به سوال

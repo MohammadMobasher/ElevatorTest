@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DataLayer.CustomMapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,12 +25,13 @@ namespace Service
 
             services.Scan(scan =>
                 scan.FromAssemblyOf<DatabaseContext>()
-                    .AddClasses(classes => classes.InNamespaceOf<DatabaseContext>())
+                    .AddClasses(classes => classes.InNamespaceOf<DatabaseContext>() )
                     .AsSelf()
                     .WithScopedLifetime());
 
             #region Mapper
             services.AddAutoMapper(typeof(SlideShowMapper));
+            //AutoMapperConfiguration.AddCustomMapping();
             #endregion
         }
 

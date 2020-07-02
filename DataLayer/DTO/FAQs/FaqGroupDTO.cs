@@ -1,12 +1,13 @@
-﻿using System;
+﻿using DataLayer.BaseClasses;
+using DataLayer.Entities.FAQs;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DataLayer.DTO.FAQs
 {
-    public class FaqGroupDTO
+    public class FaqGroupDTO : BaseMapping<FaqGroupDTO,FaqGroup,int>
     {
-        public int Id { get; set; }
         public string Title { get; set; }
 
         public string Icon { get; set; }

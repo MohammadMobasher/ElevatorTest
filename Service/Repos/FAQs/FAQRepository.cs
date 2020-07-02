@@ -34,7 +34,7 @@ namespace Service.Repos.FAQs
                 query = query.Where(x => x.AnswerText.Contains(model.AnswerText));
 
 
-            if(model.IsActive != null)
+            if (model.IsActive != null)
                 query = query.Where(x => x.IsActive == model.IsActive);
 
 
@@ -59,7 +59,7 @@ namespace Service.Repos.FAQs
         /// <returns></returns>
         public async Task<List<FAQDTO>> GetItemsByGroupId(int id)
         {
-            return await Entities.ProjectTo<FAQDTO>().Where(x => x.FaqGroupId == id).OrderByDescending(x=> x.Id).ToListAsync();
+            return await Entities.ProjectTo<FAQDTO>().Where(x => x.FaqGroupId == id).OrderByDescending(x => x.Id).ToListAsync();
         }
 
 
