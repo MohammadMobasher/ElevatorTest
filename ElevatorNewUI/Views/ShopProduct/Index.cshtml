@@ -87,7 +87,7 @@ else
                                                     <td class="product-cart-quantity">
                                                         <div class="required-number before">
                                                             <div class="quantity" data-id="@item.Id">
-                                                                <input type="number" min="1"  step="1" value="@item.Count">
+                                                                <input type="number" class="counterValue" data-id="@item.Id" name="num_@item.Id" min="1" value="@item.Count">
                                                             </div>
                                                         </div>
                                                     </td>
@@ -105,7 +105,7 @@ else
                                                         </span>
                                                     </td>
                                                 }
-                                                else
+                                                @*else
                                                 {
                                                     <th scope="row" class="product-cart-name">
                                                         <div class="product-thumbnail-img">
@@ -127,7 +127,7 @@ else
                                                     <td class="product-cart-quantity">
                                                         <div class="required-number before">
                                                             <div class="quantity IsPackage">
-                                                                <input type="number" min="1" max="100" step="1" value="@item.Count">
+                                                                <input type="number" name="num_@item.Id" min="1" max="100" step="1" value="@item.Count">
                                                             </div>
                                                         </div>
                                                     </td>
@@ -144,7 +144,7 @@ else
                                                             <span>تومان</span>
                                                         </span>
                                                     </td>
-                                                }
+                                                }*@
                                             </tr>
                                             }
                                         </tbody>
@@ -223,17 +223,20 @@ else
 <script>
     $(function () {
         $('.quantity-button').on('click', function () {
-            debugger;
+            
             var isPackage = $(this).parent().parent().hasClass('IsPackage');
             var id = $(this).parent().parent().attr('data-id');
-            if ($(this).hasClass('quantity-up')) {
-                type = true;
-            }
-            else if ($(this).hasClass('quantity-down')) {
-                type = false;
-            }
+            var num = $("[name='num_" + id + "']").val();
+            console.log("num", num);
 
-            $.get("/ShopProduct/CartCount", { id: id, isPlus: type, isPackage }, function (res) {
+            //if ($(this).hasClass('quantity-up')) {
+            //    type = true;
+            //}
+            //else if ($(this).hasClass('quantity-down')) {
+            //    type = false;
+            //}
+
+            $.get("/ShopProduct/CartCountValue", { id: id, count: num, isPackage }, function (res) {
                 if (res !== null) {
                     $('.CountPerPrice_' + id).html(res);
                     CalculatePrice();
@@ -245,10 +248,13 @@ else
 
 
 
-        $('.counterValue').on('change', function () {
+        $('.counterValue').on('keyup', function () {
+            debugger;
+            
             var isPackage = $(this).parent().hasClass('packaged');
             var id = $(this).attr('data-id');
             var value = $(this).val();
+            console.log("num", value);
 
             $.get("/ShopProduct/CartCountValue", { id: id, count: value, isPackage }, function (res) {
                 if (res !== null) {

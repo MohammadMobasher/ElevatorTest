@@ -45,6 +45,7 @@
     <script src="~/js/vendor/jquery.nice-select.min.js"></script>
     <!-- main js---------------------------------------------------->
     <script src="~/js/main.js"></script>
+
 </head>
 <body>
     <!-- header-------------------------------->
@@ -398,7 +399,18 @@
         </svg>
     </div>
     <!-- scroll_Progress------------------------->
+    <script src="~/lib/html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
 
+    <script>
+        function generatePDF(id) {
+            // Choose the element that our invoice is rendered in.
+            const element = document.getElementById(id);
+            // Choose the element and save the PDF for our user.
+            html2pdf()
+                .from(element)
+                .save();
+        }
+    </script>
 </body>
 
 </html>
