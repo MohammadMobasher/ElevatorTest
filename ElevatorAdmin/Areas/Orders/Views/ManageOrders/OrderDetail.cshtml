@@ -279,11 +279,11 @@
                         <tr>
                             <th scope="col">ردیف</th>
                             <th scope="col">عنوان کالا</th>
+                            <th scope="col">تعداد کالا</th>
+                            <th scope="col">واحد کالا</th>
                             <th scope="col">قیمت اصلی کالا</th>
                             <th scope="col">قیمت با تخفیف</th>
-                            <th scope="col">تعداد کالا</th>
                             <th scope="col">قیمت کل</th>
-                            <th scope="col">واحد کالا</th>
                             <th scope="col">مشاهده</th>
                         </tr>
 
@@ -299,9 +299,10 @@
 
                                     <td class="order-code">@(index++)</td>
                                     <td>@(item.OrderName ?? item.Product.Title) </td>
+                                    <td>@item.Count </td>
+                                    <td>@(item.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
                                     <td>@(item.OrderPrice ?? item.Product.Price.ToPersianPrice())</td>
                                     <td>@(item.OrderPriceDiscount ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
-                                    <td>@item.Count </td>
                                     <td>
                                         @if (item.OrderPriceDiscount != null)
                                         {
@@ -314,7 +315,6 @@
                                             <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
                                         }
                                     </td>
-                                    <td>@(item.Product.ProductUnitId!=null ? unit.FirstOrDefault(a=>a.Id == item.Product.ProductUnitId).Name :"واحدی ثبت نشده")</td>
                                     <td>
                                         @if (item.ProductId != null)
                                         {
