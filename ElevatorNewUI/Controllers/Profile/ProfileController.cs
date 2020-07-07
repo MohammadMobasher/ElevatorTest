@@ -64,7 +64,9 @@ namespace ElevatorNewUI.Controllers.Profile
 
         public async Task<IActionResult> OrderDetail(int id)
         {
-            
+
+
+
             var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id && a.IsFinaly,null,"Product");
 
            
@@ -74,6 +76,10 @@ namespace ElevatorNewUI.Controllers.Profile
             if (order == null || model == null)
                 return NotFound();
 
+            // اطلاعات کاربر
+            ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == order.UserId);
+            ViewBag.Order = order;
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == order.UserId);
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
             ViewBag.SidebarActive = ProfileSidebarSSOT.Orders;
             ViewBag.Unit = _productUnitRepository.GetList();
