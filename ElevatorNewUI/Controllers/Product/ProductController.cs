@@ -36,6 +36,7 @@ namespace ElevatorNewUI.Controllers
         private readonly ProductGroupFeatureRepository _productGroupFeatureRepository;
         private readonly ProductPackageGroupRepository _productPackageGroupRepository;
         private readonly ProductPackageDetailsRepostitory _productPackageDetailsRepostitory;
+        private readonly ProductUnitRepository _productUnitRepository;
 
         public IConfiguration configuration { get; }
         public ProductController(ProductRepostitory productRepostitory,
@@ -48,7 +49,8 @@ namespace ElevatorNewUI.Controllers
             FeatureItemRepository featureItemRepository,
             ProductGroupFeatureRepository productGroupFeatureRepository,
             ProductPackageGroupRepository productPackageGroupRepository,
-            ProductPackageDetailsRepostitory productPackageDetailsRepostitory)
+            ProductPackageDetailsRepostitory productPackageDetailsRepostitory,
+            ProductUnitRepository productUnitRepository)
         {
             _productRepository = productRepostitory;
             _productDiscountRepository = productDiscountRepository;
@@ -61,6 +63,7 @@ namespace ElevatorNewUI.Controllers
             _productGroupFeatureRepository = productGroupFeatureRepository;
             _productPackageGroupRepository = productPackageGroupRepository;
             _productPackageDetailsRepostitory = productPackageDetailsRepostitory;
+            _productUnitRepository = productUnitRepository;
         }
 
         /// <summary>
@@ -136,6 +139,7 @@ namespace ElevatorNewUI.Controllers
                 featuresWithSSOTType.Contains(x.FeatureId)).ToListAsync();
             }
 
+            ViewBag.Unit = await _productUnitRepository.GetListAsync();
 
             var test = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
