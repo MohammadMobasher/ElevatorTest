@@ -75,6 +75,7 @@ namespace ElevatorAdmin.Areas.Transportations.Controllers
             return Redirect(IndexUrlWithQueryString);
         }
 
+        [ActionRole("حذف وسیله نقلیه")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _carTransportRepository.DeleteCar(id);
@@ -84,7 +85,7 @@ namespace ElevatorAdmin.Areas.Transportations.Controllers
             return Redirect(IndexUrlWithQueryString);
         }
 
-
+        [ActionRole("تغییر وضعیت وسیله نقلیه")]
         public async Task<IActionResult> ChageStatus(int id)
         {
             TempData.AddResult(await _carTransportRepository.ChangeStatus(id));
