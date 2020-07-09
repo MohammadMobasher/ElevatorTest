@@ -6,9 +6,6 @@
     Layout = null;
 }
 
-
-
-
 <form action="/Warehouse/ManageWarehouse/Update" class="form-horizontal" method="post" style="">
 
     <input type="hidden" name="Id" value="@Model.Id"/>
@@ -28,12 +25,8 @@
     <div class="form-group">
         <label for="Title" class="control-label col-sm-2">منطقه <i class="text-danger fa fa-star size-8"></i></label>
         <div class="col-sm-10">
-            <select class="form-control" asp-for="Region" data-role="select2">
+            <select class="form-control" asp-for="Region" asp-items="@Html.GetEnumSelectList<TehranAreas>()" data-role="select2">
                 <option value="">--لطفا انتخاب کنید--</option>
-                @for (int i = 1; i <= 22; i++)
-                {
-                    <option value="@i">منطقه @i.ToString().ToPersianNumbers()</option>
-                }
             </select>
         </div>
     </div>

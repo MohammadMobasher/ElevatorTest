@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities.Common;
+using DataLayer.SSOT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,7 +25,7 @@ namespace DataLayer.Entities.Warehouse
         /// <summary>
         /// منطقه
         /// </summary>
-        public int Region { get; set; }
+        public TehranAreas Region { get; set; }
 
         public string Address{ get; set; }
 

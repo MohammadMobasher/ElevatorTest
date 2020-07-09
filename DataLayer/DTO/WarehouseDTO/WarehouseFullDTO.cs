@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities;
+using DataLayer.SSOT;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,7 +24,7 @@ namespace DataLayer.DTO.WarehouseDTO
         /// <summary>
         /// منطقه
         /// </summary>
-        public int Region { get; set; }
+        public TehranAreas Region { get; set; }
 
         /// <summary>
         /// آدرس

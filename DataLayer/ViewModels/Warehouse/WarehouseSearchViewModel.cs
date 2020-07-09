@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataLayer.SSOT;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace DataLayer.ViewModels.Warehouse
         /// <summary>
         /// منطقه
         /// </summary>
-        public int Region { get; set; }
+        public TehranAreas Region { get; set; }
 
         public string Address { get; set; }
 

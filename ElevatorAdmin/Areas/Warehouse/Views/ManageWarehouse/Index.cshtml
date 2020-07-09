@@ -89,7 +89,7 @@
                             <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
                             <td>@(index++)</td>
                             <td>@item.Title</td>
-                            <td>منطقه @item.Region.ToString().En2Fa()</td>
+                            <td> @item.Region.ToDisplay()</td>
                             <td>@item.PhoneNumber.En2Fa()</td>
                             @*<td>
                                     <a data-toggle="tooltip" title="ویرایش" href="/ProductGroup/ManageProductGroup/Update/@item.Id" data-role="confirm">
