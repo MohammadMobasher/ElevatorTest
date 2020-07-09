@@ -96,6 +96,7 @@ namespace DataLayer.Entities
         /// آیا محصول موجود می باشد یا خیر
         /// ComputedField !!
         /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public bool IsExist { get; set; }
 
         /// <summary>
