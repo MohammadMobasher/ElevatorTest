@@ -27,9 +27,15 @@ namespace DataLayer.ViewModels.Transportations.Tariff
         public int? CarId { get; set; }
 
         /// <summary>
-        /// وزن محصول
+        /// وزن کف محصول
         /// </summary>
-        public ProductSizeSSOT ProductSize { get; set; }
+        public double ProductSizeFrom { get; set; }
+
+        /// <summary>
+        /// وزن حد محصول
+        /// </summary>
+        public double ProductSizeTo { get; set; }
+
 
         /// <summary>
         /// تعرفه

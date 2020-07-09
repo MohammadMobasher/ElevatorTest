@@ -56,11 +56,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Title" class="control-label col-sm-2">وزن کالا <i class="text-danger fa fa-star size-8"></i></label>
+                        <label for="Title" class="control-label col-sm-2">وزن شاخص <i class="text-danger fa fa-star size-8"></i></label>
                         <div class="col-sm-10">
-                            <select class="form-control" name="ProductSize" asp-items="@Html.GetEnumSelectList<ProductSizeSSOT>()">
-                                <option value="">--لطفا انتخاب کنید--</option>
-                            </select>
+                            <input name="ProductSize" type="number" placeholder="وزن شاخص" class="form-control"/>
+                         
                         </div>
                     </div>
 

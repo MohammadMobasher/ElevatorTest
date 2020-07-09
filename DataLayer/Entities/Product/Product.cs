@@ -90,7 +90,7 @@ namespace DataLayer.Entities
         /// <summary>
         /// وزن محصول
         /// </summary>
-        public ProductSizeSSOT? ProductSize { get; set; }
+        public double? ProductSize { get; set; }
 
         /// <summary>
         /// آیا محصول موجود می باشد یا خیر

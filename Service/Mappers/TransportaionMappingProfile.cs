@@ -18,9 +18,9 @@ namespace Service.Mappers
             CreateMap<TariffUpdateViewModel, TransportationTariff>().ReverseMap();
             CreateMap<TransportationTariffFullDto, TransportationTariff>().ReverseMap();
 
-            CreateMap<CarsTransportaionsFullDto, TransportationTariff>().ReverseMap();
-            CreateMap<CarTransportationInsertViewModel, TransportationTariff>().ReverseMap();
-            CreateMap<CarTransportaionUpdateViewModel, TransportationTariff>().ReverseMap();
+            CreateMap<CarsTransportaionsFullDto, CarTransport>().ReverseMap();
+            CreateMap<CarTransportationInsertViewModel, CarTransport>().ReverseMap();
+            CreateMap<CarTransportaionUpdateViewModel, CarTransport>().ReverseMap();
         }
     }
 }

@@ -116,7 +116,7 @@ namespace ElevatorAdmin.ViewComponents
                 }
                 );
 
-            items.Add(new SidebarViewModel { Area = "Warehouse", Controller = "ManageWarehouse", Action = "Index", Title = "مدیریت انبار", Icon = "fa fa-home" });
+            //items.Add(new SidebarViewModel { Area = "Warehouse", Controller = "ManageWarehouse", Action = "Index", Title = "مدیریت انبار", Icon = "fa fa-home" });
 
             items.Add(
                 new SidebarViewModel

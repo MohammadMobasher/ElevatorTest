@@ -25,7 +25,7 @@ namespace Service.Repos
             => await GetByConditionAsync(a => a.PackageId == packageId && a.UserId == userId) != null;
 
 
-        public async Task<SweetAlertExtenstion> AddCart(int productId, int userId,int count=1)
+        public async Task<SweetAlertExtenstion> AddCart(int productId, int userId, int count = 1)
         {
 
             var model = await GetByConditionAsync(a => a.ProductId == productId && a.UserId == userId && !a.IsFinaly);
@@ -35,19 +35,16 @@ namespace Service.Repos
                 model.Count = count;
 
                 await UpdateAsync(model);
+                return SweetAlertExtenstion.Error("این محصول قبلا به سبد خرید اضافه شده است");
             }
-            else
+
+            MapAdd(new ShopProductAddViewModel()
             {
-                MapAdd(new ShopProductAddViewModel()
-                {
-                    ProductId = productId,
-                    UserId = userId,
-                    Count = count,
+                ProductId = productId,
+                UserId = userId,
+                Count = count,
 
-                });
-            }
-
-         
+            });
 
             return SweetAlertExtenstion.Ok();
         }
@@ -127,7 +124,7 @@ namespace Service.Repos
 
             var sum = default(string);
 
-            if(model.ProductPackage.PackageWithDiscounts != null)
+            if (model.ProductPackage.PackageWithDiscounts != null)
             {
                 sum = (model.Count * model.ProductPackage.PackageWithDiscounts.Value).ToPersianPrice();
             }
@@ -219,7 +216,7 @@ namespace Service.Repos
                     {
                         sum += item.ProductPackage.PackagePrice * item.Count;
                     }
-                    
+
                 }
             }
 
@@ -269,11 +266,11 @@ namespace Service.Repos
         /// <param name="list"></param>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public async Task<bool> ChangeStatus(List<ShopProduct> list,int orderId)
+        public async Task<bool> ChangeStatus(List<ShopProduct> list, int orderId)
         {
-            list.ForEach(a=>a.ShopOrderId = orderId);
+            list.ForEach(a => a.ShopOrderId = orderId);
 
-            await UpdateRangeAsync(list,false);
+            await UpdateRangeAsync(list, false);
 
             return Save();
         }
@@ -285,9 +282,9 @@ namespace Service.Repos
         /// <param name="orderId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<bool> SuccessedOrder(int orderId,int userId)
+        public async Task<bool> SuccessedOrder(int orderId, int userId)
         {
-            var model =await GetListAsync(a => a.ShopOrderId == orderId && a.UserId == userId,null, "Product,ProductPackage");
+            var model = await GetListAsync(a => a.ShopOrderId == orderId && a.UserId == userId, null, "Product,ProductPackage");
 
             if (model == null) return false;
 
@@ -295,7 +292,7 @@ namespace Service.Repos
             {
                 item.IsFinaly = true;
 
-                if(item.ProductId != null)
+                if (item.ProductId != null)
                 {
                     item.OrderName = item.Product.Title;
                     item.OrderPrice = item.Product.Price.ToPersianPrice();
@@ -307,12 +304,12 @@ namespace Service.Repos
                     item.OrderPrice = item.ProductPackage.PackagePrice.ToPersianPrice();
                     item.OrderPriceDiscount = item.ProductPackage.PackageWithDiscounts.ToString() ?? "0";
                 }
-               
+
             }
 
             model.ToList().ForEach(a => a.IsFinaly = true);
-            
-            await UpdateRangeAsync(model,false);
+
+            await UpdateRangeAsync(model, false);
 
             return Save();
         }

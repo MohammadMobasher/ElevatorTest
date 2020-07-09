@@ -2,6 +2,7 @@
 using Core.Utilities;
 using DataLayer.DTO.Transportations.Cars;
 using DataLayer.Entities.Transportation;
+using DataLayer.ViewModels;
 using DataLayer.ViewModels.Transportations.Car;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,11 +29,11 @@ namespace Service.Repos.Transportaions
         {
             var query = TableNoTracking.Where(a => !a.IsDeleted).ProjectTo<CarsTransportaionsFullDto>();
 
-            query.WhereIf(!string.IsNullOrEmpty(model.CarName), a => a.CarName.Contains(model.CarName));
-            query.WhereIf(!string.IsNullOrEmpty(model.CarModel), a => a.CarModel.Contains(model.CarModel));
-            query.WhereIf(!string.IsNullOrEmpty(model.MotorSerial), a => a.MotorSerial.Contains(model.MotorSerial));
-            query.WhereIf(!string.IsNullOrEmpty(model.Plaque), a => a.Plaque.Contains(model.Plaque));
-            query.WhereIf(model.TransportSize != null, a => a.TransportSize == model.TransportSize);
+            query = query.WhereIf(!string.IsNullOrEmpty(model.CarName), a => a.CarName.Contains(model.CarName));
+            query = query.WhereIf(!string.IsNullOrEmpty(model.CarModel), a => a.CarModel.Contains(model.CarModel));
+            query = query.WhereIf(!string.IsNullOrEmpty(model.MotorSerial), a => a.MotorSerial.Contains(model.MotorSerial));
+            query = query.WhereIf(!string.IsNullOrEmpty(model.Plaque), a => a.Plaque.Contains(model.Plaque));
+            query = query.WhereIf(model.TransportSize != null, a => a.TransportSize == model.TransportSize);
 
             int Count = query.Count();
             query = query.OrderByDescending(x => x.Id);
@@ -51,7 +52,7 @@ namespace Service.Repos.Transportaions
                 .ProjectTo<CarsTransportaionsFullDto>().FirstOrDefaultAsync();
 
 
-        public async Task<SweetAlertExtenstion> InsertCar(CarTransportationInsertViewModel model,IFormFile file)
+        public async Task<SweetAlertExtenstion> InsertCar(CarTransportationInsertViewModel model, IFormFile file)
         {
             if (file == null)
             {
@@ -69,7 +70,7 @@ namespace Service.Repos.Transportaions
             return SweetAlertExtenstion.Ok();
         }
 
-        public async Task<SweetAlertExtenstion> UpdateCars(CarTransportaionUpdateViewModel model,IFormFile file)
+        public async Task<SweetAlertExtenstion> UpdateCars(CarTransportaionUpdateViewModel model, IFormFile file)
         {
             if (file != null)
             {
@@ -109,6 +110,13 @@ namespace Service.Repos.Transportaions
             await UpdateAsync(model);
 
             return SweetAlertExtenstion.Ok();
+        }
+
+        public async Task<List<IdTitle>> GetCarsIdTitle()
+        {
+            var model = await GetListAsync(a => !a.IsDeleted && a.IsActive);
+
+            return model.Select(a => new IdTitle() { Id = a.Id, Title = a.CarName }).ToList();
         }
     }
 }

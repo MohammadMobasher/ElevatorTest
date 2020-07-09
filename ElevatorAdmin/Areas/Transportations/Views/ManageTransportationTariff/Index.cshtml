@@ -26,9 +26,9 @@
 
 
         <TableBotton area="Transportations" controller="ManageTransportationTariff" action="Delete"
-        title="حذف"
-        icon="fa-trash-o"
-        buttonClass="btn-danger"></TableBotton>
+                     title="حذف"
+                     icon="fa-trash-o"
+                     buttonClass="btn-danger"></TableBotton>
 
 
 
@@ -46,7 +46,9 @@
                 <th width="60px">ردیف</th>
                 <th>از منطقه </th>
                 <th>تا منطقه</th>
-                <th>وزن حمل و نقل</th>
+                <th>وسیله نقلیه</th>
+                <th>وزن کف حمل و نقل</th>
+                <th>وزن حد حمل و نقل</th>
                 <th>تعرفه</th>
             </tr>
             <tr>
@@ -59,15 +61,13 @@
                         </select>
                     </th>
                     <th>
-                        <select name="TehranAreasTO" asp-for="@search.TehranAreasTO" asp-items="@Html.GetEnumSelectList<TehranAreas>()" class="form-control searchSelect">
+                        <select name="TehranAreasTo" asp-for="@search.TehranAreasTO " asp-items="@Html.GetEnumSelectList<TehranAreas>()" class="form-control searchSelect">
                             <option>--لطفا انتخاب کنید--</option>
                         </select>
                     </th>
-                    <th>
-                        <select name="ProductSize" asp-for="@search.ProductSize" asp-items="@Html.GetEnumSelectList<ProductSizeSSOT>()" class="form-control searchSelect">
-                            <option>--لطفا انتخاب کنید--</option>
-                        </select>
-                    </th>
+                    <th><input type="text" value="@search.CarName" name="CarName" class="form-control searchInput" /></th>
+                    <th><input type="number" value="@search.ProductSizeFrom" name="ProductSizeFrom" class="form-control searchInput" /></th>
+                    <th><input type="number" value="@search.ProductSizeTo" name="ProductSizeTo" class="form-control searchInput" /></th>
                     <th><input type="number" value="@search.Tariff" name="Tariff" class="form-control searchInput" /></th>
                     <input type="submit" class="hidden searchBtn" value="جستجو" />
                 </form>
@@ -86,10 +86,12 @@
                         <tr>
                             <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
                             <td>@(index++)</td>
-                        
+
                             <td>@item.TehranAreasFrom.ToDisplay()</td>
                             <td>@item.TehranAreasTO.ToDisplay()</td>
-                            <td>@item.ProductSize.ToDisplay()</td>
+                            <td>@item.CarTransportCarName</td>
+                            <td>@item.ProductSizeFrom</td>
+                            <td>@item.ProductSizeTo</td>
                             <td>@item.Tariff.ToPersianPrice()</td>
                         </tr>
                     }

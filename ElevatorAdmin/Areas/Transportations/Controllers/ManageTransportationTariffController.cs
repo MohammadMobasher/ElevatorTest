@@ -18,17 +18,21 @@ namespace ElevatorAdmin.Areas.Transportations.Controllers
     public class ManageTransportationTariffController : BaseAdminController
     {
         private readonly TransportationTariffRepository _tariffRepository;
+        private readonly CarTransportRepository _carTransportRepository;
+
         public ManageTransportationTariffController(TransportationTariffRepository tariffRepository
-            , UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
+            , UsersAccessRepository usersAccessRepository
+            , CarTransportRepository carTransportRepository) : base(usersAccessRepository)
         {
             _tariffRepository = tariffRepository;
+            _carTransportRepository = carTransportRepository;
         }
 
         [ActionRole("لیست تمامی تعرفه های حمل و نقل")]
         public async Task<IActionResult> Index(TariffSearchViewModel search)
         {
             var model = await _tariffRepository
-                .GetAllCars(search, this.CurrentPage, this.PageSize);
+                .GetAllTariff(search, this.CurrentPage, this.PageSize);
 
             this.PageCount = model.Item1;
 
@@ -38,8 +42,10 @@ namespace ElevatorAdmin.Areas.Transportations.Controllers
         }
 
         [ActionRole("ثبت تعرفه ی جدید")]
-        public IActionResult Insert()
+        public async Task<IActionResult> Insert()
         {
+            ViewBag.Cars = await _carTransportRepository.GetCarsIdTitle();
+
             return View();
         }
 
@@ -60,6 +66,8 @@ namespace ElevatorAdmin.Areas.Transportations.Controllers
 
             if (model == null)
                 return new BadRequestResult();
+
+            ViewBag.Cars = await _carTransportRepository.GetCarsIdTitle();
 
             return View(model);
         }

@@ -17,14 +17,16 @@ namespace Service.Repos.Transportaions
         public TransportationTariffRepository(DatabaseContext dbContext) : base(dbContext)
         {
         }
-        public async Task<Tuple<int, List<TransportationTariffFullDto>>> GetAllCars(TariffSearchViewModel model, int skip, int take)
+        public async Task<Tuple<int, List<TransportationTariffFullDto>>> GetAllTariff(TariffSearchViewModel model, int skip, int take)
         {
-            var query = TableNoTracking.Where(a => !a.IsDeleted).ProjectTo<TransportationTariffFullDto>();
+            var query = TableNoTracking.Include(a => a.CarTransport).Where(a => !a.IsDeleted).ProjectTo<TransportationTariffFullDto>();
 
-            query.WhereIf(model.TehranAreasFrom != null, a => a.TehranAreasFrom == model.TehranAreasFrom);
-            query.WhereIf(model.TehranAreasTO != null, a => a.TehranAreasTO == model.TehranAreasTO);
-            query.WhereIf(model.ProductSize != null, a => a.ProductSize == model.ProductSize);
-            query.WhereIf(model.Tariff != null, a => a.Tariff == model.Tariff);
+            query = query.WhereIf(!string.IsNullOrEmpty(model.CarName), a => a.CarTransportCarName.Contains(model.CarName));
+            query = query.WhereIf(model.TehranAreasFrom != null, a => a.TehranAreasFrom == model.TehranAreasFrom);
+            query = query.WhereIf(model.TehranAreasTO != null, a => a.TehranAreasTO == model.TehranAreasTO);
+            query = query.WhereIf(model.ProductSizeTo != null, a => a.ProductSizeTo == model.ProductSizeTo);
+            query = query.WhereIf(model.ProductSizeFrom != null, a => a.ProductSizeFrom == model.ProductSizeFrom);
+            query = query.WhereIf(model.Tariff != null, a => a.Tariff == model.Tariff);
 
             int Count = query.Count();
             query = query.OrderByDescending(x => x.Id);

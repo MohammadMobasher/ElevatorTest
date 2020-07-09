@@ -57,7 +57,17 @@ namespace ElevatorNewUI
             services.ClaimFactoryConfiguration();
             services.AddScoped<ManageBankService>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+             .AddSessionStateTempDataProvider();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                //options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
 
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
         }
@@ -83,6 +93,8 @@ namespace ElevatorNewUI
             //});
             app.UseCookiePolicy();
             app.UseAuthentication();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

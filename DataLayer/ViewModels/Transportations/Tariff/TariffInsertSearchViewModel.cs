@@ -22,12 +22,18 @@ namespace DataLayer.ViewModels.Transportations.Tariff
         /// <summary>
         /// ماشین
         /// </summary>
-        public int? CarId { get; set; }
+        public string CarName { get; set; }
 
         /// <summary>
-        /// وزن محصول
+        public double? ProductSizeTo { get; set; }
+        /// وزن کف محصول
         /// </summary>
-        public ProductSizeSSOT? ProductSize { get; set; }
+        public double? ProductSizeFrom { get; set; }
+
+        /// <summary>
+        /// وزن حد محصول
+        /// </summary>
+
 
         /// <summary>
         /// تعرفه
