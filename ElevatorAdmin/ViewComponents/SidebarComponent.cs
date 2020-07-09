@@ -106,6 +106,22 @@ namespace ElevatorAdmin.ViewComponents
                 {
                     Controller = "",
                     Action = "",
+                    Title = "مدیریت حمل و نقل",
+                    Icon = "fa fa-car",
+                    Childs = new List<SidebarChildViewModel> {
+                        new SidebarChildViewModel {Area = "Transportations", Controller = "ManageCarTransport", Action = "Index", Title = "مدیریت وسایل نقلیه" },
+                        new SidebarChildViewModel {Area = "Transportations", Controller = "ManageCarTransport", Action = "Index", Title = "مدیریت تعرفه حمل و نقل" },
+
+                    }
+                }
+                );
+
+
+            items.Add(
+                new SidebarViewModel
+                {
+                    Controller = "",
+                    Action = "",
                     Title = "سوالات پرتکرار",
                     Icon = "fa fa-question",
                     Childs = new List<SidebarChildViewModel> {

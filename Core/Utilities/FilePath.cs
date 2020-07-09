@@ -15,5 +15,8 @@ namespace Core.Utilities
 
         [Description("Uploads/ProductPackage")]
         productPackage,
+
+        [Description("Uploads/Cars")]
+        Cars,
     }
 }

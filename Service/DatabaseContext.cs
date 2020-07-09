@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DataLayer.Entities.Features;
 using DataLayer.Entities.Bank;
+using DataLayer.Entities.Transportation;
 
 namespace Service
 {
@@ -27,6 +28,8 @@ namespace Service
 
         #region Tables
 
+        public DbSet<CarTransport> CarTransport { get; set; }
+        public DbSet<TransportationTariff> TransportationTariff { get; set; }
         public DbSet<SiteSetting> SiteSetting { get; set; }
         public DbSet<ShopOrderStatus> ShopOrderStatus { get; set; }
         public DbSet<SuggestionsAndComplaint> SuggestionsAndComplaint { get; set; }

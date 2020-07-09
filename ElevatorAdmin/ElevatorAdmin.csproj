@@ -60,9 +60,12 @@
     <Folder Include="Areas\SiteSetting\Models\" />
     <Folder Include="Areas\SuggestionsAndComplaint\Data\" />
     <Folder Include="Areas\SuggestionsAndComplaint\Models\" />
+    <Folder Include="Areas\Transportations\Data\" />
+    <Folder Include="Areas\Transportations\Models\" />
     <Folder Include="Areas\Warehouse\Data\" />
     <Folder Include="Areas\Warehouse\Models\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />
+    <Folder Include="wwwroot\Uploads\Cars\" />
     <Folder Include="wwwroot\Uploads\ProductPackage\" />
     <Folder Include="wwwroot\Uploads\UserImage\" />
     <Folder Include="wwwroot\Uploads\ProductGallery\" />
