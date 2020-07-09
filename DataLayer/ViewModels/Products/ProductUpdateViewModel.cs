@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DataLayer.SSOT;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -50,5 +51,11 @@ namespace DataLayer.ViewModels.Products
         /// واحد اندازه گیری محصول
         /// </summary>
         public int? ProductUnitId { get; set; }
+
+
+        /// <summary>
+        /// وزن محصول
+        /// </summary>
+        public ProductSizeSSOT? ProductSize { get; set; }
     }
 }

@@ -31,7 +31,8 @@ namespace Service
 
             #region Mapper
             services.AddAutoMapper(typeof(SlideShowMapper));
-            AutoMapperConfiguration.AddCustomMapping();
+            // TODO
+            //AutoMapperConfiguration.AddCustomMapping();
             #endregion
         }
 

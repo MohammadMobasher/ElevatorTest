@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DataLayer.SSOT;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -60,5 +61,12 @@ namespace DataLayer.ViewModels.Products
         /// تاریخ ثبت محصول
         /// </summary>
         public DateTime? CreateDate { get; set; }
+
+        /// <summary>
+        /// وزن محصول
+        /// </summary>
+        public ProductSizeSSOT? ProductSize { get; set; }
+
+        
     }
 }

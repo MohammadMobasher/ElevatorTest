@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities.Common;
+using DataLayer.SSOT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -85,6 +86,17 @@ namespace DataLayer.Entities
         /// فعال  / غیرفعال
         /// </summary>
         public bool? IsActive { get; set; }
+
+        /// <summary>
+        /// وزن محصول
+        /// </summary>
+        public ProductSizeSSOT? ProductSize { get; set; }
+
+        /// <summary>
+        /// آیا محصول موجود می باشد یا خیر
+        /// ComputedField !!
+        /// </summary>
+        public bool IsExist { get; set; }
 
         /// <summary>
         /// آیا این محصول حذف شده است یا خیر

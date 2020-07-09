@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities;
+using DataLayer.SSOT;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -74,6 +75,17 @@ namespace DataLayer.DTO.Products
         public DateTime? CreateDate { get; set; }
 
         public int NewProductGroupId { get; set; }
+
+        /// <summary>
+        /// وزن محصول
+        /// </summary>
+        public ProductSizeSSOT? ProductSize { get; set; }
+
+        /// <summary>
+        /// آیا محصول موجود می باشد یا خیر
+        /// ComputedField !!
+        /// </summary>
+        public bool IsExist { get; set; }
 
         #region Join
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200709120422_Add_ProductSize_Migrations")]
+    partial class Add_ProductSize_Migrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -398,8 +400,6 @@ namespace Service.Migrations
                     b.Property<bool?>("IsActive");
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<bool>("IsExist");
 
                     b.Property<bool>("IsSpecialSell");
 
