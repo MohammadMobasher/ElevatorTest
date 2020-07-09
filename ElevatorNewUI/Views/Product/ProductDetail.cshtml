@@ -7,6 +7,7 @@
     var gallery = ViewBag.Gallery as List<ProductGallery>;
     List<FeatureItem> FeatureSSOTValue = ViewBag.FeatureSSOTValue;
     var isDisCount = Model.Price != Model.PriceWithDiscount;
+    var unit = ViewBag.Unit as List<ProductUnit>;
 }
 
 <link href="~/css/vendor/noUISlider.min.css" rel="stylesheet" />
@@ -134,9 +135,9 @@
                                         <div class="seller-info-changable">
 
                                             @*<div class="product-seller-row guarantee">
-            <span class="title"> گارانتی:</span>
-            <a href="#" class="product-name">۱۸ ماهه دیجی اسمارت</a>
-        </div>*@
+                                                    <span class="title"> گارانتی:</span>
+                                                    <a href="#" class="product-name">۱۸ ماهه دیجی اسمارت</a>
+                                                </div>*@
                                             <div class="product-seller-row price">
                                                 <span class="title"> قیمت:</span>
                                                 <a href="#" class="product-name">
@@ -158,12 +159,18 @@
                                                     </a>
                                                 </div>
                                             }
-                                                <form target="_blank" asp-controller="ShopProduct" asp-action="AddCart">
+                                                <form asp-controller="ShopProduct" asp-action="AddCart">
                                                     <input type="hidden" value="@Model.Id" name="ProductId" />
+                                                    <div class="product-seller-row guarantee">
+                                                        <span class="title mt-3"> واحد:</span>
+                                                        <div class="quantity pl">
+                                                            @(Model.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == Model.ProductUnitId).Name : "واحدی ثبت نشده")
+                                                        </div>
+                                                    </div>
                                                     <div class="product-seller-row guarantee">
                                                         <span class="title mt-3"> تعداد:</span>
                                                         <div class="quantity pl">
-                                                            <input name="count" type="number" min="1"  step="1" value="1"><div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>
+                                                            <input name="count" type="number" min="1" step="1" value="1"><div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>
                                                         </div>
                                                     </div>
                                                     <div class="product-seller-row add-to-cart">

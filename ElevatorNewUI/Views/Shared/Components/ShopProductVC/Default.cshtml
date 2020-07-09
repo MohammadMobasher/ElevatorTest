@@ -1,6 +1,8 @@
 ﻿@model List<DataLayer.Entities.ShopProduct>
 
 
+
+
 <div class="header-cart-basket">
     <a href="#" class="cart-basket-box">
         <span class="icon-cart">
@@ -13,86 +15,88 @@
             </span>*@
         @if (User.Identity.IsAuthenticated)
         {
-        <span class="count-cart count-bg">@Model.Count</span>
+            <span class="count-cart count-bg">@Model.Count</span>
         }
     </a>
+
+
     @if (User.Identity.IsAuthenticated)
     {
-    <div class="widget-shopping-cart">
-        <div class="widget-shopping-cart-content">
-            @if (Model.Any())
-            {
-                <ul class="product-list-widget">
-                    @foreach (var item in Model)
-                    {
-                        if (item.ProductId != null)
-                        {
-                            <li class="mini-cart-item">
-                                <div class="mini-cart-item-content">
-                                    <a href="/Product/ProductDetail/@item.ProductId" class="mini-cart-item-close">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                    <a href="#" class="mini-cart-item-image d-block">
-                                        <img src="http://staffonly.ir/Uploads/Product/@item.Product.IndexPic">
-                                    </a>
-                                    <span class="product-name-card">@item.Product.Title</span>
-                                    <div class="variation">
-                                        <span class="variation-n">تعداد : </span>
-                                        <p class="mb-0">@item.Count </p>
-                                    </div>
-                                    <div class="quantity">
-                                        <span class="quantity-Price-amount">
-                                            @item.Product.PriceWithDiscount
-                                            <span>تومان</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="mini-cart-item">
-                                <div class="mini-cart-item-content">
-                                    <a href="/Product/PackageDetail/@item.PackageId" class="mini-cart-item-close">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                    <a href="#" class="mini-cart-item-image d-block">
-                                        <img src="~/@item.ProductPackage.IndexPic">
-                                    </a>
-                                    <span class="product-name-card">@item.ProductPackage.Title</span>
-                                    <div class="variation">
-                                        <span class="variation-n">تعداد : </span>
-                                        <p class="mb-0">@item.Count </p>
-                                    </div>
-                                    <div class="quantity">
-                                        <span class="quantity-Price-amount">
-                                            @item.ProductPackage.PackagePrice
-                                            <span>تومان</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </li>
-                        }
-                    }
-
-                </ul>
-                <div class="mini-card-total">
-                    <strong>قیمت کل : </strong>
-                    <span class="price-total">
-                        <span id="ResultPriceCart"></span>
-                        <span>تومان</span>
-                    </span>
-                </div>
-            }
-            <div class="mini-card-button">
-                <a href="/ShopProduct/Index" class="view-card">مشاهده سبد خرید</a>
-                @if (Model.Count != 0)
+        <div class="widget-shopping-cart">
+            <div class="widget-shopping-cart-content">
+                @if (Model.Any())
                 {
-                    <a href="/ShopProduct/Checkout" class="card-checkout">تسویه حساب</a>
+                    <ul class="product-list-widget">
+                        @foreach (var item in Model)
+                        {
+                            if (item.ProductId != null)
+                            {
+                                <li class="mini-cart-item">
+                                    <div class="mini-cart-item-content">
+                                        <a href="/Product/ProductDetail/@item.ProductId" class="mini-cart-item-close">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        <a href="#" class="mini-cart-item-image d-block">
+                                            <img src="http://staffonly.ir/Uploads/Product/@item.Product.IndexPic">
+                                        </a>
+                                        <span class="product-name-card">@item.Product.Title</span>
+                                        <div class="variation">
+                                            <span class="variation-n">تعداد : </span>
+                                            <p class="mb-0">@item.Count </p>
+                                        </div>
+                                        <div class="quantity">
+                                            <span class="quantity-Price-amount">
+                                                @item.Product.PriceWithDiscount
+                                                <span>تومان</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="mini-cart-item">
+                                    <div class="mini-cart-item-content">
+                                        <a href="/Product/PackageDetail/@item.PackageId" class="mini-cart-item-close">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        <a href="#" class="mini-cart-item-image d-block">
+                                            <img src="~/@item.ProductPackage.IndexPic">
+                                        </a>
+                                        <span class="product-name-card">@item.ProductPackage.Title</span>
+                                        <div class="variation">
+                                            <span class="variation-n">تعداد : </span>
+                                            <p class="mb-0">@item.Count </p>
+                                        </div>
+                                        <div class="quantity">
+                                            <span class="quantity-Price-amount">
+                                                @item.ProductPackage.PackagePrice
+                                                <span>تومان</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                    <div class="mini-card-total">
+                        <strong>قیمت کل : </strong>
+                        <span class="price-total">
+                            <span id="ResultPriceCart"></span>
+                            <span>تومان</span>
+                        </span>
+                    </div>
                 }
+                <div class="mini-card-button">
+                    <a href="/ShopProduct/Index" class="view-card">مشاهده سبد خرید</a>
+                    @if (Model.Count != 0)
+                    {
+                        <a href="/ShopProduct/Checkout" class="card-checkout">تسویه حساب</a>
+                    }
+                </div>
             </div>
         </div>
-    </div>
     }
 </div>
 

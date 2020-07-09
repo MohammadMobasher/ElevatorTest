@@ -97,7 +97,7 @@
                             </div>
                             <p>@Model.ShortDiscription</p>
                             <div class="pdetails-quantity">
-                                <form target="_blank" asp-controller="ShopProduct" asp-action="AddPackageCart">
+                                <form asp-controller="ShopProduct" asp-action="AddPackageCart">
                                     <input type="hidden" value="@Model.Id" name="packageId" />
                                     <div class="quantity-select">
                                         <input type="text" name="count" id="Count" value="1">

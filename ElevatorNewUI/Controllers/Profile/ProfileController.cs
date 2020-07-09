@@ -7,6 +7,7 @@ using DataLayer.ViewModels.User;
 using Elevator.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
+using Service.Repos.Product;
 using Service.Repos.User;
 
 namespace ElevatorNewUI.Controllers.Profile
@@ -17,15 +18,18 @@ namespace ElevatorNewUI.Controllers.Profile
         private readonly ShopOrderRepository _shopOrderRepository;
         private readonly ShopProductRepository _shopProductRepository;
         private readonly UserAddressRepository _userAddressRepository;
+        private readonly ProductUnitRepository _productUnitRepository;
         public ProfileController(UserRepository userRepository
             , ShopOrderRepository shopOrderRepository
             , ShopProductRepository shopProductRepository
-            , UserAddressRepository userAddressRepository)
+            , UserAddressRepository userAddressRepository
+            , ProductUnitRepository productUnitRepository)
         {
             _userRepository = userRepository;
             _shopOrderRepository = shopOrderRepository;
             _shopProductRepository = shopProductRepository;
             _userAddressRepository = userAddressRepository;
+            _productUnitRepository = productUnitRepository;
         }
 
 
@@ -60,11 +64,27 @@ namespace ElevatorNewUI.Controllers.Profile
 
         public async Task<IActionResult> OrderDetail(int id)
         {
-            var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id && a.IsFinaly);
 
+
+
+            var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id && a.IsFinaly,null,"Product");
+
+           
+
+            var order = await _shopOrderRepository.GetByIdAsync(id);
+
+            if (order == null || model == null)
+                return NotFound();
+
+            // اطلاعات کاربر
+            ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == order.UserId);
+            ViewBag.Order = order;
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == order.UserId);
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
             ViewBag.SidebarActive = ProfileSidebarSSOT.Orders;
-
+            ViewBag.Unit = _productUnitRepository.GetList();
+            ViewBag.Amount = order?.Amount;
+            
             return View(model);
         }
 

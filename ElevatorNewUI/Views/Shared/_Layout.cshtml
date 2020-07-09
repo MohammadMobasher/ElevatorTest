@@ -45,6 +45,7 @@
     <script src="~/js/vendor/jquery.nice-select.min.js"></script>
     <!-- main js---------------------------------------------------->
     <script src="~/js/main.js"></script>
+
 </head>
 <body>
     <!-- header-------------------------------->
@@ -159,10 +160,10 @@
                                         </a>
                                     </li>
                                     @*<li id="nav-menu-item" class="menu-item">
-                                            <a href="#" class="current-link-menu category-link">
-                                                آرشیو محصولات
-                                            </a>
-                                        </li>*@
+            <a href="#" class="current-link-menu category-link">
+                آرشیو محصولات
+            </a>
+        </li>*@
                                     <li id="nav-menu-item" class="menu-item">
                                         <a href="/Blog/Index" class="current-link-menu category-link">
                                             خبرنامه
@@ -186,6 +187,14 @@
                                     </li>
                                     <div class="divider-space-card d-block">
                                         @await Component.InvokeAsync("ShopProductVC")
+                                    </div>
+                                    <div class="divider-space-card d-block">
+                                        <a href="tel:09122013443" class="cart-basket-box">
+                                            <span class="icon-cart">
+                                                <i class="mdi mdi-phone-classic font-size-25"></i>
+                                            </span>
+                                        </a>
+
                                     </div>
                                 </ul>
                             </div>
@@ -398,7 +407,18 @@
         </svg>
     </div>
     <!-- scroll_Progress------------------------->
+    <script src="~/lib/html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
 
+    <script>
+        function generatePDF(id) {
+            // Choose the element that our invoice is rendered in.
+            const element = document.getElementById(id);
+            // Choose the element and save the PDF for our user.
+            html2pdf()
+                .from(element)
+                .save();
+        }
+    </script>
 </body>
 
 </html>
