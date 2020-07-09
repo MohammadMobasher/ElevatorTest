@@ -7,19 +7,17 @@ using System.Text;
 
 namespace DataLayer.ViewModels.Transportations.Tariff
 {
-    public class TariffUpdateViewModel : BaseMapping<TariffUpdateViewModel, TransportationTariff>
+    public class TariffSearchViewModel 
     {
-
-        public int Id { get; set; }
         /// <summary>
         /// از ناحیه --- 
         /// </summary>
-        public TehranAreas TehranAreasFrom { get; set; }
+        public TehranAreas? TehranAreasFrom { get; set; }
 
         /// <summary>
         ///  تا ناحیه ---
         /// </summary>
-        public TehranAreas TehranAreasTO { get; set; }
+        public TehranAreas? TehranAreasTO { get; set; }
 
         /// <summary>
         /// ماشین
@@ -29,12 +27,12 @@ namespace DataLayer.ViewModels.Transportations.Tariff
         /// <summary>
         /// وزن محصول
         /// </summary>
-        public ProductSizeSSOT ProductSize { get; set; }
+        public ProductSizeSSOT? ProductSize { get; set; }
 
         /// <summary>
         /// تعرفه
         /// </summary>
-        public long Tariff { get; set; }
+        public long? Tariff { get; set; }
 
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DataLayer.ViewModels.Transportations.Tariff
 {
-    public class TariffInsertViewModel : BaseMapping<TariffUpdateViewModel, TransportationTariff>
+    public class TariffInsertViewModel : BaseMapping<TariffInsertViewModel, TransportationTariff>
     {
         /// <summary>
         /// از ناحیه --- 
@@ -22,7 +22,7 @@ namespace DataLayer.ViewModels.Transportations.Tariff
         /// <summary>
         /// ماشین
         /// </summary>
-        public int CarId { get; set; }
+        public int? CarId { get; set; }
 
         /// <summary>
         /// وزن محصول

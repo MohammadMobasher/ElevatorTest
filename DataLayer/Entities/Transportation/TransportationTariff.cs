@@ -22,7 +22,7 @@ namespace DataLayer.Entities.Transportation
         /// <summary>
         /// ماشین
         /// </summary>
-        public int CarId { get; set; }
+        public int? CarId { get; set; }
 
         /// <summary>
         /// وزن محصول
@@ -34,6 +34,7 @@ namespace DataLayer.Entities.Transportation
         /// </summary>
         public long Tariff { get; set; }
 
+        public bool IsDeleted { get; set; }
 
         [ForeignKey(nameof(CarId))]
         public virtual CarTransport CarTransport { get; set; }

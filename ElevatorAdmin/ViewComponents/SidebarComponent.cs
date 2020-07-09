@@ -110,7 +110,7 @@ namespace ElevatorAdmin.ViewComponents
                     Icon = "fa fa-car",
                     Childs = new List<SidebarChildViewModel> {
                         new SidebarChildViewModel {Area = "Transportations", Controller = "ManageCarTransport", Action = "Index", Title = "مدیریت وسایل نقلیه" },
-                        new SidebarChildViewModel {Area = "Transportations", Controller = "ManageCarTransport", Action = "Index", Title = "مدیریت تعرفه حمل و نقل" },
+                        new SidebarChildViewModel {Area = "Transportations", Controller = "ManageTransportationTariff", Action = "Index", Title = "مدیریت تعرفه حمل و نقل" },
 
                     }
                 }

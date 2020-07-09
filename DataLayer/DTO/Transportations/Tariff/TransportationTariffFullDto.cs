@@ -22,7 +22,7 @@ namespace DataLayer.DTO.Transportations.Tariff
         /// <summary>
         /// ماشین
         /// </summary>
-        public int CarId { get; set; }
+        public int? CarId { get; set; }
 
         /// <summary>
         /// وزن محصول

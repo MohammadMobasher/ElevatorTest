@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Core.CustomAttributes;
 using Core.Utilities;
 using DataLayer.ViewModels.Transportations.Car;
+using DataLayer.ViewModels.Transportations.Tariff;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos.Transportaions;
+using Service.Repos.User;
 using WebFramework.Base;
 
 namespace ElevatorAdmin.Areas.Transportations.Controllers
@@ -15,43 +17,46 @@ namespace ElevatorAdmin.Areas.Transportations.Controllers
     [ControllerRole("مدیریت تعرفه حمل و نقل")]
     public class ManageTransportationTariffController : BaseAdminController
     {
-        private readonly CarTransportRepository _carTransportRepository;
-        public ManageTransportationTariffController(CarTransportRepository carTransportRepository)
+        private readonly TransportationTariffRepository _tariffRepository;
+        public ManageTransportationTariffController(TransportationTariffRepository tariffRepository
+            , UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
         {
-            _carTransportRepository = carTransportRepository;
+            _tariffRepository = tariffRepository;
         }
 
-        [ActionRole("لیست تمامی وسایل نقلیه")]
-        public async Task<IActionResult> Index(CarTransportationSearchViewModel search)
+        [ActionRole("لیست تمامی تعرفه های حمل و نقل")]
+        public async Task<IActionResult> Index(TariffSearchViewModel search)
         {
-            var model = await _carTransportRepository
+            var model = await _tariffRepository
                 .GetAllCars(search, this.CurrentPage, this.PageSize);
 
             this.PageCount = model.Item1;
 
+            ViewBag.SearchModel = search;
+
             return View(model.Item2);
         }
 
-        [ActionRole("ثبت وسیله نقلیه جدید")]
+        [ActionRole("ثبت تعرفه ی جدید")]
         public IActionResult Insert()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(CarTransportationInsertViewModel model)
+        public async Task<IActionResult> Insert(TariffInsertViewModel model)
         {
-            await _carTransportRepository.MapAddAsync(model);
+            var result = await _tariffRepository.InsertTariff(model);
 
-            TempData.AddResult(SweetAlertExtenstion.Ok("اطلاعات با موفقیت ثبت شد"));
+            TempData.AddResult(result);
 
             return Redirect(IndexUrlWithQueryString);
         }
 
-        [ActionRole("ویرایش وسیله نقلیه")]
+        [ActionRole("ویرایش تعرفه")]
         public async Task<IActionResult> Update(int id)
         {
-            var model = await _carTransportRepository.GetByIdAsync(id);
+            var model = await _tariffRepository.GetTariffById(id);
 
             if (model == null)
                 return new BadRequestResult();
@@ -59,15 +64,28 @@ namespace ElevatorAdmin.Areas.Transportations.Controllers
             return View(model);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Update(CarTransportaionUpdateViewModel model)
-        //{
-        //    var result = await _carTransportRepository.UpdateCars(model);
+        [HttpPost]
+        public async Task<IActionResult> Update(TariffUpdateViewModel model)
+        {
+            var result = await _tariffRepository.UpdateTariff(model);
 
-        //    TempData.AddResult(result);
+            TempData.AddResult(result);
 
-        //    return Redirect(IndexUrlWithQueryString);
-        //}
+
+            return Redirect(IndexUrlWithQueryString);
+        }
+
+        [ActionRole("حذف تعرفه")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _tariffRepository.DeleteTariff(id);
+
+            TempData.AddResult(result);
+
+            return Redirect(IndexUrlWithQueryString);
+        }
+
+       
 
     }
 }
