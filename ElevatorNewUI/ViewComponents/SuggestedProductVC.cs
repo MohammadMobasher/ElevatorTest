@@ -23,7 +23,7 @@ namespace Elevator.ViewComponents
                 .Where(a => a.IsActive == true && 
                 //a.IsSpecialSell && 
                 a.Price != a.PriceWithDiscount &&
-                !a.IsDeleted)
+                !a.IsDeleted && a.IsExist)
                 .ProjectTo<ProductFullDTO>()
                 .OrderByDescending(a => a.CreateDate)
                 .Take(6)

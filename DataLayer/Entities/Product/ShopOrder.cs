@@ -25,6 +25,11 @@ namespace DataLayer.Entities
 
         public OrderStatusSSOT? Status{ get; set; }
 
+        /// <summary>
+        /// هزینه حمل و نقل
+        /// </summary>
+        public long? TransferProductPrice { get; set; }
+
         [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }
 

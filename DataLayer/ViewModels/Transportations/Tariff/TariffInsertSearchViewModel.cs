@@ -1,9 +1,4 @@
-﻿using DataLayer.BaseClasses;
-using DataLayer.Entities.Transportation;
-using DataLayer.SSOT;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DataLayer.SSOT;
 
 namespace DataLayer.ViewModels.Transportations.Tariff
 {

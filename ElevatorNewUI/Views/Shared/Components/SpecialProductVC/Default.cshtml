@@ -25,7 +25,11 @@
                                     </a>
                                 </h2>
                                 <div class="price">
-                                    @if (item.Price != item.PriceWithDiscount)
+                                    @if (!item.IsExist)
+                                    {
+                                        <span style="color: #b8b0b0;font-size: 15px;"><b>ناموجود </b></span>
+                                    }
+                                    else if (item.Price != item.PriceWithDiscount)
                                     {
                                         <del><span>@item.PriceWithDiscount.ToPersianPrice()<span>تومان</span></span></del>
                                         <ins><span>@item.Price.ToPersianPrice()<span>تومان</span></span></ins>

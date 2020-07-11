@@ -40,6 +40,13 @@
                                                 </div>
 
 
+                                                <div class="validate-required">
+                                                    <label for="Street">منطقه <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                    <select name="TehranAreasFrom" required asp-for="@address.TehranAreasFrom" asp-items="@Html.GetEnumSelectList<TehranAreas>()">
+                                                        <option value="">--لطفا انتخاب کنید--</option>
+                                                    </select>
+                                                    @*<input type="text" name="Address" value="@address?.TehranAreasFrom" id="post-code" class="input-name-checkout form-control">*@
+                                                </div>
 
                                                 <div class="validate-required">
                                                     <label for="Street">آدرس <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
@@ -85,16 +92,16 @@
                                             {
                                                 @if (item.ProductId != null)
                                                 {
-                                            <tr class="checkout-cart-item">
-                                                <td class="product-name">@item.Product.Title</td>
-                                                <td class="product-count">@item.Count</td>
-                                                <td class="product-price text-info">
-                                                    <span class="amount">
-                                                        @((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())
-                                                        <span>تومان</span>
-                                                    </span>
-                                                </td>
-                                            </tr>
+                                                    <tr class="checkout-cart-item">
+                                                        <td class="product-name">@item.Product.Title</td>
+                                                        <td class="product-count">@item.Count</td>
+                                                        <td class="product-price text-info">
+                                                            <span class="amount">
+                                                                @((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())
+                                                                <span>تومان</span>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
                                                 }
                                                 else
                                                 {
@@ -113,11 +120,41 @@
                                         </tbody>
                                         <tfoot>
 
+
                                             <tr class="cart-subtotal">
-                                                <th>مجموع</th>
+                                                <th>مجموع سفارش شما</th>
                                                 <td>
                                                     <div class="price">
-                                                      
+
+                                                        <ins>
+                                                            <span class="amount">
+                                                                @ViewBag.SumPrice
+                                                                <span>تومان</span>
+                                                            </span>
+                                                        </ins>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="cart-subtotal">
+                                                <th>هزینه حمل و نقل</th>
+                                                <td>
+                                                    <div class="price">
+
+                                                        <ins>
+                                                            <span class="amount">
+                                                                @ViewBag.SumPrice
+                                                                <span>تومان</span>
+                                                            </span>
+                                                        </ins>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="cart-subtotal">
+                                                <th>کل</th>
+                                                <td>
+                                                    <div class="price">
+
                                                         <ins>
                                                             <span class="amount">
                                                                 @ViewBag.SumPrice
@@ -128,45 +165,45 @@
                                                 </td>
                                             </tr>
                                             @*<tr class="order-total">
-                                                <th>حمل ونقل</th>
-                                                <td>
-                                                    <div class="shipping-totals-item">
-                                                        <span class="shipping-destination">حمل و نقل به خراسان شمالی</span>
-                                                    </div>
-                                                </td>
-                                            </tr>*@
+            <th>حمل ونقل</th>
+            <td>
+                <div class="shipping-totals-item">
+                    <span class="shipping-destination">حمل و نقل به خراسان شمالی</span>
+                </div>
+            </td>
+        </tr>*@
 
                                             @*<tr class="cart-discount">
-                                                <th>تخفیف شما از این خرید</th>
-                                                <td data-title=" تخفیف شما از این خرید ">
-                                                    <div class="price">
-                                                        <del>
-                                                            <span>
-                                                                32,000
-                                                                <span>تومان</span>
-                                                            </span>
-                                                        </del>
-                                                        <ins>
-                                                            <span class="amount">
-                                                                @ViewBag.SumPrice
-                                                                <span>تومان</span>
-                                                            </span>
-                                                        </ins>
-                                                    </div>
-                                                </td>
-                                            </tr>*@
+            <th>تخفیف شما از این خرید</th>
+            <td data-title=" تخفیف شما از این خرید ">
+                <div class="price">
+                    <del>
+                        <span>
+                            32,000
+                            <span>تومان</span>
+                        </span>
+                    </del>
+                    <ins>
+                        <span class="amount">
+                            @ViewBag.SumPrice
+                            <span>تومان</span>
+                        </span>
+                    </ins>
+                </div>
+            </td>
+        </tr>*@
                                         </tfoot>
                                     </table>
                                     <ul class="checkout-payment-methods">
                                         @*<li class="checkout-payment-method-item d-block">
-                                            <label for="#" class="outline-radio">
-                                                <input type="radio" name="payment_method" id="payment-option-online" checked>
-                                                <span class="outline-radio-check"></span>
-                                            </label>
-                                            <label for="#" class="shipping-totals-title-row">
-                                                <div class="shipping-totals-title">افزایش اعتبار و پرداخت از کیف پول</div>
-                                            </label>
-                                        </li>*@
+                                                <label for="#" class="outline-radio">
+                                                    <input type="radio" name="payment_method" id="payment-option-online" checked>
+                                                    <span class="outline-radio-check"></span>
+                                                </label>
+                                                <label for="#" class="shipping-totals-title-row">
+                                                    <div class="shipping-totals-title">افزایش اعتبار و پرداخت از کیف پول</div>
+                                                </label>
+                                            </li>*@
                                         <li class="checkout-payment-method-item d-block">
                                             <label for="#" class="outline-radio">
                                                 <input checked type="radio" name="payment_method" id="payment-option-online">
@@ -177,21 +214,21 @@
                                             </label>
                                         </li>
                                         @*<li class="checkout-payment-method-item d-block">
-                                            <label for="#" class="outline-radio">
-                                                <input type="radio" name="payment_method" id="payment-option-online">
-                                                <span class="outline-radio-check"></span>
-                                            </label>
-                                            <label for="#" class="shipping-totals-title-row">
-                                                <div class="shipping-totals-title">پرداخت هنگام دریافت</div>
-                                            </label>
-                                        </li>*@
+                                                <label for="#" class="outline-radio">
+                                                    <input type="radio" name="payment_method" id="payment-option-online">
+                                                    <span class="outline-radio-check"></span>
+                                                </label>
+                                                <label for="#" class="shipping-totals-title-row">
+                                                    <div class="shipping-totals-title">پرداخت هنگام دریافت</div>
+                                                </label>
+                                            </li>*@
                                     </ul>
                                     <div class="form-auth-row">
                                         <label for="#" class="ui-checkbox mt-1">
                                             <input type="checkbox" value="1" name="login" id="remember">
                                             <span class="ui-checkbox-check"></span>
                                         </label>
-                                        <label for="remember"  class="remember-me mr-0"><a href="#">حریم خصوصی</a> و <a href="#">شرایط قوانین </a>استفاده از سرویس های سایت لیفت بازار را مطالعه نموده و با کلیه موارد آن موافقم <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                        <label for="remember" class="remember-me mr-0"><a href="#">حریم خصوصی</a> و <a href="#">شرایط قوانین </a>استفاده از سرویس های سایت لیفت بازار را مطالعه نموده و با کلیه موارد آن موافقم <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                     </div>
                                     <button class="btn-Order btn btn-primary mt-4 mb-3" id="sbtButton" disabled type="submit">ثبت سفارش</button>
                                 </div>
@@ -214,7 +251,7 @@
                 $('#sbtButton').removeAttr("disabled");
             }
             else {
-                $('#sbtButton').attr("disabled","disabled");
+                $('#sbtButton').attr("disabled", "disabled");
             }
         })
     })
