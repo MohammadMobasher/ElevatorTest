@@ -27,6 +27,8 @@ namespace Service.Repos
         {
             try
             {
+                var tariff = CalculateTariff(userId) ?? 0;
+
                 // در صورت داشتن مقدار فاکتوری ثبت نمی شود
                 var _orderId = await CheckOrderFinaled(userId);
 
@@ -38,7 +40,7 @@ namespace Service.Repos
                         CreateDate = DateTime.Now,
                         IsSuccessed = false,
                         UserId = userId,
-
+                        TransferProductPrice = tariff
                     };
 
                     await AddAsync(model);
@@ -118,7 +120,7 @@ namespace Service.Repos
             return await TableNoTracking.Include(x => x.Users).Where(x => x.Id == Id).SingleOrDefaultAsync();
         }
 
-        public async Task<string> CalculateTariff(int userId)
+        public long? CalculateTariff(int userId)
         {
             var sqlQuery = $@"
                 DECLARE @UserInfo TABLE (productId int,UserArea int, Area int)
@@ -149,9 +151,9 @@ namespace Service.Repos
                 	group by tehranareasFrom,TehranAreasTO,ProductSize
                 ) t";
 
-            var tariff = await _connection.QueryAsync<long>(sqlQuery);
+            var tariff =  _connection.Query<long?>(sqlQuery).FirstOrDefault();
 
-            return tariff.FirstOrDefault().ToString();
+            return tariff;
         }
 
     }

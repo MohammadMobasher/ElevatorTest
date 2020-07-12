@@ -1,7 +1,11 @@
 ﻿using Core.BankCommon.ViewModels;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos.User;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -13,8 +17,11 @@ namespace ElevatorAdmin.Controllers
 {
     public class TestController : BaseAdminController
     {
-        public TestController(UsersAccessRepository usersAccessRepository) : base(usersAccessRepository)
+        private readonly IDbConnection _connection;
+
+        public TestController(UsersAccessRepository usersAccessRepository, IDbConnection connection) : base(usersAccessRepository)
         {
+            _connection = connection;
         }
 
         public IActionResult Index()
@@ -63,7 +70,7 @@ namespace ElevatorAdmin.Controllers
                     Response.Redirect(string.Format("{0}/Purchase/Index?token={1}", request.PurchasePage, res.Result.Token));
                 }
                 ViewBag.Message = res.Result.Description;
-                return View(); 
+                return View();
             }
 
             return View();
@@ -88,6 +95,30 @@ namespace ElevatorAdmin.Controllers
                 }
                 return default(T);
             }
+        }
+
+        public void Test()
+        {
+            var query = "select Id,UserName from AspNetUsers";
+
+            var execute = _connection.Query<dynamic>(query).ToList();
+
+
+            var dynamicParam = new DynamicParameters();
+
+            var list = new List<object>();
+
+            foreach (var item in execute)
+            {
+                dynamicParam.AddDynamicParams(item);
+
+                var title = dynamicParam.ParameterNames.ToList();
+
+                title.ForEach(value => list.Add(dynamicParam.Get<object>(value)));
+                
+            }
+
+
         }
 
     }

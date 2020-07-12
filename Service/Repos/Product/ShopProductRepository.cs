@@ -223,6 +223,10 @@ namespace Service.Repos
             return sum.ToPersianPrice();
         }
 
+
+
+
+
         /// <summary>
         /// محاسبه قیمت سبد خرید
         /// </summary>

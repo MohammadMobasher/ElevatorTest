@@ -143,15 +143,23 @@
                                                         </div>
                                                         <div class="price">
                                                             <span class="amount">
-                                                                @if (item.Price != item.PriceWithDiscount)
+
+                                                                @if (!item.IsExist)
+                                                                {
+                                                                    <span style="color: #b8b0b0;font-size: 15px;"><b>ناموجود</b></span>
+                                                                }
+
+                                                                else if (item.Price != item.PriceWithDiscount)
                                                                 {
                                                                     @item.PriceWithDiscount.ToPersianPrice()
+                                                                    <span>تومان</span>
                                                                 }
                                                                 else
                                                                 {
                                                                     @item.Price.ToPersianPrice()
+                                                                    <span>تومان</span>
                                                                 }
-                                                                <span>تومان</span>
+
                                                             </span>
                                                         </div>
                                                     </section>

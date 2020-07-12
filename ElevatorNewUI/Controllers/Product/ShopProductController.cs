@@ -151,6 +151,22 @@ namespace ElevatorNewUI.Controllers
 
         #region CheckOut
 
+        public async Task<IActionResult> UserAddress()
+        {
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
+            ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UserAddress(UserAddress userAddress)
+        {
+            userAddress.UserId = UserId;
+            _userAddressRepository.Submit(userAddress);
+
+            return Redirect(nameof(Checkout));
+        }
+
         public async Task<IActionResult> Checkout()
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
@@ -158,26 +174,27 @@ namespace ElevatorNewUI.Controllers
 
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
 
-            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
+            //ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
 
-            ViewBag.SumPrice =await _shopProductRepository.CalculateCartPrice(UserId);
+            ViewBag.SumPrice =await _shopProductRepository.CalculateCartPriceNumber(UserId);
+
+            ViewBag.Tariff =  _shopOrderRepository.CalculateTariff(UserId) ?? 0;
 
             return View(listOrders);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendToBank(UserAddress vm)
+        public async Task<IActionResult> SendToBank()
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
             && !a.IsFinaly);
 
-            #region Address
+            //#region Address
 
-            vm.UserId = UserId;
-            _userAddressRepository.Submit(vm);
+            //vm.UserId = UserId;
+            //_userAddressRepository.Submit(vm);
 
-            #endregion
-
+            //#endregion
 
             var orderId = await _shopOrderRepository.CreateFactor(listOrders.ToList(), UserId);
 
@@ -214,11 +231,13 @@ namespace ElevatorNewUI.Controllers
                 return RedirectToAction("Index", "ShopProductController");
             }
 
+            var resultAmount = factorInfo.Amount + (factorInfo.TransferProductPrice ?? 0);
+
             // شماره خرید 
             var OrderId = new Random().Next(1000, int.MaxValue).ToString();
 
             // رمز گذاری اطلاعات 
-            var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", _bankConfig.TerminalId, OrderId, factorInfo.Amount.CastTomanToRial()));
+            var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", _bankConfig.TerminalId, OrderId, resultAmount.CastTomanToRial()));
 
             var symmetric = SymmetricAlgorithm.Create("TripleDes");
             symmetric.Mode = CipherMode.ECB;
@@ -243,7 +262,7 @@ namespace ElevatorNewUI.Controllers
             {
                 _bankConfig.TerminalId,
                 _bankConfig.MerchantId,
-                Amount = factorInfo.Amount.CastTomanToRial(),
+                Amount = resultAmount.CastTomanToRial(),
                 SignData,
                 _bankConfig.ReturnUrl,
                 LocalDateTime = DateTime.Now,

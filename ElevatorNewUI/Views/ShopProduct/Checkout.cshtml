@@ -2,8 +2,11 @@
 @model List<DataLayer.Entities.ShopProduct>
 @{
     ViewData["Title"] = "Index";
-    var address = ViewBag.UserAddress as UserAddress;
+    //var address = ViewBag.UserAddress as UserAddress;
     var userInfo = ViewBag.UserInfo as DataLayer.Entities.Users.Users;
+
+    long SumPrice = ViewBag.SumPrice;
+    long tariff = ViewBag.Tariff;
 }
 
 <div class="container-main">
@@ -14,69 +17,6 @@
                     <div class="content-checkout container">
                         <div class="middle-container">
                             <form asp-action="SendToBank" method="post" class="form-checkout">
-                                <div class="col2-set" id="customer-details">
-                                    <div class="col-12">
-                                        <div class="billing-fields mt-4">
-                                            <h4>جزئیات صورتحساب</h4>
-                                            <div class="form-checkout-row">
-                                                <div class="validate-required">
-                                                    <label for="name">نام تحویل گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" id="name" disabled value="@userInfo.FirstName @userInfo.LastName" class="input-name-checkout form-control">
-                                                </div>
-
-                                                <div class="validate-required">
-                                                    <label for="phone-number">شماره موبایل <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" id="phone-number" disabled value="@userInfo.PhoneNumber" class="input-name-checkout form-control text-left">
-                                                </div>
-
-                                                <div class="validate-required">
-                                                    <label for="fixed-number">شماره تلفن ثابت <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" name="Telephone" value="@address?.Telephone" id="fixed-number" class="input-name-checkout form-control text-left">
-                                                </div>
-
-                                                <div class="validate-required">
-                                                    <label for="post-code">کد پستی <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="number" name="ZipCode" dir="ltr" value="@address?.ZipCode" id="post-code" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
-                                                </div>
-
-
-                                                <div class="validate-required">
-                                                    <label for="Street">منطقه <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <select name="TehranAreasFrom" required asp-for="@address.TehranAreasFrom" asp-items="@Html.GetEnumSelectList<TehranAreas>()">
-                                                        <option value="">--لطفا انتخاب کنید--</option>
-                                                    </select>
-                                                    @*<input type="text" name="Address" value="@address?.TehranAreasFrom" id="post-code" class="input-name-checkout form-control">*@
-                                                </div>
-
-                                                <div class="validate-required">
-                                                    <label for="Street">آدرس <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" name="Address" value="@address?.Address" id="post-code" class="input-name-checkout form-control">
-                                                </div>
-
-
-                                                <div class="validate-required">
-                                                    <label for="bld-num">
-                                                        پلاک
-                                                        <abbr class="required" title="ضروری" style="color:red;">*</abbr>
-                                                    </label>
-                                                    <input type="number" name="Plaque" value="@address?.Plaque" id="bld-num" class="input-name-checkout js-input-bld-num form-control">
-                                                </div>
-
-                                                <div class="validate-required">
-                                                    <label for="apt-id">واحد</label>
-                                                    <input type="number" id="apt-id" name="Floor" value="@address?.Floor" class="input-name-checkout js-input-apt-id form-control">
-                                                </div>
-
-                                                <label for="address">
-                                                    توضیحات سفارش
-                                                    <span class="optional">(اختیاری)</span>
-                                                </label>
-                                                <textarea rows="5" cols="30" id="address" class="textarea-name-checkout form-control" placeholder="یادداشت ها درباره سفارش شما ، برای مثال نکات مهم برای تحویل بار "></textarea>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <h3 class="order-review-heading">سفارش شما</h3>
                                 <div class="checkout-review-order">
                                     <table class="checkout-review-order-table table table-borderless">
@@ -128,7 +68,7 @@
 
                                                         <ins>
                                                             <span class="amount">
-                                                                @ViewBag.SumPrice
+                                                                @(SumPrice.ToPersianPrice())
                                                                 <span>تومان</span>
                                                             </span>
                                                         </ins>
@@ -140,16 +80,33 @@
                                                 <th>هزینه حمل و نقل</th>
                                                 <td>
                                                     <div class="price">
-
                                                         <ins>
-                                                            <span class="amount">
-                                                                @ViewBag.SumPrice
-                                                                <span>تومان</span>
-                                                            </span>
+                                                            @if (tariff != 0)
+                                                            {
+                                                                <span class="amount">
+
+
+
+                                                                    @(tariff.ToPersianPrice())
+
+                                                                    <span>تومان</span>
+                                                                </span>
+                                                            }
+                                                            else
+                                                            { 
+                                                                <span class="amount">
+                                                                    درحال بررسی
+                                                                </span>
+
+                                                            }
+
+
                                                         </ins>
                                                     </div>
                                                 </td>
                                             </tr>
+
+
                                             <tr class="cart-subtotal">
                                                 <th>کل</th>
                                                 <td>
@@ -157,53 +114,54 @@
 
                                                         <ins>
                                                             <span class="amount">
-                                                                @ViewBag.SumPrice
+                                                                @((SumPrice + tariff).ToPersianPrice())
                                                                 <span>تومان</span>
                                                             </span>
                                                         </ins>
                                                     </div>
                                                 </td>
                                             </tr>
+
                                             @*<tr class="order-total">
-            <th>حمل ونقل</th>
-            <td>
-                <div class="shipping-totals-item">
-                    <span class="shipping-destination">حمل و نقل به خراسان شمالی</span>
-                </div>
-            </td>
-        </tr>*@
+                    <th>حمل ونقل</th>
+                    <td>
+                        <div class="shipping-totals-item">
+                            <span class="shipping-destination">حمل و نقل به خراسان شمالی</span>
+                        </div>
+                    </td>
+                </tr>*@
 
                                             @*<tr class="cart-discount">
-            <th>تخفیف شما از این خرید</th>
-            <td data-title=" تخفیف شما از این خرید ">
-                <div class="price">
-                    <del>
-                        <span>
-                            32,000
-                            <span>تومان</span>
-                        </span>
-                    </del>
-                    <ins>
-                        <span class="amount">
-                            @ViewBag.SumPrice
-                            <span>تومان</span>
-                        </span>
-                    </ins>
-                </div>
-            </td>
-        </tr>*@
+                    <th>تخفیف شما از این خرید</th>
+                    <td data-title=" تخفیف شما از این خرید ">
+                        <div class="price">
+                            <del>
+                                <span>
+                                    32,000
+                                    <span>تومان</span>
+                                </span>
+                            </del>
+                            <ins>
+                                <span class="amount">
+                                    @ViewBag.SumPrice
+                                    <span>تومان</span>
+                                </span>
+                            </ins>
+                        </div>
+                    </td>
+                </tr>*@
                                         </tfoot>
                                     </table>
                                     <ul class="checkout-payment-methods">
                                         @*<li class="checkout-payment-method-item d-block">
-                                                <label for="#" class="outline-radio">
-                                                    <input type="radio" name="payment_method" id="payment-option-online" checked>
-                                                    <span class="outline-radio-check"></span>
-                                                </label>
-                                                <label for="#" class="shipping-totals-title-row">
-                                                    <div class="shipping-totals-title">افزایش اعتبار و پرداخت از کیف پول</div>
-                                                </label>
-                                            </li>*@
+                <label for="#" class="outline-radio">
+                    <input type="radio" name="payment_method" id="payment-option-online" checked>
+                    <span class="outline-radio-check"></span>
+                </label>
+                <label for="#" class="shipping-totals-title-row">
+                    <div class="shipping-totals-title">افزایش اعتبار و پرداخت از کیف پول</div>
+                </label>
+            </li>*@
                                         <li class="checkout-payment-method-item d-block">
                                             <label for="#" class="outline-radio">
                                                 <input checked type="radio" name="payment_method" id="payment-option-online">
@@ -214,23 +172,27 @@
                                             </label>
                                         </li>
                                         @*<li class="checkout-payment-method-item d-block">
-                                                <label for="#" class="outline-radio">
-                                                    <input type="radio" name="payment_method" id="payment-option-online">
-                                                    <span class="outline-radio-check"></span>
-                                                </label>
-                                                <label for="#" class="shipping-totals-title-row">
-                                                    <div class="shipping-totals-title">پرداخت هنگام دریافت</div>
-                                                </label>
-                                            </li>*@
+                <label for="#" class="outline-radio">
+                    <input type="radio" name="payment_method" id="payment-option-online">
+                    <span class="outline-radio-check"></span>
+                </label>
+                <label for="#" class="shipping-totals-title-row">
+                    <div class="shipping-totals-title">پرداخت هنگام دریافت</div>
+                </label>
+            </li>*@
                                     </ul>
-                                    <div class="form-auth-row">
-                                        <label for="#" class="ui-checkbox mt-1">
-                                            <input type="checkbox" value="1" name="login" id="remember">
-                                            <span class="ui-checkbox-check"></span>
-                                        </label>
-                                        <label for="remember" class="remember-me mr-0"><a href="#">حریم خصوصی</a> و <a href="#">شرایط قوانین </a>استفاده از سرویس های سایت لیفت بازار را مطالعه نموده و با کلیه موارد آن موافقم <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                    </div>
-                                    <button class="btn-Order btn btn-primary mt-4 mb-3" id="sbtButton" disabled type="submit">ثبت سفارش</button>
+
+                                    @if (tariff != 0)
+                                    {
+                                        <div class="form-auth-row">
+                                            <label for="#" class="ui-checkbox mt-1">
+                                                <input type="checkbox" value="1" name="login" id="remember">
+                                                <span class="ui-checkbox-check"></span>
+                                            </label>
+                                            <label for="remember" class="remember-me mr-0"><a href="#">حریم خصوصی</a> و <a href="#">شرایط قوانین </a>استفاده از سرویس های سایت لیفت بازار را مطالعه نموده و با کلیه موارد آن موافقم <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                        </div>
+                                        <button class="btn-Order btn btn-primary mt-4 mb-3" id="sbtButton" disabled type="submit">ثبت سفارش</button>
+                                    }
                                 </div>
                             </form>
                         </div>
