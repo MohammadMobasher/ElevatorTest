@@ -1,9 +1,11 @@
 ﻿using Core.Utilities;
+using Dapper;
 using DataLayer.Entities;
 using DataLayer.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +15,12 @@ namespace Service.Repos
     public class ShopOrderRepository : GenericRepository<ShopOrder>
     {
         private readonly ShopProductRepository _shopProductRepository;
-
-        public ShopOrderRepository(DatabaseContext dbContext, ShopProductRepository shopProductRepository) : base(dbContext)
+        private readonly IDbConnection _connection;
+        public ShopOrderRepository(DatabaseContext dbContext, ShopProductRepository shopProductRepository
+            , IDbConnection connection) : base(dbContext)
         {
             _shopProductRepository = shopProductRepository;
+            _connection = connection;
         }
 
         public async Task<int> CreateFactor(List<ShopProduct> list, int userId)
@@ -113,5 +117,42 @@ namespace Service.Repos
         {
             return await TableNoTracking.Include(x => x.Users).Where(x => x.Id == Id).SingleOrDefaultAsync();
         }
+
+        public async Task<string> CalculateTariff(int userId)
+        {
+            var sqlQuery = $@"
+                DECLARE @UserInfo TABLE (productId int,UserArea int, Area int)
+                INSERT INTO @UserInfo(productId,UserArea, Area)
+                select distinct ShopProduct.ProductId , UserAddress.TehranAreasFrom , Warehouse.Region
+                from AspNetUsers
+                	JOIN ShopProduct ON AspNetUsers.Id = ShopProduct.UserId
+                	JOIN UserAddress ON AspNetUsers.Id = UserAddress.UserId
+                	JOIN WarehouseProductCheck on ShopProduct.ProductId = WarehouseProductCheck.ProductId
+                	JOIN Warehouse on WarehouseProductCheck.WarehouseId = Warehouse.Id
+                where IsFinaly = 0 and AspNetUsers.Id = {userId}
+                
+                DECLARE @OrderDetail TABLE (ProductSize BIGINT,Area int)
+                insert INTO @OrderDetail(ProductSize,Area)
+                select SUM(ProductSize),WareHouse.Area 
+                from @UserInfo as WareHouse
+                	JOIN Product on WareHouse.ProductId = Product.Id
+                Group By Area
+                
+                SELECT SUM(Maxtariff) AS Tariff
+                FROM (
+                	select MAX(tariff) as Maxtariff 
+                	from TransportationTariff
+                		JOIN @OrderDetail as Orders on TransportationTariff.TehranAreasFrom = Orders.Area
+                	Where TehranAreasTO = (select Top 1 UserArea from @UserInfo)
+                		AND Orders.ProductSize between  TransportationTariff.ProductSizeFrom
+                		AND TransportationTariff.ProductSizeTo
+                	group by tehranareasFrom,TehranAreasTO,ProductSize
+                ) t";
+
+            var tariff = await _connection.QueryAsync<long>(sqlQuery);
+
+            return tariff.FirstOrDefault().ToString();
+        }
+
     }
 }
