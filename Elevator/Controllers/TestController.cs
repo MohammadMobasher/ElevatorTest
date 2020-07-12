@@ -1,5 +1,6 @@
 ﻿using Core.BankCommon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Service.Repos;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -11,6 +12,18 @@ namespace Elevator.Controllers
 {
     public class TestController:Controller
     {
+        private readonly ShopOrderRepository _shopOrderRepository;
+
+        public TestController(ShopOrderRepository shopOrderRepository)
+        {
+            _shopOrderRepository = shopOrderRepository;
+        }
+
+        public async Task<IActionResult> Tariff()
+        {
+            return Json(await _shopOrderRepository.CalculateTariff(1));
+        }
+
         public IActionResult BankTest()
         {
             var request = new BankPaymentViewModel();
