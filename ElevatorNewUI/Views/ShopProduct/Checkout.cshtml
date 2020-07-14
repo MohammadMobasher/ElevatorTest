@@ -9,6 +9,8 @@
     long tariff = ViewBag.Tariff;
 }
 
+
+
 <div class="container-main">
     <div class="d-block">
         <section class="blog-checkout d-block order-1">
@@ -16,172 +18,128 @@
                 <div class="checkout woocommerce-checkout">
                     <div class="content-checkout container">
                         <div class="middle-container">
-                            <form asp-action="SendToBank" method="post" class="form-checkout">
-                                <h3 class="order-review-heading">سفارش شما</h3>
+                            <a href="#" onclick="generatePDF('pdfMake')" class="print-link pull-left text-danger"><i class="fa fa-file-pdf-o fa-3x"></i></a>
+
+                            <form asp-action="SendToBank" method="post" class="form-checkout" id="pdfMake">
+                                <h3 class="order-review-heading">سفارش  @User.Identity.FindFirstValue("FullName")</h3>
                                 <div class="checkout-review-order">
-                                    <table class="checkout-review-order-table table table-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="product-name">محصول</th>
-                                                <th scope="col" class="product-count">تعداد</th>
-                                                <th scope="col" class="product-price">قیمت کل</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model)
-                                            {
-                                                @if (item.ProductId != null)
+                                    <div >
+                                        <table class="checkout-review-order-table table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="product-name">محصول</th>
+                                                    <th scope="col" class="product-count">تعداد</th>
+                                                    <th scope="col" class="product-price">قیمت کل</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
                                                 {
-                                                    <tr class="checkout-cart-item">
-                                                        <td class="product-name">@item.Product.Title</td>
-                                                        <td class="product-count">@item.Count</td>
-                                                        <td class="product-price text-info">
-                                                            <span class="amount">
-                                                                @((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())
-                                                                <span>تومان</span>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                }
-                                                else
-                                                {
-                                                    <tr class="checkout-cart-item">
-                                                        <td class="product-name">@item.ProductPackage.Title</td>
-                                                        <td class="product-price text-info">
-                                                            <span class="amount">
-                                                                @((item.ProductPackage.PackagePrice * item.Count))
-                                                                <span>تومان</span>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            }
-
-                                        </tbody>
-                                        <tfoot>
-
-
-                                            <tr class="cart-subtotal">
-                                                <th>مجموع سفارش شما</th>
-                                                <td>
-                                                    <div class="price">
-
-                                                        <ins>
-                                                            <span class="amount">
-                                                                @(SumPrice.ToPersianPrice())
-                                                                <span>تومان</span>
-                                                            </span>
-                                                        </ins>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <tr class="cart-subtotal">
-                                                <th>هزینه حمل و نقل</th>
-                                                <td>
-                                                    <div class="price">
-                                                        <ins>
-                                                            @if (tariff != 0)
-                                                            {
+                                                    @if (item.ProductId != null)
+                                                    {
+                                                        <tr class="checkout-cart-item">
+                                                            <td class="product-name">@item.Product.Title</td>
+                                                            <td class="product-count">@item.Count</td>
+                                                            <td class="product-price text-info">
                                                                 <span class="amount">
-
-
-
-                                                                    @(tariff.ToPersianPrice())
-
+                                                                    @((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())
                                                                     <span>تومان</span>
                                                                 </span>
-                                                            }
-                                                            else
-                                                            { 
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr class="checkout-cart-item">
+                                                            <td class="product-name">@item.ProductPackage.Title</td>
+                                                            <td class="product-price text-info">
                                                                 <span class="amount">
-                                                                    درحال بررسی
+                                                                    @((item.ProductPackage.PackagePrice * item.Count))
+                                                                    <span>تومان</span>
                                                                 </span>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
 
-                                                            }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="cart-subtotal">
+                                                    <th>مجموع سفارش شما</th>
+                                                    <td>
+                                                        <div class="price">
+
+                                                            <ins>
+                                                                <span class="amount">
+                                                                    @(SumPrice.ToPersianPrice())
+                                                                    <span>تومان</span>
+                                                                </span>
+                                                            </ins>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr class="cart-subtotal">
+                                                    <th>هزینه حمل و نقل</th>
+                                                    <td>
+                                                        <div class="price">
+                                                            <ins>
+                                                                @if (tariff != 0)
+                                                                {
+                                                                    <span class="amount">
 
 
-                                                        </ins>
-                                                    </div>
-                                                </td>
-                                            </tr>
+
+                                                                        @(tariff.ToPersianPrice())
+
+                                                                        <span>تومان</span>
+                                                                    </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="amount">
+                                                                        درحال بررسی
+                                                                    </span>
+
+                                                                }
 
 
-                                            <tr class="cart-subtotal">
-                                                <th>کل</th>
-                                                <td>
-                                                    <div class="price">
+                                                            </ins>
+                                                        </div>
+                                                    </td>
+                                                </tr>
 
-                                                        <ins>
-                                                            <span class="amount">
-                                                                @((SumPrice + tariff).ToPersianPrice())
-                                                                <span>تومان</span>
-                                                            </span>
-                                                        </ins>
-                                                    </div>
-                                                </td>
-                                            </tr>
 
-                                            @*<tr class="order-total">
-                    <th>حمل ونقل</th>
-                    <td>
-                        <div class="shipping-totals-item">
-                            <span class="shipping-destination">حمل و نقل به خراسان شمالی</span>
-                        </div>
-                    </td>
-                </tr>*@
+                                                <tr class="cart-subtotal">
+                                                    <th>کل</th>
+                                                    <td>
+                                                        <div class="price">
 
-                                            @*<tr class="cart-discount">
-                    <th>تخفیف شما از این خرید</th>
-                    <td data-title=" تخفیف شما از این خرید ">
-                        <div class="price">
-                            <del>
-                                <span>
-                                    32,000
-                                    <span>تومان</span>
-                                </span>
-                            </del>
-                            <ins>
-                                <span class="amount">
-                                    @ViewBag.SumPrice
-                                    <span>تومان</span>
-                                </span>
-                            </ins>
-                        </div>
-                    </td>
-                </tr>*@
-                                        </tfoot>
-                                    </table>
-                                    <ul class="checkout-payment-methods">
-                                        @*<li class="checkout-payment-method-item d-block">
-                <label for="#" class="outline-radio">
-                    <input type="radio" name="payment_method" id="payment-option-online" checked>
-                    <span class="outline-radio-check"></span>
-                </label>
-                <label for="#" class="shipping-totals-title-row">
-                    <div class="shipping-totals-title">افزایش اعتبار و پرداخت از کیف پول</div>
-                </label>
-            </li>*@
-                                        <li class="checkout-payment-method-item d-block">
-                                            <label for="#" class="outline-radio">
-                                                <input checked type="radio" name="payment_method" id="payment-option-online">
-                                                <span class="outline-radio-check"></span>
-                                            </label>
-                                            <label for="#" class="shipping-totals-title-row">
-                                                <div class="shipping-totals-title">پرداخت اینترنتی هوشمند</div>
-                                            </label>
-                                        </li>
-                                        @*<li class="checkout-payment-method-item d-block">
-                <label for="#" class="outline-radio">
-                    <input type="radio" name="payment_method" id="payment-option-online">
-                    <span class="outline-radio-check"></span>
-                </label>
-                <label for="#" class="shipping-totals-title-row">
-                    <div class="shipping-totals-title">پرداخت هنگام دریافت</div>
-                </label>
-            </li>*@
-                                    </ul>
-
+                                                            <ins>
+                                                                <span class="amount">
+                                                                    @((SumPrice + tariff).ToPersianPrice())
+                                                                    <span>تومان</span>
+                                                                </span>
+                                                            </ins>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                        <ul class="checkout-payment-methods">
+                             
+                                            <li class="checkout-payment-method-item d-block">
+                                                <label for="#" class="outline-radio">
+                                                    <input checked type="radio" name="payment_method" id="payment-option-online">
+                                                    <span class="outline-radio-check"></span>
+                                                </label>
+                                                <label for="#" class="shipping-totals-title-row">
+                                                    <div class="shipping-totals-title">پرداخت اینترنتی هوشمند</div>
+                                                </label>
+                                            </li>
+                    
+                                        </ul>
+                                    </div>
                                     @if (tariff != 0)
                                     {
                                         <div class="form-auth-row">
