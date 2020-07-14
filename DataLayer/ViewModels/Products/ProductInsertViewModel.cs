@@ -65,7 +65,7 @@ namespace DataLayer.ViewModels.Products
         /// <summary>
         /// وزن محصول
         /// </summary>
-        public ProductSizeSSOT? ProductSize { get; set; }
+        public double? ProductSize { get; set; }
 
         
     }

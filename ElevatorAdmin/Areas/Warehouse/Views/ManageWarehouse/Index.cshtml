@@ -1,7 +1,7 @@
 ﻿@model List<DataLayer.DTO.WarehouseDTO.WarehouseFullDTO>
 @using Core.Utilities
 @{
-    ViewData["Title"] = "لیست گروه‌های کالا";
+    ViewData["Title"] = "لیست ورودی و خروجی‌ها";
 }
 
 
@@ -30,15 +30,15 @@
                      icon="fa-pencil-square-o"
                      buttonClass="btn-warning"></TableBotton>
 
-        <TableBotton area="ProductGroup" controller="ManageProductGroup" action="Delete"
+        @*<TableBotton area="ProductGroup" controller="ManageProductGroup" action="Delete"
                      title="حذف"
                      icon="fa-trash-o"
-                     buttonClass="btn-danger"></TableBotton>
+                     buttonClass="btn-danger"></TableBotton>*@
 
-        <TableBotton area="ProductGroup" controller="ManageProductGroup" action="Delete"
+        @*<TableBotton area="ProductGroup" controller="ManageProductGroup" action="Delete"
                      title="ارسال پیامک به انبار"
                      icon="fa-paper-plane"
-                     buttonClass="btn-primary"></TableBotton>
+                     buttonClass="btn-primary"></TableBotton>*@
 
     </span>
 </div>
