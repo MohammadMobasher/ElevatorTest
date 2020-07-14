@@ -52,7 +52,7 @@
                 <th width="8%">
                     ردیف
                 </th>
-                <th>عنوان انبار</th>
+                @*<th>انباردار</th>*@
                 <th>عنوان محصول</th>
                 <th>ورودی/خروجی</th>
                 <th>تعداد</th>
@@ -65,10 +65,34 @@
                     <th>
                         ---
                     </th>
-                    <th><input type="text"  name="Title" class="form-control searchInput" /></th>
-                    <th><input type="text" name="ProductTitle" class="form-control searchInput" /></th>
-                    <th><input type="text" name="TypeSSOt" class="form-control searchInput" /></th>
-                    <th><input type="text" name="Count" class="form-control searchInput" /></th>
+                    @*<th><input type="text"  name="Title" class="form-control searchInput" /></th>*@
+                    <th><input type="text" name="ProductTitle" value="@ViewBag.SearchModel.ProductTitle" class="form-control searchInput" /></th>
+                    <th>
+                        <select name="Type" class="form-control searchSelect">
+                            <option>--لطفا انتخاب کنید--</option>
+
+                            @if (ViewBag.SearchModel.Type != null)
+                            {
+                                if (ViewBag.SearchModel.Type == WarehouseTypeSSOT.In)
+                                {
+                                    <option value="1" selected>ورودی</option>
+                                    <option value="2">خروجی</option>
+                                }
+                                else
+                                {
+                                    <option value="1">ورودی</option>
+                                    <option value="2" selected>خروجی</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="1">ورودی</option>
+                                <option value="2">خروجی</option>
+                            }
+
+                        </select>
+                    </th>
+                    <th><input type="text" name="Count" value="@ViewBag.SearchModel.Count" class="form-control searchInput" /></th>
                     <th>---</th>
                     <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
                 </form>
@@ -91,7 +115,7 @@
                         <tr>
                             <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
                             <td>@(index++)</td>
-                            <td>@item.Warehouse.Title</td>
+                            @*<td>@item.Warehouse.Title</td>*@
                             <td>@item.Product.Title</td>
                             <td>@item.TypeSSOt.ToDisplay()</td>
                             <td>@item.Count.ToString().En2Fa()</td>
