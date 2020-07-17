@@ -25,6 +25,8 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
         private readonly ShopOrderStatusRepository _shopOrderStatusRepository;
         private readonly SmsRestClient _smsRestClient;
         private readonly ProductUnitRepository _productUnitRepository;
+        private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
+
         public ManageOrdersController(ShopOrderRepository shopOrderRepository
             , UsersPaymentRepository usersPaymentRepository
             , ShopProductRepository shopProductRepository
@@ -34,7 +36,8 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
             , UserAddressRepository userAddressRepository,
             ShopOrderStatusRepository shopOrderStatusRepository,
             SmsRestClient smsRestClient,
-            ProductUnitRepository productUnitRepository) : base(usersAccessRepository)
+            ProductUnitRepository productUnitRepository,
+            ShopOrderPaymentRepository shopOrderPaymentRepository) : base(usersAccessRepository)
         {
             _shopOrderRepository = shopOrderRepository;
             _usersPaymentRepository = usersPaymentRepository;
@@ -45,6 +48,7 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
             _shopOrderStatusRepository = shopOrderStatusRepository;
             _smsRestClient = smsRestClient;
             _productUnitRepository = productUnitRepository;
+            _shopOrderPaymentRepository = shopOrderPaymentRepository;
         }
 
         [ActionRole("لیست سفارشات")]
@@ -83,11 +87,20 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
         [ActionRole("تغییر وضعیت فاکتور")]
         public async Task<IActionResult> ChangeStatus(int id)
         {
-            var order = await _shopOrderRepository.GetItemByIdWithUserAsync(id);
-            var result = await _shopOrderStatusRepository.SendNextStatus(id);
-            TempData.AddResult(result.Item1);
-            if(result.Item2 != ShopOrderStatusSSOT.Nothing)
-                SendSmsChangeStatus(result.Item2, order.Users.PhoneNumber, order.OrderId, order.Users.FirstName +" "+ order.Users.LastName);
+            // در این قسمت چک میشود که آیا تمام رکوردهای مربوط به این فاکتور پرداهت شده است یا نه
+            // در صورتی که رکوردی داشته باشد که پرداختی نداشته باشد
+            // در این صورت نمیتواند مرحله عوض کند
+            if (await _shopOrderPaymentRepository.AllIsPay(id))
+            {
+                var order = await _shopOrderRepository.GetItemByIdWithUserAsync(id);
+                var result = await _shopOrderStatusRepository.SendNextStatus(id);
+                TempData.AddResult(result.Item1);
+                if (result.Item2 != ShopOrderStatusSSOT.Nothing)
+                    SendSmsChangeStatus(result.Item2, order.Users.PhoneNumber, order.OrderId, order.Users.FirstName + " " + order.Users.LastName);
+                return Redirect(IndexUrlWithQueryString);
+            }
+
+            TempData.AddResult(SweetAlertExtenstion.Error("هنوز تمامی رکورد های مربوط به این فاکتور پرداخت نشده است"));
             return Redirect(IndexUrlWithQueryString);
         }
 
