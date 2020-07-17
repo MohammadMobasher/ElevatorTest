@@ -21,7 +21,7 @@ namespace DataLayer.Entities
         /// مبلغ نهایی 
         /// جمع محصولات با هزینه حمل و نقل
         /// </summary>
-        public long? PaymentAmount { get; set; }
+        public long PaymentAmount { get; set; }
 
         public bool IsSuccessed { get; set; }
 
