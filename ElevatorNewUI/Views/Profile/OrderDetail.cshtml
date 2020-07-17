@@ -85,18 +85,27 @@
                                                     <th>مبلغ پرداختی</th>
                                                     <th>وضعیت پرداخت</th>
                                                     <th>تاریخ پرداخت</th>
+                                                    <th>پرداخت</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @{ var i = 1;}
                                                 @foreach (var item in payments)
                                                 {
-                                                    <tr>
-                                                        <td class="order-code">@(i++)</td>
-                                                        <td>@(item.PaymentAmount.ToPersianPrice()) </td>
-                                                        <td>@(item.IsSuccess?"پرداخت شده":"درانتظار پرداخت") </td>
-                                                        <td>@item.PaymentDate.ToPersianDateTextify()</td>
-                                                    </tr>
+                                                <tr>
+                                                    <td class="order-code">@(i++)</td>
+                                                    <td>@(item.PaymentAmount.ToPersianPrice()) </td>
+                                                    <td>@(item.IsSuccess ? "پرداخت شده" : "درانتظار پرداخت") </td>
+                                                    <td>@item.PaymentDate.ToPersianDateTextify()</td>
+                                                    <td>
+                                                        @if (!item.IsSuccess)
+                                                        {
+                                                        <a target="_blank" class="btn btn-info" asp-action="RequestBuilder" asp-controller="ShopProduct" asp-route-id="">
+                                                           پرداخت
+                                                        </a>
+                                                        }
+                                                    </td>
+                                                </tr>
 
                                                 }
                                             </tbody>

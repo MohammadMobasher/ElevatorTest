@@ -64,9 +64,9 @@ namespace Service.Repos
                 return _orderId;
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new Exception();
+                throw new Exception(e.Message);
             }
         }
 

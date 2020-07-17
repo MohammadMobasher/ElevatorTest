@@ -15,7 +15,7 @@ namespace DataLayer.Entities
 
         public long PaymentAmount { get; set; }
 
-        public DateTime PaymentDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
 
         public bool IsSuccess { get; set; }
 

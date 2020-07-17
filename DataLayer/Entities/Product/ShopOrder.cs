@@ -33,6 +33,7 @@ namespace DataLayer.Entities
 
         public string OrderId { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public ShopOrderStatusSSOT? Status{ get; set; }
 
         /// <summary>

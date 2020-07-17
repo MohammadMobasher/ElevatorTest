@@ -193,15 +193,17 @@ namespace ElevatorNewUI.Controllers
 
             var orderId = await _shopOrderRepository.CreateFactor(listOrders.ToList(), UserId);
 
-            
+            var countPaymentFactor = await _shopOrderPaymentRepository.CreatePayment(orderId);
 
-            if (orderId != 0)
+            if (orderId != 0 && countPaymentFactor > 1)
+            {
+                return RedirectToAction("OrderDetail", "Profile",new { id = orderId } );
+            }
+
+            else if(orderId != 0 && countPaymentFactor  == 1)
             {
                 return await RequestBuilder(orderId);
             }
-
-           
-
             return RedirectToAction("Index");
         }
 
