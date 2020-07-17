@@ -43,7 +43,7 @@ namespace Service.Repos
                         TransferProductPrice = tariff,
                     };
 
-                    model.PaymentAmount = model.Amount + model.TransferProductPrice;
+                    model.PaymentAmount = model.Amount + tariff;
 
                     await AddAsync(model);
                     // مشخص کردن اینکه این سبد محصولات مربوط به کدام فاکتور می باشد
