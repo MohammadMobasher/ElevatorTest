@@ -28,6 +28,7 @@ namespace Service
 
         #region Tables
 
+        public DbSet<ShopOrderPayment> ShopOrderPayment { get; set; }
         public DbSet<CarTransport> CarTransport { get; set; }
         public DbSet<TransportationTariff> TransportationTariff { get; set; }
         public DbSet<SiteSetting> SiteSetting { get; set; }

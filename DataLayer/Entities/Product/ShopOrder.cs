@@ -7,6 +7,10 @@ using System.Text;
 
 namespace DataLayer.Entities
 {
+
+    /// <summary>
+    /// سفارشات / فاکتور
+    /// </summary>
     public class ShopOrder : BaseEntity
     {
         public DateTime? CreateDate { get; set; }
