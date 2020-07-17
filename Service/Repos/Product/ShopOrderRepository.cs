@@ -40,8 +40,10 @@ namespace Service.Repos
                         CreateDate = DateTime.Now,
                         IsSuccessed = false,
                         UserId = userId,
-                        TransferProductPrice = tariff
+                        TransferProductPrice = tariff,
                     };
+
+                    model.PaymentAmount = model.Amount + model.TransferProductPrice;
 
                     await AddAsync(model);
                     // مشخص کردن اینکه این سبد محصولات مربوط به کدام فاکتور می باشد
@@ -53,6 +55,8 @@ namespace Service.Repos
                     var model = GetByCondition(a => a.Id == _orderId);
 
                     model.Amount = await _shopProductRepository.CalculateCartPriceNumber(userId);
+                    model.TransferProductPrice = tariff;
+                    model.PaymentAmount = model.Amount + tariff;
 
                     await UpdateAsync(model);
                 }

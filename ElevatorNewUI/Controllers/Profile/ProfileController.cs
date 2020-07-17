@@ -19,17 +19,21 @@ namespace ElevatorNewUI.Controllers.Profile
         private readonly ShopProductRepository _shopProductRepository;
         private readonly UserAddressRepository _userAddressRepository;
         private readonly ProductUnitRepository _productUnitRepository;
+        private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
+
         public ProfileController(UserRepository userRepository
             , ShopOrderRepository shopOrderRepository
             , ShopProductRepository shopProductRepository
             , UserAddressRepository userAddressRepository
-            , ProductUnitRepository productUnitRepository)
+            , ProductUnitRepository productUnitRepository
+            , ShopOrderPaymentRepository shopOrderPaymentRepository)
         {
             _userRepository = userRepository;
             _shopOrderRepository = shopOrderRepository;
             _shopProductRepository = shopProductRepository;
             _userAddressRepository = userAddressRepository;
             _productUnitRepository = productUnitRepository;
+            _shopOrderPaymentRepository = shopOrderPaymentRepository;
         }
 
 
@@ -56,7 +60,7 @@ namespace ElevatorNewUI.Controllers.Profile
             ViewBag.SidebarActive = ProfileSidebarSSOT.Orders;
 
             var orders = await _shopOrderRepository
-                .GetListAsync(a => a.UserId == UserId && a.IsSuccessed, o=>o.OrderByDescending(a=>a.SuccessDate));
+                .GetListAsync(a => a.UserId == UserId , o=>o.OrderByDescending(a=>a.SuccessDate));
 
             return View(orders.ToList());
         }
@@ -64,21 +68,20 @@ namespace ElevatorNewUI.Controllers.Profile
 
         public async Task<IActionResult> OrderDetail(int id)
         {
-
-
-
-            var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id && a.IsFinaly,null,"Product");
-
-           
+            var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id,null,"Product");
 
             var order = await _shopOrderRepository.GetByIdAsync(id);
 
             if (order == null || model == null)
                 return NotFound();
 
+            // لیست تراکنش های کاربر برای این فاکتور
+            var payment = await _shopOrderPaymentRepository.GetListAsync(a => a.ShopOrderId == id);
+
             // اطلاعات کاربر
             ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == order.UserId);
             ViewBag.Order = order;
+            ViewBag.payment = payment;
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == order.UserId);
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
             ViewBag.SidebarActive = ProfileSidebarSSOT.Orders;

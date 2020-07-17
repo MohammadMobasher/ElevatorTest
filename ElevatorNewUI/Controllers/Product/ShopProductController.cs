@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Service.Repos;
 using Service.Repos.BankRepository;
+using Service.Repos.Product;
 using Service.Repos.User;
 
 namespace ElevatorNewUI.Controllers
@@ -33,6 +34,7 @@ namespace ElevatorNewUI.Controllers
         private readonly UsersPaymentRepository _usersPaymentRepository;
         private readonly UserAddressRepository _userAddressRepository;
         private readonly UserRepository _userRepository;
+        private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
         public ShopProductController(ShopProductRepository shopProductRepository
             , IConfiguration configuration
             , ProductRepostitory productRepostitory
@@ -41,7 +43,8 @@ namespace ElevatorNewUI.Controllers
             , ManageBankService manageBankService
             , UsersPaymentRepository usersPaymentRepository
             , UserAddressRepository userAddressRepository
-            , UserRepository userRepository)
+            , UserRepository userRepository
+            , ShopOrderPaymentRepository shopOrderPaymentRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _shopProductRepository = shopProductRepository;
@@ -53,6 +56,7 @@ namespace ElevatorNewUI.Controllers
             _usersPaymentRepository = usersPaymentRepository;
             _userAddressRepository = userAddressRepository;
             _userRepository = userRepository;
+            _shopOrderPaymentRepository = shopOrderPaymentRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -174,8 +178,6 @@ namespace ElevatorNewUI.Controllers
 
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
 
-            //ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
-
             ViewBag.SumPrice =await _shopProductRepository.CalculateCartPriceNumber(UserId);
 
             ViewBag.Tariff =  _shopOrderRepository.CalculateTariff(UserId) ?? 0;
@@ -189,14 +191,9 @@ namespace ElevatorNewUI.Controllers
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
             && !a.IsFinaly);
 
-            //#region Address
-
-            //vm.UserId = UserId;
-            //_userAddressRepository.Submit(vm);
-
-            //#endregion
-
             var orderId = await _shopOrderRepository.CreateFactor(listOrders.ToList(), UserId);
+
+            
 
             if (orderId != 0)
             {

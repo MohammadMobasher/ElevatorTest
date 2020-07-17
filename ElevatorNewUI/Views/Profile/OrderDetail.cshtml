@@ -5,6 +5,7 @@
     var userInfo = ViewBag.UserInfo as DataLayer.Entities.Users.Users;
     var order = ViewBag.Order as ShopOrder;
     var address = ViewBag.UserAddress as UserAddress;
+    var payments = ViewBag.payment as List<ShopOrderPayment>;
 }
 <style>
     .Mtable {
@@ -42,8 +43,9 @@
                         <div class="col-lg-9 col-md-9 col-xs-12 pl ">
                             <div class="profile-content">
                                 <div class="profile-stats">
-                                    <div class="table-orders"  id="pdfMake">
+                                    <div class="table-orders" id="pdfMake">
 
+                                        <!--اطلاعات کاربر-->
                                         <table class="text-center Mtable table table-profile-orders table-bordered">
                                             <thead>
                                                 <tr>
@@ -58,7 +60,7 @@
                                                     <td>@userInfo.FirstName @userInfo.LastName</td>
                                                     <td>@userInfo.PhoneNumber</td>
                                                     <td>@order.CreateDate.Value.ToPersianDateTextify()</td>
-                                                    <td>@order.SuccessDate.Value.ToPersianDateTextify()</td>
+                                                    <td>@(order.SuccessDate == null ? "" : order.SuccessDate.Value.ToPersianDateTextify())</td>
                                                 </tr>
                                             </tbody>
                                             <thead>
@@ -75,7 +77,33 @@
                                             </tbody>
                                         </table>
 
-                                        <table  class="text-center Mtable table table-profile-orders table-bordered">
+                                        <!--پرداختی ها-->
+                                        <table class="text-center Mtable table table-profile-orders table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>ردیف</th>
+                                                    <th>مبلغ پرداختی</th>
+                                                    <th>وضعیت پرداخت</th>
+                                                    <th>تاریخ پرداخت</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{ var i = 1;}
+                                                @foreach (var item in payments)
+                                                {
+                                                    <tr>
+                                                        <td class="order-code">@(i++)</td>
+                                                        <td>@(item.PaymentAmount.ToPersianPrice()) </td>
+                                                        <td>@(item.IsSuccess?"پرداخت شده":"درانتظار پرداخت") </td>
+                                                        <td>@item.PaymentDate.ToPersianDateTextify()</td>
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                        <!--اطلاعات محصول-->
+                                        <table class="text-center Mtable table table-profile-orders table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>ردیف</th>

@@ -9,7 +9,7 @@ namespace DataLayer.ViewModels
     {
         public long? Amount { get; set; }
         public long? OrderId { get; set; }
-        public OrderStatusSSOT? Status { get; set; }
+        public ShopOrderStatusSSOT? Status { get; set; }
         public bool? IsSuccessed { get; set; }
 
     }

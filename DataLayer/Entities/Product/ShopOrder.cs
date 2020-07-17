@@ -17,6 +17,12 @@ namespace DataLayer.Entities
 
         public long Amount { get; set; }
 
+        /// <summary>
+        /// مبلغ نهایی 
+        /// جمع محصولات با هزینه حمل و نقل
+        /// </summary>
+        public long? PaymentAmount { get; set; }
+
         public bool IsSuccessed { get; set; }
 
         public DateTime? SuccessDate { get; set; }
@@ -27,7 +33,7 @@ namespace DataLayer.Entities
 
         public string OrderId { get; set; }
 
-        public OrderStatusSSOT? Status{ get; set; }
+        public ShopOrderStatusSSOT? Status{ get; set; }
 
         /// <summary>
         /// هزینه حمل و نقل
