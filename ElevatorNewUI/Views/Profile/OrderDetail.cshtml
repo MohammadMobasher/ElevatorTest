@@ -38,7 +38,7 @@
 
                     <partial name="_SidebarProfile" model="@ViewBag.Model">
 
-                        
+
 
                         <div class="col-lg-9 col-md-9 col-xs-12 pl ">
                             <div class="profile-content">
@@ -80,6 +80,7 @@
                                         <!--پرداختی ها-->
                                         <table class="text-center Mtable table table-profile-orders table-bordered">
                                             <thead>
+                                                <tr><th colspan="5">مراحل پرداخت</th></tr>
                                                 <tr>
                                                     <th>ردیف</th>
                                                     <th>مبلغ پرداختی</th>
@@ -92,20 +93,29 @@
                                                 @{ var i = 1;}
                                                 @foreach (var item in payments)
                                                 {
-                                                <tr>
-                                                    <td class="order-code">@(i++)</td>
-                                                    <td>@(item.PaymentAmount.ToPersianPrice()) </td>
-                                                    <td>@(item.IsSuccess ? "پرداخت شده" : "درانتظار پرداخت") </td>
-                                                    <td>@item.PaymentDate.ToPersianDateTextify()</td>
-                                                    <td>
-                                                        @if (!item.IsSuccess)
-                                                        {
-                                                        <a target="_blank" class="btn btn-info" asp-action="RequestByOrderPayment" asp-controller="ShopProduct" asp-route-id="@item.Id">
-                                                           پرداخت
-                                                        </a>
-                                                        }
-                                                    </td>
-                                                </tr>
+                                                    <tr>
+                                                        <td class="order-code">@(i++)</td>
+                                                        <td>@(item.PaymentAmount.ToPersianPrice()) </td>
+                                                        <td>@(item.IsSuccess ? "پرداخت شده" : "درانتظار پرداخت") </td>
+                                                        <td>
+                                                            @if (item.IsSuccess)
+                                                            {
+                                                                @item.PaymentDate.ToPersianDateTextify()
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-danger">پرداخت نشده</span>
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @if (!item.IsSuccess)
+                                                            {
+                                                                <a target="_blank" class="btn btn-info" asp-action="RequestByOrderPayment" asp-controller="ShopProduct" asp-route-id="@item.Id">
+                                                                    پرداخت
+                                                                </a>
+                                                            }
+                                                        </td>
+                                                    </tr>
 
                                                 }
                                             </tbody>

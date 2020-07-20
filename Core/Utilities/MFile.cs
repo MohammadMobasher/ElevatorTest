@@ -46,6 +46,22 @@ namespace Core.Utilities
             return String.Empty;
         }
 
+        public static void append(string fileName, string text)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/FileIO/");
+            //string path = HttpContext.Request.MapPath("/FileIO");
+            using (StreamWriter logWriter = new StreamWriter(path + fileName))
+            {
+                logWriter.WriteLine(text);
+            }
+
+            
+
+            
+            //File.AppendAllText(path + fileName, text, System.Text.Encoding.UTF8);
+        }
+
+
 
         public static async Task Delete(string address)
         {
