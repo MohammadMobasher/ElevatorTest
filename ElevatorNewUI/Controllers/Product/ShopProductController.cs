@@ -35,6 +35,7 @@ namespace ElevatorNewUI.Controllers
         private readonly UserAddressRepository _userAddressRepository;
         private readonly UserRepository _userRepository;
         private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
+        private readonly ProductUnitRepository _productUnitRepository;
 
         public ShopProductController(ShopProductRepository shopProductRepository
             , IConfiguration configuration
@@ -45,7 +46,8 @@ namespace ElevatorNewUI.Controllers
             , UsersPaymentRepository usersPaymentRepository
             , UserAddressRepository userAddressRepository
             , UserRepository userRepository
-            , ShopOrderPaymentRepository shopOrderPaymentRepository)
+            , ShopOrderPaymentRepository shopOrderPaymentRepository
+            , ProductUnitRepository productUnitRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _shopProductRepository = shopProductRepository;
@@ -58,6 +60,7 @@ namespace ElevatorNewUI.Controllers
             _userAddressRepository = userAddressRepository;
             _userRepository = userRepository;
             _shopOrderPaymentRepository = shopOrderPaymentRepository;
+            _productUnitRepository = productUnitRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -176,6 +179,8 @@ namespace ElevatorNewUI.Controllers
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
              && !a.IsFinaly && !a.IsFactorSubmited, null, "Product,ProductPackage");
+
+            ViewBag.Unit = await _productUnitRepository.GetListAsync();
 
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
 

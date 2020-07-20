@@ -7,6 +7,8 @@
 
     long SumPrice = ViewBag.SumPrice;
     long tariff = ViewBag.Tariff;
+
+    var unit = ViewBag.Unit as List<ProductUnit>;
 }
 
 
@@ -23,29 +25,57 @@
                             <form asp-action="SendToBank" method="post" class="form-checkout" id="pdfMake">
                                 <h3 class="order-review-heading">سفارش  @User.Identity.FindFirstValue("FullName")</h3>
                                 <div class="checkout-review-order">
-                                    <div >
+                                    <div>
                                         <table class="checkout-review-order-table table table-borderless">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" class="product-name">محصول</th>
-                                                    <th scope="col" class="product-count">تعداد</th>
-                                                    <th scope="col" class="product-price">قیمت کل</th>
+                                                    <th scope="col">ردیف</th>
+                                                    <th scope="col">عنوان کالا</th>
+                                                    <th scope="col">تعداد کالا</th>
+                                                    <th scope="col">واحد کالا</th>
+                                                    <th scope="col">قیمت اصلی کالا</th>
+                                                    <th scope="col">قیمت با تخفیف</th>
+                                                    <th scope="col">قیمت کل</th>
+                                                    @*<th scope="col">مشاهده</th>*@
+                                                    @*<th scope="col" class="product-name">محصول</th>
+                                                        <th scope="col" class="product-count">تعداد</th>
+                                                        <th scope="col" class="product-price">قیمت کل</th>*@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @{var index = 1;}
                                                 @foreach (var item in Model)
                                                 {
                                                     @if (item.ProductId != null)
                                                     {
                                                         <tr class="checkout-cart-item">
-                                                            <td class="product-name">@item.Product.Title</td>
+                                                            <td class="order-code">@(index++)</td>
+                                                            <td class="product-name">
+                                                                <a href="/Product/ProductDetail/2222" target="_blank">@item.Product.Title</a>
+                                                            
+                                                            </td>
                                                             <td class="product-count">@item.Count</td>
-                                                            <td class="product-price text-info">
+                                                            <td>@(item.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                                            <td>@(item.OrderPrice ?? item.Product.Price.ToPersianPrice())</td>
+                                                            <td>@(item.OrderPriceDiscount ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                                            <td>
+                                                                @if (item.OrderPriceDiscount != null)
+                                                                {
+                                                                    var price = item.OrderPriceDiscount.Replace(",", "");
+
+                                                                    <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                                                }
+                                                            </td>
+                                                            @*<td class="product-price text-info">
                                                                 <span class="amount">
                                                                     @((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())
                                                                     <span>تومان</span>
                                                                 </span>
-                                                            </td>
+                                                            </td>*@
                                                         </tr>
                                                     }
                                                     else
@@ -127,7 +157,7 @@
                                             </tfoot>
                                         </table>
                                         <ul class="checkout-payment-methods">
-                             
+
                                             <li class="checkout-payment-method-item d-block">
                                                 <label for="#" class="outline-radio">
                                                     <input checked type="radio" name="payment_method" id="payment-option-online">
@@ -137,7 +167,7 @@
                                                     <div class="shipping-totals-title">پرداخت اینترنتی هوشمند</div>
                                                 </label>
                                             </li>
-                    
+
                                         </ul>
                                     </div>
                                     @if (tariff != 0)
