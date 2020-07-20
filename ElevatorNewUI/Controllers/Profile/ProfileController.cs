@@ -60,7 +60,8 @@ namespace ElevatorNewUI.Controllers.Profile
             ViewBag.SidebarActive = ProfileSidebarSSOT.Orders;
 
             var orders = await _shopOrderRepository
-                .GetListAsync(a => a.UserId == UserId , o=>o.OrderByDescending(a=>a.SuccessDate));
+                .GetListAsync(a => a.UserId == UserId && !a.IsDeleted, o=>o.OrderByDescending(a=>a.SuccessDate));
+
 
             return View(orders.ToList());
         }
@@ -70,7 +71,7 @@ namespace ElevatorNewUI.Controllers.Profile
         {
             var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id,null,"Product");
 
-            var order = await _shopOrderRepository.GetByIdAsync(id);
+            var order = await _shopOrderRepository.GetByConditionAsync(a=>a.Id == id && !a.IsDeleted);
 
             if (order == null || model == null)
                 return NotFound();

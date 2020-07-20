@@ -139,7 +139,7 @@ namespace Service.Repos
 
         public async Task<Tuple<int, List<ShopOrder>>> OrderLoadAsync(ShopOrdersSearchViewModel vm, int page = 0, int pageSize = 10)
         {
-            var model = TableNoTracking;
+            var model = TableNoTracking.Where(a=>!a.IsDeleted);
 
             model = model.WhereIf(vm.OrderId != null, a => a.OrderId == vm.OrderId.ToString());
             model = model.WhereIf(vm.Amount != null, a => a.Amount == vm.Amount);
@@ -194,5 +194,16 @@ namespace Service.Repos
             return tariff;
         }
 
+        public SweetAlertExtenstion DeleteOrder(int id)
+        {
+            var model = GetByCondition(a => a.Id == id);
+
+            if (model == null) return SweetAlertExtenstion.Error();
+
+            model.IsDeleted = true;
+            Update(model);
+
+            return SweetAlertExtenstion.Ok();
+        }
     }
 }

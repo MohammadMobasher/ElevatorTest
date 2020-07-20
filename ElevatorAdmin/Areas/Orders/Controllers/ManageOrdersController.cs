@@ -139,5 +139,15 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
 
             return View(model);
         }
+
+        [ActionRole("حذف فاکتور")]
+        public IActionResult DeleteOrder(int id)
+        {
+            var model = _shopOrderRepository.DeleteOrder(id);
+
+            TempData.AddResult(model);
+
+            return Redirect(IndexUrlWithQueryString);
+        }
     }
 }
