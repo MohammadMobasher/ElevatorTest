@@ -11,6 +11,8 @@ namespace DataLayer.ViewModels.UsersPayments
 
         public string OrderId { get; set; }
 
+        public int? PaymentId { get; set; }
+
         public DateTime DateTime { get; set; }
 
         public long Amount { get; set; }

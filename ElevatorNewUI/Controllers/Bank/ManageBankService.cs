@@ -41,6 +41,7 @@ namespace ElevatorNewUI.Controllers
         private readonly SmsRestClient _smsRestClient;
         private readonly UserRepository _userRepository;
         private readonly ShopOrderStatusRepository _shopOrderStatusRepository;
+        private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
 
         public ManageBankService(IConfiguration configuration
             , UsersPaymentRepository usersPaymentRepository
@@ -48,7 +49,8 @@ namespace ElevatorNewUI.Controllers
             , ShopOrderRepository shopOrderRepository
             , SmsRestClient smsRestClient
             , UserRepository userRepository
-            , ShopOrderStatusRepository shopOrderStatusRepository)
+            , ShopOrderStatusRepository shopOrderStatusRepository
+            , ShopOrderPaymentRepository shopOrderPaymentRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _usersPaymentRepository = usersPaymentRepository;
@@ -57,6 +59,7 @@ namespace ElevatorNewUI.Controllers
             _smsRestClient = smsRestClient;
             _userRepository = userRepository;
             _shopOrderStatusRepository = shopOrderStatusRepository;
+            _shopOrderPaymentRepository = shopOrderPaymentRepository;
         }
 
         ///// <summary>
@@ -232,6 +235,109 @@ namespace ElevatorNewUI.Controllers
 
             return Redirect("/");
         }
+
+
+
+
+        /// <summary>
+        /// تایید اطلاعات
+        /// </summary>
+        /// <param name="vm"></param>
+        /// <returns></returns>
+        //[HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> VerifyPaymentRequest(BankVerifyViewModel vm)
+        {
+            try
+            {
+                // گرفتن اطلاعات فاکتور بر اساس شناسه خرید و شناسه گاربری
+                var model = _usersPaymentRepository.GetByCondition(a => a.OrderId == vm.OrderId && a.Token == vm.Token);
+
+                var result =await _shopOrderPaymentRepository.GetByConditionAsync(a => a.OrderId == vm.OrderId);
+
+                if(result == null)
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("متاسفانه اطلاعاتی با این شناسه خرید یافت نشد اگر هزینه ای از شما کسر شد طی 72 ساعت آینده به حسابتان واریز می شود"));
+                    return Redirect("/");
+                }
+
+                await _usersPaymentRepository.ResultOrderCallBack(result.ShopOrderId, result.OrderId, UserId);
+
+                // رمز گذاری توکن
+                var dataBytes = Encoding.UTF8.GetBytes(vm.Token);
+
+                var symmetric = SymmetricAlgorithm.Create("TripleDes");
+                symmetric.Mode = CipherMode.ECB;
+                symmetric.Padding = PaddingMode.PKCS7;
+
+                var encryptor = symmetric.CreateEncryptor(Convert.FromBase64String(_bankConfig.MerchantKey), new byte[8]);
+
+                var signedData = Convert.ToBase64String(encryptor.TransformFinalBlock(dataBytes, 0, dataBytes.Length));
+
+                var data = new
+                {
+                    token = vm.Token,
+                    SignData = signedData
+                };
+
+                var ipgUri = string.Format("{0}/api/v0/Advice/Verify", _bankConfig.PurchasePage);
+
+                var res = CallApi<BankCallBackResultViewModel>(ipgUri, data);
+                if (res != null && res.Result != null)
+                {
+                    await _usersPaymentRepository.ResultOrder(result.ShopOrderId, result.OrderId, UserId, res.Result.Succeed, res.Result.ResCode);
+
+                    if (res.Result.ResCode == "0")
+                    {
+                        vm.VerifyResultData = res.Result;
+                        res.Result.Succeed = true;
+                        ViewBag.Success = res.Result.Description;
+
+                        if (await _shopOrderPaymentRepository.AllIsPay(result.ShopOrderId))
+                        {
+                            // تغییر وضعیت فاکتور از پیش خرید به خرید شده
+                            await _shopOrderRepository.SuccessedOrder(result.ShopOrderId, model.UserId);
+                            // تغییر وضعیت سبد خرید
+                            await _shopProductRepository.SuccessedOrder(result.ShopOrderId, model.UserId);
+                        }
+
+                        await _shopOrderPaymentRepository.UpdateStatus(result.Id);
+
+                        // ثبت کردن اطلاعات در وضعیت 
+                        await _shopOrderStatusRepository.InsertAsync(new ShopOrderStatusInsertViewModel()
+                        {
+                            Date = DateTime.Now,
+                            ShopOrderId = result.ShopOrderId,
+                            Status = ShopOrderStatusSSOT.Ordered
+                        });
+
+                        // ارسال اس ام اس به کاربر جهت ثبت سفارش
+                        var text = $"{result.OrderId};{DateTime.Now.ToPersianDay()}";
+                        var phoneNumber = _userRepository.GetByCondition(a => a.Id == model.UserId).PhoneNumber;
+
+                        var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
+
+                        // ارسال اس ام اس به مدیریت 
+                        var ResultTest = $"{DateTime.Now.ToPersianDay()};{result.OrderId}";
+
+                        var ResultSms = _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
+
+                        return RedirectToAction("Result", "UserOrder", new { orderId = res.Result.OrderId, shopOrderId = result.ShopOrderId });
+                    }
+
+                    ViewBag.Message = res.Result.Description;
+                    return RedirectToAction("Result", "UserOrder", new { orderId = result.OrderId, shopOrderId = result.ShopOrderId });
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.ToString();
+            }
+
+            return Redirect("/");
+        }
+
+
 
         public static async Task<T> CallApi<T>(string apiUrl, object value)
         {

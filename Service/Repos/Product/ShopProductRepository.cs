@@ -28,7 +28,7 @@ namespace Service.Repos
         public async Task<SweetAlertExtenstion> AddCart(int productId, int userId, int count = 1)
         {
 
-            var model = await GetByConditionAsync(a => a.ProductId == productId && a.UserId == userId && !a.IsFinaly);
+            var model = await GetByConditionAsync(a => a.ProductId == productId && a.UserId == userId && !a.IsFinaly && !a.IsFactorSubmited);
 
             if (model != null)
             {
@@ -81,7 +81,7 @@ namespace Service.Repos
             var model = TableNoTracking
                 .Include(a => a.Product)
                 .Include(a => a.ProductPackage)
-                .Where(a => a.UserId == userId && a.IsFinaly == false).ToList();
+                .Where(a => a.UserId == userId && a.IsFinaly == false && !a.IsFactorSubmited).ToList();
 
             return model;
         }
@@ -194,7 +194,7 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<string> CalculateCartPrice(int userId)
         {
-            var model = await GetListAsync(a => a.UserId == userId && !a.IsFinaly, null, "Product,ProductPackage");
+            var model = await GetListAsync(a => a.UserId == userId && !a.IsFinaly && !a.IsFactorSubmited, null, "Product,ProductPackage");
 
             if (model == null) return null;
 
@@ -234,7 +234,7 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<long> CalculateCartPriceNumber(int userId)
         {
-            var model = await GetListAsync(a => a.UserId == userId && !a.IsFinaly, null, "Product,ProductPackage");
+            var model = await GetListAsync(a => a.UserId == userId && !a.IsFinaly && !a.IsFactorSubmited, null, "Product,ProductPackage");
 
             if (model == null) return 0;
 
@@ -272,7 +272,7 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<bool> ChangeStatus(List<ShopProduct> list, int orderId)
         {
-            list.ForEach(a => a.ShopOrderId = orderId);
+            list.ForEach(a => { a.ShopOrderId = orderId;a.IsFactorSubmited = true; });
 
             await UpdateRangeAsync(list, false);
 

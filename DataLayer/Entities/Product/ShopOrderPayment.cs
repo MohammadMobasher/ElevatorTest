@@ -17,7 +17,12 @@ namespace DataLayer.Entities
 
         public DateTime? PaymentDate { get; set; }
 
+        public string OrderId { get; set; }
+
+
         public bool IsSuccess { get; set; }
+
+        public DateTime? SuccessDate { get; set; }
 
         [ForeignKey(nameof(ShopOrderId))]
         public virtual ShopOrder ShopOrder { get; set; }

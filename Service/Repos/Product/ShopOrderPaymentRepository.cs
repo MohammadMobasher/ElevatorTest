@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities;
+﻿using Core.Utilities;
+using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -67,13 +68,29 @@ namespace Service.Repos.Product
         /// <returns></returns>
         public async Task<bool> AllIsPay(int shopOrderId)
         {
-            var items = await DbContext.ShopOrderPayment.Where(x => x.ShopOrderId == shopOrderId && x.IsSuccess == false).ToListAsync();
+            var items = await DbContext.ShopOrderPayment.Where(x => x.ShopOrderId == shopOrderId && x.IsSuccess == /*false?*/ true).ToListAsync();
             if (items != null && items.Count > 0)
                 return true;
 
             return false;
 
         }
+
+        public async Task<bool> UpdateStatus(int? id)
+        {
+            var model = GetByCondition(a => a.Id == id);
+
+            if (model == null) return false;
+
+            model.IsSuccess = true;
+            model.SuccessDate = DateTime.Now;
+
+            await UpdateAsync(model);
+            return true;
+        }
+
+
+
 
     }
 }

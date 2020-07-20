@@ -41,6 +41,7 @@ namespace Service.Repos
                         IsSuccessed = false,
                         UserId = userId,
                         TransferProductPrice = tariff,
+
                     };
 
                     model.PaymentAmount = model.Amount + tariff;
@@ -69,6 +70,40 @@ namespace Service.Repos
                 throw new Exception(e.Message);
             }
         }
+
+
+        public async Task<int> CreatePaymentFactor(List<ShopProduct> list, int userId)
+        {
+            try
+            {
+                var tariff = CalculateTariff(userId) ?? 0;
+                var model = new ShopOrder()
+                {
+                    Amount = await _shopProductRepository.CalculateCartPriceNumber(userId),
+                    CreateDate = DateTime.Now,
+                    IsSuccessed = false,
+                    UserId = userId,
+                    TransferProductPrice = tariff,
+
+                };
+
+                model.PaymentAmount = model.Amount + tariff;
+
+                await AddAsync(model);
+                // مشخص کردن اینکه این سبد محصولات مربوط به کدام فاکتور می باشد
+                await _shopProductRepository.ChangeStatus(list, model.Id);
+
+                
+                await _shopProductRepository.ChangeStatus(list, model.Id);
+                return model.Id;
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
 
         /// <summary>
         /// این برای زمانی است که یک فاکتور زده شده ولی به تایید نایی نرسیده است 
@@ -115,7 +150,7 @@ namespace Service.Repos
 
             model = model.Include(a => a.Users);
 
-            return new Tuple<int, List<ShopOrder>>(count,await model.Skip((page-1) * pageSize).Take(pageSize).ToListAsync());
+            return new Tuple<int, List<ShopOrder>>(count, await model.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync());
         }
 
 
@@ -135,7 +170,7 @@ namespace Service.Repos
                 	JOIN UserAddress ON AspNetUsers.Id = UserAddress.UserId
                 	JOIN WarehouseProductCheck on ShopProduct.ProductId = WarehouseProductCheck.ProductId
                 	JOIN Warehouse on WarehouseProductCheck.WarehouseId = Warehouse.Id
-                where IsFinaly = 0 and AspNetUsers.Id = {userId}
+                where IsFinaly = 0 and IsFactorSubmited= 0 and AspNetUsers.Id = {userId}
                 
                 DECLARE @OrderDetail TABLE (ProductSize BIGINT,Area int)
                 insert INTO @OrderDetail(ProductSize,Area)
@@ -152,10 +187,9 @@ namespace Service.Repos
                 	Where TehranAreasTO = (select Top 1 UserArea from @UserInfo)
                 		AND Orders.ProductSize between  TransportationTariff.ProductSizeFrom
                 		AND TransportationTariff.ProductSizeTo
-                	group by tehranareasFrom,TehranAreasTO,ProductSize
-                ) t";
+                	group by tehranareasFrom,TehranAreasTO,ProductSize)t";
 
-            var tariff =  _connection.Query<long?>(sqlQuery).FirstOrDefault();
+            var tariff = _connection.Query<long?>(sqlQuery).FirstOrDefault();
 
             return tariff;
         }

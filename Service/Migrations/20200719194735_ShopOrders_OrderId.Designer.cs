@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200719194735_ShopOrders_OrderId")]
+    partial class ShopOrders_OrderId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +37,6 @@ namespace Service.Migrations
 
                     b.Property<string>("OrderId");
 
-                    b.Property<int?>("PaymentId");
-
                     b.Property<string>("ResCode");
 
                     b.Property<int?>("ShopOrderId");
@@ -48,6 +48,8 @@ namespace Service.Migrations
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopOrderId");
 
                     b.HasIndex("UserId");
 
@@ -796,15 +798,13 @@ namespace Service.Migrations
 
                     b.Property<bool>("IsSuccess");
 
-                    b.Property<string>("OrderId");
+                    b.Property<int?>("OrderId");
 
                     b.Property<long>("PaymentAmount");
 
                     b.Property<DateTime?>("PaymentDate");
 
                     b.Property<int>("ShopOrderId");
-
-                    b.Property<DateTime?>("SuccessDate");
 
                     b.HasKey("Id");
 
@@ -839,8 +839,6 @@ namespace Service.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Count");
-
-                    b.Property<bool>("IsFactorSubmited");
 
                     b.Property<bool>("IsFinaly");
 
@@ -1293,6 +1291,10 @@ namespace Service.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.Bank.UsersPayment", b =>
                 {
+                    b.HasOne("DataLayer.Entities.ShopOrder", "ShopOrders")
+                        .WithMany()
+                        .HasForeignKey("ShopOrderId");
+
                     b.HasOne("DataLayer.Entities.Users.Users", "Users")
                         .WithMany()
                         .HasForeignKey("UserId")

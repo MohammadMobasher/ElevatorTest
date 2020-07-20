@@ -12,6 +12,8 @@ namespace DataLayer.Entities.Bank
 
         public string OrderId { get; set; }
 
+        public int? PaymentId { get; set; }
+
         public DateTime DateTime { get; set; }
 
         public long Amount { get; set; }
@@ -32,7 +34,7 @@ namespace DataLayer.Entities.Bank
         public virtual Users.Users Users { get; set; }
 
 
-        [ForeignKey(nameof(ShopOrderId))]
-        public virtual ShopOrder ShopOrders { get; set; }
+        //[ForeignKey(nameof(ShopOrderId))]
+        //public virtual ShopOrder ShopOrders { get; set; }
     }
 }

@@ -100,7 +100,7 @@
                                                     <td>
                                                         @if (!item.IsSuccess)
                                                         {
-                                                        <a target="_blank" class="btn btn-info" asp-action="RequestBuilder" asp-controller="ShopProduct" asp-route-id="">
+                                                        <a target="_blank" class="btn btn-info" asp-action="RequestByOrderPayment" asp-controller="ShopProduct" asp-route-id="@item.Id">
                                                            پرداخت
                                                         </a>
                                                         }

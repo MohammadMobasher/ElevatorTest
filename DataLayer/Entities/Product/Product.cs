@@ -103,6 +103,8 @@ namespace DataLayer.Entities
         /// آیا این محصول حذف شده است یا خیر
         /// </summary>
         public bool IsDeleted { get; set; } = false;
+
+
         #region Join
 
         [ForeignKey(nameof(ProductGroupId))]

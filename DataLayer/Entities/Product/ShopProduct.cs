@@ -29,6 +29,12 @@ namespace DataLayer.Entities
 
         public string OrderPriceDiscount { get; set; }
 
+
+        /// <summary>
+        /// آیا فاکتوری برای این سبد به ثبت رسیده است یا خیر
+        /// </summary>
+        public bool IsFactorSubmited { get; set; }
+
         [ForeignKey("PackageId")]
         public virtual ProductPackage ProductPackage { get; set; }
 

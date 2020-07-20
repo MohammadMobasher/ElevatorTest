@@ -14,7 +14,7 @@
                                     <table class="table table-profile-orders">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col">شماره سفارش</th>
+                                                <th scope="col">ردیف</th>
                                                 <th scope="col">تاریخ ثبت سفارش</th>
                                                 <th scope="col">نتیجه پرداخت</th>
                                                 <th scope="col">وضعیت سفارش</th>
@@ -23,10 +23,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @{ var raw = 1;}
                                             @foreach (var item in Model)
                                             {
                                                 <tr>
-                                                    <td class="order-code">@item.OrderId</td>
+                                                    <td class="order-code">@(raw++)</td>
                                                     <td>@item.SuccessDate.ToPersianDateTextify()</td>
                                                     <td class="Waiting @(item.IsSuccessed ? "text-success" :"text-danger")">@(item.IsSuccessed?"پرداخت شده":"ناموفق")</td>
                                                     <td>

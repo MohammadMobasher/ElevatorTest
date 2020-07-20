@@ -17,6 +17,8 @@
 
         public string ReturnUrl { get; set; }
 
+        public string SecondReturnUrl { get; set; }
+
         public string PurchasePage { get; set; }
 
         
