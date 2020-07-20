@@ -36,7 +36,7 @@ namespace ElevatorNewUI.Controllers
         private readonly UserRepository _userRepository;
         private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
         private readonly ProductUnitRepository _productUnitRepository;
-
+        private readonly LogRepository _logRepository;
         public ShopProductController(ShopProductRepository shopProductRepository
             , IConfiguration configuration
             , ProductRepostitory productRepostitory
@@ -47,7 +47,8 @@ namespace ElevatorNewUI.Controllers
             , UserAddressRepository userAddressRepository
             , UserRepository userRepository
             , ShopOrderPaymentRepository shopOrderPaymentRepository
-            , ProductUnitRepository productUnitRepository)
+            , ProductUnitRepository productUnitRepository
+            , LogRepository logRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _shopProductRepository = shopProductRepository;
@@ -61,6 +62,7 @@ namespace ElevatorNewUI.Controllers
             _userRepository = userRepository;
             _shopOrderPaymentRepository = shopOrderPaymentRepository;
             _productUnitRepository = productUnitRepository;
+            _logRepository = logRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -338,8 +340,8 @@ namespace ElevatorNewUI.Controllers
         [Authorize]
         public async Task<IActionResult> RequestByOrderPayment(int id)
         {
-
-            MFile.append("mohammad.txt", "1");
+            _logRepository.Add(new Log() { Text = "1" });
+           // MFile.append("mohammad.txt", "1");
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
 
             var factorInfo = await _shopOrderPaymentRepository
@@ -355,8 +357,8 @@ namespace ElevatorNewUI.Controllers
 
             var resultAmount = factorInfo.PaymentAmount;
 
-            MFile.append("mohammad.txt", "2=>"+resultAmount.ToString());
 
+            _logRepository.Add(new Log() { Text = "2=>" + resultAmount.ToString() });
             // شماره خرید 
             var OrderId = new Random().Next(1000, int.MaxValue).ToString();
 
@@ -405,11 +407,9 @@ namespace ElevatorNewUI.Controllers
 
             #region Request Result
 
-           
-
             if (res != null && res.Result != null)
             {
-                MFile.append("mohammad.txt", "3=>" + res.Result.ResCode);
+                _logRepository.Add(new Log() { Text = "3=>" + res.Result.ResCode });
                 if (res.Result.ResCode == "0")
                 {
                     factorInfo.OrderId = OrderId;
@@ -421,7 +421,8 @@ namespace ElevatorNewUI.Controllers
                     return Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
                 }
                 //TempData["Result"] = res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token);
-                MFile.append("mohammad.txt", "4=>" + res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token);
+                //MFile.append("mohammad.txt", "4=>" + res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
+                _logRepository.Add(new Log() { Text = "4=>" + res.Result.Description });
                 return RedirectToAction("BankMessage");
             }
             #endregion
