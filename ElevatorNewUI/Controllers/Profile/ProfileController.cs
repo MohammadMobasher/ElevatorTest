@@ -69,9 +69,9 @@ namespace ElevatorNewUI.Controllers.Profile
 
         public async Task<IActionResult> OrderDetail(int id)
         {
-            var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id,null,"Product");
+            var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id && a.IsFactorSubmited,null,"Product");
 
-            var order = await _shopOrderRepository.GetByConditionAsync(a=>a.Id == id && !a.IsDeleted);
+            var order = await _shopOrderRepository.GetByConditionAsync(a=>a.Id == id && !a.IsDeleted );
 
             if (order == null || model == null)
                 return NotFound();
@@ -87,8 +87,9 @@ namespace ElevatorNewUI.Controllers.Profile
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
             ViewBag.SidebarActive = ProfileSidebarSSOT.Orders;
             ViewBag.Unit = _productUnitRepository.GetList();
-            ViewBag.Amount = order?.Amount;
-            
+            ViewBag.Amount = order?.PaymentAmount;
+            ViewBag.TransferAmount = order?.TransferProductPrice;
+
             return View(model);
         }
 

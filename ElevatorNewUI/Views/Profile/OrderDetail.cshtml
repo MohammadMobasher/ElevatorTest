@@ -160,7 +160,7 @@
                                                             }
                                                         </td>
                                                         <td>
-                                                            <a target="_blank" href="http://liftbazar.ir/Product/PackageDetail/@item.PackageId">
+                                                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.Id">
                                                                 <i class="mdi mdi-eye" aria-hidden="true"></i>
 
                                                             </a>
@@ -168,6 +168,11 @@
                                                     </tr>
 
                                                 }
+                                                <tr>
+                                                    <td colspan="2">کرایه :</td>
+                                                    <td colspan="6">@(((long)ViewBag.TransferAmount).ToPersianPrice()) تومان</td>
+                                                </tr>
+
                                                 <tr>
                                                     <td colspan="2">جمع کل :</td>
                                                     <td colspan="6">@(((long)ViewBag.Amount).ToPersianPrice()) تومان</td>

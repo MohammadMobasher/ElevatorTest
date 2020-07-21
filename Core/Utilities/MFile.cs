@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities
 {
+
     public class MFile
     {
 
@@ -15,9 +17,6 @@ namespace Core.Utilities
         /// آدرسی که باید در آن فایل مورد نظر ذخیره شود
         /// </summary>
         public string FilePath { get; set; }
-
-
-
 
 
 
@@ -53,6 +52,7 @@ namespace Core.Utilities
             using (StreamWriter logWriter = new StreamWriter(path + fileName))
             {
                 logWriter.WriteLine(text);
+                
             }
 
             

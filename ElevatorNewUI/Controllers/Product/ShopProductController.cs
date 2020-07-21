@@ -197,7 +197,7 @@ namespace ElevatorNewUI.Controllers
         public async Task<IActionResult> SendToBank()
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
-            && !a.IsFinaly);
+            && !a.IsFinaly && !a.IsFactorSubmited);
 
             var orderId = await _shopOrderRepository.CreatePaymentFactor(listOrders.ToList(), UserId);
 
