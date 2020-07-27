@@ -170,7 +170,7 @@
                                                 }
                                                 <tr>
                                                     <td colspan="2">کرایه :</td>
-                                                    <td colspan="6">@(((long)ViewBag.TransferAmount).ToPersianPrice()) تومان</td>
+                                                    <td colspan="6">@(((long?)ViewBag.TransferAmount??0).ToPersianPrice()) تومان</td>
                                                 </tr>
 
                                                 <tr>

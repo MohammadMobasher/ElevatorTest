@@ -19,10 +19,10 @@ namespace Elevator.Controllers
             _shopOrderRepository = shopOrderRepository;
         }
 
-        public async Task<IActionResult> Tariff()
-        {
-            return Json(await _shopOrderRepository.CalculateTariff(1));
-        }
+        //public async Task<IActionResult> Tariff()
+        //{
+        //    return Json(await _shopOrderRepository.CalculateTariff(1));
+        //}
 
         public IActionResult BankTest()
         {

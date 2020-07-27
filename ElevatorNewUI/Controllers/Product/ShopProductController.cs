@@ -186,9 +186,9 @@ namespace ElevatorNewUI.Controllers
 
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
 
-            ViewBag.SumPrice =await _shopProductRepository.CalculateCartPriceNumber(UserId);
+            ViewBag.SumPrice = await _shopProductRepository.CalculateCartPriceNumber(UserId);
 
-            ViewBag.Tariff =  _shopOrderRepository.CalculateTariff(UserId) ?? 0;
+            ViewBag.Tariff = _shopOrderRepository.CalculateTariff(UserId) ?? 0;
 
             return View(listOrders);
         }
@@ -205,10 +205,10 @@ namespace ElevatorNewUI.Controllers
 
             if (orderId != 0 && countPaymentFactor > 1)
             {
-                return RedirectToAction("OrderDetail", "Profile",new { id = orderId } );
+                return RedirectToAction("OrderDetail", "Profile", new { id = orderId });
             }
 
-            else if(orderId != 0 && countPaymentFactor  == 1)
+            else if (orderId != 0 && countPaymentFactor == 1)
             {
                 var paymentId = await _shopOrderPaymentRepository.GetByConditionAsync(a => a.ShopOrderId == orderId
                 && !a.IsSuccess);
@@ -300,7 +300,7 @@ namespace ElevatorNewUI.Controllers
                     await _usersPaymentRepository.MapAddAsync(SetValue(res.Result.Token));
                     await _shopOrderRepository.UpdateAsync(factorInfo);
 
-                   return Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
+                    return Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
                 }
                 TempData["Result"] = res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token);
 
@@ -341,11 +341,11 @@ namespace ElevatorNewUI.Controllers
         public async Task<IActionResult> RequestByOrderPayment(int id)
         {
             _logRepository.Add(new Log() { Text = "1" });
-           // MFile.append("mohammad.txt", "1");
+            // MFile.append("mohammad.txt", "1");
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
 
             var factorInfo = await _shopOrderPaymentRepository
-                .GetByConditionAsync(a=>!a.IsSuccess && a.Id == id);
+                .GetByConditionAsync(a => !a.IsSuccess && a.Id == id, isTracked: true);
 
             #region BankDependency
 
@@ -355,7 +355,7 @@ namespace ElevatorNewUI.Controllers
                 return RedirectToAction("Index", "ShopProductController");
             }
 
-            var resultAmount = factorInfo.PaymentAmount;
+            var resultAmount = (long)/* factorInfo.PaymentAmount*/100;
 
 
             _logRepository.Add(new Log() { Text = "2=>" + resultAmount.ToString() });
@@ -390,7 +390,7 @@ namespace ElevatorNewUI.Controllers
                 _bankConfig.MerchantId,
                 Amount = resultAmount.CastTomanToRial(),
                 SignData,
-                _bankConfig.ReturnUrl,
+                _bankConfig.SecondReturnUrl,
                 LocalDateTime = DateTime.Now,
                 OrderId,
                 //MultiplexingData = request.MultiplexingData
@@ -398,38 +398,51 @@ namespace ElevatorNewUI.Controllers
 
             #endregion
 
-            #region RequestBuild
-
-            var res = ManageBankService.CallApi<BankResultViewModel>(ipgUri, data);
-            res.Wait();
-
-            #endregion
-
-            #region Request Result
-
-            if (res != null && res.Result != null)
+            try
             {
-                _logRepository.Add(new Log() { Text = "3=>" + res.Result.ResCode });
-                if (res.Result.ResCode == "0")
+
+                #region RequestBuild
+
+                var res = ManageBankService.CallApi<BankResultViewModel>(ipgUri, data);
+                res.Wait();
+
+                #endregion
+
+                #region Request Result
+
+                if (res != null && res.Result != null)
                 {
-                    factorInfo.OrderId = OrderId;
+                    _logRepository.Add(new Log() { Text = "3=>" + res.Result.ResCode });
+                    if (res.Result.ResCode == "0")
+                    {
+                        factorInfo.OrderId = OrderId;
 
-                    await _usersPaymentRepository.MapAddAsync(SetValue(res.Result.Token));
-                    //await _shopOrderRepository.UpdateAsync(factorInfo);
-                    await _shopOrderPaymentRepository.UpdateAsync(factorInfo);
+                        await _usersPaymentRepository.MapAddAsync(SetValue(res.Result.Token));
+                        //await _shopOrderRepository.UpdateAsync(factorInfo);
+                        await _shopOrderPaymentRepository.UpdateAsync(factorInfo);
 
-                    return Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
+                        return Redirect(string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
+                    }
+                    //TempData["Result"] = res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token);
+                    //MFile.append("mohammad.txt", "4=>" + res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
+                    _logRepository.Add(new Log() { Text = "4=>" + res.Result.Description });
+                    return RedirectToAction("BankMessage");
                 }
-                //TempData["Result"] = res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token);
-                //MFile.append("mohammad.txt", "4=>" + res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
-                _logRepository.Add(new Log() { Text = "4=>" + res.Result.Description });
+                #endregion
+
+                TempData["Result"] = res.Result?.Description;
+
                 return RedirectToAction("BankMessage");
+
+
             }
-            #endregion
+            catch (Exception e)
+            {
+                _logRepository.Add(new Log() { Text = "Exception=>" + e.Message });
+                throw;
+            }
 
-            TempData["Result"] = res.Result.Description;
 
-            return RedirectToAction("BankMessage");
 
             #region LocalMethods
 

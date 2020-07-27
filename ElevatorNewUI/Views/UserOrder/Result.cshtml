@@ -1,12 +1,12 @@
 ﻿@using Core.Utilities
 @using DNTPersianUtils.Core
-@model DataLayer.Entities.ShopOrder
+@model DataLayer.Entities.ShopOrderPayment
 @{
     ViewData["Title"] = "Index";
     var orderInfo = ViewBag.Order as List<DataLayer.Entities.ShopProduct>;
     var userAddress = ViewBag.UserAddress as UserAddress;
 }
-@if (Model.IsSuccessed)
+@if (Model.IsSuccess)
 {
     <div class="container-main">
         <div class="d-block">
@@ -40,7 +40,7 @@
                                                     <li class="order-overview-item">
                                                         قیمت نهایی :
                                                         <span class="amount">
-                                                            @Model.Amount
+                                                            @Model.PaymentAmount
                                                             <span>تومان</span>
                                                         </span>
                                                     </li>
@@ -207,7 +207,7 @@ else
                                                     </li>
                                                     <li class="order-overview-item">
                                                         تاریخ :
-                                                        <span>@Model.CreateDate.ToPersianDateTextify()</span>
+                                                        <span>@Model.SuccessDate.ToPersianDateTextify()</span>
                                                     </li>
                                                     <li class="order-overview-item">
                                                         روش پرداخت :
@@ -216,7 +216,7 @@ else
                                                     <li class="order-overview-item">
                                                         قیمت نهایی :
                                                         <span class="amount">
-                                                            @Model.Amount
+                                                            @Model.PaymentAmount
                                                             <span>تومان</span>
                                                         </span>
                                                     </li>
