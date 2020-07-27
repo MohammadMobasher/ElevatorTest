@@ -405,7 +405,8 @@ namespace ElevatorNewUI.Controllers
 
                 var res = ManageBankService.CallApi<BankResultViewModel>(ipgUri, data);
                 res.Wait();
-
+                _logRepository.Add(new Log() { Text = "3Status=>" + res.Status });
+                _logRepository.Add(new Log() { Text = "3ResCode=>" + res.Result.ResCode });
                 #endregion
 
                 #region Request Result
