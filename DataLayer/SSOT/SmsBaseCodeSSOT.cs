@@ -18,7 +18,7 @@ namespace DataLayer.SSOT
         /// <summary>
         ///  نتیجه درگاه
         /// </summary>
-        Result = 19008,
+        Result = 15920,
 
 
         Ordered = 17335,
