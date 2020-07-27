@@ -100,7 +100,7 @@
                                                         <td>
                                                             @if (item.IsSuccess)
                                                             {
-                                                                @item.PaymentDate.ToPersianDateTextify()
+                                                                @item.SuccessDate.ToPersianDateTextify()
                                                             }
                                                             else
                                                             {
@@ -113,6 +113,11 @@
                                                                 <a target="_blank" class="btn btn-info" asp-action="RequestByOrderPayment" asp-controller="ShopProduct" asp-route-id="@item.Id">
                                                                     پرداخت
                                                                 </a>
+                                                            }
+                                                            else
+                                                            {
+
+                                                                <span class="text-success">پرداخت شده</span>
                                                             }
                                                         </td>
                                                     </tr>

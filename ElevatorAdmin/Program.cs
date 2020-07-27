@@ -40,9 +40,17 @@ namespace ElevatorAdmin
 
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-            .UseStartup<Startup>()
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost
+                .CreateDefaultBuilder(args)
+                .ConfigureLogging((context, loggin) => 
+                {
+                    loggin.ClearProviders();
+                    loggin.AddConfiguration(context.Configuration.GetSection("Logging"));
+                    loggin.AddDebug();
+                })
+                .UseStartup<Startup>()
                 //.ConfigureLogging(logging =>
                 //{
                 //    logging.ClearProviders();
@@ -50,5 +58,6 @@ namespace ElevatorAdmin
                 //})
                 //.UseNLog()
                 .UseStartup<Startup>();
+        }
     }
 }

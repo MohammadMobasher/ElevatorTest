@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Service.Repos;
 using Service.Repos.BankRepository;
 using Service.Repos.Product;
@@ -355,7 +356,7 @@ namespace ElevatorNewUI.Controllers
                 return RedirectToAction("Index", "ShopProductController");
             }
 
-            var resultAmount = (long)/* factorInfo.PaymentAmount*/100;
+            var resultAmount = factorInfo.PaymentAmount;
 
 
             _logRepository.Add(new Log() { Text = "2=>" + resultAmount.ToString() });
@@ -390,11 +391,15 @@ namespace ElevatorNewUI.Controllers
                 _bankConfig.MerchantId,
                 Amount = resultAmount.CastTomanToRial(),
                 SignData,
-                _bankConfig.SecondReturnUrl,
+                ReturnUrl = _bankConfig.SecondReturnUrl,
                 LocalDateTime = DateTime.Now,
                 OrderId,
                 //MultiplexingData = request.MultiplexingData
             };
+
+
+            _logRepository.Add(new Log() { Text = "Data=>" + JsonConvert.SerializeObject(data) });
+            _logRepository.Add(new Log() { Text = "ipgUri=>" + ipgUri });
 
             #endregion
 
@@ -406,7 +411,7 @@ namespace ElevatorNewUI.Controllers
                 var res = ManageBankService.CallApi<BankResultViewModel>(ipgUri, data);
                 res.Wait();
                 _logRepository.Add(new Log() { Text = "3Status=>" + res.Status });
-                _logRepository.Add(new Log() { Text = "3ResCode=>" + res.Result.ResCode });
+                _logRepository.Add(new Log() { Text = "3ResCode=>" + res.Result?.ResCode });
                 #endregion
 
                 #region Request Result

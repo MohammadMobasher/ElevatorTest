@@ -141,7 +141,7 @@ namespace Service.Repos
         {
             var model = TableNoTracking.Where(a=>!a.IsDeleted);
 
-            model = model.WhereIf(vm.OrderId != null, a => a.OrderId == vm.OrderId.ToString());
+            model = model.WhereIf(vm.Id != null, a => a.Id == vm.Id);
             model = model.WhereIf(vm.Amount != null, a => a.Amount == vm.Amount);
             model = model.WhereIf(vm.Status != null, a => a.Status == vm.Status);
             model = model.WhereIf(vm.IsSuccessed != null, a => a.IsSuccessed == vm.IsSuccessed);

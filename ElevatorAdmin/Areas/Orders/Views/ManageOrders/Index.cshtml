@@ -43,7 +43,7 @@
             <tr>
                 <th width="3%"></th>
       
-                <th>شناسه خرید</th>
+                <th>شماره فاکتور</th>
                 <th>نام و نام خانوادگی</th>
                 <th>شماره تماس</th>
                 <th>قیمت پرداخت شده</th>
@@ -61,7 +61,7 @@
 
                     </th>
                     <th>
-                        <input type="number" value="@search.OrderId" name="OrderId" class="form-control searchInput" />
+                        <input type="number" value="@search.Id" name="Id" class="form-control searchInput" />
                     </th>
                     <th>  ---  </th>
 
@@ -112,7 +112,7 @@
                 <tr>
                     <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
           
-                    <td>@item.OrderId.ToPersianNumbers()</td>
+                    <td>@item.Id.ToPersianNumbers()</td>
                     <td>
                         @item.Users.FirstName @item.Users.LastName
                     </td>

@@ -293,13 +293,6 @@ namespace ElevatorNewUI.Controllers
                         res.Result.Succeed = true;
                         ViewBag.Success = res.Result.Description;
 
-                        if (await _shopOrderPaymentRepository.AllIsPay(result.ShopOrderId))
-                        {
-                            // تغییر وضعیت فاکتور از پیش خرید به خرید شده
-                            await _shopOrderRepository.SuccessedOrder(result.ShopOrderId, model.UserId);
-                            // تغییر وضعیت سبد خرید
-                            await _shopProductRepository.SuccessedOrder(result.ShopOrderId, model.UserId);
-                        }
 
                         await _shopOrderPaymentRepository.UpdateStatus(result.Id);
 
@@ -311,6 +304,16 @@ namespace ElevatorNewUI.Controllers
                             Status = ShopOrderStatusSSOT.Ordered
                         });
 
+
+                        if (await _shopOrderPaymentRepository.AllIsPay(result.ShopOrderId))
+                        {
+                            // تغییر وضعیت فاکتور از پیش خرید به خرید شده
+                            await _shopOrderRepository.SuccessedOrder(result.ShopOrderId, model.UserId);
+                            // تغییر وضعیت سبد خرید
+                            await _shopProductRepository.SuccessedOrder(result.ShopOrderId, model.UserId);
+                        }
+
+
                         // ارسال اس ام اس به کاربر جهت ثبت سفارش
                         var text = $"{result.OrderId};{DateTime.Now.ToPersianDay()}";
                         var phoneNumber = _userRepository.GetByCondition(a => a.Id == model.UserId).PhoneNumber;
@@ -318,9 +321,11 @@ namespace ElevatorNewUI.Controllers
                         var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
 
                         // ارسال اس ام اس به مدیریت 
-                        var ResultTest = $"{DateTime.Now.ToPersianDay()};{result.OrderId}";
+                        var ResultTest = $"{DateTime.Now.ToPersianDay()};{result.ShopOrderId}";
 
-                        var ResultSms = _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
+                        _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
+                        _smsRestClient.SendByBaseNumber(ResultTest, "09351631398", (int)SmsBaseCodeSSOT.Result);
+                        _smsRestClient.SendByBaseNumber(ResultTest, "09104996615", (int)SmsBaseCodeSSOT.Result);
 
                         return RedirectToAction("Result", "UserOrder", new { orderId = res.Result.OrderId, shopOrderId = result.ShopOrderId });
                     }
