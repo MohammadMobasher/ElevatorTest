@@ -60,6 +60,8 @@ namespace ElevatorNewUI
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
              .AddSessionStateTempDataProvider();
 
+            //services.AddSchedulers();
+
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.

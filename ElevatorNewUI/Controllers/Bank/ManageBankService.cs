@@ -315,7 +315,7 @@ namespace ElevatorNewUI.Controllers
 
 
                         // ارسال اس ام اس به کاربر جهت ثبت سفارش
-                        var text = $"{result.OrderId};{DateTime.Now.ToPersianDay()}";
+                        var text = $"{result.ShopOrderId};{DateTime.Now.ToPersianDay()}";
                         var phoneNumber = _userRepository.GetByCondition(a => a.Id == model.UserId).PhoneNumber;
 
                         var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);

@@ -18,6 +18,8 @@ namespace DataLayer.DTO.Products
         /// </summary>
         public string ShortDescription { get; set; }
 
+        public int CountExist { get; set; }
+
         /// <summary>
         /// توضیح کلی محصول
         /// </summary>

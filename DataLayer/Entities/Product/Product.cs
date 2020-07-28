@@ -88,6 +88,12 @@ namespace DataLayer.Entities
         public bool? IsActive { get; set; }
 
         /// <summary>
+        /// تعداد کالای موجود در انبار
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public int CountExist { get; set; }
+
+        /// <summary>
         /// وزن محصول
         /// </summary>
         public double? ProductSize { get; set; }
