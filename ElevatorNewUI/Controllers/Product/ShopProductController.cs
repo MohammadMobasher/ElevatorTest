@@ -165,6 +165,7 @@ namespace ElevatorNewUI.Controllers
         public async Task<IActionResult> UserAddress()
         {
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
+            //ViewBag.ShopOrderId = id;
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
             return View();
         }
@@ -180,8 +181,8 @@ namespace ElevatorNewUI.Controllers
 
         public async Task<IActionResult> Checkout()
         {
-            var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
-             && !a.IsFinaly && !a.IsFactorSubmited, null, "Product,ProductPackage");
+            var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId && 
+                !a.IsFinaly && !a.IsFactorSubmited, null, "Product,ProductPackage");
 
             ViewBag.Unit = await _productUnitRepository.GetListAsync();
 

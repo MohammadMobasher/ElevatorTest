@@ -1,5 +1,6 @@
 ﻿using DataLayer.Entities;
 using DataLayer.ViewModels.User;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,5 +36,20 @@ namespace Service.Repos.User
 
             return Save();
         }
+
+
+        public async Task<bool> UpdateShopOrderId(int shopOrderId, int userId)
+        {
+
+            var entity = await DbContext.UserAddress.SingleOrDefaultAsync(x => x.UserId == userId && x.ShopOrderId == null);
+
+            entity.ShopOrderId = shopOrderId;
+            await DbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+
+        
     }
 }

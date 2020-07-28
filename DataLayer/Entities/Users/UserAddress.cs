@@ -11,7 +11,14 @@ namespace DataLayer.Entities
     public class UserAddress : IEntity
     {
         [Key]
+        public int Id { get; set; }
+
         public int UserId { get; set; }
+
+        /// <summary>
+        /// شماره فاکتور مورد نظر
+        /// </summary>
+        public int? ShopOrderId { get; set; }
 
         public string Title { get; set; }
 
@@ -34,5 +41,9 @@ namespace DataLayer.Entities
         [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }
 
+
+
+        [ForeignKey(nameof(ShopOrderId))]
+        public virtual ShopOrder ShopOrder { get; set; }
     }
 }

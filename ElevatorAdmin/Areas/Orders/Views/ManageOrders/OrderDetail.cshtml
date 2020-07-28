@@ -336,6 +336,10 @@
                             }
                         }
                         <tr>
+                            <td colspan="2">هزینه باربری :</td>
+                            <td colspan="6">@((order.TransferProductPrice??0).ToPersianPrice()) تومان</td>
+                        </tr>
+                        <tr>
                             <td colspan="2">جمع کل :</td>
                             <td colspan="6">@order.Amount.ToPersianPrice() تومان</td>
                         </tr>

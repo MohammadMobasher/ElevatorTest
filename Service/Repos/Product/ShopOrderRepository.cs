@@ -3,6 +3,7 @@ using Dapper;
 using DataLayer.Entities;
 using DataLayer.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Service.Repos.User;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,11 +15,15 @@ namespace Service.Repos
 {
     public class ShopOrderRepository : GenericRepository<ShopOrder>
     {
+        private readonly UserAddressRepository _userAddressRepository;
         private readonly ShopProductRepository _shopProductRepository;
         private readonly IDbConnection _connection;
-        public ShopOrderRepository(DatabaseContext dbContext, ShopProductRepository shopProductRepository
+        public ShopOrderRepository(DatabaseContext dbContext
+            , UserAddressRepository userAddressRepository
+            , ShopProductRepository shopProductRepository
             , IDbConnection connection) : base(dbContext)
         {
+            _userAddressRepository = userAddressRepository;
             _shopProductRepository = shopProductRepository;
             _connection = connection;
         }
@@ -90,6 +95,10 @@ namespace Service.Repos
                 model.PaymentAmount = model.Amount + tariff;
 
                 await AddAsync(model);
+                // در جدول مربوط به آدرس
+                // شماره فاکتور را قرار میدهیم تا بعد بتوانیم از آن استفاده کنیم
+                await _userAddressRepository.UpdateShopOrderId(model.Id, userId);
+
                 // مشخص کردن اینکه این سبد محصولات مربوط به کدام فاکتور می باشد
                 await _shopProductRepository.ChangeStatus(list, model.Id);
 

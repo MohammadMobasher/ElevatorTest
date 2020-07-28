@@ -27,7 +27,7 @@
                                                 <ul class="order-overview">
                                                     <li class="order-overview-item">
                                                         کد سفارش :
-                                                        <span>@Model.OrderId</span>
+                                                        <span>@Model.Id</span>
                                                     </li>
                                                     <li class="order-overview-item">
                                                         تاریخ :
@@ -40,7 +40,7 @@
                                                     <li class="order-overview-item">
                                                         قیمت نهایی :
                                                         <span class="amount">
-                                                            @Model.PaymentAmount
+                                                            @Model.PaymentAmount.ToPersianPrice()
                                                             <span>تومان</span>
                                                         </span>
                                                     </li>

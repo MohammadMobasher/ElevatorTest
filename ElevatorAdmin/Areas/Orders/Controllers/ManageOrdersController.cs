@@ -72,12 +72,12 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
             // اطلاعات کاربر
             ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == info.UserId);
             // اطلاعات آدرس کاربر
-            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == a.UserId);
+            //ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == a.UserId);
             ViewBag.Order = info;
 
             // روند نمایی وضعیت فاکتور
             ViewBag.shopOrderStatuses = await _shopOrderStatusRepository.GetItemsByOrderId(id);
-            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == info.UserId);
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.ShopOrderId == info.Id);
             ViewBag.Order = info;
             ViewBag.Unit = await _productUnitRepository.GetListAsync();
             return View(model);
@@ -96,7 +96,7 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
                 var result = await _shopOrderStatusRepository.SendNextStatus(id);
                 TempData.AddResult(result.Item1);
                 if (result.Item2 != ShopOrderStatusSSOT.Nothing)
-                    SendSmsChangeStatus(result.Item2, order.Users.PhoneNumber, order.OrderId, order.Users.FirstName + " " + order.Users.LastName);
+                    SendSmsChangeStatus(result.Item2, order.Users.PhoneNumber, order.Id.ToString(), order.Users.FirstName + " " + order.Users.LastName);
                 return Redirect(IndexUrlWithQueryString);
             }
 
@@ -107,6 +107,7 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
 
         private void SendSmsChangeStatus(ShopOrderStatusSSOT status, string phoneNumber, string orderId, string fullName)
         {
+            
             int bodyId = -1;
             switch (status)
             {
