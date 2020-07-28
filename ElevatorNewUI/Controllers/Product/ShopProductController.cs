@@ -342,7 +342,7 @@ namespace ElevatorNewUI.Controllers
         [Authorize]
         public async Task<IActionResult> RequestByOrderPayment(int id)
         {
-            _logRepository.Add(new Log() { Text = "1" });
+            //_logRepository.Add(new Log() { Text = "1" });
             // MFile.append("mohammad.txt", "1");
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
 
@@ -360,7 +360,7 @@ namespace ElevatorNewUI.Controllers
             var resultAmount = factorInfo.PaymentAmount;
 
 
-            _logRepository.Add(new Log() { Text = "2=>" + resultAmount.ToString() });
+            //_logRepository.Add(new Log() { Text = "2=>" + resultAmount.ToString() });
             // شماره خرید 
             var OrderId = new Random().Next(1000, int.MaxValue).ToString();
 
@@ -399,8 +399,8 @@ namespace ElevatorNewUI.Controllers
             };
 
 
-            _logRepository.Add(new Log() { Text = "Data=>" + JsonConvert.SerializeObject(data) });
-            _logRepository.Add(new Log() { Text = "ipgUri=>" + ipgUri });
+            //_logRepository.Add(new Log() { Text = "Data=>" + JsonConvert.SerializeObject(data) });
+            //_logRepository.Add(new Log() { Text = "ipgUri=>" + ipgUri });
 
             #endregion
 
@@ -411,15 +411,15 @@ namespace ElevatorNewUI.Controllers
 
                 var res = ManageBankService.CallApi<BankResultViewModel>(ipgUri, data);
                 res.Wait();
-                _logRepository.Add(new Log() { Text = "3Status=>" + res.Status });
-                _logRepository.Add(new Log() { Text = "3ResCode=>" + res.Result?.ResCode });
+                //_logRepository.Add(new Log() { Text = "3Status=>" + res.Status });
+                //_logRepository.Add(new Log() { Text = "3ResCode=>" + res.Result?.ResCode });
                 #endregion
 
                 #region Request Result
 
                 if (res != null && res.Result != null)
                 {
-                    _logRepository.Add(new Log() { Text = "3=>" + res.Result.ResCode });
+                    //_logRepository.Add(new Log() { Text = "3=>" + res.Result.ResCode });
                     if (res.Result.ResCode == "0")
                     {
                         factorInfo.OrderId = OrderId;
@@ -432,7 +432,7 @@ namespace ElevatorNewUI.Controllers
                     }
                     //TempData["Result"] = res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token);
                     //MFile.append("mohammad.txt", "4=>" + res.Result.Description + " + " + string.Format("{0}/Purchase/Index?token={1}", _bankConfig.PurchasePage, res.Result.Token));
-                    _logRepository.Add(new Log() { Text = "4=>" + res.Result.Description });
+                    //_logRepository.Add(new Log() { Text = "4=>" + res.Result.Description });
                     return RedirectToAction("BankMessage");
                 }
                 #endregion
