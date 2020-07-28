@@ -149,6 +149,7 @@ namespace Service.Repos
             var count = model.Count();
 
             model = model.Include(a => a.Users);
+            model = model.OrderByDescending(a => a.SuccessDate).ThenByDescending(a => a.Id);
 
             return new Tuple<int, List<ShopOrder>>(count, await model.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync());
         }
