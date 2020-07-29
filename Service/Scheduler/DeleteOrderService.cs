@@ -29,8 +29,21 @@ namespace IHostedServiceSample
                 try
                 {
                     string query = $@"
-                                select Id into #tmp from ShopOrder
-                                    where GetDate() > DATEADD(mi,30,CreateDate) and IsSuccessed = 0
+
+
+select Id insert into #tmp from ShopOrder 
+	where GetDate() > DATEADD(mi,30,ShopOrder.CreateDate) and ShopOrder.IsSuccessed = 0 
+	and Id in (SELECT   ShopOrderId
+     FROM     ShopOrderPayment As b
+     GROUP BY b.ShopOrderId
+     HAVING   Count(*) = (
+		SELECT   Count(*)
+			FROM     ShopOrderPayment As d
+			where d.IsSuccess = 0
+			GROUP BY d.ShopOrderId
+	 ))
+
+                               
 
 
                                     update ShopProduct
