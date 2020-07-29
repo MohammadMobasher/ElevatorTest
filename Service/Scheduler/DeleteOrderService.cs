@@ -39,7 +39,7 @@ select Id insert into #tmp from ShopOrder
      HAVING   Count(*) = (
 		SELECT   Count(*)
 			FROM     ShopOrderPayment As d
-			where d.IsSuccess = 0
+			where d.IsSuccess = 0 and b.ShopOrderId = d.ShopOrderId
 			GROUP BY d.ShopOrderId
 	 ))
 
