@@ -31,7 +31,7 @@ namespace IHostedServiceSample
                     string query = $@"
 
 
-select Id insert into #tmp from ShopOrder 
+select Id into #tmp from ShopOrder 
 	where GetDate() > DATEADD(mi,30,ShopOrder.CreateDate) and ShopOrder.IsSuccessed = 0 
 	and Id in (SELECT   ShopOrderId
      FROM     ShopOrderPayment As b
