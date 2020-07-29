@@ -41,7 +41,7 @@ namespace Service.Repos.User
         public async Task<bool> UpdateShopOrderId(int shopOrderId, int userId)
         {
 
-            var entity = await DbContext.UserAddress.SingleOrDefaultAsync(x => x.UserId == userId && x.ShopOrderId == null);
+            var entity = await DbContext.UserAddress.LastOrDefaultAsync(x => x.UserId == userId && x.ShopOrderId == null);
 
             entity.ShopOrderId = shopOrderId;
             await DbContext.SaveChangesAsync();

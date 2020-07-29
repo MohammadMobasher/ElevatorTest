@@ -20,6 +20,7 @@ using Service.Repos;
 using Service.Repos.BankRepository;
 using Service.Repos.Product;
 using Service.Repos.User;
+using Service.Repos.Warehouses;
 
 namespace ElevatorNewUI.Controllers
 {
@@ -38,6 +39,8 @@ namespace ElevatorNewUI.Controllers
         private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
         private readonly ProductUnitRepository _productUnitRepository;
         private readonly LogRepository _logRepository;
+        private readonly WarehouseProductCheckRepository _warehouseProductCheckRepository;
+
         public ShopProductController(ShopProductRepository shopProductRepository
             , IConfiguration configuration
             , ProductRepostitory productRepostitory
@@ -49,7 +52,8 @@ namespace ElevatorNewUI.Controllers
             , UserRepository userRepository
             , ShopOrderPaymentRepository shopOrderPaymentRepository
             , ProductUnitRepository productUnitRepository
-            , LogRepository logRepository)
+            , LogRepository logRepository
+            , WarehouseProductCheckRepository warehouseProductCheckRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _shopProductRepository = shopProductRepository;
@@ -64,6 +68,7 @@ namespace ElevatorNewUI.Controllers
             _shopOrderPaymentRepository = shopOrderPaymentRepository;
             _productUnitRepository = productUnitRepository;
             _logRepository = logRepository;
+            _warehouseProductCheckRepository = warehouseProductCheckRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -72,6 +77,7 @@ namespace ElevatorNewUI.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+           
 
             var userId = int.Parse(User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -95,7 +101,20 @@ namespace ElevatorNewUI.Controllers
 
             var userId = this.GetUserId();
 
-            TempData.AddResult(await _shopProductRepository.AddCart(productId, userId, count));
+            var result = await _shopProductRepository.AddCart(productId, userId, count);
+
+            if (result.Succeed)
+            {
+                await _warehouseProductCheckRepository.AddFromShopOrder(new DataLayer.Entities.Warehouse.WarehouseProductCheck {
+                    Count = count,
+                    Date = DateTime.Now,
+                    ProductId = productId,
+                    TypeSSOt = DataLayer.SSOT.WarehouseTypeSSOT.Out,
+                });
+            }
+
+            TempData.AddResult(result);
+
 
             return RedirectToAction("Index");
         }
@@ -125,7 +144,11 @@ namespace ElevatorNewUI.Controllers
 
         public async Task<IActionResult> RemoveCart(int id)
         {
-            TempData.AddResult(await _shopProductRepository.RemoveCart(id));
+            var result = await _shopProductRepository.RemoveCart(id);
+           
+
+            TempData.AddResult(result);
+
 
             return RedirectToAction("Index");
         }
@@ -424,6 +447,11 @@ namespace ElevatorNewUI.Controllers
                     {
                         factorInfo.OrderId = OrderId;
 
+                        await _shopProductRepository.UpdateCreateDate(factorInfo.ShopOrderId);
+                        await _shopOrderRepository.UpdateCreateDate(factorInfo.ShopOrderId);
+
+                        
+                        
                         await _usersPaymentRepository.MapAddAsync(SetValue(res.Result.Token));
                         //await _shopOrderRepository.UpdateAsync(factorInfo);
                         await _shopOrderPaymentRepository.UpdateAsync(factorInfo);

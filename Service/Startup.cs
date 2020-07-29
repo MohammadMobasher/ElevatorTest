@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using DataLayer.CustomMapping;
+using IHostedServiceSample;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Service.Mappers;
 using System;
 using System.Collections.Generic;
@@ -19,8 +21,13 @@ namespace Service
             services.AddDbContext<DatabaseContext>(options
                 => options.UseSqlServer(configuration.GetConnectionString("MyConnection")));
 
-            services.AddScoped<IDbConnection>(
-                _ => new SqlConnection(configuration.GetConnectionString("MyConnection")));
+            //services.AddScope<IDbConnection>(
+            //    _ => new SqlConnection(configuration.GetConnectionString("MyConnection")));
+
+            services.AddSingleton<IDbConnection>(
+       _ => new SqlConnection(configuration.GetConnectionString("MyConnection")));
+
+            services.AddSingleton<IHostedService, DeleteOrderService>();
 
 
             services.Scan(scan =>

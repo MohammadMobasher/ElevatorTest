@@ -7,15 +7,19 @@ using Core.Utilities;
 using DataLayer.ViewModels.ShopProduct;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Service.Repos.Warehouses;
 
 namespace Service.Repos
 {
     public class ShopProductRepository : GenericRepository<ShopProduct>
     {
+        private readonly WarehouseProductCheckRepository _warehouseProductCheckRepository;
 
-
-        public ShopProductRepository(DatabaseContext dbContext) : base(dbContext)
+        public ShopProductRepository(
+             DatabaseContext dbContext
+            , WarehouseProductCheckRepository warehouseProductCheckRepository) : base(dbContext)
         {
+            _warehouseProductCheckRepository = warehouseProductCheckRepository;
         }
 
         public async Task<bool> IsExist(int productId, int userId)
@@ -66,13 +70,30 @@ namespace Service.Repos
 
         public async Task<SweetAlertExtenstion> RemoveCart(int id)
         {
-            var model = await GetByIdAsync(id);
+            try
+            {
+                var model = await GetByIdAsync(id);
+                var w = new DataLayer.Entities.Warehouse.WarehouseProductCheck
+                {
+                    Count = model.Count,
+                    Date = DateTime.Now,
+                    ProductId = model.ProductId.Value,
+                    TypeSSOt = DataLayer.SSOT.WarehouseTypeSSOT.In,
+                };
 
-            if (model == null) return SweetAlertExtenstion.Error("اطلاعاتی با این شناسه یافت نشد");
 
-            Delete(model);
+                if (model == null) return SweetAlertExtenstion.Error("اطلاعاتی با این شناسه یافت نشد");
 
-            return SweetAlertExtenstion.Ok();
+                Delete(model);
+
+                await _warehouseProductCheckRepository.AddFromShopOrder(w);
+
+                return SweetAlertExtenstion.Ok();
+            }
+            catch
+            {
+                return SweetAlertExtenstion.Error();
+            }
         }
 
 
@@ -318,6 +339,18 @@ namespace Service.Repos
             return Save();
         }
 
+        /// <summary>
+        /// زمانی که کاربر به سمت درگاه میرود 
+        /// باید زمان درخواست این کالا به روز شود
+        /// </summary>
+        /// <param name="shopOrderId"></param>
+        /// <returns></returns>
+        public async Task UpdateCreateDate(int shopOrderId)
+        {
+            var results = await Entities.Where(x => x.ShopOrderId == shopOrderId).ToListAsync();
+            results.ForEach(x => x.RequestedDate = DateTime.Now);
+            await UpdateRangeAsync(results);
+        }
     }
 
 }

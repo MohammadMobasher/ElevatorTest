@@ -1,9 +1,11 @@
 ﻿using Core.Utilities;
 using Dapper;
 using DataLayer.Entities;
+using DataLayer.Entities.Warehouse;
 using DataLayer.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Service.Repos.User;
+using Service.Repos.Warehouses;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,14 +20,18 @@ namespace Service.Repos
         private readonly UserAddressRepository _userAddressRepository;
         private readonly ShopProductRepository _shopProductRepository;
         private readonly IDbConnection _connection;
+        private readonly WarehouseProductCheckRepository _warehouseProductCheckRepository;
+
         public ShopOrderRepository(DatabaseContext dbContext
             , UserAddressRepository userAddressRepository
             , ShopProductRepository shopProductRepository
-            , IDbConnection connection) : base(dbContext)
+            , IDbConnection connection
+            , WarehouseProductCheckRepository warehouseProductCheckRepository) : base(dbContext)
         {
             _userAddressRepository = userAddressRepository;
             _shopProductRepository = shopProductRepository;
             _connection = connection;
+            _warehouseProductCheckRepository = warehouseProductCheckRepository;
         }
 
         public async Task<int> CreateFactor(List<ShopProduct> list, int userId)
@@ -204,7 +210,7 @@ namespace Service.Repos
             return tariff;
         }
 
-        public SweetAlertExtenstion DeleteOrder(int id)
+        public async Task<SweetAlertExtenstion> DeleteOrder(int id)
         {
             var model = GetByCondition(a => a.Id == id);
 
@@ -213,7 +219,36 @@ namespace Service.Repos
             model.IsDeleted = true;
             Update(model);
 
+            var productIds = DbContext.ShopProduct.Where(x => x.ShopOrderId == id).ToList();
+            List<WarehouseProductCheck> items = new List<WarehouseProductCheck>();
+
+            foreach (var item in productIds)
+            {
+                items.Add(new WarehouseProductCheck {
+                    Count = item.Count,
+                    Date = DateTime.Now,
+                    ProductId = item.ProductId.Value,
+                    TypeSSOt = DataLayer.SSOT.WarehouseTypeSSOT.In,
+                });
+            }
+
+            await _warehouseProductCheckRepository.AddFromShopOrder(items);
+
             return SweetAlertExtenstion.Ok();
+        }
+
+
+        /// <summary>
+        /// زمانی که کاربر به سمت درگاه میرود 
+        /// باید زمان درخواست این کالا به روز شود
+        /// </summary>
+        /// <param name="shopOrderId"></param>
+        /// <returns></returns>
+        public async Task UpdateCreateDate(int shopOrderId)
+        {
+            var result = await Entities.SingleOrDefaultAsync(x => x.Id == shopOrderId);
+            result.CreateDate = DateTime.Now;
+            await UpdateAsync(result);
         }
     }
 }

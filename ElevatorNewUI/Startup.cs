@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Core;
 using ElevatorNewUI.Controllers;
+using IHostedServiceSample;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,9 +15,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using Service;
 using Service.Mappers;
+using Service.Repos;
 using WebFramework.Configurations;
 
 namespace ElevatorNewUI
@@ -60,7 +65,11 @@ namespace ElevatorNewUI
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
              .AddSessionStateTempDataProvider();
 
-            //services.AddSchedulers();
+
+      
+
+            //services.AddScoped<HostedService, DeleteOrderService>();
+            //services.AddScoped<IHostedService>();
 
             services.AddSession(options =>
             {
@@ -75,7 +84,7 @@ namespace ElevatorNewUI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
 
             app.UseDeveloperExceptionPage();

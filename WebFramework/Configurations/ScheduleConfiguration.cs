@@ -31,12 +31,12 @@
 //}
 
 
-using DNTScheduler.Core;
+//using DNTScheduler.Core;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Service.Scheduler;
+
 
 namespace WebFramework.Configurations
 {
@@ -44,19 +44,19 @@ namespace WebFramework.Configurations
     {
         public static void AddSchedulers(this IServiceCollection services)
         {
-            services.AddDNTScheduler(options =>
-            {
+            //services.AddDNTScheduler(options =>
+            //{
 
-                options.AddPingTask = true;
-                options.AddScheduledTask<OrdersScheduler>(
-                    runAt: utcNow =>
-                    {
-                        var now = utcNow.AddMinutes(2);
+            //    options.AddPingTask = true;
+            //    options.AddScheduledTask<OrdersScheduler>(
+            //        runAt: utcNow =>
+            //        {
+            //            var now = utcNow.AddMinutes(2);
 
-                        return now.Second % 10 == 0;
-                    },
-                    order: 1);
-            });
+            //            return now.Second % 10 == 0;
+            //        },
+            //        order: 1);
+            //});
 
         }
 

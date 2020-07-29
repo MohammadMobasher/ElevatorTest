@@ -1,10 +1,12 @@
 ﻿using AutoMapper.QueryableExtensions;
+using Dapper;
 using DataLayer.DTO.WarehouseProductCheckDTO;
 using DataLayer.Entities.Warehouse;
 using DataLayer.ViewModels.WarehouseProductChecks;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +15,12 @@ namespace Service.Repos.Warehouses
 {
     public class WarehouseProductCheckRepository : GenericRepository<WarehouseProductCheck>
     {
-        public WarehouseProductCheckRepository(DatabaseContext dbContext) : base(dbContext)
+        private readonly IDbConnection _dbConnection;
+
+        public WarehouseProductCheckRepository(DatabaseContext dbContext,
+            IDbConnection dbConnection)  : base(dbContext)
         {
+            _dbConnection = dbConnection;
         }
 
         /// <summary>
@@ -66,6 +72,63 @@ namespace Service.Repos.Warehouses
                 query = query.Take(take);
 
             return new Tuple<int, List<WarehouseProductCheckFullDTO>>(Count, await query.ToListAsync());
+        }
+
+
+        public async Task AddFromShopOrder(WarehouseProductCheck warehouseProductCheck)
+        {
+            string query = $@"
+                
+                
+                insert into WarehouseProductCheck(
+	                Count, 
+	                Date, 
+	                ProductId,
+	                TypeSSOt,
+	                WarehouseId
+                ) 
+                values(
+	                {warehouseProductCheck.Count},
+	                getdate(),
+	                {warehouseProductCheck.ProductId},
+	                {(int)warehouseProductCheck.TypeSSOt},
+	                (select top 1 WarehouseId from WarehouseProductCheck where ProductId = {warehouseProductCheck.ProductId})
+                )
+
+
+            ";
+
+            await _dbConnection.ExecuteAsync(query);
+
+        }
+
+
+        public async Task AddFromShopOrder(List<WarehouseProductCheck> warehouseProductCheck)
+        {
+            string query = $@"";
+
+            foreach (var item in warehouseProductCheck)
+            {
+                query += $@"
+                    insert into WarehouseProductCheck(
+	                                    Count, 
+	                                    Date, 
+	                                    ProductId,
+	                                    TypeSSOt,
+	                                    WarehouseId
+                                    ) 
+                                    values(
+	                                    {item.Count},
+	                                    getdate(),
+	                                    {item.ProductId},
+	                                    {(int)item.TypeSSOt},
+	                                    (select top 1 WarehouseId from WarehouseProductCheck where ProductId = {item.ProductId})
+                                    );
+                    ";
+
+                await _dbConnection.QueryAsync(query);
+            }
+               
         }
     }
 }

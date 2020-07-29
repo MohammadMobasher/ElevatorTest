@@ -142,9 +142,9 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
         }
 
         [ActionRole("حذف فاکتور")]
-        public IActionResult DeleteOrder(int id)
+        public async Task<ActionResult> DeleteOrder(int id)
         {
-            var model = _shopOrderRepository.DeleteOrder(id);
+            var model = await _shopOrderRepository.DeleteOrder(id);
 
             TempData.AddResult(model);
 
