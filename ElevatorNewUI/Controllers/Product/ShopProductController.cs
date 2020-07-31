@@ -191,7 +191,7 @@ namespace ElevatorNewUI.Controllers
             
             await _shopOrderRepository.AddFactor(UserId, Title);
            
-            return View();
+            return Redirect("/Profile/ListInvoice");
         }
 
         #endregion
