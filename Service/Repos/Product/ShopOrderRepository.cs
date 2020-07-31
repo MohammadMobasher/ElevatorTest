@@ -82,8 +82,6 @@ namespace Service.Repos
             }
         }
 
-
-
         public async Task<List<ShopOrder>> ListInvoice(int userId)
         {
             return await Entities.Where(x => x.IsInvoice == true).ToListAsync();
@@ -277,5 +275,39 @@ namespace Service.Repos
             result.CreateDate = DateTime.Now;
             await UpdateAsync(result);
         }
+
+
+        /// <summary>
+        /// ایجاد فاکتور از پیش فاکتور
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> OverWriteShopOrder(int id)
+        {
+            var model = await GetByIdAsync(id);
+
+            if (model == null) return SweetAlertExtenstion.Error();
+
+            await AddAsync(new ShopOrder()
+            {
+                Amount = model.Amount,
+                CreateDate = DateTime.Now,
+                IsDeleted = false,
+                IsSuccessed = false,
+                DiscountCode = model.DiscountCode,
+                IsInvoice = false,
+                TransferProductPrice = model.TransferProductPrice,
+                SuccessDate = null,
+                Status = null,
+                OrderId = null,
+                Title = model.Title,
+                PaymentAmount = model.PaymentAmount,
+                UserId = model.UserId
+            }, false);
+
+            return Save();
+        }
+
+        //public async Task<SweetAlertExtenstion> Update
     }
 }
