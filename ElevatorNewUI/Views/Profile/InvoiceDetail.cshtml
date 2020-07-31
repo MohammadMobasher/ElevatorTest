@@ -1,0 +1,269 @@
+﻿@model List<ShopProduct>
+
+@{
+    var unit = ViewBag.Unit as List<ProductUnit>;
+    var userInfo = ViewBag.UserInfo as DataLayer.Entities.Users.Users;
+    var order = ViewBag.Order as ShopOrder;
+    var address = ViewBag.UserAddress as UserAddress;
+}
+<style>
+    .Mtable {
+        text-align: center !important;
+    }
+
+        .Mtable thead tr th {
+            text-align: center !important;
+            background-color: #1e7ac2;
+            color: #FFFFFF
+        }
+
+        .Mtable tbody tr td {
+            text-align: center !important;
+        }
+
+        .Mtable td:last-child {
+            border: 1px solid #dee2e6
+        }
+
+
+    .Mtable2 {
+        text-align: center !important;
+    }
+
+        .Mtable2 thead tr th {
+            text-align: center !important;
+            background-color: #1e7ac2;
+            color: #FFFFFF
+        }
+
+        .Mtable2 tbody tr td {
+            text-align: center !important;
+        }
+
+        .Mtable2 td:last-child {
+            border: 1px solid #dee2e6
+        }
+</style>
+@*<div id="divPrint">
+        <a href="#" onclick="window.print()" class="print-link pull-right text-danger" style="margin-left:30px"><i class="fa fa-print fa-3x"></i></a>
+
+    </div>*@
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+
+                    <partial name="_SidebarProfile" model="@ViewBag.Model">
+
+
+
+                        <div class="col-lg-9 col-md-9 col-xs-12 pl ">
+                            <div class="profile-content">
+                                <div class="profile-stats">
+                                    <div class="table-orders" id="pdfMake">
+
+                                        <!--اطلاعات کاربر-->
+                                        <table class="text-center Mtable table table-profile-orders table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>شماره فاکتور</th>
+                                                    <th>نام و نام خانوادگی</th>
+                                                    <th>شماره تماس</th>
+                                                    <th>تاریخ ثبت فاکتور</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>@order.Id</td>
+                                                    <td>@userInfo.FirstName @userInfo.LastName</td>
+                                                    <td>@userInfo.PhoneNumber</td>
+                                                    <td>@order.CreateDate.Value.ToPersianDateTextify()</td>
+                                                    
+                                                </tr>
+                                            </tbody>
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="5">عنوان</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="5">
+                                                        @address.Title
+                                                    </td>
+                                                    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                       
+                                        <!--اطلاعات محصول-->
+                                        <table class="text-center Mtable table table-profile-orders table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>ردیف</th>
+                                                    <th>عنوان کالا</th>
+                                                    <th>تعداد کالا</th>
+                                                    <th>واحد کالا</th>
+                                                    <th>قیمت اصلی کالا</th>
+                                                    <th>قیمت با تخفیف</th>
+                                                    <th>قیمت کل</th>
+                                                    <th>مشاهده</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{ var raw = 1;}
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td class="order-code">@(raw++)</td>
+                                                        <td>@(item.OrderName ?? item.Product.Title) </td>
+                                                        <td>@item.Count </td>
+                                                        <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                                        <td>@(item.OrderPrice ?? item.Product.Price.ToPersianPrice())</td>
+                                                        <td>@(item.OrderPriceDiscount ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                                        <td>
+                                                            @if (item.OrderPriceDiscount != null)
+                                                            {
+                                                                var price = item.OrderPriceDiscount.Replace(",", "");
+
+                                                                <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                                                <i class="mdi mdi-eye" aria-hidden="true"></i>
+
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+
+                                                }
+                                                
+
+                                                <tr>
+                                                    <td colspan="2">جمع کل :</td>
+                                                    <td colspan="6">@(((long)ViewBag.Amount).ToPersianPrice()) تومان</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <div class="profile-orders">
+                                            <div class="collapse">
+                                                <div class="profile-orders-item">
+                                                    <table class="text-center Mtable table table-responsive table-responsive-sm table-responsive-sm table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>نام و نام خانوادگی</th>
+                                                                <th>شماره تماس</th>
+                                                                <th>تاریخ ثبت فاکتور</th>
+                                                                <th>تاریخ خرید</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>@userInfo.FirstName @userInfo.LastName</td>
+                                                                <td>@userInfo.PhoneNumber</td>
+                                                                <td>@order.CreateDate.Value.ToPersianDateTextify()</td>
+                                                                <td>@(order.SuccessDate == null ? "" : order.SuccessDate.Value.ToPersianDateTextify())</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr>
+                                                                <th colspan="1">عنوان</th>
+                                                                <th colspan="3">آدرس</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td colspan="1">
+                                                                    @address.Title
+                                                                </td>
+                                                                <td colspan="3">
+                                                                    @address.Address
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                   
+                                                    <!--اطلاعات محصول-->
+                                                    <table class="text-center Mtable table-responsive table-responsive-sm table-responsive-sm table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>ردیف</th>
+                                                                <th>عنوان کالا</th>
+                                                                <th>تعداد کالا</th>
+                                                                <th>واحد کالا</th>
+                                                                <th>قیمت اصلی کالا</th>
+                                                                <th>قیمت با تخفیف</th>
+                                                                <th>قیمت کل</th>
+                                                                <th>مشاهده</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @{ var raw1 = 1;}
+                                                            @foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td class="order-code">@(raw1++)</td>
+                                                                    <td>@(item.OrderName ?? item.Product.Title) </td>
+                                                                    <td>@item.Count </td>
+                                                                    <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                                                    <td>@(item.OrderPrice ?? item.Product.Price.ToPersianPrice())</td>
+                                                                    <td>@(item.OrderPriceDiscount ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                                                    <td>
+                                                                        @if (item.OrderPriceDiscount != null)
+                                                                        {
+                                                                            var price = item.OrderPriceDiscount.Replace(",", "");
+
+                                                                            <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                                                            <i class="mdi mdi-eye" aria-hidden="true"></i>
+
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+
+                                                            }
+                                                           
+                                                            <tr>
+                                                                <td colspan="2">جمع کل :</td>
+                                                                <td colspan="6">@(((long)ViewBag.Amount).ToPersianPrice()) تومان</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="btn btn-danger pull-left" style="margin-left:16px" href="/Profile/Orders">بازگشت</a>
+
+                        </div>
+                        <a href="#" onclick="generatePDF('pdfMake')" class="print-link pull-left text-danger"><i class="fa fa-file-pdf-o fa-3x"></i></a>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>

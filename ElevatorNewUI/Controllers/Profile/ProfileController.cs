@@ -140,5 +140,45 @@ namespace ElevatorNewUI.Controllers.Profile
         }
 
         #endregion
+
+
+        #region لیست پیش‌فاکتور ها
+
+        public async Task<IActionResult> ListInvoice()
+        {
+            ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
+            ViewBag.SidebarActive = ProfileSidebarSSOT.Invoice;
+            var result = await _shopOrderRepository.ListInvoice(UserId);
+
+            return View(result);
+        }
+
+
+        public async Task<IActionResult> InvoiceDetail(int id)
+        {
+            var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id, null, "Product");
+
+            var order = await _shopOrderRepository.GetByConditionAsync(a => a.Id == id && !a.IsDeleted);
+
+            if (order == null || model == null)
+                return NotFound();
+
+            // اطلاعات کاربر
+            ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == order.UserId);
+            ViewBag.Order = order;
+            
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == order.UserId);
+            ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
+            ViewBag.SidebarActive = ProfileSidebarSSOT.Invoice;
+            ViewBag.Unit = _productUnitRepository.GetList();
+            ViewBag.Amount = order?.PaymentAmount;
+            ViewBag.TransferAmount = order?.TransferProductPrice;
+
+            return View(model);
+        }
+
+
+        #endregion
+
     }
 }

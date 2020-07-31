@@ -83,6 +83,33 @@ namespace Service.Repos
         }
 
 
+
+        public async Task<List<ShopOrder>> ListInvoice(int userId)
+        {
+            return await Entities.Where(x => x.IsInvoice == true).ToListAsync();
+        }
+
+
+        public async Task AddFactor(int userId, string title)
+        {
+            var model = new ShopOrder()
+            {
+                Amount = await _shopProductRepository.CalculateCartPriceNumber(userId),
+                CreateDate = DateTime.Now,
+                IsSuccessed = false,
+                UserId = userId,
+                Title = title,
+                IsInvoice = true
+            };
+
+            await AddAsync(model);
+
+            // در جدول مربوط به آدرس
+            // شماره فاکتور را قرار میدهیم تا بعد بتوانیم از آن استفاده کنیم
+            await _userAddressRepository.UpdateShopOrderId(model.Id, userId);
+        }
+
+
         public async Task<int> CreatePaymentFactor(List<ShopProduct> list, int userId)
         {
             try
@@ -109,7 +136,7 @@ namespace Service.Repos
                 await _shopProductRepository.ChangeStatus(list, model.Id);
 
                 
-                await _shopProductRepository.ChangeStatus(list, model.Id);
+                
                 return model.Id;
 
             }

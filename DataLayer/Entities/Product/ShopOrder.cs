@@ -35,6 +35,14 @@ namespace DataLayer.Entities
 
         public bool IsDeleted { get; set; }
 
+
+        public string Title { get; set; }
+
+        /// <summary>
+        /// پیش فاکتور هست یا نه
+        /// </summary>
+        public bool IsInvoice { get; set; } = false;
+
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public ShopOrderStatusSSOT? Status{ get; set; }
 

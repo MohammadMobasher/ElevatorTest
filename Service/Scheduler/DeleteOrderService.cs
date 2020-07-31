@@ -31,17 +31,17 @@ namespace IHostedServiceSample
                     string query = $@"
 
 
-select Id into #tmp from ShopOrder 
-	where GetDate() > DATEADD(mi,30,ShopOrder.CreateDate) and ShopOrder.IsSuccessed = 0 
-	and Id in (SELECT   ShopOrderId
-     FROM     ShopOrderPayment As b
-     GROUP BY b.ShopOrderId
-     HAVING   Count(*) = (
-		SELECT   Count(*)
-			FROM     ShopOrderPayment As d
-			where d.IsSuccess = 0 and b.ShopOrderId = d.ShopOrderId
-			GROUP BY d.ShopOrderId
-	 ))
+                                select Id into #tmp from ShopOrder 
+	                                where GetDate() > DATEADD(mi,30,ShopOrder.CreateDate) and ShopOrder.IsSuccessed = 0 
+	                                and Id in (SELECT   ShopOrderId
+                                     FROM     ShopOrderPayment As b
+                                     GROUP BY b.ShopOrderId
+                                     HAVING   Count(*) = (
+		                                SELECT   Count(*)
+			                                FROM     ShopOrderPayment As d
+			                                where d.IsSuccess = 0 and b.ShopOrderId = d.ShopOrderId
+			                                GROUP BY d.ShopOrderId
+	                                 ))
 
                                
 
@@ -51,6 +51,7 @@ select Id into #tmp from ShopOrder
                                     where ShopOrderId in (select * from #tmp)
 
                                     delete ShopOrderPayment where ShopOrderId in (select * from #tmp)
+                                    delete UserAddress where ShopOrderId in (select * from #tmp)
                                     
                                     delete ShopOrder 
                                     where Id in (select * from #tmp)

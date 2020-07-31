@@ -14,6 +14,10 @@ namespace DataLayer.SSOT
 
         Favorite,
 
-        AccountSettings
+        AccountSettings,
+        /// <summary>
+        /// پیش فاکتور
+        /// </summary>
+        Invoice
     }
 }

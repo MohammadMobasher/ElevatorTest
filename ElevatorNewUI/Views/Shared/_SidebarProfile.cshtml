@@ -3,7 +3,7 @@
         <section class="profile-box">
             <header class="profile-box-header-inline">
                 <div class="profile-avatar user-avatar profile-img">
-                    <img src="/@User.Identity.FindFirstValue("UserProfile")">
+                    <img src="http://staffonly.ir//@User.Identity.FindFirstValue("UserProfile")">
                 </div>
             </header>
             <footer class="profile-box-content-footer">
@@ -26,13 +26,20 @@
                 <li class="profile-account-nav-item navigation-link-dashboard">
                     <a asp-action="EditProfile" class="@(ViewBag.SidebarActive == ProfileSidebarSSOT.EditProfile?"active":"")">
                         <i class="mdi mdi-credit-card"></i>
-                       ویرایش پروفایل
+                        ویرایش پروفایل
                     </a>
                 </li>
                 <li class="profile-account-nav-item navigation-link-dashboard">
                     <a asp-action="Orders" class="@(ViewBag.SidebarActive == ProfileSidebarSSOT.Orders?"active":"")">
                         <i class="mdi mdi-cart"></i>
                         همه سفارش ها
+                    </a>
+                </li>
+
+                <li class="profile-account-nav-item navigation-link-dashboard">
+                    <a asp-action="ListInvoice" class="@(ViewBag.SidebarActive == ProfileSidebarSSOT.Invoice?"active":"")">
+                        <i class="mdi mdi-cart"></i>
+                        پیش‌فاکتورها
                     </a>
                 </li>
                 @*<li class="profile-account-nav-item navigation-link-dashboard">

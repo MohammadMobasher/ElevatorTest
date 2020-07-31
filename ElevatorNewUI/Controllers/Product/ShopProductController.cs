@@ -77,7 +77,7 @@ namespace ElevatorNewUI.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-           
+
 
             var userId = int.Parse(User.Identity.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -105,7 +105,8 @@ namespace ElevatorNewUI.Controllers
 
             if (result.Succeed)
             {
-                await _warehouseProductCheckRepository.AddFromShopOrder(new DataLayer.Entities.Warehouse.WarehouseProductCheck {
+                await _warehouseProductCheckRepository.AddFromShopOrder(new DataLayer.Entities.Warehouse.WarehouseProductCheck
+                {
                     Count = count,
                     Date = DateTime.Now,
                     ProductId = productId,
@@ -145,7 +146,7 @@ namespace ElevatorNewUI.Controllers
         public async Task<IActionResult> RemoveCart(int id)
         {
             var result = await _shopProductRepository.RemoveCart(id);
-           
+
 
             TempData.AddResult(result);
 
@@ -183,6 +184,21 @@ namespace ElevatorNewUI.Controllers
             : Json(await _shopProductRepository.CartCountFunction(id, count));
 
 
+        #region پیش‌فاکتور
+
+        public async Task<IActionResult> CreateInvoice(string Title)
+        {
+            
+            await _shopOrderRepository.AddFactor(UserId, Title);
+           
+            return View();
+        }
+
+        #endregion
+
+
+       
+
         #region CheckOut
 
         public async Task<IActionResult> UserAddress()
@@ -204,7 +220,7 @@ namespace ElevatorNewUI.Controllers
 
         public async Task<IActionResult> Checkout()
         {
-            var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId && 
+            var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId &&
                 !a.IsFinaly && !a.IsFactorSubmited, null, "Product,ProductPackage");
 
             ViewBag.Unit = await _productUnitRepository.GetListAsync();
@@ -365,76 +381,83 @@ namespace ElevatorNewUI.Controllers
         [Authorize]
         public async Task<IActionResult> RequestByOrderPayment(int id)
         {
-            //_logRepository.Add(new Log() { Text = "1" });
-            // MFile.append("mohammad.txt", "1");
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
-
-            var factorInfo = await _shopOrderPaymentRepository
-                .GetByConditionAsync(a => !a.IsSuccess && a.Id == id, isTracked: true);
-
-            #region BankDependency
-
-            if (factorInfo == null)
-            {
-                TempData.AddResult(SweetAlertExtenstion.Error("اطلاعات پرداختی با این عنوان یافت نشد"));
-                return RedirectToAction("Index", "ShopProductController");
-            }
-
-            var resultAmount = factorInfo.PaymentAmount;
-
-
-            //_logRepository.Add(new Log() { Text = "2=>" + resultAmount.ToString() });
-            // شماره خرید 
-            var OrderId = new Random().Next(1000, int.MaxValue).ToString();
-
-            // رمز گذاری اطلاعات 
-            var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", _bankConfig.TerminalId, OrderId, resultAmount.CastTomanToRial()));
-
-            var symmetric = SymmetricAlgorithm.Create("TripleDes");
-            symmetric.Mode = CipherMode.ECB;
-            symmetric.Padding = PaddingMode.PKCS7;
-
-            // رمز گذاری گلید پایانه
-            var encryptor = symmetric.CreateEncryptor(Convert.FromBase64String(_bankConfig.MerchantKey), new byte[8]);
-            var SignData = Convert.ToBase64String(encryptor.TransformFinalBlock(dataBytes, 0, dataBytes.Length));
-
-            // ادرس بازگشت از درگاه
-            var ReturnUrl = string.Format(_bankConfig.SecondReturnUrl);
-
-            // ادرس وب سرویس درگاه
-            var ipgUri = string.Format("{0}/api/v0/Request/PaymentRequest", _bankConfig.PurchasePage);
-
-            #endregion
-
-            #region Informations
-
-            // آماده سازی اطلاعات برای ا
-            var data = new
-            {
-                _bankConfig.TerminalId,
-                _bankConfig.MerchantId,
-                Amount = resultAmount.CastTomanToRial(),
-                SignData,
-                ReturnUrl = _bankConfig.SecondReturnUrl,
-                LocalDateTime = DateTime.Now,
-                OrderId,
-                //MultiplexingData = request.MultiplexingData
-            };
-
-
-            //_logRepository.Add(new Log() { Text = "Data=>" + JsonConvert.SerializeObject(data) });
-            //_logRepository.Add(new Log() { Text = "ipgUri=>" + ipgUri });
-
-            #endregion
-
             try
             {
+                //_logRepository.Add(new Log() { Text = "1" });
+                //_logRepository.Add(new Log() { Text = "1.=>"+ _bankConfig.TerminalId });
+                //_logRepository.Add(new Log() { Text = "2.=>"+ _bankConfig.PurchasePage });
+                // MFile.append("mohammad.txt", "1");
+                if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+
+                var factorInfo = await _shopOrderPaymentRepository
+                    .GetByConditionAsync(a => !a.IsSuccess && a.Id == id, isTracked: true);
+
+                #region BankDependency
+
+                if (factorInfo == null)
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("اطلاعات پرداختی با این عنوان یافت نشد"));
+                    return RedirectToAction("Index", "ShopProductController");
+                }
+
+                var resultAmount = factorInfo.PaymentAmount;
+
+
+                _logRepository.Add(new Log() { Text = "2=>" + resultAmount.ToString() });
+                // شماره خرید 
+                var OrderId = new Random().Next(1000, int.MaxValue).ToString();
+                //_logRepository.Add(new Log() { Text = "2.1" + _bankConfig.PurchasePage });
+                // رمز گذاری اطلاعات 
+                var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", _bankConfig.TerminalId, OrderId, resultAmount.CastTomanToRial()));
+                //_logRepository.Add(new Log() { Text = "2.2" + _bankConfig.PurchasePage });
+                var symmetric = SymmetricAlgorithm.Create("TripleDes");
+                //_logRepository.Add(new Log() { Text = "2.3" + _bankConfig.PurchasePage });
+                symmetric.Mode = CipherMode.ECB;
+                //_logRepository.Add(new Log() { Text = "2.4" + _bankConfig.PurchasePage });
+                symmetric.Padding = PaddingMode.PKCS7;
+                //_logRepository.Add(new Log() { Text = "2.5" + _bankConfig.PurchasePage });
+
+                // رمز گذاری گلید پایانه
+                var encryptor = symmetric.CreateEncryptor(Convert.FromBase64String(_bankConfig.MerchantKey), new byte[8]);
+                //_logRepository.Add(new Log() { Text = "2.6" + _bankConfig.PurchasePage });
+                var SignData = Convert.ToBase64String(encryptor.TransformFinalBlock(dataBytes, 0, dataBytes.Length));
+                //_logRepository.Add(new Log() { Text = "2.7" + _bankConfig.PurchasePage });
+                // ادرس بازگشت از درگاه
+                var ReturnUrl = string.Format(_bankConfig.SecondReturnUrl);
+                //_logRepository.Add(new Log() { Text = "2.8" + _bankConfig.PurchasePage });
+                
+                // ادرس وب سرویس درگاه
+                var ipgUri = string.Format("{0}/api/v0/Request/PaymentRequest", _bankConfig.PurchasePage);
+                //_logRepository.Add(new Log() { Text = "2.9" + _bankConfig.PurchasePage });
+                #endregion
+
+                #region Informations
+
+                // آماده سازی اطلاعات برای ا
+                var data = new
+                {
+                    _bankConfig.TerminalId,
+                    _bankConfig.MerchantId,
+                    Amount = resultAmount.CastTomanToRial(),
+                    SignData,
+                    ReturnUrl = _bankConfig.SecondReturnUrl,
+                    LocalDateTime = DateTime.Now,
+                    OrderId,
+                    //MultiplexingData = request.MultiplexingData
+                };
+
+
+                _logRepository.Add(new Log() { Text = "Data=>" + JsonConvert.SerializeObject(data) });
+                //_logRepository.Add(new Log() { Text = "ipgUri=>" + ipgUri });
+
+                #endregion
+
 
                 #region RequestBuild
 
                 var res = ManageBankService.CallApi<BankResultViewModel>(ipgUri, data);
                 res.Wait();
-                //_logRepository.Add(new Log() { Text = "3Status=>" + res.Status });
+                _logRepository.Add(new Log() { Text = "3Status=>" + res.Status });
                 //_logRepository.Add(new Log() { Text = "3ResCode=>" + res.Result?.ResCode });
                 #endregion
 
@@ -442,7 +465,7 @@ namespace ElevatorNewUI.Controllers
 
                 if (res != null && res.Result != null)
                 {
-                    //_logRepository.Add(new Log() { Text = "3=>" + res.Result.ResCode });
+                    _logRepository.Add(new Log() { Text = "3=>" + res.Result.ResCode });
                     if (res.Result.ResCode == "0")
                     {
                         factorInfo.OrderId = OrderId;
@@ -450,8 +473,8 @@ namespace ElevatorNewUI.Controllers
                         await _shopProductRepository.UpdateCreateDate(factorInfo.ShopOrderId);
                         await _shopOrderRepository.UpdateCreateDate(factorInfo.ShopOrderId);
 
-                        
-                        
+
+
                         await _usersPaymentRepository.MapAddAsync(SetValue(res.Result.Token));
                         //await _shopOrderRepository.UpdateAsync(factorInfo);
                         await _shopOrderPaymentRepository.UpdateAsync(factorInfo);
@@ -469,32 +492,28 @@ namespace ElevatorNewUI.Controllers
 
                 return RedirectToAction("BankMessage");
 
+                #region LocalMethods
 
+                AddUserPaymentViewModel SetValue(string token)
+                {
+                    return new AddUserPaymentViewModel()
+                    {
+                        Amount = data.Amount,
+                        DateTime = data.LocalDateTime,
+                        OrderId = data.OrderId,
+                        Token = token,
+                        UserId = UserId,
+                        ShopOrderId = factorInfo.ShopOrderId,
+                        PaymentId = id,
+                    };
+                }
+                #endregion
             }
             catch (Exception e)
             {
-                _logRepository.Add(new Log() { Text = "Exception=>" + e.Message });
+                _logRepository.Add(new Log() { Text = "Exception=>" + e.Message + e.TargetSite });
                 throw;
             }
-
-
-
-            #region LocalMethods
-
-            AddUserPaymentViewModel SetValue(string token)
-            {
-                return new AddUserPaymentViewModel()
-                {
-                    Amount = data.Amount,
-                    DateTime = data.LocalDateTime,
-                    OrderId = data.OrderId,
-                    Token = token,
-                    UserId = UserId,
-                    ShopOrderId = factorInfo.ShopOrderId,
-                    PaymentId = id,
-                };
-            }
-            #endregion
         }
 
         public IActionResult BankMessage()
