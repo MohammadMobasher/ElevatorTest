@@ -249,7 +249,7 @@ namespace Service.Repos
 
 
         /// <summary>
-        /// محاسبه قیمت سبد خرید
+        /// محاسبه قیمت سبد خرید بر اساس شناسه کاربر و محاسبه مستقیم از سبد خرید به فاکتور
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -284,6 +284,7 @@ namespace Service.Repos
             return sum;
         }
 
+
         /// <summary>
         /// تغییر وضعیت سبد خرید 
         /// مشخص کردن فاکتور
@@ -293,7 +294,7 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<bool> ChangeStatus(List<ShopProduct> list, int orderId)
         {
-            list.ForEach(a => { a.ShopOrderId = orderId;a.IsFactorSubmited = true; });
+            list.ForEach(a => { a.ShopOrderId = orderId; a.IsFactorSubmited = true; });
 
             await UpdateRangeAsync(list, false);
 
@@ -350,6 +351,55 @@ namespace Service.Repos
             var results = await Entities.Where(x => x.ShopOrderId == shopOrderId).ToListAsync();
             results.ForEach(x => x.RequestedDate = DateTime.Now);
             await UpdateRangeAsync(results);
+        }
+
+
+        /// <summary>
+        /// بررسی دوباره قیمت محصولات و ویرایش آن در سبد خرید
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> ProductsPriceCheck(List<int> ids)
+        {
+            var model = await TableNoTracking.Include(a => a.Product).Where(a => ids.Contains(a.Id)).ToListAsync();
+
+            model.ForEach(a =>
+            {
+                a.OrderPrice = a.Product.Price.ToString();
+                a.OrderPriceDiscount = a.Product.PriceWithDiscount.ToString();
+            });
+
+            await UpdateRangeAsync(model, false);
+
+            return await SaveAsync();
+        }
+
+        /// <summary>
+        /// ایجاد دوباره سبد خرید برای فاکتور
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> OverwriteShopProduct(List<int> ids)
+        {
+            var model = await TableNoTracking.Include(a => a.Product).Where(a => ids.Contains(a.Id)).ToListAsync();
+
+            foreach (var item in model)
+            {
+                await AddAsync(new ShopProduct()
+                {
+                    Count = item.Count,
+                    IsFactorSubmited = true,
+                    IsFinaly = false,
+                    OrderName = item.OrderName,
+                    OrderPrice = item.OrderPrice,
+                    OrderPriceDiscount = item.OrderPriceDiscount,
+                    ProductId = item.ProductId,
+                    UserId = item.UserId,
+                    RequestedDate = DateTime.Now,
+
+                }, false);
+            }
+
+            return await SaveAsync();
         }
     }
 

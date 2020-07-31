@@ -62,7 +62,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
 
             var orders = await _shopOrderRepository
-                .GetListAsync(a => a.UserId == UserId && !a.IsDeleted, o=>o.OrderByDescending(a=>a.SuccessDate));
+                .GetListAsync(a => a.UserId == UserId && !a.IsDeleted && !a.IsInvoice, o => o.OrderByDescending(a => a.SuccessDate));
 
 
             return View(orders.ToList());
@@ -71,9 +71,9 @@ namespace ElevatorNewUI.Controllers.Profile
 
         public async Task<IActionResult> OrderDetail(int id)
         {
-            var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id && a.IsFactorSubmited,null,"Product");
+            var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id && a.IsFactorSubmited, null, "Product");
 
-            var order = await _shopOrderRepository.GetByConditionAsync(a=>a.Id == id && !a.IsDeleted );
+            var order = await _shopOrderRepository.GetByConditionAsync(a => a.Id == id && !a.IsDeleted);
 
             if (order == null || model == null)
                 return NotFound();
@@ -133,7 +133,7 @@ namespace ElevatorNewUI.Controllers.Profile
             vm.Id = UserId;
             model.UserId = UserId;
 
-            await _userRepository.MapUpdateAsync(vm,vm.Id);
+            await _userRepository.MapUpdateAsync(vm, vm.Id);
             await _userAddressRepository.MapUpdateAsync(model, model.UserId);
 
             return RedirectToAction(nameof(Index));
@@ -166,7 +166,7 @@ namespace ElevatorNewUI.Controllers.Profile
             // اطلاعات کاربر
             ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == order.UserId);
             ViewBag.Order = order;
-            
+
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == order.UserId);
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
             ViewBag.SidebarActive = ProfileSidebarSSOT.Invoice;
@@ -177,6 +177,16 @@ namespace ElevatorNewUI.Controllers.Profile
             return View(model);
         }
 
+
+
+        public async Task<IActionResult> CreateFactor(int id)
+        {
+            var model = await _shopOrderRepository.GetByIdAsync(id);
+
+
+
+            return View();
+        }
 
         #endregion
 

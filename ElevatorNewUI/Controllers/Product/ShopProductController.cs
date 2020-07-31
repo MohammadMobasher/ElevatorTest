@@ -188,10 +188,9 @@ namespace ElevatorNewUI.Controllers
 
         public async Task<IActionResult> CreateInvoice(string Title)
         {
-            
             await _shopOrderRepository.AddFactor(UserId, Title);
            
-            return View();
+            return Redirect("/Profile/ListInvoice");
         }
 
         #endregion
