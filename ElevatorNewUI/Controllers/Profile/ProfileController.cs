@@ -156,6 +156,9 @@ namespace ElevatorNewUI.Controllers.Profile
 
         public async Task<IActionResult> InvoiceDetail(int id)
         {
+            //به روز رسانی قیمت کالا های داخل هر پیش فاکتور
+            await _shopProductRepository.ProductsPriceCheck(id);
+
             var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id, null, "Product");
 
             var order = await _shopOrderRepository.GetByConditionAsync(a => a.Id == id && !a.IsDeleted);
@@ -179,13 +182,11 @@ namespace ElevatorNewUI.Controllers.Profile
 
 
 
-        public async Task<IActionResult> CreateFactor(int id)
+        public async Task<IActionResult> CreateFactorFromInvoce(int id)
         {
-            var model = await _shopOrderRepository.GetByIdAsync(id);
+            var model = await _shopOrderRepository.OverWriteShopOrder(id);
 
-
-
-            return View();
+            return RedirectToAction("UserAddressFromInvoice", "ShopProduct", new { id = model });
         }
 
         #endregion

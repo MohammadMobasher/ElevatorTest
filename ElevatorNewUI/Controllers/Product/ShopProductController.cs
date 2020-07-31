@@ -200,6 +200,67 @@ namespace ElevatorNewUI.Controllers
 
         #region CheckOut
 
+
+        public async Task<IActionResult> UserAddressFromInvoice(int id)
+        {
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
+            ViewBag.OrderId = id;
+            ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UserAddressFromInvoice(UserAddress userAddress)
+        {
+            userAddress.UserId = UserId;
+            _userAddressRepository.Submit(userAddress);
+
+            await _shopOrderRepository.SetTariffForFactor(userAddress.ShopOrderId.Value);
+
+            return RedirectToAction(nameof(CheckoutFromInvoice),new { orderId = userAddress.ShopOrderId});
+        }
+
+        public async Task<IActionResult> CheckoutFromInvoice(int orderId)
+        {
+            var listOrders = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == orderId, null, "Product,ProductPackage");
+
+            ViewBag.Unit = await _productUnitRepository.GetListAsync();
+
+            ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
+
+            ViewBag.SumPrice = await _shopProductRepository.CalculateCartPriceFromInvice(orderId);
+
+            ViewBag.Tariff = _shopOrderRepository.CalculateTariffByOrderId(orderId) ?? 0;
+
+            ViewBag.OrderId = orderId;
+            return View(listOrders);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SendToBankFromInvoice(int orderId)
+        {
+            
+            var countPaymentFactor = await _shopOrderPaymentRepository.CreatePayment(orderId);
+
+            if (orderId != 0 && countPaymentFactor > 1)
+            {
+                return RedirectToAction("OrderDetail", "Profile", new { id = orderId });
+            }
+
+            else if (orderId != 0 && countPaymentFactor == 1)
+            {
+                var paymentId = await _shopOrderPaymentRepository.GetByConditionAsync(a => a.ShopOrderId == orderId
+                && !a.IsSuccess);
+
+                return await RequestByOrderPayment(paymentId.Id);
+            }
+            return RedirectToAction("Index");
+        }
+
+
+
+
         public async Task<IActionResult> UserAddress()
         {
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
@@ -216,6 +277,10 @@ namespace ElevatorNewUI.Controllers
 
             return Redirect(nameof(Checkout));
         }
+
+
+
+
 
         public async Task<IActionResult> Checkout()
         {

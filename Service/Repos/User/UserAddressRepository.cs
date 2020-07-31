@@ -25,14 +25,16 @@ namespace Service.Repos.User
         
         public bool Submit(UserAddress vm)
         {
-            if (!Check(vm.UserId))
-            {
+            //if (!Check(vm.UserId))
+            //{
+            vm.Id = 0;
+
                 Add(vm,false);
-            }
-            else
-            {
-                Update(vm, false);
-            }
+            //}
+            //else
+            //{
+            //    Update(vm, false);
+            //}
 
             return Save();
         }

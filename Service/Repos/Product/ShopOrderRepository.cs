@@ -133,8 +133,8 @@ namespace Service.Repos
                 // مشخص کردن اینکه این سبد محصولات مربوط به کدام فاکتور می باشد
                 await _shopProductRepository.ChangeStatus(list, model.Id);
 
-                
-                
+
+
                 return model.Id;
 
             }
@@ -179,7 +179,7 @@ namespace Service.Repos
 
         public async Task<Tuple<int, List<ShopOrder>>> OrderLoadAsync(ShopOrdersSearchViewModel vm, int page = 0, int pageSize = 10)
         {
-            var model = TableNoTracking.Where(a=>!a.IsDeleted);
+            var model = TableNoTracking.Where(a => !a.IsDeleted);
 
             model = model.WhereIf(vm.Id != null, a => a.Id == vm.Id);
             model = model.WhereIf(vm.Amount != null, a => a.Amount == vm.Amount);
@@ -235,6 +235,41 @@ namespace Service.Repos
             return tariff;
         }
 
+        public long? CalculateTariffByOrderId(int orderId)
+        {
+            var sqlQuery = $@"
+                DECLARE @UserInfo TABLE (productId int,UserArea int, Area int)
+                INSERT INTO @UserInfo(productId,UserArea, Area)
+                select distinct ShopProduct.ProductId , UserAddress.TehranAreasFrom , Warehouse.Region
+                from ShopProduct 
+                	JOIN WarehouseProductCheck on ShopProduct.ProductId = WarehouseProductCheck.ProductId
+                	JOIN Warehouse on WarehouseProductCheck.WarehouseId = Warehouse.Id
+					JOIN UserAddress ON ShopProduct.ShopOrderId = UserAddress.ShopOrderId
+                where ShopProduct.ShopOrderId = {orderId}
+                
+                DECLARE @OrderDetail TABLE (ProductSize BIGINT,Area int)
+                insert INTO @OrderDetail(ProductSize,Area)
+                select SUM(ProductSize),WareHouse.Area 
+                from @UserInfo as WareHouse
+                	JOIN Product on WareHouse.ProductId = Product.Id
+                Group By Area
+                
+                SELECT SUM(Maxtariff) AS Tariff
+                FROM (
+                	select MAX(tariff) as Maxtariff 
+                	from TransportationTariff
+                		JOIN @OrderDetail as Orders on TransportationTariff.TehranAreasFrom = Orders.Area
+                	Where TehranAreasTO = (select Top 1 UserArea from @UserInfo)
+                		AND Orders.ProductSize between  TransportationTariff.ProductSizeFrom
+                		AND TransportationTariff.ProductSizeTo
+                	group by tehranareasFrom,TehranAreasTO,ProductSize)t";
+
+            var tariff = _connection.Query<long?>(sqlQuery).FirstOrDefault();
+
+            return tariff;
+        }
+
+
         public async Task<SweetAlertExtenstion> DeleteOrder(int id)
         {
             var model = GetByCondition(a => a.Id == id);
@@ -249,7 +284,8 @@ namespace Service.Repos
 
             foreach (var item in productIds)
             {
-                items.Add(new WarehouseProductCheck {
+                items.Add(new WarehouseProductCheck
+                {
                     Count = item.Count,
                     Date = DateTime.Now,
                     ProductId = item.ProductId.Value,
@@ -282,32 +318,63 @@ namespace Service.Repos
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<SweetAlertExtenstion> OverWriteShopOrder(int id)
+        public async Task<int?> OverWriteShopOrder(int id)
         {
-            var model = await GetByIdAsync(id);
+            try
+            {
+                var model = await GetByIdAsync(id);
+
+                if (model == null) return null;
+
+                var entity = new ShopOrder()
+                {
+                    Amount = model.Amount,
+                    CreateDate = DateTime.Now,
+                    IsDeleted = false,
+                    IsSuccessed = false,
+                    DiscountCode = model.DiscountCode,
+                    IsInvoice = false,
+                    TransferProductPrice = model.TransferProductPrice,
+                    SuccessDate = null,
+                    Status = null,
+                    OrderId = null,
+                    Title = model.Title,
+                    PaymentAmount = model.PaymentAmount,
+                    UserId = model.UserId
+                };
+
+                await AddAsync(entity);
+
+                await _shopProductRepository.OverwriteShopProduct(id, entity.Id);
+
+                return entity.Id;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// محاسبه تعرفه و قیمت نهایی برای فاکتور
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> SetTariffForFactor(int orderId)
+        {
+            var model = await GetByIdAsync(orderId);
 
             if (model == null) return SweetAlertExtenstion.Error();
 
-            await AddAsync(new ShopOrder()
-            {
-                Amount = model.Amount,
-                CreateDate = DateTime.Now,
-                IsDeleted = false,
-                IsSuccessed = false,
-                DiscountCode = model.DiscountCode,
-                IsInvoice = false,
-                TransferProductPrice = model.TransferProductPrice,
-                SuccessDate = null,
-                Status = null,
-                OrderId = null,
-                Title = model.Title,
-                PaymentAmount = model.PaymentAmount,
-                UserId = model.UserId
-            }, false);
+            var tariff = CalculateTariffByOrderId(orderId) ?? 0;
 
-            return Save();
+            model.TransferProductPrice = tariff;
+            model.PaymentAmount = model.TransferProductPrice ?? 0 + model.Amount;
+
+            await UpdateAsync(model,false);
+
+            return await SaveAsync();
         }
 
-        //public async Task<SweetAlertExtenstion> Update
     }
 }

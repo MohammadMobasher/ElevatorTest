@@ -286,6 +286,31 @@ namespace Service.Repos
 
 
         /// <summary>
+        /// محاسبه قیمت سبد خرید بر اساس شناسه کاربر و محاسبه مستقیم از سبد خرید به فاکتور
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<long> CalculateCartPriceFromInvice(int orderId)
+        {
+            var model = await GetListAsync(a => a.ShopOrderId == orderId, null, "Product");
+
+            if (model == null) return 0;
+
+            var sum = default(long);
+
+            foreach (var item in model)
+            {
+                if (item.ProductId != null)
+                {
+                    sum += item.Product.PriceWithDiscount * item.Count;
+                }
+
+            }
+
+            return sum;
+        }
+
+        /// <summary>
         /// تغییر وضعیت سبد خرید 
         /// مشخص کردن فاکتور
         /// </summary>
@@ -358,9 +383,9 @@ namespace Service.Repos
         /// بررسی دوباره قیمت محصولات و ویرایش آن در سبد خرید
         /// </summary>
         /// <returns></returns>
-        public async Task<SweetAlertExtenstion> ProductsPriceCheck(List<int> ids)
+        public async Task<SweetAlertExtenstion> ProductsPriceCheck(int invoiceId)
         {
-            var model = await TableNoTracking.Include(a => a.Product).Where(a => ids.Contains(a.Id)).ToListAsync();
+            var model = await TableNoTracking.Include(a => a.Product).Where(a => a.ShopOrderId == invoiceId).ToListAsync();
 
             model.ForEach(a =>
             {
@@ -378,9 +403,9 @@ namespace Service.Repos
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<SweetAlertExtenstion> OverwriteShopProduct(List<int> ids)
+        public async Task<SweetAlertExtenstion> OverwriteShopProduct(int invoiceId, int orderId)
         {
-            var model = await TableNoTracking.Include(a => a.Product).Where(a => ids.Contains(a.Id)).ToListAsync();
+            var model = await TableNoTracking.Include(a => a.Product).Where(a => a.ShopOrderId == invoiceId).ToListAsync();
 
             foreach (var item in model)
             {
@@ -388,10 +413,11 @@ namespace Service.Repos
                 {
                     Count = item.Count,
                     IsFactorSubmited = true,
+                    ShopOrderId = orderId,
                     IsFinaly = false,
                     OrderName = item.OrderName,
-                    OrderPrice = item.OrderPrice,
-                    OrderPriceDiscount = item.OrderPriceDiscount,
+                    OrderPrice = item.Product.Price.ToString(),
+                    OrderPriceDiscount = item.Product.PriceWithDiscount.ToString(),
                     ProductId = item.ProductId,
                     UserId = item.UserId,
                     RequestedDate = DateTime.Now,
