@@ -28,6 +28,7 @@ using DataLayer.SSOT;
 using DNTPersianUtils.Core;
 using Service.Repos.Product;
 using DataLayer.ViewModels.ShopOrderStatus;
+using Service.Repos.TreeInfo;
 
 namespace ElevatorNewUI.Controllers
 {
@@ -42,7 +43,7 @@ namespace ElevatorNewUI.Controllers
         private readonly UserRepository _userRepository;
         private readonly ShopOrderStatusRepository _shopOrderStatusRepository;
         private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
-
+        private readonly TreeRepository _treeRepository;
         public ManageBankService(IConfiguration configuration
             , UsersPaymentRepository usersPaymentRepository
             , ShopProductRepository shopProductRepository
@@ -50,7 +51,8 @@ namespace ElevatorNewUI.Controllers
             , SmsRestClient smsRestClient
             , UserRepository userRepository
             , ShopOrderStatusRepository shopOrderStatusRepository
-            , ShopOrderPaymentRepository shopOrderPaymentRepository)
+            , ShopOrderPaymentRepository shopOrderPaymentRepository
+            , TreeRepository treeRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _usersPaymentRepository = usersPaymentRepository;
@@ -60,6 +62,7 @@ namespace ElevatorNewUI.Controllers
             _userRepository = userRepository;
             _shopOrderStatusRepository = shopOrderStatusRepository;
             _shopOrderPaymentRepository = shopOrderPaymentRepository;
+            _treeRepository = treeRepository;
         }
 
         ///// <summary>
@@ -322,6 +325,8 @@ namespace ElevatorNewUI.Controllers
 
                         // ارسال اس ام اس به مدیریت 
                         var ResultTest = $"{DateTime.Now.ToPersianDay()};{result.ShopOrderId}";
+
+                        await _treeRepository.CalculateRateTreeFromAmountAndInsert(result.PaymentAmount, model.UserId);
 
                         _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
                         _smsRestClient.SendByBaseNumber(ResultTest, "09351631398", (int)SmsBaseCodeSSOT.Result);
