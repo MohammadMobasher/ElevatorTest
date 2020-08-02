@@ -23,6 +23,8 @@
                             <a href="#" onclick="generatePDF('pdfMake')" class="print-link pull-left text-danger"><i class="fa fa-file-pdf-o fa-3x"></i></a>
 
                             <form asp-action="SendToBank" method="post" class="form-checkout" id="pdfMake">
+
+                                <input type="hidden" name="id" value="@ViewBag.FactorId"/>
                                 <h3 class="order-review-heading">سفارش  @User.Identity.FindFirstValue("FullName")</h3>
                                 <div class="checkout-review-order">
                                     <div>

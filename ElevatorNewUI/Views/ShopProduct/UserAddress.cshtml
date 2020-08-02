@@ -15,7 +15,7 @@
                         <div class="middle-container">
                             <form asp-action="UserAddress" method="post" class="form-checkout">
 
-                                @*<input type="hidden" name="ShopOrderId" value="@ViewBag.ShopOrderId"/>*@
+                                <input type="hidden" name="FactorId" value="@ViewBag.FactorId"/>
 
                                 <div class="col2-set" id="customer-details">
                                     <div class="col-12">
@@ -23,11 +23,11 @@
                                             <h4>جزئیات صورتحساب</h4>
                                             <div class="form-checkout-row">
 
-                                                <label for="address">
+                                                @*<label for="address">
                                                     عنوان فاکتور
                                                     <span class="optional"></span>
                                                 </label>
-                                                <input type="text" name="Title" class="form-control" placeholder="عنوان فاکتور را وارد کنید" />
+                                                <input type="text" name="Title" class="form-control" placeholder="عنوان فاکتور را وارد کنید" />*@
 
                                                 <div class="validate-required">
                                                     <label for="name">نام تحویل گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>

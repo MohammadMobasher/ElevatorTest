@@ -186,17 +186,21 @@ namespace ElevatorNewUI.Controllers
 
         #region پیش‌فاکتور
 
-        public async Task<IActionResult> CreateInvoice(string Title)
+        public async Task<IActionResult> CreateInvoice(string Title, bool IsInvoice)
         {
-            await _shopOrderRepository.AddFactor(UserId, Title);
-           
-            return Redirect("/Profile/ListInvoice");
+            var factorId = await _shopOrderRepository.AddFactor(UserId, Title, IsInvoice);
+
+            if (IsInvoice)
+            {
+                return Redirect("/Profile/ListInvoice");
+            }
+            return RedirectToAction("UserAddress", new { id = factorId });
         }
 
         #endregion
 
 
-       
+
 
         #region CheckOut
 
@@ -217,7 +221,7 @@ namespace ElevatorNewUI.Controllers
 
             await _shopOrderRepository.SetTariffForFactor(userAddress.ShopOrderId.Value);
 
-            return RedirectToAction(nameof(CheckoutFromInvoice),new { orderId = userAddress.ShopOrderId});
+            return RedirectToAction(nameof(CheckoutFromInvoice), new { orderId = userAddress.ShopOrderId });
         }
 
         public async Task<IActionResult> CheckoutFromInvoice(int orderId)
@@ -240,7 +244,7 @@ namespace ElevatorNewUI.Controllers
         [HttpPost]
         public async Task<IActionResult> SendToBankFromInvoice(int orderId)
         {
-            
+
             var countPaymentFactor = await _shopOrderPaymentRepository.CreatePayment(orderId);
 
             if (orderId != 0 && countPaymentFactor > 1)
@@ -261,28 +265,29 @@ namespace ElevatorNewUI.Controllers
 
 
 
-        public async Task<IActionResult> UserAddress()
+        public async Task<IActionResult> UserAddress(int id)
         {
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
             //ViewBag.ShopOrderId = id;
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
+            ViewBag.FactorId = id;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> UserAddress(UserAddress userAddress)
+        public async Task<IActionResult> UserAddress(UserAddress userAddress,int FactorId)
         {
             userAddress.UserId = UserId;
             _userAddressRepository.Submit(userAddress);
 
-            return Redirect(nameof(Checkout));
+            return RedirectToAction(nameof(Checkout),new {id =FactorId });
         }
 
 
 
 
 
-        public async Task<IActionResult> Checkout()
+        public async Task<IActionResult> Checkout(int id)
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId &&
                 !a.IsFinaly && !a.IsFactorSubmited, null, "Product,ProductPackage");
@@ -295,16 +300,18 @@ namespace ElevatorNewUI.Controllers
 
             ViewBag.Tariff = _shopOrderRepository.CalculateTariff(UserId) ?? 0;
 
+            ViewBag.FactorId = id;
+
             return View(listOrders);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendToBank()
+        public async Task<IActionResult> SendToBank(int id)
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
             && !a.IsFinaly && !a.IsFactorSubmited);
 
-            var orderId = await _shopOrderRepository.CreatePaymentFactor(listOrders.ToList(), UserId);
+            var orderId = await _shopOrderRepository.UpdatePaymentFactor(id, listOrders);
 
             var countPaymentFactor = await _shopOrderPaymentRepository.CreatePayment(orderId);
 
@@ -489,7 +496,7 @@ namespace ElevatorNewUI.Controllers
                 // ادرس بازگشت از درگاه
                 var ReturnUrl = string.Format(_bankConfig.SecondReturnUrl);
                 //_logRepository.Add(new Log() { Text = "2.8" + _bankConfig.PurchasePage });
-                
+
                 // ادرس وب سرویس درگاه
                 var ipgUri = string.Format("{0}/api/v0/Request/PaymentRequest", _bankConfig.PurchasePage);
                 //_logRepository.Add(new Log() { Text = "2.9" + _bankConfig.PurchasePage });
