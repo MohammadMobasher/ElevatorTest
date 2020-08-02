@@ -27,7 +27,7 @@ namespace Service
             services.AddSingleton<IDbConnection>(
        _ => new SqlConnection(configuration.GetConnectionString("MyConnection")));
 
-            services.AddSingleton<IHostedService, DeleteOrderService>();
+            //services.AddSingleton<IHostedService, DeleteOrderService>();
 
 
             services.Scan(scan =>
