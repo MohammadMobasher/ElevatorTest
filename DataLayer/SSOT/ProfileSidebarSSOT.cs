@@ -18,6 +18,8 @@ namespace DataLayer.SSOT
         /// <summary>
         /// پیش فاکتور
         /// </summary>
-        Invoice
+        Invoice,
+
+        Tree,
     }
 }

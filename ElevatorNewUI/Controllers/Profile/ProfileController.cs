@@ -8,6 +8,7 @@ using Elevator.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using Service.Repos.Product;
+using Service.Repos.TreeInfo;
 using Service.Repos.User;
 
 namespace ElevatorNewUI.Controllers.Profile
@@ -19,6 +20,7 @@ namespace ElevatorNewUI.Controllers.Profile
         private readonly ShopProductRepository _shopProductRepository;
         private readonly UserAddressRepository _userAddressRepository;
         private readonly ProductUnitRepository _productUnitRepository;
+        private readonly TreeRepository _treeRepository;
         private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
 
         public ProfileController(UserRepository userRepository
@@ -26,6 +28,7 @@ namespace ElevatorNewUI.Controllers.Profile
             , ShopProductRepository shopProductRepository
             , UserAddressRepository userAddressRepository
             , ProductUnitRepository productUnitRepository
+            , TreeRepository treeRepository
             , ShopOrderPaymentRepository shopOrderPaymentRepository)
         {
             _userRepository = userRepository;
@@ -33,6 +36,7 @@ namespace ElevatorNewUI.Controllers.Profile
             _shopProductRepository = shopProductRepository;
             _userAddressRepository = userAddressRepository;
             _productUnitRepository = productUnitRepository;
+            _treeRepository = treeRepository;
             _shopOrderPaymentRepository = shopOrderPaymentRepository;
         }
 
@@ -51,9 +55,6 @@ namespace ElevatorNewUI.Controllers.Profile
             return View();
         }
 
-
-
-
         public async Task<IActionResult> Orders()
         {
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
@@ -67,7 +68,6 @@ namespace ElevatorNewUI.Controllers.Profile
 
             return View(orders.ToList());
         }
-
 
         public async Task<IActionResult> OrderDetail(int id)
         {
@@ -190,6 +190,15 @@ namespace ElevatorNewUI.Controllers.Profile
         }
 
         #endregion
+
+
+        public async Task<IActionResult> ListTree()
+        {
+            ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
+            ViewBag.SidebarActive = ProfileSidebarSSOT.Tree;
+            var model = await _treeRepository.GetListAsync();
+            return View(model);
+        }
 
     }
 }

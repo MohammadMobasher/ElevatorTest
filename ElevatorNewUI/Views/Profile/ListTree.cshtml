@@ -1,0 +1,81 @@
+﻿@model List<DataLayer.Entities.TreeInfo.Tree>
+
+
+
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+
+                    <partial name="_SidebarProfile" model="@ViewBag.Model">
+
+                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                        <div class="profile-content">
+                            <div class="profile-stats">
+                                <div class="table-orders">
+                                    <table class="table table-profile-orders">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" width="20" class="text-center">ردیف</th>
+                                                <th scope="col" class="text-center">شماره درخت</th>
+                                                <th scope="col" class="text-center">آدرس</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{ var raw = 1;}
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td scope="col" class="text-center">@(raw++)</td>
+                                                    <td scope="col">@item.TreeNumber</td>
+                                                    <td scope="col"  class="text-center">@item.Address</td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <div class="profile-orders">
+                                        <div class="collapse">
+                                            <div class="profile-orders-item">
+                                                @foreach (var item in Model)
+                                                {
+                                                    <div class="profile-orders-header">
+                                                        <a href="/Profile/OrderDetail/@item.Id" class="profile-orders-header-details">
+                                                            <div class="profile-orders-header-summary">
+                                                                <div class="profile-orders-header-row">
+                                                                    <span class="profile-orders-header-id">OrderId</span>
+                                                                    <span class="profile-orders-header-state text-success">sjdlbfjskdf</span>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <!-- <hr class="ui-separator"> -->
+                                                        <div class="profile-orders-header-data">
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-label">تاریخ ثبت سفارش</div>
+                                                                <div class="profile-info-value">OrderId</div>
+                                                            </div>
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-label">مبلغ کل</div>
+                                                                <div class="profile-info-value">
+                                                                    <span class="amount">
+                                                                        OrderId
+                                                                        <span>تومان</span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

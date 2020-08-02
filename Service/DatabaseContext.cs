@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using DataLayer.Entities.Features;
 using DataLayer.Entities.Bank;
 using DataLayer.Entities.Transportation;
+using DataLayer.Entities.TreeInfo;
 
 namespace Service
 {
@@ -29,6 +30,8 @@ namespace Service
         #region Tables
 
         public DbSet<Log> Log { get; set; }
+        public DbSet<Tree> Tree { get; set; }
+        public DbSet<UserTreeReminded> UserTreeReminded { get; set; }
         public DbSet<ShopOrderPayment> ShopOrderPayment { get; set; }
         public DbSet<CarTransport> CarTransport { get; set; }
         public DbSet<TransportationTariff> TransportationTariff { get; set; }

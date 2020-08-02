@@ -18,5 +18,10 @@ namespace DataLayer.Entities
         public string WhatsAppURL { get; set; }
         public string InstaURL { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public long? TreeRate { get; set; }
+
     }
 }

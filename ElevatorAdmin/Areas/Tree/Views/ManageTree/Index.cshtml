@@ -1,0 +1,101 @@
+﻿@model List<DataLayer.DTO.TreeInfo.TreeDTO>
+
+@{
+    ViewData["Title"] = "لیست درخت‌ها ";
+}
+
+
+
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 btn-table">
+
+
+
+    <span class="hidden" data-role-table-btn-area-access="">
+
+        <TableBotton area="Tree" controller="ManageTree" action="Update"
+                     isModal="true"
+                     modalTitle="ثبت درخت"
+                     title="ویرایش"
+                     icon="fa-tree"
+                     buttonClass="btn-primary"></TableBotton>
+
+    </span>
+
+
+
+</div>
+
+
+<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+
+    <table class="table-first table-condensed table table-responsive tableWrap table-striped rounded table-hover table-bordered ">
+        <thead>
+            <tr>
+                <th width="3%"></th>
+                <th width="8%">
+                    ردیف
+                </th>
+                <th>نام و نام‌خانوادگی</th>
+                <th>شماره درخت</th>
+                @*<th width="10%">اقدامات</th>*@
+            </tr>
+            <tr>
+                <form method="get" name="searchForm">
+                    <th>
+                        ---
+                        @*<input  type="checkbox" data-toggle="tooltip" title="انتخاب همه" data-role="confirm">*@
+
+                    </th>
+                    <th>
+                        
+                        ---
+                        
+
+                        @*<input type="text" value="@ViewBag.SearchModel.Id" name="Id" class="form-control searchInput" />*@
+                    </th>
+                    <th>
+                        <input type="text" value="@ViewBag.SearchModel.NameFamily" name="NameFamily" class="form-control searchInput" />
+                    </th>
+                    <th><input type="text" value="@ViewBag.SearchModel.TreeNumber" name="Address" class="form-control searchInput" /></th>
+
+                    <input type="submit" class="form-control hidden btn btn-success btn-block searchBtn" value="جستجو" />
+                </form>
+            </tr>
+        </thead>
+    </table>
+    <div class="bodycontainer scrollable ">
+        <table class="table-second table table-hover table-striped table-condensed table-bordered table-scrollable">
+            <tbody>
+
+
+
+                @{var index = 1;}
+                @if (Model != null)
+                {
+
+                    @foreach (DataLayer.DTO.TreeInfo.TreeDTO item in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" data-role-table-checkbox="@item.Id"></td>
+                            <td>@(index++)</td>
+                            <td>@item.User.FirstName @item.User.LastName</td>
+                            <td>@item.TreeNumber</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <table class="table table-hover table-striped">
+        <tfoot>
+            @Html.Partial("~/Views/Shared/_Pagination.cshtml")
+        </tfoot>
+    </table>
+
+
+</div>
+
+
+
