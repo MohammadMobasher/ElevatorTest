@@ -64,6 +64,10 @@
                                 <div class="profile-stats">
                                     <div class="table-orders" id="pdfMake">
 
+                                        <div class="p-3 text-center">
+                                            <a href="http://liftbazar.ir/">فروشگاه اینترنتی آسانسور و لوازم جانبی لیفت بازار</a>
+                                        </div>
+
                                         <!--اطلاعات کاربر-->
                                         <table class="text-center Mtable table table-profile-orders table-bordered">
                                             <thead>
@@ -200,7 +204,7 @@
                                                 }
                                                 <tr>
                                                     <td colspan="2">کرایه :</td>
-                                                    <td colspan="6">@(((long?)ViewBag.TransferAmount??0).ToPersianPrice()) تومان</td>
+                                                    <td colspan="6">@(((long?)ViewBag.TransferAmount ?? 0).ToPersianPrice()) تومان</td>
                                                 </tr>
 
                                                 <tr>

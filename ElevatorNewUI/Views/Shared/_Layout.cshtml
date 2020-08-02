@@ -78,7 +78,7 @@
                                                                 <option value="-1">همه دسته ها</option>
                                                                 @foreach (var item in await _productGroupRepository.GetParentsAsync())
                                                                 {
-                                                                    if (vm != null)
+                                                                    @*if (vm != null)
                                                                     {
                                                                         if (vm.Group == item.Id)
                                                                         {
@@ -90,9 +90,9 @@
                                                                         }
                                                                     }
                                                                     else
-                                                                    {
+                                                                    {*@
                                                                         <option value="@item.Id">@item.Title</option>
-                                                                    }
+                                                                    @*}*@
                                                                 }
                                                             </select>
                                                         </div>
