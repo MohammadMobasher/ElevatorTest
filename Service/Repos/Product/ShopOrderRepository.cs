@@ -84,7 +84,7 @@ namespace Service.Repos
 
         public async Task<List<ShopOrder>> ListInvoice(int userId)
         {
-            return await Entities.Where(x => x.IsInvoice == true).ToListAsync();
+            return await Entities.Where(x => x.IsInvoice == true && x.UserId == userId).ToListAsync();
         }
 
 
@@ -101,6 +101,10 @@ namespace Service.Repos
             };
 
             await AddAsync(model);
+
+            var list = await DbContext.ShopProduct.Where(x=> x.UserId == userId && !x.IsFinaly && !x.IsFactorSubmited).ToListAsync();
+            // مشخص کردن اینکه این سبد محصولات مربوط به کدام فاکتور می باشد
+            await _shopProductRepository.ChangeStatus(list, model.Id);
 
             // در جدول مربوط به آدرس
             // شماره فاکتور را قرار میدهیم تا بعد بتوانیم از آن استفاده کنیم
@@ -122,6 +126,8 @@ namespace Service.Repos
                     TransferProductPrice = tariff,
 
                 };
+
+                
 
                 model.PaymentAmount = model.Amount + tariff;
 
