@@ -34,7 +34,7 @@
                                             {
                                                 <tr>
                                                     <td class="order-code">@(raw++)</td>
-                                                    <td>@(addresses.SingleOrDefault(x=> x.ShopOrderId == item.Id)?.Title)</td>
+                                                    <td>@item.Title</td>
                                                     <td>@item.SuccessDate.ToPersianDateTextify()</td>
                                                     <td class="Waiting @(item.IsSuccessed ? "text-success" :"text-danger")">@(item.IsSuccessed?"پرداخت شده":"ناموفق")</td>
                                                     <td>
