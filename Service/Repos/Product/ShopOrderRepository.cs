@@ -88,7 +88,7 @@ namespace Service.Repos
         }
 
 
-        public async Task AddFactor(int userId, string title)
+        public async Task<int> AddFactor(int userId, string title,bool IsInvoice)
         {
             var model = new ShopOrder()
             {
@@ -97,7 +97,7 @@ namespace Service.Repos
                 IsSuccessed = false,
                 UserId = userId,
                 Title = title,
-                IsInvoice = true
+                IsInvoice = IsInvoice
             };
 
             await AddAsync(model);
@@ -109,6 +109,37 @@ namespace Service.Repos
             // در جدول مربوط به آدرس
             // شماره فاکتور را قرار میدهیم تا بعد بتوانیم از آن استفاده کنیم
             await _userAddressRepository.UpdateShopOrderId(model.Id, userId);
+
+            return model.Id;
+        }
+
+
+        public async Task<int> UpdatePaymentFactor(int factorId,IEnumerable<ShopProduct> shopProducts)
+        {
+            try
+            {
+                var model = await GetByIdAsync(factorId);
+
+                var tariff = CalculateTariff(model.UserId) ?? 0;
+             
+                model.Amount = await _shopProductRepository.CalculateCartPriceNumber(model.UserId);
+                model.PaymentAmount = model.Amount + tariff;
+                
+
+                await UpdateAsync(model);
+                // در جدول مربوط به آدرس
+                // شماره فاکتور را قرار میدهیم تا بعد بتوانیم از آن استفاده کنیم
+                await _userAddressRepository.UpdateShopOrderId(model.Id, model.UserId);
+
+                await _shopProductRepository.ChangeStatus(shopProducts.ToList(),model.Id);
+
+                return model.Id;
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
 
@@ -149,6 +180,8 @@ namespace Service.Repos
                 throw new Exception(e.Message);
             }
         }
+
+
 
 
         /// <summary>

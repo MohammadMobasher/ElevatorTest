@@ -327,6 +327,24 @@ namespace Service.Repos
         }
 
         /// <summary>
+        /// تغییر وضعیت سبد خرید 
+        /// مشخص کردن فاکتور
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<bool> ChangeStatus(int orderId)
+        {
+            var model = await TableNoTracking.Where(a => a.ShopOrderId == orderId).ToListAsync();
+
+            model.ForEach(a => { a.IsFactorSubmited = true; });
+
+            await UpdateRangeAsync(model, false);
+
+            return Save();
+        }
+
+        /// <summary>
         /// زمانی که خرید با موفقیت انجام شد ما در دیتا بیس مشخص میکنیم
         /// و دیگر محصولات ثبت شده را نمایش نمی دهیم
         /// </summary>
