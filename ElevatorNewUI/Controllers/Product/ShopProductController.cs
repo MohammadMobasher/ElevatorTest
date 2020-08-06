@@ -280,6 +280,8 @@ namespace ElevatorNewUI.Controllers
             userAddress.UserId = UserId;
             _userAddressRepository.Submit(userAddress);
 
+            await _shopOrderRepository.SetTariffForFactor(FactorId);
+
             return RedirectToAction(nameof(Checkout),new {id =FactorId });
         }
 
@@ -289,14 +291,14 @@ namespace ElevatorNewUI.Controllers
 
         public async Task<IActionResult> Checkout(int id)
         {
-            var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId &&
-                !a.IsFinaly && !a.IsFactorSubmited, null, "Product,ProductPackage");
+            var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId && a.ShopOrderId == id
+            , null, "Product,ProductPackage");
 
             ViewBag.Unit = await _productUnitRepository.GetListAsync();
 
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
 
-            ViewBag.SumPrice = await _shopProductRepository.CalculateCartPriceNumber(UserId);
+            ViewBag.SumPrice = await _shopProductRepository.CalculateCartPriceNumber(UserId,id);
 
             ViewBag.Tariff = _shopOrderRepository.CalculateTariff(UserId) ?? 0;
 

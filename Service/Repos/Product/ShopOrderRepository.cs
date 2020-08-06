@@ -97,7 +97,8 @@ namespace Service.Repos
                 IsSuccessed = false,
                 UserId = userId,
                 Title = title,
-                IsInvoice = IsInvoice
+                IsInvoice = IsInvoice,
+                PaymentAmount = await _shopProductRepository.CalculateCartPriceNumber(userId)
             };
 
             await AddAsync(model);
@@ -408,7 +409,7 @@ namespace Service.Repos
             var tariff = CalculateTariffByOrderId(orderId) ?? 0;
 
             model.TransferProductPrice = tariff;
-            model.PaymentAmount = model.TransferProductPrice ?? 0 + model.Amount;
+            model.PaymentAmount = (model.TransferProductPrice ?? 0) + model.Amount;
 
             await UpdateAsync(model,false);
 
