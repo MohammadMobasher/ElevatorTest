@@ -19,7 +19,7 @@
                                             <tr>
                                                 <th scope="col" width="20" class="text-center">ردیف</th>
                                                 <th scope="col" >عنوان</th>
-                                                <th scope="col" width="100" class="text-center">جزئیات</th>
+                                                <th scope="col" width="200" class="text-center">جزئیات</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -30,7 +30,10 @@
                                                     <td scope="col" class="text-center">@(raw++)</td>
                                                     <td scope="col">@item.Title</td>
                                                     
-                                                    <td scope="col"  class="text-center"><a href="/Profile/InvoiceDetail/@item.Id" class="btn btn-secondary d-block">نمایش</a></td>
+                                                    <td scope="col" class="text-center">
+                                                        <a href="/Profile/InvoiceDetail/@item.Id" class="btn btn-secondary ">نمایش</a>
+                                                        <a href="/Profile/InvoiceDelete/@item.Id" class="btn btn-danger ">حذف</a>
+                                                    </td>
                                                 </tr>
 
                                             }

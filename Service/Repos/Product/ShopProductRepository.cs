@@ -244,6 +244,18 @@ namespace Service.Repos
             return sum.ToPersianPrice();
         }
 
+        /// <summary>
+        /// حذف بر اساس شماره فاکتور
+        /// </summary>
+        /// <param name="id">شماره فاکتور</param>
+        /// <returns></returns>
+        public async Task DeleteByShopOrderId(int id)
+        {
+            var entity = await Entities.Where(x => x.ShopOrderId == id).ToListAsync();
+            DbContext.RemoveRange(entity);
+            await DbContext.SaveChangesAsync();
+        }
+
 
 
 

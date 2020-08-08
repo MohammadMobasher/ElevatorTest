@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Utilities;
 using DataLayer.SSOT;
 using DataLayer.ViewModels.User;
 using Elevator.Controllers;
@@ -187,6 +188,18 @@ namespace ElevatorNewUI.Controllers.Profile
             var model = await _shopOrderRepository.OverWriteShopOrder(id);
 
             return RedirectToAction("UserAddressFromInvoice", "ShopProduct", new { id = model });
+        }
+
+        #endregion
+
+
+        #region حذف یک پیش فاکتور
+
+        public async Task<IActionResult> InvoiceDelete(int id)
+        {
+            TempData.AddResult(await _shopOrderRepository.DeleteInvoice(id));
+
+            return RedirectToAction("Index");
         }
 
         #endregion
