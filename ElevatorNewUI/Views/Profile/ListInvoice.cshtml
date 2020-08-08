@@ -19,7 +19,7 @@
                                             <tr>
                                                 <th scope="col" width="20" class="text-center">ردیف</th>
                                                 <th scope="col" >عنوان</th>
-                                                <th scope="col" width="100" class="text-center">جزئیات</th>
+                                                <th scope="col" width="200" class="text-center">جزئیات</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -30,7 +30,10 @@
                                                     <td scope="col" class="text-center">@(raw++)</td>
                                                     <td scope="col">@item.Title</td>
                                                     
-                                                    <td scope="col"  class="text-center"><a href="/Profile/InvoiceDetail/@item.Id" class="btn btn-secondary d-block">نمایش</a></td>
+                                                    <td scope="col" class="text-center">
+                                                        <a href="/Profile/InvoiceDetail/@item.Id" class="btn btn-secondary ">نمایش</a>
+                                                        <a href="/Profile/InvoiceDelete/@item.Id" class="btn btn-danger ">حذف</a>
+                                                    </td>
                                                 </tr>
 
                                             }
@@ -46,25 +49,17 @@
                                                             <div class="profile-orders-header-summary">
                                                                 <div class="profile-orders-header-row">
                                                                     <span class="profile-orders-header-id">@item.OrderId</span>
-                                                                    <span class="profile-orders-header-state text-success">@(item.IsSuccessed ? "پرداخت شده" : "ناموفق")</span>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </a>
                                                         <!-- <hr class="ui-separator"> -->
                                                         <div class="profile-orders-header-data">
                                                             <div class="profile-info-row">
-                                                                <div class="profile-info-label">تاریخ ثبت سفارش</div>
-                                                                <div class="profile-info-value">@item.CreateDate.ToPersianDateTextify()</div>
+                                                                <div class="profile-info-label">عنوان</div>
+                                                                <div class="profile-info-value">@item.Title</div>
                                                             </div>
-                                                            <div class="profile-info-row">
-                                                                <div class="profile-info-label">مبلغ کل</div>
-                                                                <div class="profile-info-value">
-                                                                    <span class="amount">
-                                                                        @item.Amount.ToPersianPrice()
-                                                                        <span>تومان</span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
+                                                            
                                                         </div>
                                                     </div>
                                                 }

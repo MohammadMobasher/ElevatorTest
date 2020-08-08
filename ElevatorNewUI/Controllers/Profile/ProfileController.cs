@@ -202,6 +202,18 @@ namespace ElevatorNewUI.Controllers.Profile
         #endregion
 
 
+        #region حذف یک پیش فاکتور
+
+        public async Task<IActionResult> InvoiceDelete(int id)
+        {
+            TempData.AddResult(await _shopOrderRepository.DeleteInvoice(id));
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+
         public async Task<IActionResult> ListTree()
         {
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);

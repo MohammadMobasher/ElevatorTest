@@ -198,6 +198,30 @@ namespace Service.Repos
         }
 
         /// <summary>
+        /// حذف یک پیش فاکتور با مخلفاتش
+        /// </summary>
+        /// <param name="id">شماره پیش فاکتور</param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> DeleteInvoice(int id)
+        {
+            try
+            {
+                var entity = await Entities.SingleOrDefaultAsync(x => x.Id == id);
+
+                await _shopProductRepository.DeleteByShopOrderId(id);
+
+                DbContext.Remove(entity);
+                await DbContext.SaveChangesAsync();
+                return SweetAlertExtenstion.Ok();
+            }
+            catch (Exception e)
+            {
+                return SweetAlertExtenstion.Error();
+            }
+
+        }
+
+        /// <summary>
         /// زمانی که خرید با موفقیت انجام شد ما در دیتا بیس ثبت میکنیم
         /// </summary>
         /// <param name="id"></param>
