@@ -278,6 +278,7 @@ namespace ElevatorNewUI.Controllers
         public async Task<IActionResult> UserAddress(UserAddress userAddress,int FactorId)
         {
             userAddress.UserId = UserId;
+            userAddress.ShopOrderId = FactorId;
             _userAddressRepository.Submit(userAddress);
 
             await _shopOrderRepository.SetTariffForFactor(FactorId);
@@ -300,7 +301,7 @@ namespace ElevatorNewUI.Controllers
 
             ViewBag.SumPrice = await _shopProductRepository.CalculateCartPriceNumber(UserId,id);
 
-            ViewBag.Tariff = _shopOrderRepository.CalculateTariff(UserId) ?? 0;
+            ViewBag.Tariff = _shopOrderRepository.CalculateTariffByOrderId(id) ?? 0;
 
             ViewBag.FactorId = id;
 

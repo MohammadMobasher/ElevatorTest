@@ -121,9 +121,9 @@ namespace Service.Repos
             {
                 var model = await GetByIdAsync(factorId);
 
-                var tariff = CalculateTariff(model.UserId) ?? 0;
+                var tariff = CalculateTariffByOrderId(factorId) ?? 0;
              
-                model.Amount = await _shopProductRepository.CalculateCartPriceNumber(model.UserId);
+                model.Amount = await _shopProductRepository.CalculateCartPriceNumber(model.UserId,factorId);
                 model.PaymentAmount = model.Amount + tariff;
                 
 
