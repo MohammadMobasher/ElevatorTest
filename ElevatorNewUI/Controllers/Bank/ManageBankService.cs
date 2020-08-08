@@ -29,6 +29,7 @@ using DNTPersianUtils.Core;
 using Service.Repos.Product;
 using DataLayer.ViewModels.ShopOrderStatus;
 using Service.Repos.TreeInfo;
+using DataLayer.Entities;
 
 namespace ElevatorNewUI.Controllers
 {
@@ -44,6 +45,8 @@ namespace ElevatorNewUI.Controllers
         private readonly ShopOrderStatusRepository _shopOrderStatusRepository;
         private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
         private readonly TreeRepository _treeRepository;
+        private readonly LogRepository _logRepository;
+
         public ManageBankService(IConfiguration configuration
             , UsersPaymentRepository usersPaymentRepository
             , ShopProductRepository shopProductRepository
@@ -52,7 +55,8 @@ namespace ElevatorNewUI.Controllers
             , UserRepository userRepository
             , ShopOrderStatusRepository shopOrderStatusRepository
             , ShopOrderPaymentRepository shopOrderPaymentRepository
-            , TreeRepository treeRepository)
+            , TreeRepository treeRepository
+            , LogRepository logRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _usersPaymentRepository = usersPaymentRepository;
@@ -63,6 +67,7 @@ namespace ElevatorNewUI.Controllers
             _shopOrderStatusRepository = shopOrderStatusRepository;
             _shopOrderPaymentRepository = shopOrderPaymentRepository;
             _treeRepository = treeRepository;
+            _logRepository = logRepository;
         }
 
         ///// <summary>
@@ -211,7 +216,7 @@ namespace ElevatorNewUI.Controllers
                             Date = DateTime.Now,
                             ShopOrderId = model.ShopOrderId.Value,
                             Status = ShopOrderStatusSSOT.Ordered
-                        }); 
+                        });
 
                         // ارسال اس ام اس به کاربر جهت ثبت سفارش
                         var text = $"{model.OrderId};{DateTime.Now.ToPersianDay()}";
@@ -256,9 +261,9 @@ namespace ElevatorNewUI.Controllers
                 // گرفتن اطلاعات فاکتور بر اساس شناسه خرید و شناسه گاربری
                 var model = _usersPaymentRepository.GetByCondition(a => a.OrderId == vm.OrderId && a.Token == vm.Token);
 
-                var result =await _shopOrderPaymentRepository.GetByConditionAsync(a => a.OrderId == vm.OrderId);
+                var result = await _shopOrderPaymentRepository.GetByConditionAsync(a => a.OrderId == vm.OrderId);
 
-                if(result == null)
+                if (result == null)
                 {
                     TempData.AddResult(SweetAlertExtenstion.Error("متاسفانه اطلاعاتی با این شناسه خرید یافت نشد اگر هزینه ای از شما کسر شد طی 72 ساعت آینده به حسابتان واریز می شود"));
                     return Redirect("/");
@@ -326,12 +331,16 @@ namespace ElevatorNewUI.Controllers
                         // ارسال اس ام اس به مدیریت 
                         var ResultTest = $"{DateTime.Now.ToPersianDay()};{result.ShopOrderId}";
 
+
+                        var sms1Result = _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
+                        var sms2Result = _smsRestClient.SendByBaseNumber(ResultTest, "09351631398", (int)SmsBaseCodeSSOT.Result);
+                        var sms3Result = _smsRestClient.SendByBaseNumber(ResultTest, "09104996615", (int)SmsBaseCodeSSOT.Result);
+
+                        _logRepository.Add(new Log() { Text = $"sms1Result+>{sms1Result.RetStatus}-{sms1Result.Value}-{sms1Result.StrRetStatus}" });
+                        _logRepository.Add(new Log() { Text = $"sms2Result+>{sms2Result.RetStatus}-{sms2Result.Value}-{sms2Result.StrRetStatus}" });
+                        _logRepository.Add(new Log() { Text = $"sms3Result+>{sms3Result.RetStatus}-{sms3Result.Value}-{sms3Result.StrRetStatus}" });
+
                         await _treeRepository.CalculateRateTreeFromAmountAndInsert(result.PaymentAmount, model.UserId);
-
-                        _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
-                        _smsRestClient.SendByBaseNumber(ResultTest, "09351631398", (int)SmsBaseCodeSSOT.Result);
-                        _smsRestClient.SendByBaseNumber(ResultTest, "09104996615", (int)SmsBaseCodeSSOT.Result);
-
                         return RedirectToAction("Result", "UserOrder", new { orderId = res.Result.OrderId, shopOrderId = result.ShopOrderId });
                     }
 
@@ -373,6 +382,6 @@ namespace ElevatorNewUI.Controllers
         }
 
 
-      
+
     }
 }

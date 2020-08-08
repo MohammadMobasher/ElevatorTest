@@ -463,6 +463,12 @@ namespace Service.Repos
 
             await UpdateRangeAsync(model, false);
 
+            var entity = await DbContext.ShopOrder.SingleOrDefaultAsync(x => x.Id == invoiceId);
+            //entity.Amount = model.Sum(x =>  Convert.ToInt64(x.OrderPriceDiscount));
+            entity.Amount = await CalculateCartPriceNumber(entity.UserId, invoiceId);
+            entity.PaymentAmount = entity.Amount;
+            await DbContext.SaveChangesAsync();
+
             return await SaveAsync();
         }
 

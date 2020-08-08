@@ -14,6 +14,8 @@ using Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using DNTPersianUtils.Core;
+using DataLayer.SSOT;
 
 namespace ElevatorNewUI.Controllers
 {
@@ -24,14 +26,16 @@ namespace ElevatorNewUI.Controllers
         private readonly NewsGroupRepository _newsGroupRepository;
         private readonly ProductRepostitory productRepostitory;
         private readonly IConfiguration configuration;
+        private readonly SmsRestClient _smsRestClient;
         public HomeController(SlideShowRepository slideShowRepository,
             NewsGroupRepository newsGroupRepository,
-            ProductRepostitory productRepostitory, IConfiguration configuration)
+            ProductRepostitory productRepostitory, IConfiguration configuration, SmsRestClient smsRestClient)
         {
             _slideShowRepository = slideShowRepository;
             _newsGroupRepository = newsGroupRepository;
             this.productRepostitory = productRepostitory;
             this.configuration = configuration;
+            _smsRestClient = smsRestClient;
         }
 
 
@@ -93,5 +97,12 @@ namespace ElevatorNewUI.Controllers
             return View();
         }
 
+        public IActionResult TestSms()
+        {
+            var ResultTest = $"{DateTime.Now.ToPersianDay()};{100000088}";
+
+            var trst= _smsRestClient.SendByBaseNumber(ResultTest, "09034537712", (int)SmsBaseCodeSSOT.Result);
+            return Json(trst);
+        }
     }
 }
