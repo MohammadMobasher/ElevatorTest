@@ -416,5 +416,25 @@ namespace Service.Repos
             return await SaveAsync();
         }
 
+
+        /// <summary>
+        /// محاسبه دوباره قیمت قبل از به ثبت نهایی رسیدن
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> ReloadPrice(int orderId)
+        {
+            var model = GetById(orderId);
+
+            if (model == null) return SweetAlertExtenstion.Error("اطلاعاتی با این شناسه یافت نشد");
+
+            model.Amount =await  _shopProductRepository.CalculateCartPriceNumber(model.UserId, orderId);
+            model.TransferProductPrice = CalculateTariffByOrderId(orderId);
+            model.PaymentAmount = model.Amount + (model.TransferProductPrice ?? 0);
+
+            await UpdateAsync(model, false);
+
+            return Save();
+        }
     }
 }

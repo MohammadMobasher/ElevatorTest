@@ -441,7 +441,7 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<SweetAlertExtenstion> ProductsPriceCheck(int invoiceId)
         {
-            var model = await TableNoTracking.Include(a => a.Product).Where(a => a.ShopOrderId == invoiceId).ToListAsync();
+            var model = await TableNoTracking.Include(a => a.Product).Where(a => a.ShopOrderId == invoiceId ).ToListAsync();
 
             model.ForEach(a =>
             {

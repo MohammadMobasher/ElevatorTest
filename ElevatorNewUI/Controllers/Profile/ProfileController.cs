@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Utilities;
 using DataLayer.SSOT;
 using DataLayer.ViewModels.User;
 using Elevator.Controllers;
@@ -71,6 +72,15 @@ namespace ElevatorNewUI.Controllers.Profile
 
         public async Task<IActionResult> OrderDetail(int id)
         {
+            var reloadPrice = await _shopOrderRepository.ReloadPrice(id);
+
+            if (!reloadPrice.Succeed)
+            {
+                TempData.AddResult(reloadPrice);
+
+                return RedirectToAction(nameof(Orders));
+            }
+
             var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id && a.IsFactorSubmited, null, "Product");
 
             var order = await _shopOrderRepository.GetByConditionAsync(a => a.Id == id && !a.IsDeleted);
