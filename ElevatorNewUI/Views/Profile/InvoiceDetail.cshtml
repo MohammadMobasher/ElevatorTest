@@ -128,8 +128,8 @@
                                                         <td>@(item.OrderName ?? item.Product.Title) </td>
                                                         <td>@item.Count </td>
                                                         <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
-                                                        <td>@(item.OrderPrice ?? item.Product.Price.ToPersianPrice())</td>
-                                                        <td>@(item.OrderPriceDiscount ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                                        <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
+                                                        <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
                                                         <td>
                                                             @if (item.OrderPriceDiscount != null)
                                                             {
