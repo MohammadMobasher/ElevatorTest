@@ -10,46 +10,54 @@
 
                     <partial name="_SidebarProfile" model="@ViewBag.Model">
 
-                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
-                        <div class="profile-content">
-                            <div class="profile-stats">
-                                <div class="table-orders">
-                                    <table class="table table-profile-orders">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th scope="col" width="20" class="text-center">ردیف</th>
-                                                <th scope="col" >عنوان</th>
-                                                <th scope="col" width="200" class="text-center">جزئیات</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @{ var raw = 1;}
-                                            @foreach (var item in Model)
-                                            {
+                        <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                            <div class="profile-content">
+                                <div class="profile-stats">
+                                    <div class="table-orders">
+                                        <table class="table table-profile-orders">
+                                            <thead class="thead-light">
                                                 <tr>
-                                                    <td scope="col" class="text-center">@(raw++)</td>
-                                                    <td scope="col">@item.Title</td>
-                                                    
-                                                    <td scope="col" class="text-center">
-                                                        <a href="/Profile/InvoiceDetail/@item.Id" class="btn btn-secondary ">نمایش</a>
-                                                        <a href="/Profile/InvoiceDelete/@item.Id" class="btn btn-danger ">حذف</a>
-                                                    </td>
+                                                    <th scope="col" width="20" class="text-center">ردیف</th>
+                                                    <th scope="col">عنوان</th>
+                                                    <th scope="col" width="200" class="text-center">جزئیات</th>
                                                 </tr>
-
-                                            }
-                                        </tbody>
-                                    </table>
-                                    <div class="profile-orders">
-                                        <div class="collapse">
-                                            <div class="profile-orders-item">
+                                            </thead>
+                                            <tbody>
+                                                @{ var raw = 1;}
                                                 @foreach (var item in Model)
                                                 {
+                                                    <tr>
+                                                        <td scope="col" class="text-center">@(raw++)</td>
+                                                        <td scope="col">@item.Title</td>
+
+                                                        <td scope="col" class="text-center">
+                                                            <a href="/Profile/InvoiceDetail/@item.Id" class="btn btn-secondary ">نمایش</a>
+                                                            <a href="/Profile/InvoiceDelete/@item.Id" class="btn btn-danger ">حذف</a>
+                                                        </td>
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <div class="profile-orders">
+                                            <div class="collapse">
+                                                <div class="profile-orders-item">
+                                                    @foreach (var item in Model)
+                                                    {
                                                     <div class="profile-orders-header">
                                                         <a href="/Profile/OrderDetail/@item.Id" class="profile-orders-header-details">
                                                             <div class="profile-orders-header-summary">
                                                                 <div class="profile-orders-header-row">
                                                                     <span class="profile-orders-header-id">@item.OrderId</span>
-                                                                    
+
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <a href="/Profile/OrderDetail/@item.Id" class="profile-orders-header-details">
+                                                            <div class="profile-orders-header-summary">
+                                                                <div class="profile-orders-header-row">
+                                                                    <span class="profile-orders-header-id">@item.OrderId</span>
+
                                                                 </div>
                                                             </div>
                                                         </a>
@@ -59,17 +67,18 @@
                                                                 <div class="profile-info-label">عنوان</div>
                                                                 <div class="profile-info-value">@item.Title</div>
                                                             </div>
-                                                            
+
                                                         </div>
+
                                                     </div>
-                                                }
+                                                    }
                                                 </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </section>

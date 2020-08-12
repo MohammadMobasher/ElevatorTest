@@ -54,7 +54,9 @@ namespace ElevatorNewUI
             services.AddAuthentication().Services.ConfigureApplicationCookie(options =>
             {
                 options.SlidingExpiration = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(40);
+                options.Cookie.Expiration = TimeSpan.FromMinutes(40);
+
             });
 
             #region Mapper
