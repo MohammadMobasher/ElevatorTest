@@ -65,6 +65,11 @@ namespace DataLayer.DTO.Products
         /// </summary>
         public string Tags { get; set; }
 
+        /// <summary>
+        /// کلید واژه های جستجو
+        /// </summary>
+        public string SearchKeyWord { get; set; }
+
         public bool? IsActive { get; set; }
         /// <summary>
         /// آیا این محصول جز فروش ویژه است؟
