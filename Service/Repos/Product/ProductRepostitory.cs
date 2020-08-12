@@ -484,7 +484,7 @@ namespace Service.Repos
                 || a.ShortDescription.CleanString().Contains(vm.Title.CleanString())
                 //|| a.Text.CleanString().Contains(vm.Title.CleanString())
                 //|| a.Text.Contains(vm.Title)
-                || a.SearchKeyWord.Contains(vm.Title)
+                || a.SearchKeyWord.CleanString().Contains(vm.Title.CleanString())
                 || a.Tags.CleanString().Contains(vm.Title.CleanString()))
                 //.WhereIf(vm.Group != null && vm.Group != -1, a => a.ProductGroupId.Equals(vm.Group.Value))
                 .WhereIf(vm.Group != null && vm.Group != -1, a => groupsId.Contains(a.ProductGroupId))
