@@ -73,6 +73,11 @@ namespace DataLayer.Entities
         public string Tags { get; set; }
 
         /// <summary>
+        /// کلید واژه های جستجو
+        /// </summary>
+        public string SearchKeyWord { get; set; }
+
+        /// <summary>
         /// تاریخ ثبت محصول
         /// </summary>
         public DateTime? CreateDate { get; set; }

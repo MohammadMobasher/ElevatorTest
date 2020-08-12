@@ -48,6 +48,11 @@ namespace DataLayer.ViewModels.Products
 
 
         /// <summary>
+        /// کلید واژه های جستجو
+        /// </summary>
+        public string SearchKeyWord { get; set; }
+
+        /// <summary>
         /// واحد اندازه گیری محصول
         /// </summary>
         public int? ProductUnitId { get; set; }

@@ -482,7 +482,9 @@ namespace Service.Repos
                 model = model
                 .WhereIf(!string.IsNullOrEmpty(vm.Title), a => a.Title.CleanString().Contains(vm.Title.CleanString())
                 || a.ShortDescription.CleanString().Contains(vm.Title.CleanString())
-                || a.Text.CleanString().Contains(vm.Title.CleanString())
+                //|| a.Text.CleanString().Contains(vm.Title.CleanString())
+                //|| a.Text.Contains(vm.Title)
+                || a.SearchKeyWord.Contains(vm.Title)
                 || a.Tags.CleanString().Contains(vm.Title.CleanString()))
                 //.WhereIf(vm.Group != null && vm.Group != -1, a => a.ProductGroupId.Equals(vm.Group.Value))
                 .WhereIf(vm.Group != null && vm.Group != -1, a => groupsId.Contains(a.ProductGroupId))
@@ -495,7 +497,8 @@ namespace Service.Repos
                 model = model
                     .WhereIf(!string.IsNullOrEmpty(vm.Title), a => a.Title.Contains(vm.Title)
                     || a.ShortDescription.Contains(vm.Title)
-                    || a.Text.Contains(vm.Title)
+                   // || a.Text.Contains(vm.Title)
+                    || a.SearchKeyWord.Contains(vm.Title)
                     || a.Tags.Contains(vm.Title))
 
                     .WhereIf(vm.MaxPrice != null && vm.MinPrice != null, a => a.Price >= long.Parse(vm.MinPrice) && a.Price <= long.Parse(vm.MaxPrice));
