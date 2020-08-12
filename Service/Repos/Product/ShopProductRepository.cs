@@ -302,7 +302,7 @@ namespace Service.Repos
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<long> CalculateCartPriceNumber(int userId,int orderId)
+        public async Task<long> CalculateCartPriceNumber(int userId, int orderId)
         {
             var model = await GetListAsync(a => a.UserId == userId && a.ShopOrderId == orderId, null, "Product,ProductPackage");
 
@@ -453,7 +453,7 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<SweetAlertExtenstion> ProductsPriceCheck(int invoiceId)
         {
-            var model = await TableNoTracking.Include(a => a.Product).Where(a => a.ShopOrderId == invoiceId ).ToListAsync();
+            var model = await TableNoTracking.Include(a => a.Product).Where(a => a.ShopOrderId == invoiceId).ToListAsync();
 
             model.ForEach(a =>
             {
@@ -477,7 +477,7 @@ namespace Service.Repos
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<SweetAlertExtenstion> OverwriteShopProduct(int invoiceId, int orderId)
+        public async Task<SweetAlertExtenstion> OverwriteShopProduct(int invoiceId, int orderId, int? userId = null)
         {
             var model = await TableNoTracking.Include(a => a.Product).Where(a => a.ShopOrderId == invoiceId).ToListAsync();
 
@@ -493,7 +493,7 @@ namespace Service.Repos
                     OrderPrice = item.Product.Price.ToString(),
                     OrderPriceDiscount = item.Product.PriceWithDiscount.ToString(),
                     ProductId = item.ProductId,
-                    UserId = item.UserId,
+                    UserId = userId != null ? userId.Value : item.UserId,
                     RequestedDate = DateTime.Now,
 
                 }, false);

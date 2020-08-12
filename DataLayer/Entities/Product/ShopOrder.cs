@@ -43,6 +43,13 @@ namespace DataLayer.Entities
         /// </summary>
         public bool IsInvoice { get; set; } = false;
 
+
+        /// <summary>
+        /// آیا پیش فاکتور پیش فرض است یا خیر
+        /// </summary>
+        public bool IsSpecialInvoice { get; set; }
+
+
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public ShopOrderStatusSSOT? Status{ get; set; }
 

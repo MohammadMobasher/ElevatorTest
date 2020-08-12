@@ -152,6 +152,49 @@ namespace ElevatorNewUI.Controllers.Profile
         #endregion
 
 
+        #region SpecialInvoice
+
+        public async Task<IActionResult> ListSpecialInvoice()
+        {
+            ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
+            ViewBag.SidebarActive = ProfileSidebarSSOT.SpecialInvoice;
+            var result = await _shopOrderRepository.ListSpecialInvoice();
+
+            return View(result);
+        }
+
+
+        public async Task<IActionResult> SpecialInvoiceDetail(int id)
+        {
+            //به روز رسانی قیمت کالا های داخل هر پیش فاکتور
+            await _shopProductRepository.ProductsPriceCheck(id);
+
+            var model = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == id, null, "Product");
+
+            var order = await _shopOrderRepository.GetByConditionAsync(a => a.Id == id && !a.IsDeleted);
+
+            if (order == null || model == null)
+                return NotFound();
+
+            // اطلاعات کاربر
+            //ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == order.UserId);
+            ViewBag.Order = order;
+
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == order.UserId);
+            ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
+            ViewBag.SidebarActive = ProfileSidebarSSOT.SpecialInvoice;
+            ViewBag.Unit = _productUnitRepository.GetList();
+            ViewBag.Amount = order?.PaymentAmount;
+            ViewBag.TransferAmount = order?.TransferProductPrice;
+
+            return View(model);
+        }
+
+
+
+
+        #endregion
+
         #region لیست پیش‌فاکتور ها
 
         public async Task<IActionResult> ListInvoice()
@@ -194,7 +237,9 @@ namespace ElevatorNewUI.Controllers.Profile
 
         public async Task<IActionResult> CreateFactorFromInvoce(int id)
         {
-            var model = await _shopOrderRepository.OverWriteShopOrder(id);
+            var userId = this.UserId;
+
+            var model = await _shopOrderRepository.OverWriteShopOrder(id, userId);
 
             return RedirectToAction("UserAddressFromInvoice", "ShopProduct", new { id = model });
         }

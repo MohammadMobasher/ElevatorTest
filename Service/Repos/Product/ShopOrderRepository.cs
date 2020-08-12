@@ -87,8 +87,20 @@ namespace Service.Repos
             return await Entities.Where(x => x.IsInvoice == true && x.UserId == userId).ToListAsync();
         }
 
+        public async Task<List<ShopOrder>> ListSpecialInvoice()
+        {
+            return await Entities.Where(x => x.IsSpecialInvoice == true).ToListAsync();
+        }
 
-        public async Task<int> AddFactor(int userId, string title,bool IsInvoice)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId">چه کاربری</param>
+        /// <param name="title">با چه عنوانی</param>
+        /// <param name="IsInvoice">پیش فاکتور است یا خیر</param>
+        /// <param name="specialInvoice">ادمین به عنوان پیش فاکتور پیش فرض ثبت کرده یا خیر </param>
+        /// <returns></returns>
+        public async Task<int> AddFactor(int userId, string title,bool IsInvoice,bool specialInvoice)
         {
             var model = new ShopOrder()
             {
@@ -98,7 +110,8 @@ namespace Service.Repos
                 UserId = userId,
                 Title = title,
                 IsInvoice = IsInvoice,
-                PaymentAmount = await _shopProductRepository.CalculateCartPriceNumber(userId)
+                PaymentAmount = await _shopProductRepository.CalculateCartPriceNumber(userId),
+                IsSpecialInvoice = specialInvoice
             };
 
             await AddAsync(model);
@@ -382,7 +395,7 @@ namespace Service.Repos
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<int?> OverWriteShopOrder(int id)
+        public async Task<int?> OverWriteShopOrder(int id,int userId)
         {
             try
             {
@@ -404,12 +417,12 @@ namespace Service.Repos
                     OrderId = null,
                     Title = model.Title,
                     PaymentAmount = model.PaymentAmount,
-                    UserId = model.UserId
+                    UserId = model.IsSpecialInvoice ? userId : model.UserId
                 };
 
                 await AddAsync(entity);
 
-                await _shopProductRepository.OverwriteShopProduct(id, entity.Id);
+                await _shopProductRepository.OverwriteShopProduct(id, entity.Id,userId);
 
                 return entity.Id;
             }

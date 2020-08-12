@@ -44,6 +44,13 @@
                 </li>
 
                 <li class="profile-account-nav-item navigation-link-dashboard">
+                    <a asp-action="ListSpecialInvoice" class="@(ViewBag.SidebarActive == ProfileSidebarSSOT.SpecialInvoice?"active":"")">
+                        <i class="mdi mdi-cart"></i>
+                        پیش فاکتور های ویژه
+                    </a>
+                </li>
+
+                <li class="profile-account-nav-item navigation-link-dashboard">
                     <a asp-action="ListTree" class="@(ViewBag.SidebarActive == ProfileSidebarSSOT.Tree?"active":"")">
                         <i class="mdi mdi-tree"></i>
                         لیست درخت‌ها

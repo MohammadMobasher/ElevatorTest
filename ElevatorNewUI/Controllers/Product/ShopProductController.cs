@@ -186,9 +186,12 @@ namespace ElevatorNewUI.Controllers
 
         #region پیش‌فاکتور
 
-        public async Task<IActionResult> CreateInvoice(string Title, bool IsInvoice)
+        public async Task<IActionResult> CreateInvoice(string Title, bool IsInvoice, bool SpecialInvoice)
         {
-            var factorId = await _shopOrderRepository.AddFactor(UserId, Title, IsInvoice);
+            var factorId = await _shopOrderRepository.AddFactor(UserId, Title, IsInvoice, SpecialInvoice);
+
+            if (SpecialInvoice)
+                return Redirect("/Profile/ListSpecialInvoice");
 
             if (IsInvoice)
             {
@@ -275,7 +278,7 @@ namespace ElevatorNewUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UserAddress(UserAddress userAddress,int FactorId)
+        public async Task<IActionResult> UserAddress(UserAddress userAddress, int FactorId)
         {
             userAddress.UserId = UserId;
             userAddress.ShopOrderId = FactorId;
@@ -283,7 +286,7 @@ namespace ElevatorNewUI.Controllers
 
             await _shopOrderRepository.SetTariffForFactor(FactorId);
 
-            return RedirectToAction(nameof(Checkout),new {id =FactorId });
+            return RedirectToAction(nameof(Checkout), new { id = FactorId });
         }
 
 
@@ -299,7 +302,7 @@ namespace ElevatorNewUI.Controllers
 
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
 
-            ViewBag.SumPrice = await _shopProductRepository.CalculateCartPriceNumber(UserId,id);
+            ViewBag.SumPrice = await _shopProductRepository.CalculateCartPriceNumber(UserId, id);
 
             ViewBag.Tariff = _shopOrderRepository.CalculateTariffByOrderId(id) ?? 0;
 

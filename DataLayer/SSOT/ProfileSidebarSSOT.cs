@@ -20,6 +20,12 @@ namespace DataLayer.SSOT
         /// </summary>
         Invoice,
 
+        /// <summary>
+        ///  پیش فاکتور های ویژه
+        /// </summary>
+        SpecialInvoice,
+
+
         Tree,
     }
 }
