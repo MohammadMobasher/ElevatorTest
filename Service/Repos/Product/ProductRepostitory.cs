@@ -22,6 +22,7 @@ using DataLayer.ViewModels.Feature;
 using DataLayer.DTO;
 using DataLayer.DTO.ProductGroupDependencies;
 using DataLayer.DTO.ProductFeatures;
+using System.Text.RegularExpressions;
 
 namespace Service.Repos
 {
@@ -455,6 +456,8 @@ namespace Service.Repos
 
         public async Task<Tuple<int, List<DataLayer.Entities.Product>>> GetProducts(ProductSearchListViewModel vm, int skip, int take)
         {
+
+            vm.Title = Regex.Replace(vm.Title,  " ( )+", " ");
 
             var model = TableNoTracking
                .Include(a => a.ProductGroup)
