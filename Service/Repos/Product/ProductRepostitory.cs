@@ -402,7 +402,7 @@ namespace Service.Repos
                         (featureSearchableVM != null && featureSearchableVM.Count > 0 ? featureSearchWhere : " where ")
                     + @"
                     ProductGroupId in (" + ((selectedsubGroup != null && selectedsubGroup.Count > 0 ? groupAndSubGroupId : "select * from @T")) + @")
-                        and Title LIKE '%" + titleSearch + @"%';";
+                        and Title LIKE '%" + titleSearch + @"%' and Product.IsDeleted = 0;";
 
             var productQuery = $@"                    
                     select Product.* from Product " +
