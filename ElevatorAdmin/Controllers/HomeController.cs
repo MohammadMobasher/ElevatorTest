@@ -23,6 +23,7 @@ namespace ElevatorAdmin.Controllers
         }
 
         [ActionRole("صفحه اصلی داشبورد")]
+        [AllowAccess]
         //[HasAccess]
         public IActionResult Index()
         {

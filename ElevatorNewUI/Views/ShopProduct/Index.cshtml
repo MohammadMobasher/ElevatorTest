@@ -1,4 +1,5 @@
 ﻿@using Core.Utilities
+@using System.Security.Claims
 @model List<DataLayer.Entities.ShopProduct>
 @{
     ViewData["Title"] = "Index";
@@ -152,6 +153,13 @@ else
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-block btn-info" name="IsInvoice" value="false">خرید </button>
                                                 </div>
+                                                @if(User.Identity.FindFirstValue(ClaimTypes.Role) == "Admin")
+                                                {
+                                                    <div class="col-md-12" style="margin-top:20px">
+                                                        <button type="submit" class="btn btn-block btn-warning" name="SpecialInvoice" value="true">پیش فاکتور ویژه </button>
+                                                    </div>
+                                                }
+
                                             </div>
                                         </div>
                                     </div>
