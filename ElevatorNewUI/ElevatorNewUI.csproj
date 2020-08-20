@@ -18,4 +18,11 @@
     <ProjectReference Include="..\WebFramework\WebFramework.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Reference Include="CEWorld.Convert">
+      <HintPath>..\..\CEWorld.Convert.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

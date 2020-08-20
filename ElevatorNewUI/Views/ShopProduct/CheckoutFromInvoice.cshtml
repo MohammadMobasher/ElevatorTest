@@ -39,8 +39,8 @@
                                                     <th scope="col">قیمت کل</th>
                                                     @*<th scope="col">مشاهده</th>*@
                                                     @*<th scope="col" class="product-name">محصول</th>
-                                                        <th scope="col" class="product-count">تعداد</th>
-                                                        <th scope="col" class="product-price">قیمت کل</th>*@
+                    <th scope="col" class="product-count">تعداد</th>
+                    <th scope="col" class="product-price">قیمت کل</th>*@
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -53,7 +53,7 @@
                                                             <td class="order-code">@(index++)</td>
                                                             <td class="product-name">
                                                                 <a href="/Product/ProductDetail/2222" target="_blank">@item.Product.Title</a>
-                                                            
+
                                                             </td>
                                                             <td class="product-count">@item.Count</td>
                                                             <td>@(item.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
@@ -72,11 +72,11 @@
                                                                 }
                                                             </td>
                                                             @*<td class="product-price text-info">
-                                                                <span class="amount">
-                                                                    @((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())
-                                                                    <span>تومان</span>
-                                                                </span>
-                                                            </td>*@
+                                <span class="amount">
+                                    @((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())
+                                    <span>تومان</span>
+                                </span>
+                            </td>*@
                                                         </tr>
                                                     }
                                                     else
@@ -157,6 +157,12 @@
                                                 </tr>
                                             </tfoot>
                                         </table>
+                                        @if ((SumPrice + tariff) >= 50000000)
+                                        {
+                                            <div class="alert alert-warning">
+                                                <p>مبالغ بالای پنجاه ملیون تومان به صورت مرحله ای پرداخت می شود و پس از ثبت سفارش شما به پنل مدیریتی هدایت می شود و از آنجا میتوانید پرداخت هایتان را مدیریت کنید</p>
+                                            </div>
+                                        }
                                         <ul class="checkout-payment-methods">
 
                                             <li class="checkout-payment-method-item d-block">
