@@ -95,7 +95,11 @@
                                                             @if (item.Price != item.PriceWithDiscount)
                                                             {
                                                                 <div class="promotion-badge">فروش ویژه</div>
-                                               
+
+                                                            }
+                                                            @if (item.Price != item.PriceWithDiscount)
+                                                            {
+                                                                <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@item.Discount.ToPersianNumbers()"></price-tag>
                                                             }
                                                             <img title="@item.Title" src="http://staffonly.ir/@item.IndexPic">
                                                         </a>

@@ -115,6 +115,11 @@ namespace DataLayer.Entities
         /// </summary>
         public bool IsDeleted { get; set; } = false;
 
+        /// <summary>
+        /// تخفیف 
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public string Discount { get; set; }
 
         #region Join
 

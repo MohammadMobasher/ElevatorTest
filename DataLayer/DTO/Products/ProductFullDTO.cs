@@ -94,6 +94,8 @@ namespace DataLayer.DTO.Products
         /// </summary>
         public bool IsExist { get; set; }
 
+        public string Discount { get; set; }
+
         #region Join
 
         public virtual ProductGroup ProductGroup { get; set; }

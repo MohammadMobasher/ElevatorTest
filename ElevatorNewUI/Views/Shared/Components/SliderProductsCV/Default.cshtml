@@ -38,6 +38,10 @@
                                             <div class="owl-item @(index <= 4 ? "active" : "") @(index++) tab-item" style="width: 309.083px; margin-left: 10px;">
                                                 <div class="item">
                                                     <a href="/Product/ProductDetail/@product.Id" class="d-block hover-img-link">
+                                                        @if (product.Price != product.PriceWithDiscount)
+                                                        {
+                                                            <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@product.Discount.ToPersianNumbers()"></price-tag>
+                                                        }
                                                         <img src="http://staffonly.ir/@product.IndexPic" class="img-fluid" alt="">
                                                     </a>
                                                     <h2 class="post-title">

@@ -145,6 +145,9 @@ namespace ElevatorNewUI.Controllers
 
             ViewBag.Url = test.SiteConfig.UrlAddress;
 
+            ViewBag.RelatedProducts = _productRepository.GetList(a => a.ProductGroupId == model.ProductGroupId 
+            && a.Id != model.Id && !a.IsDeleted,o=>o.OrderByDescending(a=>a.CreateDate)).Take(12).ToList();
+
             return View(model);
         }
 

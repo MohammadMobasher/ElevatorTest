@@ -28,5 +28,7 @@ namespace DataLayer.Entities.Users
         public bool? IsPhoneNumberConfirm { get; set; }
 
         public DateTime ExpireTime { get; set; }
+
+        public string NationalCode { get; set; }
     }
 }
