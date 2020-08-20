@@ -79,19 +79,19 @@
                                                                 @foreach (var item in await _productGroupRepository.GetParentsAsync())
                                                                 {
                                                                     @*if (vm != null)
-                                                                    {
-                                                                        if (vm.Group == item.Id)
                                                                         {
-                                                                            <option value="@item.Id" selected>@item.Title</option>
+                                                                            if (vm.Group == item.Id)
+                                                                            {
+                                                                                <option value="@item.Id" selected>@item.Title</option>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <option value="@item.Id">@item.Title</option>
+                                                                            }
                                                                         }
                                                                         else
-                                                                        {
-                                                                            <option value="@item.Id">@item.Title</option>
-                                                                        }
-                                                                    }
-                                                                    else
-                                                                    {*@
-                                                                        <option value="@item.Id">@item.Title</option>
+                                                                        {*@
+                                                                    <option value="@item.Id">@item.Title</option>
                                                                     @*}*@
                                                                 }
                                                             </select>
@@ -348,9 +348,28 @@
                                     <fieldset>
                                         <span class="form-newsletter-title"> ما را در شبکه های اجتماعی دنبال کنید</span>
                                         <div class="input-group-newsletter row">
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"><a target="_blank" href="@siteSetting.InstaURL"><i class="fa fa-instagram font-size-70 color000"></i></a></div>
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"><a target="_blank" href="@siteSetting.WhatsAppURL"><i class="fa fa-whatsapp font-size-70 color000"></i></a></div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <div class="col-12">
+                                                    <a target="_blank" href="@siteSetting.InstaURL">
+                                                        <i class="fa fa-instagram font-size-70 color000"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="col-12" dir="rtl">
+                                                    liftbazar.ir@@
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <div class="col-12">
+                                                    <a target="_blank" href="@siteSetting.WhatsAppURL">
+                                                        <i class="fa fa-whatsapp font-size-70 color000"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="col-12">
+                                                    09392013443
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </fieldset>
                                 </form>
                             </div>
