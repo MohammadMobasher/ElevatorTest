@@ -13,6 +13,7 @@ namespace Service.Mappers
         {
             CreateMap<ShopProduct, ShopProductAddViewModel>().ReverseMap();
             CreateMap<ShopProduct, ShopProductAddPackageViewModel>().ReverseMap();
+            CreateMap<ShopProduct, ShopProductAddWithShopOrderViewModel>().ReverseMap();
         }
     }
 }

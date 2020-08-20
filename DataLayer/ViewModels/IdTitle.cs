@@ -17,4 +17,23 @@ namespace DataLayer.ViewModels
 
         public string Title { get; set; }
     }
+
+
+    public class select2IdText
+    {
+        public int Id { get; set; }
+
+        public string Text { get; set; }
+    }
+
+    public class select2IdTextImage
+    {
+        public int Id { get; set; }
+
+        public string Text { get; set; }
+
+        public string Image { get; set; }
+    }
+
+
 }

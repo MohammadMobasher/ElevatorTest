@@ -8,17 +8,23 @@ using DataLayer.ViewModels.ShopProduct;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Service.Repos.Warehouses;
+using DataLayer.ViewModels.ShopOrder;
+using System.Data;
+using Dapper;
 
 namespace Service.Repos
 {
     public class ShopProductRepository : GenericRepository<ShopProduct>
     {
+        private readonly IDbConnection _connection;
         private readonly WarehouseProductCheckRepository _warehouseProductCheckRepository;
 
         public ShopProductRepository(
              DatabaseContext dbContext
+            , IDbConnection connection
             , WarehouseProductCheckRepository warehouseProductCheckRepository) : base(dbContext)
         {
+            _connection = connection;
             _warehouseProductCheckRepository = warehouseProductCheckRepository;
         }
 
@@ -49,6 +55,36 @@ namespace Service.Repos
                 Count = count,
 
             });
+
+            return SweetAlertExtenstion.Ok();
+        }
+
+        public async Task<SweetAlertExtenstion> AddCart(int shopOrderId, int productId, int userId, int count = 1)
+        {
+
+            var model = await GetByConditionAsync(a => a.ProductId == productId && a.UserId == userId && a.ShopOrderId == shopOrderId);
+
+            /// درصورتی که این کالا از قبل در سبد خرید این فرد وجود داشته باشد
+            /// تنها تعداد آن را به روز رسانی میکنیم
+            if (model != null)
+            {
+                model.Count = count;
+
+                await UpdateAsync(model);
+                return SweetAlertExtenstion.Error("این محصول قبلا به سبد خرید اضافه شده است و فقط تعداد آن به روز رسانی شد");
+            }
+
+            /// اضافه کردن به فاکتور
+            /// 
+            MapAdd(new ShopProductAddWithShopOrderViewModel()
+            {
+                ShopOrderId = shopOrderId,
+                ProductId = productId,
+                UserId = userId,
+                Count = count,
+            });
+
+
 
             return SweetAlertExtenstion.Ok();
         }
@@ -294,6 +330,59 @@ namespace Service.Repos
             }
 
             return sum;
+        }
+
+
+        /// <summary>
+        /// به روز رسانی تعداد آیتم های برای هر محصول در یک فاکتور
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> UpdateCountAllItems(ShopOrderUpdateFromSite model)
+        {
+            try
+            {
+                string query = "";
+
+                foreach (var item in model.ListProducts)
+                {
+                    query += $"update ShopProduct set Count = {item.Count} where ShopOrderId = {model.ShopOrderId} and ProductId = {item.ProductId} ;";
+                }
+
+
+                await _connection.QueryAsync(query);
+                return SweetAlertExtenstion.Ok();
+            }
+            catch(Exception e)
+            {
+                return SweetAlertExtenstion.Error();
+            }
+        }
+
+
+        /// <summary>
+        ///  حذف یک آیتم از یک پیش فاکتور یا یک پیش فاکتور ویژه
+        /// </summary>
+        /// <param name="invoceId">شماره پیش فاکتور مورد نظر</param>
+        /// <param name="productId">شماره محصول مورد نظر</param>
+        /// <returns></returns>
+        public async Task<SweetAlertExtenstion> DeleteItemFromInvoce(int invoceId, int productId)
+        {
+            try
+            {
+                var entity = await Entities.SingleOrDefaultAsync(x => x.ShopOrderId == invoceId && x.ProductId == productId);
+                //if (entity == null)
+                //{
+                    Entities.Remove(entity);
+                    await DbContext.SaveChangesAsync();
+                    return SweetAlertExtenstion.Ok();
+                //}
+//                return SweetAlertExtenstion.Error();
+            }
+            catch(Exception e){
+                return SweetAlertExtenstion.Error();
+
+            }
         }
 
 

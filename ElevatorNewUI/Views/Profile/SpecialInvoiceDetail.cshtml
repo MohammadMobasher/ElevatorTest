@@ -1,4 +1,13 @@
-﻿@model List<ShopProduct>
+﻿
+@model List<ShopProduct>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+
 
 @{
     var unit = ViewBag.Unit as List<ProductUnit>;
@@ -7,6 +16,14 @@
     var address = ViewBag.UserAddress as UserAddress;
 }
 <style>
+    .select2-container .select2-selection--single {
+        height: 60px !important;
+    }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding: 4px !important;
+        }
+
     .Mtable {
         text-align: center !important;
     }
@@ -55,158 +72,209 @@
                 <div class="post-item-profile order-1 d-block">
 
                     <partial name="_SidebarProfile" model="@ViewBag.Model">
+                        @{ var index = 0; }
 
 
 
                         <div class="col-lg-9 col-md-9 col-xs-12 pl ">
+
+
                             <div class="profile-content">
                                 <div class="profile-stats">
-                                    <div class="table-orders" id="pdfMake">
+                                    <div class="profile-address">
+                                        <div class="middle-container">
+                                            <form asp-controller="Profile" asp-action="AddToShopOrder" class="form-checkout">
+                                                <input type="hidden" name="ShopOrderId" value="@order.Id" />
+                                                <div class="form-checkout-row">
 
-                                        <div class="p-3 text-center">
-                                            <a href="http://liftbazar.ir/">برای ورود به لیفت بازار و مشاهده قیمت روز قطعات آسانسور، کلیک کنید</a>
-                                        </div>
+                                                    <div class="form-checkout-valid-row">
+                                                        <label for="province">
+                                                            نام کالا
+                                                            <abbr class="required" title="ضروری" style="color:red;">*</abbr>
+                                                        </label>
 
-                                        <!--اطلاعات محصول-->
-                                        <table class="text-center Mtable table table-profile-orders table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>ردیف</th>
-                                                    <th>عنوان کالا</th>
-                                                    <th>تعداد کالا</th>
-                                                    <th>واحد کالا</th>
-                                                    <th>قیمت اصلی کالا</th>
-                                                    <th>قیمت با تخفیف</th>
-                                                    <th>قیمت کل</th>
-                                                    <th>مشاهده</th>
+                                                        <select name="ProductId"></select>
 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @{ var raw = 1;}
-                                                @foreach (var item in Model)
-                                                {
-                                                    <tr>
-                                                        <td class="order-code">@(raw++)</td>
-                                                        <td>@(item.OrderName ?? item.Product.Title) </td>
-                                                        <td>@item.Count </td>
-                                                        <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
-                                                        <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
-                                                        <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
-                                                        <td>
-                                                            @if (item.OrderPriceDiscount != null)
-                                                            {
-                                                                var price = item.OrderPriceDiscount.Replace(",", "");
-
-                                                                <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
-                                                            }
-                                                        </td>
-                                                        <td>
-                                                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
-                                                                <i class="mdi mdi-eye" aria-hidden="true"></i>
-
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-
-                                                }
-
-
-                                                <tr>
-                                                    <td colspan="2">جمع کل :</td>
-                                                    <td colspan="6">@(((long)order.Amount).ToPersianPrice()) تومان</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-
-                                        <div class="p-3 text-center">
-                                            <a href="http://liftbazar.ir/">برای ورود به لیفت بازار و مشاهده قیمت روز قطعات آسانسور، کلیک کنید</a>
-                                        </div>
-
-
-                                        <div class="profile-orders">
-                                            <div class="collapse">
-                                                <div class="profile-orders-item">
-
-                                                    <div class="p-3 text-center">
-                                                        <a href="http://liftbazar.ir/">برای ورود به لیفت بازار و مشاهده قیمت روز قطعات آسانسور، کلیک کنید</a>
                                                     </div>
 
-                                                    <!--اطلاعات محصول-->
-                                                    <table class="text-center Mtable table-responsive table-responsive-sm table-responsive-sm table table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>ردیف</th>
-                                                                <th>عنوان کالا</th>
-                                                                <th>تعداد کالا</th>
-                                                                <th>واحد کالا</th>
-                                                                <th>قیمت اصلی کالا</th>
-                                                                <th>قیمت با تخفیف</th>
-                                                                <th>قیمت کل</th>
-                                                                <th>مشاهده</th>
+                                                    <label for="Count">تعداد<abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                    <input type="number" required name="Count" value="1" class="input-name-checkout form-control" placeholder="تعداد">
 
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @{ var raw1 = 1;}
-                                                            @foreach (var item in Model)
-                                                            {
-                                                                <tr>
-                                                                    <td class="order-code">@(raw1++)</td>
-                                                                    <td>@(item.OrderName ?? item.Product.Title) </td>
-                                                                    <td>@item.Count </td>
-                                                                    <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
-                                                                    <td>@(item.OrderPrice ?? item.Product.Price.ToPersianPrice())</td>
-                                                                    <td>@(item.OrderPriceDiscount ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
-                                                                    <td>
-                                                                        @if (item.OrderPriceDiscount != null)
-                                                                        {
-                                                                            var price = item.OrderPriceDiscount.Replace(",", "");
-
-                                                                            <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
-                                                                        }
-                                                                    </td>
-                                                                    <td>
-                                                                        <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
-                                                                            <i class="mdi mdi-eye" aria-hidden="true"></i>
-
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-
-                                                            }
-
-                                                            <tr>
-                                                                <td colspan="2">جمع کل :</td>
-                                                                <td colspan="6">@(((long)order.Amount).ToPersianPrice()) تومان</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-
-                                                    <div class="p-3 text-center">
-                                                        <a href="http://liftbazar.ir/">برای ورود به لیفت بازار و مشاهده قیمت روز قطعات آسانسور، کلیک کنید</a>
-                                                    </div>
+                                                    <input type="submit" class="btn btn-success pull-left editBtn" value="ثبت">
 
                                                 </div>
-                                            </div>
+                                            </form>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
 
-                            <a class="btn btn-success pull-left " style="margin-left:16px" href="/Profile/CreateFactorFromInvoce?id=@order.Id">ثبت فاکتور</a>
+
+                            <form asp-controller="Profile" asp-action="EditShopOrder">
+                                <input type="hidden" name="ShopOrderId" value="@order.Id" />
+                                <div class="profile-content">
+                                    <div class="profile-stats">
+                                        <div class="table-orders" id="pdfMake">
+
+                                            <div class="p-3 text-center">
+                                                <a href="http://liftbazar.ir/">برای ورود به لیفت بازار و مشاهده قیمت روز قطعات آسانسور، کلیک کنید</a>
+                                            </div>
+
+                                            <!--اطلاعات محصول-->
+                                            <table class="text-center Mtable table table-profile-orders table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="50">ردیف</th>
+                                                        <th>عنوان کالا</th>
+                                                        <th>تعداد کالا</th>
+                                                        <th>واحد کالا</th>
+                                                        <th>قیمت اصلی کالا</th>
+                                                        <th>قیمت با تخفیف</th>
+                                                        <th>قیمت کل</th>
+                                                        <th>اقدامات</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{ var raw = 1;}
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td class="order-code">@(raw++)</td>
+                                                            <td>
+                                                                <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                                                    @(item.OrderName ?? item.Product.Title)
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <input type="hidden" value="@item.ProductId" name="ListProducts[@index].ProductId" />
+
+                                                                <input type="number" class="productCount" style="width: 30px; text-align:center" name="ListProducts[@index].Count" value="@item.Count" />
+                                                            </td>
+                                                            <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                                            <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
+                                                            <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                                            <td>
+                                                                @if (item.OrderPriceDiscount != null)
+                                                                {
+                                                                    var price = item.OrderPriceDiscount.Replace(",", "");
+
+                                                                    <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId">
+                                                                    <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
+                                                                </a>
+                                                            </td>
+
+                                                        </tr>
+
+                                                    }
+
+
+                                                    <tr>
+                                                        <td colspan="2">جمع کل به عدد:</td>
+                                                        <td colspan="6">@(((long)order.Amount).ToPersianPrice()) تومان</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">جمع کل به حروف:</td>
+                                                        <td colspan="6">@(((long)order.Amount).ToPersianPrice()) تومان</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+                                            <div class="p-3 text-center">
+                                                <a href="http://liftbazar.ir/">برای ورود به لیفت بازار و مشاهده قیمت روز قطعات آسانسور، کلیک کنید</a>
+                                            </div>
+
+
+                                            <div class="profile-orders">
+                                                <div class="collapse">
+                                                    <div class="profile-orders-item">
+
+                                                        <div class="p-3 text-center">
+                                                            <a href="http://liftbazar.ir/">برای ورود به لیفت بازار و مشاهده قیمت روز قطعات آسانسور، کلیک کنید</a>
+                                                        </div>
+
+                                                        <!--اطلاعات محصول-->
+                                                        <table class="text-center Mtable table-responsive table-responsive-sm table-responsive-sm table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ردیف</th>
+                                                                    <th>عنوان کالا</th>
+                                                                    <th>تعداد کالا</th>
+                                                                    <th>واحد کالا</th>
+                                                                    <th>قیمت اصلی کالا</th>
+                                                                    <th>قیمت با تخفیف</th>
+                                                                    <th>قیمت کل</th>
+                                                                    <th>مشاهده</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @{ var raw1 = 1;}
+                                                                @foreach (var item in Model)
+                                                                {
+                                                                    <tr>
+                                                                        <td class="order-code">@(raw1++)</td>
+                                                                        <td>@(item.OrderName ?? item.Product.Title) </td>
+                                                                        <td>@item.Count </td>
+                                                                        <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                                                        <td>@(item.OrderPrice ?? item.Product.Price.ToPersianPrice())</td>
+                                                                        <td>@(item.OrderPriceDiscount ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                                                        <td>
+                                                                            @if (item.OrderPriceDiscount != null)
+                                                                            {
+                                                                                var price = item.OrderPriceDiscount.Replace(",", "");
+
+                                                                                <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                                                                <i class="mdi mdi-eye" aria-hidden="true"></i>
+
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                }
+
+                                                                <tr>
+                                                                    <td colspan="2">جمع کل :</td>
+                                                                    <td colspan="6">@(((long)order.Amount).ToPersianPrice()) تومان</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                        <div class="p-3 text-center">
+                                                            <a href="http://liftbazar.ir/">برای ورود به لیفت بازار و مشاهده قیمت روز قطعات آسانسور، کلیک کنید</a>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="submit" class="btn btn-warning pull-left editBtn" style="margin-left:16px;" value="به روز رسانی">
+                            </form>
+                            <a class="btn btn-success pull-left " style=" margin-left:16px" href="/Profile/CreateFactorFromInvoce?id=@order.Id">ثبت فاکتور</a>
                             <a class="btn btn-danger pull-left" style="margin-left:16px" href="/Profile/ListInvoice">بازگشت</a>
                         </div>
+
                         <a href="#" onclick="generatePDF('pdfMake')" class="print-link pull-left text-danger"><i class="fa fa-file-pdf-o fa-3x"></i></a>
                 </div>
 
@@ -214,3 +282,95 @@
         </section>
     </div>
 </div>
+<script>
+
+    $(function () {
+
+        $('.productCount').on("keypress", function (event) {
+
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+
+                $('.editBtn').trigger('click');
+            }
+        });
+
+    });
+    <img src="~/images/man.png" />
+</script>
+<script language="javascript">
+    $('[name="ProductId"]').select2({
+        allowClear: true,
+        language: {
+            inputTooShort: function (args) {
+                // args.minimum is the minimum required length
+                // args.input is the user-typed text
+                return "نام کالای خود را وارد کنید";
+            },
+            //inputTooLong: function (args) {
+            //    // args.maximum is the maximum allowed length
+            //    // args.input is the user-typed text
+            //    return "You typed too much";
+            //},
+            errorLoading: function () {
+                return "خطایی به وجود آمده، لطفا مجددا تلاش کنید";
+            },
+            //loadingMore: function () {
+            //    return "Loading more results";
+            //},
+            noResults: function () {
+                return "کالایی با این نام یافت نشد";
+            },
+            searching: function () {
+                return "در حال جستجو";
+            },
+            //maximumSelected: function (args) {
+            //    // args.maximum is the maximum number of items the user may select
+            //    return "Error loading results";
+            //}
+        },
+        ajax: {
+            url: "/Profile/SearchProduct",
+            dataType: 'json',
+            quietMillis: 200,
+            data: function (term) {
+                return {
+                    term: term.term, //search term
+                };
+            },
+            processResults: function (response) {
+                
+                return {
+                    results: response
+                };
+            },
+            cache: true
+            
+        },        
+        minimumInputLength: 1,
+        templateResult: function (idioma) {
+            console.log(idioma);
+
+            src = "";
+            if (idioma.hasOwnProperty('loading')) {
+                src = "http://staffonly.ir/" + idioma.image;
+            } else {
+                src = "http://staffonly.ir/" + idioma.image;
+            }
+
+            var $span = $("<span style='font-size:12px'><img style='width:40px; height:40px' src='" + src + "'/> " + idioma.text + "</span>");
+            return $span;
+        },
+        templateSelection: function (idioma) {
+            src = "";
+            if (idioma.hasOwnProperty('loading')) {
+                src = "http://staffonly.ir/" + idioma.image;
+            } else {
+                src = "http://staffonly.ir/" + idioma.image;
+            }
+
+            var $span = $("<span style='font-size:12px'><img style='width:40px; height:40px' src='" + src + "'/> " + idioma.text + "</span>");
+            return $span;
+        }
+    });
+</script>

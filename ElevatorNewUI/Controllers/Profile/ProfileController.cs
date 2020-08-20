@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Utilities;
 using DataLayer.SSOT;
+using DataLayer.ViewModels;
+using DataLayer.ViewModels.ShopOrder;
 using DataLayer.ViewModels.User;
 using Elevator.Controllers;
+using ElevatorNewUI.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using Service.Repos.Product;
@@ -22,6 +25,7 @@ namespace ElevatorNewUI.Controllers.Profile
         private readonly UserAddressRepository _userAddressRepository;
         private readonly ProductUnitRepository _productUnitRepository;
         private readonly TreeRepository _treeRepository;
+        private readonly ProductRepostitory _productRepostitory;
         private readonly ShopOrderPaymentRepository _shopOrderPaymentRepository;
 
         public ProfileController(UserRepository userRepository
@@ -30,6 +34,7 @@ namespace ElevatorNewUI.Controllers.Profile
             , UserAddressRepository userAddressRepository
             , ProductUnitRepository productUnitRepository
             , TreeRepository treeRepository
+            , ProductRepostitory productRepostitory
             , ShopOrderPaymentRepository shopOrderPaymentRepository)
         {
             _userRepository = userRepository;
@@ -38,6 +43,7 @@ namespace ElevatorNewUI.Controllers.Profile
             _userAddressRepository = userAddressRepository;
             _productUnitRepository = productUnitRepository;
             _treeRepository = treeRepository;
+            _productRepostitory = productRepostitory;
             _shopOrderPaymentRepository = shopOrderPaymentRepository;
         }
 
@@ -258,6 +264,60 @@ namespace ElevatorNewUI.Controllers.Profile
 
         #endregion
 
+
+        #region حذف یک آیتم از یک پیش فاکتور
+
+        public async Task<IActionResult> DeleteItemFromShopOrder(int shopOrderId, int productId)
+        {
+
+            #region حذف آیتم مورد نظر
+
+            TempData.AddResult(await _shopProductRepository.DeleteItemFromInvoce(shopOrderId, productId));
+
+            #endregion
+
+            return RedirectToAction("SpecialInvoiceDetail", new { id = shopOrderId });
+        }
+
+        #endregion
+
+
+        #region  به روز رسانی یک فاکتور و ...
+
+        [HttpPost]
+        public async Task<IActionResult> EditShopOrder(ShopOrderUpdateFromSite model)
+        {
+
+            TempData.AddResult(await _shopProductRepository.UpdateCountAllItems(model));
+
+            return RedirectToAction("SpecialInvoiceDetail", new { id = model.ShopOrderId });
+        }
+        #endregion
+
+
+        #region جستجو در بین کالاها
+
+        public async Task<IActionResult> SearchProduct(string term)
+        {
+            var result = await _productRepostitory.SearchForSelect2(term);
+                
+            return Json(result);
+        }
+
+        #endregion
+
+        #region اضافه کردن یک کالا به یک فاکتور
+
+        public async Task<IActionResult> AddToShopOrder(int ProductId, int ShopOrderId, int Count)
+        {
+            var userId = this.GetUserId();
+            var result = await _shopProductRepository.AddCart(ShopOrderId,ProductId, userId, Count);
+
+
+            return RedirectToAction("SpecialInvoiceDetail", new { id = ShopOrderId });
+        }
+
+        #endregion
 
         public async Task<IActionResult> ListTree()
         {

@@ -4369,7 +4369,7 @@ span.shipping-destination{
     vertical-align: middle;
 }
 
-.post-item-profile .profile-content .profile-stats .table-orders table tbody td a{
+/*.post-item-profile .profile-content .profile-stats .table-orders table tbody td a{
     padding: 5px;
     font-size: 12px;
     color: #fff;
@@ -4377,7 +4377,7 @@ span.shipping-destination{
     border-color: #8a8a8a;
     border-radius: 20px;
     font-weight: 500;
-}
+}*/
 
 .post-item-profile .profile-content .profile-stats .table-orders .collapse{
     margin: 15px 0;

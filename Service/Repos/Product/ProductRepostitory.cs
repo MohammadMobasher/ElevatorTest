@@ -23,6 +23,7 @@ using DataLayer.DTO;
 using DataLayer.DTO.ProductGroupDependencies;
 using DataLayer.DTO.ProductFeatures;
 using System.Text.RegularExpressions;
+using DataLayer.ViewModels;
 
 namespace Service.Repos
 {
@@ -87,7 +88,26 @@ namespace Service.Repos
             return new Tuple<int, List<ProductFullDTO>>(Count, await query.ToListAsync());
         }
 
+        public async Task<List<select2IdTextImage>> SearchForSelect2(string term)
+        {
+            term = term.Trim();
+            term = Regex.Replace(term, " ( )+", " ");
 
+
+            return await (from product in DbContext.Product
+                          where
+                                   product.Title.Contains(term.CleanString())
+                                || product.ShortDescription.Contains(term.CleanString())
+                                || product.SearchKeyWord.Contains(term.CleanString())
+                                || product.Tags.Contains(term.CleanString())
+
+                          select new select2IdTextImage
+                          {
+                              Id = product.Id,
+                              Text = product.Title,
+                              Image = product.IndexPic
+                          }).ToListAsync();
+        }
 
 
         /// <summary>
@@ -129,8 +149,8 @@ namespace Service.Repos
                 if (vm.IndexPic != null)
                 {
                     var WebContent = _hostingEnvironment.WebRootPath;
-                    if(vm.IndexPic != "Images/no-Pic.jpg")
-                         System.IO.File.Delete(WebContent + FilePath.Product.GetDescription());
+                    if (vm.IndexPic != "Images/no-Pic.jpg")
+                        System.IO.File.Delete(WebContent + FilePath.Product.GetDescription());
                 }
 
                 vm.IndexPic = await MFile.Save(file, FilePath.Product.GetDescription());
@@ -457,7 +477,7 @@ namespace Service.Repos
         public async Task<Tuple<int, List<DataLayer.Entities.Product>>> GetProducts(ProductSearchListViewModel vm, int skip, int take)
         {
 
-            vm.Title = Regex.Replace(vm.Title,  " ( )+", " ");
+            vm.Title = Regex.Replace(vm.Title, " ( )+", " ");
 
             var model = TableNoTracking
                .Include(a => a.ProductGroup)
@@ -483,7 +503,8 @@ namespace Service.Repos
 
 
                 model = model
-                .WhereIf(!string.IsNullOrEmpty(vm.Title), a => a.Title.CleanString().Contains(vm.Title.CleanString())
+                .WhereIf(!string.IsNullOrEmpty(vm.Title), a =>
+                a.Title.CleanString().Contains(vm.Title.CleanString())
                 || a.ShortDescription.CleanString().Contains(vm.Title.CleanString())
                 //|| a.Text.CleanString().Contains(vm.Title.CleanString())
                 //|| a.Text.Contains(vm.Title)
@@ -500,7 +521,7 @@ namespace Service.Repos
                 model = model
                     .WhereIf(!string.IsNullOrEmpty(vm.Title), a => a.Title.Contains(vm.Title)
                     || a.ShortDescription.Contains(vm.Title)
-                   // || a.Text.Contains(vm.Title)
+                    // || a.Text.Contains(vm.Title)
                     || a.SearchKeyWord.Contains(vm.Title)
                     || a.Tags.Contains(vm.Title))
 
