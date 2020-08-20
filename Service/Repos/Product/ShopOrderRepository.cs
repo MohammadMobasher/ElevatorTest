@@ -82,14 +82,29 @@ namespace Service.Repos
             }
         }
 
-        public async Task<List<ShopOrder>> ListInvoice(int userId)
+        public async Task<List<ShopOrder>> ListInvoice(int userId, string Title)
         {
-            return await Entities.Where(x => x.IsInvoice == true && x.UserId == userId).ToListAsync();
+            if (!string.IsNullOrEmpty(Title))
+            {
+                return await Entities.Where(x => x.IsInvoice == true && x.UserId == userId && x.Title.Contains(Title)).ToListAsync();
+            }
+            else
+            {
+                return await Entities.Where(x => x.IsInvoice == true && x.UserId == userId).ToListAsync();
+            }
+            
         }
 
-        public async Task<List<ShopOrder>> ListSpecialInvoice()
+        public async Task<List<ShopOrder>> ListSpecialInvoice(string Title)
         {
-            return await Entities.Where(x => x.IsSpecialInvoice == true).ToListAsync();
+            if (!string.IsNullOrEmpty(Title))
+            {
+                return await Entities.Where(x => x.IsSpecialInvoice == true && x.Title.Contains(Title)).ToListAsync();
+            }
+            else
+            {
+                return await Entities.Where(x => x.IsSpecialInvoice == true).ToListAsync();
+            }
         }
 
         /// <summary>

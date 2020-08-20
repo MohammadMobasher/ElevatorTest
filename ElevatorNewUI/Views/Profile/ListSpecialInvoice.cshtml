@@ -14,83 +14,103 @@
                             <div class="profile-content">
                                 <div class="profile-stats">
                                     <div class="table-orders">
-                                        <table class="table table-profile-orders">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th scope="col" width="20" class="text-center">ردیف</th>
-                                                    <th scope="col">عنوان</th>
-                                                    <th scope="col" width="200" class="text-center">جزئیات</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @{ var raw = 1;}
-                                                @foreach (var item in Model)
-                                                {
+
+                                        <form asp-controller="Profile" asp-action="ListSpecialInvoice" method="get">
+
+                                            <label for="Title">عنوان</label>
+                                            <input type="text" name="Title" value="@ViewBag.Title" class="input-name-checkout form-control" placeholder="عنوان">
+
+                                        </form>
+
+                                        @if (Model.Count == 0)
+                                        {
+                                            <div class="col-12 text-center mt-4">
+                                                <span class="alert alert-warning">آیتمی وجود ندارد</span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+
+
+                                            <table class="table table-profile-orders">
+                                                <thead class="thead-light">
                                                     <tr>
-                                                        <td scope="col" class="text-center">@(raw++)</td>
-                                                        <td scope="col">@item.Title</td>
-
-                                                        <td scope="col" class="text-center">
-                                                            <a href="/Profile/SpecialInvoiceDetail/@item.Id" class="btn btn-secondary ">نمایش</a>
-                                                        </td>
+                                                        <th scope="col" width="20" class="text-center">ردیف</th>
+                                                        <th scope="col">عنوان</th>
+                                                        <th scope="col" width="200" class="text-center">جزئیات</th>
                                                     </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                        <div class="profile-orders text-center">
-                                            <div class="collapse text-center">
-                                                <div class="profile-orders-item text-center">
-                                                    <table class="table text-center">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>عنوان</th>
-                                                                <th>اقدامات</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                                                </thead>
+                                                <tbody>
+                                                    @{ var raw = 1;}
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td scope="col" class="text-center">@(raw++)</td>
+                                                            <td scope="col">@item.Title</td>
 
-                                                            @foreach (var item in Model)
-                                                            {
+                                                            <td scope="col" class="text-center">
+                                                                <a href="/Profile/SpecialInvoiceDetail/@item.Id" class="btn btn-secondary ">نمایش</a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                            <div class="profile-orders text-center">
+                                                <div class="collapse text-center">
+                                                    <div class="profile-orders-item text-center">
+                                                        <table class="table text-center">
+                                                            <thead>
                                                                 <tr>
-                                                                    <td>@item.Title</td>
-                                                                    <td>
-                                                                        <a href="/Profile/SpecialInvoiceDetail/@item.Id" class="btn btn-secondary ">نمایش</a>
-                                                                    </td>
+                                                                    <th>عنوان</th>
+                                                                    <th>اقدامات</th>
                                                                 </tr>
-                                                                @*<div class="profile-orders-header">
-                                                                        <a href="/Profile/InvoiceDetail/@item.Id" class="profile-orders-header-details">
-                                                                            <div class="profile-orders-header-summary">
-                                                                                <div class="profile-orders-header-row">
-                                                                                    <span class="profile-orders-header-id">@item.OrderId</span>
+                                                            </thead>
+                                                            <tbody>
 
+                                                                @foreach (var item in Model)
+                                                                {
+                                                                    <tr>
+                                                                        <td>@item.Title</td>
+                                                                        <td>
+                                                                            <a href="/Profile/SpecialInvoiceDetail/@item.Id" class="btn btn-secondary ">نمایش</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @*<div class="profile-orders-header">
+                                                                            <a href="/Profile/InvoiceDetail/@item.Id" class="profile-orders-header-details">
+                                                                                <div class="profile-orders-header-summary">
+                                                                                    <div class="profile-orders-header-row">
+                                                                                        <span class="profile-orders-header-id">@item.OrderId</span>
+
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </a>
-                                                                        <a href="/Profile/InvoiceDetail/@item.Id" class="profile-orders-header-details">
-                                                                            <div class="profile-orders-header-summary">
-                                                                                <div class="profile-orders-header-row">
-                                                                                    <span class="profile-orders-header-id">@item.OrderId</span>
+                                                                            </a>
+                                                                            <a href="/Profile/InvoiceDetail/@item.Id" class="profile-orders-header-details">
+                                                                                <div class="profile-orders-header-summary">
+                                                                                    <div class="profile-orders-header-row">
+                                                                                        <span class="profile-orders-header-id">@item.OrderId</span>
 
+                                                                                    </div>
                                                                                 </div>
+                                                                            </a>
+
+                                                                            <div class="profile-orders-header-data">
+                                                                                <div class="profile-info-row">
+                                                                                    <div class="profile-info-label">عنوان</div>
+                                                                                    <div class="profile-info-value">@item.Title</div>
+                                                                                </div>
+
                                                                             </div>
-                                                                        </a>
+                                                                        </div>*@
+                                                                    <!-- <hr class="ui-separator"> -->
+                                                                }
+                                                            </tbody>
+                                                        </table>
 
-                                                                        <div class="profile-orders-header-data">
-                                                                            <div class="profile-info-row">
-                                                                                <div class="profile-info-label">عنوان</div>
-                                                                                <div class="profile-info-value">@item.Title</div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>*@
-                                                                <!-- <hr class="ui-separator"> -->
-                                                            }
-                                                        </tbody>
-                                                    </table>
-
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+
+                                        }
                                     </div>
                                 </div>
                             </div>

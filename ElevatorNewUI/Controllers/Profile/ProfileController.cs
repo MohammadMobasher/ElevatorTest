@@ -160,11 +160,11 @@ namespace ElevatorNewUI.Controllers.Profile
 
         #region SpecialInvoice
 
-        public async Task<IActionResult> ListSpecialInvoice()
+        public async Task<IActionResult> ListSpecialInvoice(string Title)
         {
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
             ViewBag.SidebarActive = ProfileSidebarSSOT.SpecialInvoice;
-            var result = await _shopOrderRepository.ListSpecialInvoice();
+            var result = await _shopOrderRepository.ListSpecialInvoice(Title);
 
             return View(result);
         }
@@ -203,11 +203,13 @@ namespace ElevatorNewUI.Controllers.Profile
 
         #region لیست پیش‌فاکتور ها
 
-        public async Task<IActionResult> ListInvoice()
+        public async Task<IActionResult> ListInvoice(string Title)
         {
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
+            ViewBag.Title = Title;
             ViewBag.SidebarActive = ProfileSidebarSSOT.Invoice;
-            var result = await _shopOrderRepository.ListInvoice(UserId);
+
+            var result = await _shopOrderRepository.ListInvoice(UserId, Title);
 
             return View(result);
         }
@@ -267,7 +269,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
         #region حذف یک آیتم از یک پیش فاکتور
 
-        public async Task<IActionResult> DeleteItemFromShopOrder(int shopOrderId, int productId)
+        public async Task<IActionResult> DeleteItemFromShopOrder(int shopOrderId, int productId, string urlBack)
         {
 
             #region حذف آیتم مورد نظر
@@ -276,7 +278,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
             #endregion
 
-            return RedirectToAction("SpecialInvoiceDetail", new { id = shopOrderId });
+            return RedirectToAction(urlBack, new { id = shopOrderId });
         }
 
         #endregion
@@ -285,13 +287,14 @@ namespace ElevatorNewUI.Controllers.Profile
         #region  به روز رسانی یک فاکتور و ...
 
         [HttpPost]
-        public async Task<IActionResult> EditShopOrder(ShopOrderUpdateFromSite model)
+        public async Task<IActionResult> EditShopOrder(ShopOrderUpdateFromSite model, string urlBack)
         {
 
             TempData.AddResult(await _shopProductRepository.UpdateCountAllItems(model));
 
-            return RedirectToAction("SpecialInvoiceDetail", new { id = model.ShopOrderId });
+            return RedirectToAction(urlBack, new { id = model.ShopOrderId });
         }
+        
         #endregion
 
 
@@ -308,13 +311,13 @@ namespace ElevatorNewUI.Controllers.Profile
 
         #region اضافه کردن یک کالا به یک فاکتور
 
-        public async Task<IActionResult> AddToShopOrder(int ProductId, int ShopOrderId, int Count)
+        public async Task<IActionResult> AddToShopOrder(int ProductId, int ShopOrderId, int Count, string urlBack)
         {
             var userId = this.GetUserId();
             var result = await _shopProductRepository.AddCart(ShopOrderId,ProductId, userId, Count);
 
 
-            return RedirectToAction("SpecialInvoiceDetail", new { id = ShopOrderId });
+            return RedirectToAction(urlBack, new { id = ShopOrderId });
         }
 
         #endregion
