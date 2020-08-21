@@ -254,14 +254,19 @@ namespace Service.Repos.User
 
         public async Task<SweetAlertExtenstion> PhoneNumberConfirmed(int userId)
         {
-            var model =await GetByIdAsync(userId);
+            try
+            {
+                var model = await GetByIdAsync(userId);
 
-            model.IsPhoneNumberConfirm = true;
-            model.IsActive = true;
+                model.IsPhoneNumberConfirm = true;
+                model.IsActive = true;
 
-            await UpdateAsync(model);
-
-            return await SaveAsync();
+                await UpdateAsync(model, true);
+                return SweetAlertExtenstion.Ok();
+            }
+            catch{
+                return SweetAlertExtenstion.Error();
+            }
         }
     }
 }

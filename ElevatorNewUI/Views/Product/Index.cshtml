@@ -4,6 +4,7 @@
 @{
     var categorys = ViewBag.Category as List<DataLayer.DTO.ProductGroupDTO>;
     var Search = ViewBag.Searcg as DataLayer.ViewModels.Products.ProductSearchListViewModel;
+    var querystringDict = Context.Request.Query.Keys.Where(x => x != "newSearch" && x != "Group").ToDictionary(k => k, v => Context.Request.Query[v]);
 }
 
 <div class="container-main">
@@ -41,7 +42,7 @@
                                                     @foreach (var item in categorys)
                                                     {
                                                         <div class="form-auth-row">
-                                                            <a asp-controller="Product" asp-action="Index" asp-route-Group="@item.Id">@item.Title</a>
+                                                            <a href="/Product/Index?@(string.Join("&", querystringDict.Select((x) => x.Key + "=" + x.Value)))&Group=@item.Id" >@item.Title</a>
                                                         </div>
                                                     }
                                                 </div>
