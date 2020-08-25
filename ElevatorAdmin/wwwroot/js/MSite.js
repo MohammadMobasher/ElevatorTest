@@ -57,7 +57,7 @@ function resize_td_table_to_th() {
             width += parseFloat($(th_tableFirst[i]).css("borderLeftWidth")) + parseFloat($(th_tableFirst[i]).css("borderRightWidth")); //Total Border Width
             $(tds[i]).css({ "width": width + "px" })
             $(tds[i]).css({ "max-width": width  + "px" })
-            $(tds[i]).css({ "white-space": "nowrap", "text-overflow": "ellipsis", "overflow": "hidden" })
+            //$(tds[i]).css({ "white-space": "nowrap", "text-overflow": "ellipsis", "overflow": "hidden" })
         }
     }
 

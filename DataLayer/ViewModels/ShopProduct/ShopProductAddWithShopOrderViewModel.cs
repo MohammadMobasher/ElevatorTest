@@ -25,5 +25,10 @@ namespace DataLayer.ViewModels.ShopProduct
 
         public bool IsFinaly { get; }
 
+        /// <summary>
+        /// آیا فاکتوری برای این سبد به ثبت رسیده است یا خیر
+        /// </summary>
+        public bool IsFactorSubmited { get; set; }
+
     }
 }

@@ -18,22 +18,22 @@
                                             <form asp-action="EditProfile" class="form-checkout">
                                                 <div class="form-checkout-row">
                                                     <label for="name">نام  <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
-                                                    <input type="text" id="name" required asp-for="@Model.FirstName" class="input-name-checkout form-control">
+                                                    <input type="text" id="name" required name="FirstName" asp-for="@Model.FirstName" class="input-name-checkout form-control">
 
                                                     <label for="name">نام خانوادگی <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
-                                                    <input type="text" id="name" required asp-for="@Model.LastName" class="input-name-checkout form-control">
+                                                    <input type="text" id="name" required name="LastName" asp-for="@Model.LastName" class="input-name-checkout form-control">
 
 
-                                                    <label for="name">آدرس ایمیل  <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
-                                                    <input type="text" id="name" required value="@Model.Email" class="input-name-checkout form-control">
+                                                    <label for="name"><span>آدرس ایمیل  <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
+                                                    <input type="text" id="name" required name="Email" value="@Model.Email" class="input-name-checkout form-control">
 
 
                                                     <label for="name">شماره موبایل   <abbr class="required" title="ضروری" style="color:red;">*</abbr></span></label>
-                                                    <input type="text" id="name" disabled value="@Model.PhoneNumber" class="input-name-checkout form-control">
+                                                    <input type="text" id="name" disabled  value="@Model.PhoneNumber" class="input-name-checkout form-control">
 
 
-                                                    <label for="name">کدملی</label>
-                                                    <input type="text" id="name" pattern="[0-9]{10}" name="NationalCode"  value="@Model.NationalCode" class="input-name-checkout form-control">
+                                                    @*<label for="name">کدملی</label>
+                                                    <input type="text" id="name" pattern="[0-9]{10}" name="NationalCode"  value="@Model.NationalCode" class="input-name-checkout form-control">*@
 
 
                                                     @*<label for="name">شماره تلفن ثابت  </label>

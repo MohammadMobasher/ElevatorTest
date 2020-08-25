@@ -71,8 +71,8 @@ namespace ElevatorAdmin
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromMinutes(60);
-                options.Cookie.HttpOnly = true;
+                options.IdleTimeout = TimeSpan.FromMinutes(1000000);
+                //options.Cookie.HttpOnly = true;
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
@@ -83,7 +83,7 @@ namespace ElevatorAdmin
             services.AddAuthentication().Services.ConfigureApplicationCookie(options =>
             {
                 options.SlidingExpiration = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(1000000);
             });
 
         }

@@ -198,6 +198,7 @@
                                 <div class="profile-stats">
                                     <div class="profile-address">
                                         <div class="middle-container">
+                                            <div class="alert alert-info font-size-14">ثبت کالای جدید</div>
                                             <form asp-controller="Profile" asp-action="AddToShopOrder" class="form-checkout">
                                                 <input type="hidden" name="ShopOrderId" value="@order.Id" />
                                                 <input type="hidden" name="urlBack" value="InvoiceDetail" />
@@ -230,6 +231,7 @@
                                 <input type="hidden" name="ShopOrderId" value="@order.Id" />
                                 <input type="hidden" name="urlBack" value="InvoiceDetail" />
                                 <div class="profile-content">
+                                    <div class="alert alert-info font-size-14">جزئیات فاکتور</div>
                                     <div class="profile-stats">
                                         <div class="table-orders">
 
@@ -292,7 +294,7 @@
                                                         <th>قیمت اصلی کالا</th>
                                                         <th>قیمت با تخفیف</th>
                                                         <th>قیمت کل</th>
-                                                        <th>مشاهده</th>
+                                                        <th>اقدامات</th>
 
                                                     </tr>
                                                 </thead>
@@ -329,7 +331,7 @@
                                                                 </a>
                                                             </td>
                                                         </tr>
-
+                                                        index++;
                                                     }
 
 
@@ -419,7 +421,11 @@
                                                                     <tr>
                                                                         <td class="order-code">@(raw1++)</td>
                                                                         <td>@(item.OrderName ?? item.Product.Title) </td>
-                                                                        <td>@item.Count </td>
+                                                                        <td>
+                                                                            <input type="hidden" value="@item.ProductId" name="ListProducts[@indexMobile].ProductId" />
+
+                                                                            <input type="number" class="productCount" style="width: 30px; text-align:center" name="ListProducts[@indexMobile].Count" value="@item.Count" />
+                                                                        </td>
                                                                         <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
                                                                         <td>@(item.OrderPrice ?? item.Product.Price.ToPersianPrice())</td>
                                                                         <td>@(item.OrderPriceDiscount ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
@@ -441,7 +447,7 @@
                                                                             </a>
                                                                         </td>
                                                                     </tr>
-
+                                                                    indexMobile++;
                                                                 }
 
                                                                 <tr>
