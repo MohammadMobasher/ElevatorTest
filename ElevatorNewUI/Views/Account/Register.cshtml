@@ -58,31 +58,31 @@
 
                                         <div class="form-account-title">
                                             <label for="UserName">نام کاربری</label>
-                                            <input type="text" placeholder="نام کاربری خود را وارد کنید" class="number-email-input" id="UserName" asp-for="UserName">
+                                            <input type="text" required placeholder="نام کاربری خود را وارد کنید" class="number-email-input" id="UserName" asp-for="UserName">
                                             <span asp-validation-for="UserName" class="text-danger"></span>
                                         </div>
 
                                         <div class="form-account-title">
                                             <label for="Email">ایمیل</label>
-                                            <input type="email" placeholder="پست الکترونیک  را وارد نمایید" class="number-email-input" id="Email" asp-for="Email">
+                                            <input type="email" required placeholder="پست الکترونیک  را وارد نمایید" class="number-email-input" id="Email" asp-for="Email">
                                             <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
 
                                         <div class="form-account-title">
                                             <label for="PhoneNumber">شماره موبایل</label>
-                                            <input type="text" placeholder="شماره موبایل خود را وارد نمایید" class="number-email-input" id="PhoneNumber" asp-for="PhoneNumber">
+                                            <input type="text" required placeholder="شماره موبایل خود را وارد نمایید" class="number-email-input" id="PhoneNumber" asp-for="PhoneNumber">
                                             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                         </div>
 
                                         <div class="form-account-title">
                                             <label for="Password">کلمه عبور</label>
-                                            <input type="password" placeholder="کلمه عبور خود را وارد نمایید" class="password-input" asp-for="Password">
+                                            <input type="password" required placeholder="کلمه عبور خود را وارد نمایید" class="password-input" asp-for="Password">
                                             <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
 
                                         <div class="form-account-title">
                                             <label for="RePassword">تکرار کلمه عبور</label>
-                                            <input type="password" placeholder="تکرار کلمه عبور خود را وارد نمایید" class="password-input" asp-for="RePassword">
+                                            <input type="password" required placeholder="تکرار کلمه عبور خود را وارد نمایید" class="password-input" asp-for="RePassword">
                                             <span asp-validation-for="RePassword" class="text-danger"></span>
                                         </div>
                                         @*<div class="form-auth-row">

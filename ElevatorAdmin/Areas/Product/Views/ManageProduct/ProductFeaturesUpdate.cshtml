@@ -31,9 +31,12 @@
             <div class="col-sm-10">
                 <select class="form-control" @(item.IsRequired ? "required" : "") name="vm.Items[@i].FeatureValue">
                     <option value="">--لطفا انتخاب کنید--</option>
-                    @foreach (FeatureItemDTO feature in item.FeatureItems)
+                    @if (item.FeatureItems.Count > 0)
                     {
-                        <!option value="@feature.Id" @(productFeature.Any(a => a.FeatureId == item.Id && a.FeatureValue == feature.Id.ToString()) ? "selected" : "")>@feature.Value</!option>
+                        @foreach (FeatureItemDTO feature in item.FeatureItems)
+                        {
+                            <!option value="@feature.Id" @(productFeature.Any(a => a.FeatureId == item.Id && a.FeatureValue == feature.Id.ToString()) ? "selected" : "")>@feature.Value</!option>
+                        }
                     }
                 </select>
             </div>
@@ -53,13 +56,12 @@
                 }
             </label>
             <div class="col-sm-10">
-                @{var val = productFeature.FirstOrDefault(a => a.FeatureId == item.Id).FeatureValue;}
+                @{var val = productFeature.FirstOrDefault(a => a.FeatureId == item.Id)?.FeatureValue;}
 
-                <input 
-                       @(item.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint ? "step='0.01'" : "")
-                       @(item.IsRequired ? "required" : "") 
-                       @(val != null ? $"value={int.Parse(val)}" : "") 
-                       type="number" placeholder="@item.Title" aria-describedby="Text" 
+                <input @(item.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fint ? "step='0.01'" : "")
+                       @(item.IsRequired ? "required" : "")
+                       @(val != null ? $"value={int.Parse(val)}" : "")
+                       type="number" placeholder="@item.Title" aria-describedby="Text"
                        name="vm.Items[@i].FeatureValue" class="form-control" />
             </div>
         </div>

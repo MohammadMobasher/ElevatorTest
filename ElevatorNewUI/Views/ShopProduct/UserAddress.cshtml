@@ -36,12 +36,12 @@
 
                                                 <div class="validate-required">
                                                     <label for="fixed-number">شماره تلفن ثابت <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" name="Telephone" value="@address?.Telephone" id="fixed-number" class="input-name-checkout form-control text-left">
+                                                    <input type="text" name="Telephone" required value="@address?.Telephone" id="fixed-number" class="input-name-checkout form-control text-left">
                                                 </div>
 
                                                 <div class="validate-required">
                                                     <label for="post-code">کد پستی <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="number" name="ZipCode" dir="ltr" value="@address?.ZipCode" id="post-code" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
+                                                    <input type="number" name="ZipCode" required dir="ltr" value="@address?.ZipCode" id="post-code" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
                                                 </div>
 
 
@@ -55,7 +55,7 @@
 
                                                 <div class="validate-required">
                                                     <label for="Street">آدرس <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" name="Address" value="@address?.Address" id="post-code" class="input-name-checkout form-control">
+                                                    <input type="text" name="Address" required value="@address?.Address" id="post-code" class="input-name-checkout form-control">
                                                 </div>
 
 
@@ -64,7 +64,7 @@
                                                         پلاک
                                                         <abbr class="required" title="ضروری" style="color:red;">*</abbr>
                                                     </label>
-                                                    <input type="number" name="Plaque" value="@address?.Plaque" id="bld-num" class="input-name-checkout js-input-bld-num form-control">
+                                                    <input type="number" name="Plaque" required value="@address?.Plaque" id="bld-num" class="input-name-checkout js-input-bld-num form-control">
                                                 </div>
 
                                                 <div class="validate-required">
