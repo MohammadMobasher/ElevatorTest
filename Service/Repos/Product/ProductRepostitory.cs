@@ -96,11 +96,12 @@ namespace Service.Repos
 
             return await (from product in DbContext.Product
                           where
+                                    product.IsActive == true && (
                                    product.Title.Contains(term.CleanString())
                                 || product.ShortDescription.Contains(term.CleanString())
                                 || product.SearchKeyWord.Contains(term.CleanString())
                                 || product.Tags.Contains(term.CleanString())
-
+                                )
                           select new select2IdTextImage
                           {
                               Id = product.Id,
@@ -476,8 +477,10 @@ namespace Service.Repos
 
         public async Task<Tuple<int, List<DataLayer.Entities.Product>>> GetProducts(ProductSearchListViewModel vm, int skip, int take)
         {
-
-            vm.Title = Regex.Replace(vm.Title, " ( )+", " ");
+            if (!string.IsNullOrEmpty(vm.Title))
+            {
+                vm.Title = Regex.Replace(vm.Title, " ( )+", " ");
+            }
 
             var model = TableNoTracking
                .Include(a => a.ProductGroup)

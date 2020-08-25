@@ -68,10 +68,10 @@ namespace Service.Repos
             /// تنها تعداد آن را به روز رسانی میکنیم
             if (model != null)
             {
-                model.Count = count;
+                model.Count += count;
 
                 await UpdateAsync(model);
-                return SweetAlertExtenstion.Error("این محصول قبلا به سبد خرید اضافه شده است و فقط تعداد آن به روز رسانی شد");
+                return SweetAlertExtenstion.Ok("این محصول قبلا به سبد خرید اضافه شده است و فقط تعداد آن به روز رسانی شد");
             }
 
             /// اضافه کردن به فاکتور
@@ -82,6 +82,9 @@ namespace Service.Repos
                 ProductId = productId,
                 UserId = userId,
                 Count = count,
+                IsFactorSubmited = true,
+                
+
             });
 
 

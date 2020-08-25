@@ -261,11 +261,22 @@ namespace ElevatorNewUI.Controllers.Profile
         {
             TempData.AddResult(await _shopOrderRepository.DeleteInvoice(id));
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ListInvoice");
         }
 
         #endregion
 
+
+        #region حذف یک پیش فاکتور
+
+        public async Task<IActionResult> SpecialInvoiceDelete(int id)
+        {
+            TempData.AddResult(await _shopOrderRepository.DeleteInvoice(id));
+
+            return RedirectToAction("ListSpecialInvoice");
+        }
+
+        #endregion
 
         #region حذف یک آیتم از یک پیش فاکتور
 
@@ -314,7 +325,7 @@ namespace ElevatorNewUI.Controllers.Profile
         public async Task<IActionResult> AddToShopOrder(int ProductId, int ShopOrderId, int Count, string urlBack)
         {
             var userId = this.GetUserId();
-            var result = await _shopProductRepository.AddCart(ShopOrderId,ProductId, userId, Count);
+            TempData.AddResult(await _shopProductRepository.AddCart(ShopOrderId,ProductId, userId, Count));
 
 
             return RedirectToAction(urlBack, new { id = ShopOrderId });

@@ -165,6 +165,7 @@
                                 <div class="profile-stats">
                                     <div class="profile-address">
                                         <div class="middle-container">
+                                            <div class="alert alert-info font-size-14">ثبت کالای جدید</div>
                                             <form asp-controller="Profile" asp-action="AddToShopOrder" class="form-checkout">
                                                 <input type="hidden" name="ShopOrderId" value="@order.Id" />
                                                 <input type="hidden" name="urlBack" value="SpecialInvoiceDetail" />
@@ -197,6 +198,7 @@
                                 <input type="hidden" name="ShopOrderId" value="@order.Id" />
                                 <input type="hidden" name="urlBack" value="SpecialInvoiceDetail" />
                                 <div class="profile-content">
+                                    <div class="alert alert-info font-size-14">جزئیات فاکتور</div>
                                     <div class="profile-stats">
                                         <div class="table-orders">
 
@@ -237,7 +239,7 @@
                                                                 </a>
                                                             </td>
                                                             <td>
-                                                                <input type="hidden" value="@item.ProductId" name="ListProducts[@index].ProductId" />
+                                                                <input type="hidden" value="@item.ProductId" name="ListProducts[@(index)].ProductId" />
 
                                                                 <input type="number" class="productCount" style="width: 30px; text-align:center" name="ListProducts[@index].Count" value="@item.Count" />
                                                             </td>
@@ -263,7 +265,7 @@
                                                             </td>
 
                                                         </tr>
-
+                                                        index++;
                                                     }
 
 
@@ -355,7 +357,7 @@
                                                                         </td>
 
                                                                     </tr>
-
+                                                                    indexMobile++;
                                                                 }
 
 
