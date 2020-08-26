@@ -78,7 +78,7 @@ namespace ElevatorAdmin
             });
 
 
-            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.FromSeconds(10));
+            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.FromSeconds(1000000));
 
             services.AddAuthentication().Services.ConfigureApplicationCookie(options =>
             {
