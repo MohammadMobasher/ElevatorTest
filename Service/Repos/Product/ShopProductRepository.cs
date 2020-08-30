@@ -17,14 +17,17 @@ namespace Service.Repos
     public class ShopProductRepository : GenericRepository<ShopProduct>
     {
         private readonly IDbConnection _connection;
+        private readonly LogRepository _logRepository;
         private readonly WarehouseProductCheckRepository _warehouseProductCheckRepository;
 
         public ShopProductRepository(
              DatabaseContext dbContext
             , IDbConnection connection
+            , LogRepository logRepository
             , WarehouseProductCheckRepository warehouseProductCheckRepository) : base(dbContext)
         {
             _connection = connection;
+            _logRepository = logRepository;
             _warehouseProductCheckRepository = warehouseProductCheckRepository;
         }
 
@@ -343,9 +346,10 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<SweetAlertExtenstion> UpdateCountAllItems(ShopOrderUpdateFromSite model)
         {
+            string query = "";
             try
             {
-                string query = "";
+                
 
                 foreach (var item in model.ListProducts)
                 {
@@ -353,11 +357,12 @@ namespace Service.Repos
                 }
 
 
-                await _connection.QueryAsync(query);
+                await _connection.QueryAsync(query + "select * from Log");
                 return SweetAlertExtenstion.Ok();
             }
             catch(Exception e)
             {
+                
                 return SweetAlertExtenstion.Error();
             }
         }
