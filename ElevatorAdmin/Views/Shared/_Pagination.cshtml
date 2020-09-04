@@ -179,6 +179,7 @@
 
         $("[name='pageSize']").on("change", function () {
             var params = window.location.search;
+    
             if (params === "") {
                 window.location.search = "?pageSize=" + $(this).val();
             }

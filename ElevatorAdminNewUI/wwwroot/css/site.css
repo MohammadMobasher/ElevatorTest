@@ -1,0 +1,226 @@
+﻿/* size */
+.size-8 {
+    font-size: 8px !important;
+}
+
+.size-10 {
+    font-size: 10px !important;
+}
+
+.size-11 {
+    font-size: 11px !important;
+}
+
+.size-12 {
+    font-size: 12px !important;
+}
+
+.size-13 {
+    font-size: 13px !important;
+}
+
+.size-14 {
+    font-size: 14px !important;
+}
+
+.size-15 {
+    font-size: 15px !important;
+}
+
+.size-16 {
+    font-size: 16px !important;
+}
+
+.size-17 {
+    font-size: 17px !important;
+}
+
+.size-18 {
+    font-size: 18px !important;
+}
+
+.size-19 {
+    font-size: 19px !important;
+}
+
+.size-20 {
+    font-size: 20px !important;
+}
+
+.size-25 {
+    font-size: 25px !important;
+}
+
+.size-30 {
+    font-size: 30px !important;
+}
+
+.size-40 {
+    font-size: 40px !important;
+}
+
+.size-50 {
+    font-size: 50px !important;
+}
+
+.size-60 {
+    font-size: 60px !important;
+}
+
+.size-70 {
+    font-size: 70px !important;
+}
+
+/* size */
+
+
+/* form controller width */
+
+
+
+
+/* form controller width */
+
+
+.card-heade-title{
+    margin-bottom:0.4rem;
+}
+
+/* panel top color*/
+.card-header-green {
+    border-top: 0.2rem solid #1e7e34;
+}
+
+.card-header-red {
+    border-top: 0.2rem solid #bd2130;
+}
+
+.card-header-yellow {
+    border-top: 0.2rem solid #d39e00;
+}
+
+.card-header-blue {
+    border-top: 0.2rem solid #0062cc;
+}
+
+.vertical-center {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    vertical-align: middle !important;
+}
+
+
+/* panel top color*/
+/* border eee */
+/* border eee */
+/*table*/
+.table {
+    border-spacing: 0.18rem !important;
+    border-collapse: separate !important;
+    background-color: transparent !important;
+    margin-bottom: 0px !important;
+}
+
+    .table > thead > tr > th {
+        border-bottom: 0px !important;
+        border-top: 0px !important;
+        padding: 0.75rem !important;
+        background-color: #3498db;
+        color: #fff;
+        font-weight: normal;
+    }
+
+    .table thead > tr:nth-child(2) > th {
+        background-color: #FFF !important;
+        color: #000 !important;
+        padding: 0.3rem;
+        vertical-align: middle !important;
+    }
+
+
+    .table > tbody > tr > td {
+        border-bottom: 0px !important;
+        border-top: 0px !important;
+        padding: 0.75rem !important;
+        line-height: 1.42857143;
+        font-weight: normal;
+        margin-top: auto !important;
+        margin-bottom: auto !important;
+        vertical-align: middle !important;
+        background: rgba(249, 249, 249, 0.87);
+    }
+
+    .table td, .table th {
+        border-top: 0px !important;
+    }
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #e3f4ff;
+}
+
+.table-btn {
+    padding: 8px 5px !important;
+    font-size: 1.3rem !important;
+}
+
+
+
+.table-scroll {
+    /* Decoration */
+    border-spacing: 0.18rem;
+    border-collapse: separate;
+}
+
+    .table-scroll thead {
+        background-color: #f1f1f1;
+        position: relative;
+        display: block;
+        width: 100%;
+        overflow-y: scroll;
+    }
+
+    .table-scroll tbody {
+        /* Position */
+        display: block;
+        position: relative;
+        width: 100%;
+        overflow-y: scroll;
+        max-height: 51vh;
+        /* Decoration */
+    }
+
+    .table-scroll tr {
+        width: 100%;
+        display: flex;
+    }
+
+    .table-scroll td, .table-scroll th {
+        flex-basis: 100%;
+        flex-grow: 2;
+        display: block;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    /* Other options */
+
+    .table-scroll.small-first-col td:first-child,
+    .table-scroll.small-first-col th:first-child {
+        flex-basis: 20%;
+        flex-grow: 1;
+    }
+
+    .table-scroll tbody tr:nth-child(2n) {
+        background-color: rgba(130,130,170,0.1);
+    }
+
+
+.body-half-screen {
+    max-height: 78vh;
+    min-height: 78vh;
+    overflow-y: auto
+}
+
+.small-col {
+    flex-basis: 10%;
+}

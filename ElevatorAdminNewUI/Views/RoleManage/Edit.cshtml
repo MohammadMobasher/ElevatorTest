@@ -1,0 +1,291 @@
+﻿@using DataLayer.Entities.Users
+@using System.Reflection
+@using Core.CustomAttributes
+@using Newtonsoft.Json
+@model Roles
+@{
+    ViewData["Title"] = "ویرایش دسترسی";
+    var actionInfo = ViewBag.ActionInfo as Dictionary<string, List<MethodInfo>>;
+    var controllerInfo = ViewBag.ControllerInfo as List<Type>;
+    var listAccess = ViewBag.Accesss as List<UsersAccess>;
+}
+
+<style>
+    ul {
+        list-style-type: none;
+    }
+
+    .grid-item {
+        width: 25%;
+    }
+</style>
+
+
+<section id="fixedheader">
+    <div class="row">
+        <div class="col-12">
+            <div class="card ">
+                <div class="card-header-yellow">
+                </div>
+                <div class="card-content collapse show">
+                    <div class="card-body card-dashboard body-half-screen">
+                        <div class="">
+
+
+
+
+                            <form asp-action="Edit" method="post">
+                                <input type="hidden" asp-for="Id" />
+
+                                <div class="card">
+                                    <div class="card-heade-title">
+                                        اطلاعات نقش
+                                    </div>
+                                    <div class="card-header-red">
+                                    </div>
+
+                                    <div class="card-content collapse show">
+                                        <div class="card-body row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-12">نقش <i class="text-danger fa fa-star size-8"></i></label>
+                                                    <div class="col-md-12">
+                                                        <input type="text" asp-for="Name" required class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-12">عنوان نقش <i class="text-danger fa fa-star size-8"></i></label>
+                                                    <div class="col-md-12">
+                                                        <input type="text" asp-for="RoleTitle" required class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="card-heade-title">
+                                        دسترسی‌ها
+                                    </div>
+                                    <div class="card-header-blue">
+                                    </div>
+
+                                    <div class="card-content collapse show">
+                                        <div class="card-body row ">
+                                            @{ var raw = 0;}
+                                            @foreach (var item in controllerInfo)
+                                            {
+                                                var currentAccess = listAccess.FirstOrDefault(a => a.Controller.Equals(item.Name));
+
+                                                <div class="col-md-4 col-lg-4  ">
+                                                    <input type="hidden" name="vm[@raw].RoleId" value="@item.Name" />
+                                                    <div class="card border-top-2 border-top-primary bg-light">
+                                                        <div class="card-header">
+                                                            <h1 class="card-title">
+                                                                @(item.GetCustomAttribute<ControllerRoleAttribute>()?.GetName())
+                                                            </h1>
+                                                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                                            <div class="heading-elements">
+                                                                <input type="checkbox" class="switchery checkboxHead checkbox-NotValue" name="vm[@raw].Controller" @(currentAccess != null ? "checked" : "") value="@item.Name" data-role="@item.Name" data-size="sm" data-color="info" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-content">
+                                                            <div class="card-body">
+
+                                                                <ul>
+
+                                                                    @{
+                                                                        var lst = actionInfo.Keys.ToList().Contains(item.Name) ? actionInfo[item.Name] : null;
+                                                                        var actionJsons = new List<string>();
+                                                                        if (currentAccess != null && currentAccess.Actions != null)
+                                                                        {
+                                                                            actionJsons.AddRange(JsonConvert.DeserializeObject<List<string>>(currentAccess.Actions));
+                                                                        }
+                                                                    }
+                                                                    @if (lst != null)
+                                                                    {
+                                                                        foreach (var actions in lst)
+                                                                        {
+                                                                            <li>
+
+                                                                                <div class="checkbox checkbox-info" style="top:-10px;padding-left:0 !important">
+                                                                                    <input type="checkbox" class="sub_@item.Name checkbox-NotValue" name="vm[@raw].Actions" @(actionJsons.Contains(actions?.Name) ? "checked" : "") value="@actions?.Name" disabled>
+                                                                                    <label>
+                                                                                        @(actions.GetCustomAttribute<ActionRoleAttribute>()?.GetActionName())
+                                                                                    </label>
+                                                                                </div>
+
+                                                                                @*<div class="row skin skin-square  ">
+                                                                                        <fieldset>
+                                                                                            <input type="checkbox" class="sub_@item.Name checkbox-NotValue" name="vm[@raw].Actions" @(actionJsons.Contains(actions?.Name) ? "checked" : "") value="@actions?.Name" disabled />
+                                                                                            <label for="vm[@raw].Actions">
+                                                                                                @(actions.GetCustomAttribute<ActionRoleAttribute>()?.GetActionName())
+                                                                                            </label>
+                                                                                        </fieldset>
+
+                                                                                    </div>*@
+                                                                            </li>
+                                                                        }
+                                                                    }
+
+
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                                @*<div class="col-md-4 col-lg-4 col-xl-12 col-sm-12 grid-item">
+                                                        <input type="hidden" name="vm[@raw].RoleId" value="@item.Name" />
+                                                        <div class="card-box">
+                                                            <div class="dropdown pull-right">
+                                                                <div class="checkbox checkbox-primary" style="top:-10px;padding-left:0 !important">
+                                                                    <input type="checkbox" class="checkboxHead checkbox-NotValue" name="vm[@raw].Controller" @(currentAccess != null ? "checked" : "") value="@item.Name" data-role="@item.Name">
+
+                                                                    <label>
+
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+
+                                                            <h4 class="header-title m-t-0 m-b-30">@(item.GetCustomAttribute<ControllerRoleAttribute>()?.GetName())</h4>
+                                                            <hr class="hr-random" />
+                                                            <ul>
+                                                                @{
+                                                                    var lst = actionInfo.Keys.ToList().Contains(item.Name) ? actionInfo[item.Name] : null;
+                                                                    var actionJsons = new List<string>();
+                                                                    if (currentAccess != null && currentAccess.Actions != null)
+                                                                    {
+                                                                        actionJsons.AddRange(JsonConvert.DeserializeObject<List<string>>(currentAccess.Actions));
+                                                                    }
+                                                                }
+                                                                @if (lst != null)
+                                                                {
+                                                                    foreach (var actions in lst)
+                                                                    {
+                                                                        <li>
+                                                                            <div class="checkbox checkbox-info" style="top:-10px;padding-left:0 !important">
+                                                                                <input type="checkbox" class="sub_@item.Name checkbox-NotValue" name="vm[@raw].Actions" @(actionJsons.Contains(actions?.Name) ? "checked" : "") value="@actions?.Name" disabled>
+                                                                                <label>
+                                                                                    @(actions.GetCustomAttribute<ActionRoleAttribute>()?.GetActionName())
+                                                                                </label>
+                                                                            </div>
+                                                                        </li>
+                                                                    }
+                                                                }
+
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>*@
+
+                                                raw++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<button type="submit" class="btn btn-success btn-block">ثبت </button>
+                                    <a href='/RoleManage/Index' class="btn btn-danger btn-block">بازگشت</a>*@
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    $(function () {
+        var checkBoxHead = $('.checkboxHead');
+        $.each(checkBoxHead, function (index, key) {
+
+            var id = $(key).attr("data-role");
+            var inputs = $('.sub_' + id);
+
+            var check = $(key).is(":checked");
+            
+
+            if (check == false) {
+                $.each(inputs, function (index, key) {
+                    $(key).attr("disabled", "disabled")
+                })
+            }
+            else {
+                $.each(inputs, function (index, key) {
+                    $(key).removeAttr("disabled")
+                })
+            }
+        })
+
+            $('.checkboxHead').on("click", function () {
+
+                var id = $(this).attr("data-role");
+                var inputs = $('.sub_' + id);
+
+                var check = $(this).is(":checked");
+                
+                console.log("check => ", check);
+
+                if (check == false) {
+
+                    $.each(inputs, function (index, key) {
+                        $(key).attr("disabled", "disabled")
+                    })
+
+                }
+                else {
+
+                    $.each(inputs, function (index, key) {
+                        $(key).removeAttr("disabled")
+                    })
+                }
+            })
+        })
+    </script>
+
+
+
+</section>
+
+
+@*<script>
+                    grid = $('.grid').isotope({
+                        // options
+                        itemSelector: '.grid-item',
+                        layoutMode: 'masonry',
+                        isOriginLeft: false
+                    });
+
+                    setTimeout(function () {
+                        grid.isotope('layout');
+                    }, 10);
+
+                    $('.button-menu-mobile').on("click", function () {
+
+                        setTimeout(function () {
+                            grid.isotope('layout');
+                        }, 300);
+                    });
+
+    </script>*@
+@*$('hr[class^="hr-random"]').each(function () {
+        $(this).css('background-color', '#' + Math.floor(Math.random() * 16777215).toString(16));
+    });*@
+
+

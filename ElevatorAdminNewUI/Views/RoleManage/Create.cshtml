@@ -1,0 +1,179 @@
+﻿@using System.Reflection
+@using Core.CustomAttributes
+
+@{
+    ViewData["Title"] = "ثبت دسترسی";
+    var actionInfo = ViewBag.ActionInfo as Dictionary<string, List<MethodInfo>>;
+    var controllerInfo = ViewBag.ControllerInfo as List<Type>;
+}
+
+<style>
+    ul {
+        list-style-type: none;
+    }
+</style>
+
+<form asp-action="Create" method="post">
+
+
+
+
+    <div class="form-group clearfix">
+        <label class="control-label col-md-2">نقش <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-md-10">
+            <input type="text" name="Name" required class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group clearfix">
+        <label class="control-label col-md-2">عنوان نقش <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-md-10">
+            <input type="text" name="RoleTitle" required class="form-control" />
+        </div>
+    </div>
+
+
+    <div class="card-box" style="background-color:#EEE">
+
+
+        <div class="row grid">
+
+            @{ var raw = 0;}
+            @foreach (var item in controllerInfo)
+            {
+
+
+                <div class="col-md-4 col-lg-4 col-xl-12 col-sm-12 grid-item">
+                    <input type="hidden" name="vm[@raw].RoleId" value="@item.Name" />
+                    <div class="card-box">
+                        <div class="dropdown pull-right">
+                            <div class="checkbox checkbox-primary" style="top:-10px;padding-left:0 !important">
+                                <input type="checkbox" class="checkboxHead checkbox-NotValue" name="vm[@raw].Controller" value="@item.Name" data-role="@item.Name">
+
+                                <label>
+
+                                </label>
+                            </div>
+                        </div>
+
+                        <h4 class="header-title m-t-0 m-b-30">@(item.GetCustomAttribute<ControllerRoleAttribute>()?.GetName())</h4>
+                        <hr class="hr-random" />
+                        <ul>
+                            @{
+                                var lst = actionInfo.Keys.ToList().Contains(item.Name) ? actionInfo[item.Name] : null;
+
+                            }
+                            @if (lst != null)
+                            {
+                                foreach (var actions in lst)
+                                {
+                                    <li>
+                                        <div class="checkbox checkbox-info" style="top:-10px;padding-left:0 !important">
+                                            <input type="checkbox" class="sub_@item.Name checkbox-NotValue" name="vm[@raw].Actions" value="@actions?.Name" disabled>
+                                            <label>
+                                                @(actions.GetCustomAttribute<ActionRoleAttribute>()?.GetActionName())
+                                            </label>
+                                        </div>
+                                    </li>
+                                }
+                            }
+
+
+                        </ul>
+                    </div>
+                </div>
+
+                raw++;
+            }
+
+        </div>
+    </div>
+
+    
+    <button type="submit" class="btn btn-success btn-block">ثبت </button>
+    <a href='/RoleManage/Index' class="btn btn-danger btn-block">بازگشت</a>
+</form>
+<div>
+
+</div>
+
+
+
+@section Script{
+    <script>
+        grid = $('.grid').isotope({
+            // options
+            itemSelector: '.grid-item',
+            layoutMode: 'masonry',
+            isOriginLeft: false
+        });
+
+        setTimeout(function () {
+            grid.isotope('layout');
+        }, 10);
+
+        $('.button-menu-mobile').on("click", function () {
+
+            setTimeout(function () {
+                grid.isotope('layout');
+            }, 300);
+        });
+
+    </script>
+    <script>
+        $(function () {
+
+
+            $('hr[class^="hr-random"]').each(function () {
+                $(this).css('background-color', '#' + Math.floor(Math.random() * 16777215).toString(16));
+            });
+
+
+
+
+
+            var checkBoxHead = $('.checkboxHead');
+            $.each(checkBoxHead, function (index, key) {
+                var id = $(key).attr("data-role");
+                var inputs = $('.sub_' + id);
+
+                var check = $(key).is(":checked");
+
+                if (check == false) {
+
+                    $.each(inputs, function (index, key) {
+                        $(key).attr("disabled", "disabled")
+                    })
+
+                }
+                else {
+
+                    $.each(inputs, function (index, key) {
+                        $(key).removeAttr("disabled")
+                    })
+                }
+            })
+
+            $('.checkboxHead').on("click", function () {
+                var id = $(this).attr("data-role");
+                var inputs = $('.sub_' + id);
+
+                var check = $(this).is(":checked");
+
+                if (check == false) {
+
+                    $.each(inputs, function (index, key) {
+                        $(key).attr("disabled", "disabled")
+                    })
+
+                }
+                else {
+
+                    $.each(inputs, function (index, key) {
+                        $(key).removeAttr("disabled")
+                    })
+                }
+            })
+        })
+    </script>
+}

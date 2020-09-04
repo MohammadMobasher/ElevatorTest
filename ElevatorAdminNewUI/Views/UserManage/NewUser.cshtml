@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "NewUser";
+    Layout = "~/Views/Shared/_ModalLayout.cshtml";
+}
+
+<form class="form-horizontal" method="post" asp-action="NewUser" asp-controller="UserManage">
+
+    <div class="form-group">
+        <label for="FirstName" class="control-label col-sm-2">نام <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" required="required" name="FirstName" aria-describedby="FirstName" placeholder="نام" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="LastName" class="control-label col-sm-2">نام خانوادگی <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" required="required" name="LastName" aria-describedby="LastName" placeholder="نام خانوادگی" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Email" class="control-label col-sm-2">ایمیل <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" required="required" name="Email" aria-describedby="Email" placeholder="ایمیل" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="PhoneNumber" class="control-label col-sm-2">تلفن همراه <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" required="required" name="PhoneNumber" aria-describedby="PhoneNumber" placeholder="تلفن همراه" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="UserName" class="control-label col-sm-2">نام کاربری <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" required="required" name="UserName" aria-describedby="UserName" placeholder="نام کاربری" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Password" class="control-label col-sm-2">کلمه عبور <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" required="required" name="Password" aria-describedby="Password" placeholder="کلمه عبور" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="RePassword" class="control-label col-sm-2">تکرار کلمه عبور <i class="text-danger fa fa-star size-8"></i></label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" required="required" name="RePassword" aria-describedby="RePassword" placeholder="تکرار کلمه عبور" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-success">ثبت</button>
+
+</form>

@@ -81,6 +81,38 @@
                             <a href="http://liftbazar.ir/">برای ورود به لیفت بازار و مشاهده قیمت روز قطعات آسانسور، کلیک کنید</a>
                         </div>
 
+                        <table class="text-center Mtable table table-profile-orders table-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">عنوان</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3">
+                                        @order.Title
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <thead>
+                                <tr>
+                                    <th>کد سفارش</th>
+                                    <th>نام و نام خانوادگی</th>
+                                    <th>شماره تماس</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@order.Id</td>
+                                    <td>@userInfo.FirstName @userInfo.LastName</td>
+                                    <td>@userInfo.PhoneNumber</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
                         <!--اطلاعات محصول-->
                         <table class="text-center Mtable table table-profile-orders table-bordered">
                             <thead>
@@ -142,7 +174,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">جمع کل به حروف:</td>
-                                    <td colspan="6">@(((long)order.Amount).ToPersianPrice()) تومان</td>
+                                    <td colspan="6">@(order.Amount.NumberToText(Language.Persian)) تومان</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -202,6 +234,7 @@
                                     <div class="profile-stats">
                                         <div class="table-orders">
 
+                                            
 
                                             <table class="table table-profile-orders text-center">
                                                 <tbody>

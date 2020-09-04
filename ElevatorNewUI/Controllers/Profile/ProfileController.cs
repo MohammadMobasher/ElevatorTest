@@ -183,7 +183,7 @@ namespace ElevatorNewUI.Controllers.Profile
                 return NotFound();
 
             // اطلاعات کاربر
-            //ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == order.UserId);
+            ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == order.UserId);
             ViewBag.Order = order;
 
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == order.UserId);

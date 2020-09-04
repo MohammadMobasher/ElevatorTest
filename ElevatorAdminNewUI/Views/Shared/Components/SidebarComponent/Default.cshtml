@@ -1,0 +1,58 @@
+﻿@using DataLayer.ViewModels.User
+@using DataLayer.ViewModels.SideBar
+@model List<SidebarViewModel>
+@{ List<UserAccessListViewModel> ListAccess = ViewBag.ListAccess; }
+
+<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow " data-scroll-to-active="true">
+    <div class="main-menu-content">
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+
+            @foreach (SidebarViewModel item in Model)
+            {
+                @if ((item.Controller == "" && item.Action == "") || ListAccess.Where(x => x.Controller == item.Controller + "Controller" && x.Action == item.Action).SingleOrDefault() != null || ListAccess.Any(a => a.IsAdmin == true))
+                {
+
+                    @if (item.Childs == null)
+                    {
+
+                        <li class=" nav-item">
+                            <a href="@item.Area/@item.Controller/@item.Action">
+                                <i class="@item.Icon"></i>
+                                <span class="menu-title" data-i18n="nav.dash.main">@item.Title</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        var hasAcessToThisItem = item.Childs.Where(x => ListAccess.Any(xx => xx.Controller == x.Controller + "Controller" && xx.Action == x.Action)).ToList();
+
+
+                        if (hasAcessToThisItem != null && hasAcessToThisItem.Count > 0 || ListAccess.Any(a => a.IsAdmin == true))
+                        {
+
+                            <li class=" nav-item">
+                                <a href="#"><i class="@item.Icon"></i><span class="menu-title">@item.Title</span></a>
+                                <ul class="menu-content">
+                                    @foreach (SidebarChildViewModel child in item.Childs)
+                                    {
+                                        <li>
+                                            <a href="/@child.Area/@child.Controller/@child.Action"
+                                               class="menu-item" data-i18n="nav.navbars.nav_light">@child.Title</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
+
+
+                        }
+                    }
+                }
+            }
+
+
+        </ul>
+    </div>
+</div>
+
+

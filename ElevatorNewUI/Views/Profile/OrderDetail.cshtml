@@ -209,7 +209,7 @@
 
                                                 <tr>
                                                     <td colspan="2">جمع کل :</td>
-                                                    <td colspan="6">@(((long)order.PaymentAmount).ToPersianPrice()) تومان</td>
+                                                    <td colspan="6">@(order.Amount.NumberToText(Language.Persian)) تومان</td>
                                                 </tr>
                                             </tbody>
                                         </table>
