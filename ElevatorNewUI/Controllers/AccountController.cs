@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -396,6 +395,13 @@ namespace ElevatorNewUI.Controllers
             var resultSms = _smsRestClient.SendByBaseNumber(text, "09034537712", (int)SmsBaseCodeSSOT.TestSms);
 
             return Json(true);
+        }
+
+
+        public IActionResult Test()
+        {
+
+            return Json(false);
         }
 
     }
