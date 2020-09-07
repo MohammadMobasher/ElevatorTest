@@ -226,7 +226,7 @@
                             </div>
 
 
-                            <form asp-controller="Profile" asp-action="EditShopOrder">
+                            <form asp-controller="Profile" asp-action="EditShopOrder" id="frmUpdate" method="post">
                                 <input type="hidden" name="ShopOrderId" value="@order.Id" />
                                 <input type="hidden" name="urlBack" value="SpecialInvoiceDetail" />
                                 <div class="profile-content">
@@ -234,7 +234,7 @@
                                     <div class="profile-stats">
                                         <div class="table-orders">
 
-                                            
+
 
                                             <table class="table table-profile-orders text-center">
                                                 <tbody>
@@ -272,9 +272,9 @@
                                                                 </a>
                                                             </td>
                                                             <td>
-                                                                <input type="hidden" value="@item.ProductId" name="ListProducts[@(index)].ProductId" />
+                                                                @*<input type="hidden" value="@item.ProductId" name="ListProducts[@(index)].ProductId" />*@
 
-                                                                <input type="number" class="productCount" style="width: 30px; text-align:center" name="ListProducts[@index].Count" value="@item.Count" />
+                                                                <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Desktop" data-productId="@item.ProductId" value="@item.Count" @*name="ListProducts[@index].Count"*@ />
                                                             </td>
                                                             <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
                                                             <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
@@ -364,9 +364,9 @@
                                                                             </a>
                                                                         </td>
                                                                         <td>
-                                                                            <input type="hidden" value="@item.ProductId" name="ListProducts[@indexMobile].ProductId" />
+                                                                            @*<input type="hidden" value="@item.ProductId" name="ListProducts[@indexMobile].ProductId" />*@
 
-                                                                            <input type="number" class="productCount" style="width: 30px; text-align:center" name="ListProducts[@indexMobile].Count" value="@item.Count" />
+                                                                            <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Mobile" value="@item.Count" data-productId="@item.ProductId" @*name="ListProducts[@indexMobile].Count"*@ />
                                                                         </td>
                                                                         <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
                                                                         <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
@@ -422,7 +422,7 @@
                                     </div>
                                 </div>
 
-                                <input type="submit" class="btn btn-warning pull-left editBtn" style="margin-left:16px;" value="به روز رسانی">
+                                <input type="submit" class="btn btn-warning pull-left editBtn " style="margin-left:16px;display:none" value="به روز رسانی">
                             </form>
                             <a class="btn btn-success pull-left " style=" margin-left:16px" href="/Profile/CreateFactorFromInvoce?id=@order.Id">ثبت فاکتور</a>
                             <a class="btn btn-danger pull-left" style="margin-left:16px" href="/Profile/ListInvoice">بازگشت</a>
@@ -438,18 +438,27 @@
 <script>
 
     $(function () {
+        $('.productCount').on("change", function (event) {
+            debugger;
+            var sectionType = $(this).attr("data-section");
 
-        $('.productCount').on("keypress", function (event) {
+            var inputs = $(`input[data-section="${sectionType}"]`);
 
-            var keycode = (event.keyCode ? event.keyCode : event.which);
-            if (keycode == '13') {
+            $.each(inputs, function (index, key) {
+                var value = $(key).val();
+                var id = $(key).attr('data-productId');
+                $('#frmUpdate').append(`<input type='hidden' name='ListProducts[${index}].Count' value='${value}'/>`);
+                $('#frmUpdate').append(`<input type='hidden' name='ListProducts[${index}].ProductId' value='${id}'/>`);
+            })
 
-                $('.editBtn').trigger('click');
-            }
+            //var keycode = (event.keyCode ? event.keyCode : event.which);
+            $('#frmUpdate').submit();
+            $('.editBtn').trigger('click');
+
         });
 
     });
-    <img src="~/images/man.png" />
+    //<img src="~/images/man.png" />
 </script>
 <script language="javascript">
     $('[name="ProductId"]').select2({
@@ -502,7 +511,7 @@
         },
         minimumInputLength: 1,
         templateResult: function (idioma) {
-            
+
 
             src = "";
             if (idioma.hasOwnProperty('loading')) {
