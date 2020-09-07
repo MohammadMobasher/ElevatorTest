@@ -46,12 +46,12 @@ namespace ElevatorAdmin
             services.AddHttpClient();
 
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
 
 
             services.DatabaseConfiguration(Configuration);
@@ -62,19 +62,20 @@ namespace ElevatorAdmin
             services.ClaimFactoryConfiguration();
 
             services.AddDistributedMemoryCache();
+            services.AddResponseCaching();
 
-         
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddSessionStateTempDataProvider();
 
             services.AddSession(options =>
             {
+                options.CookieName = ".Elevator.Session";
                 // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromMinutes(1000000);
-                //options.Cookie.HttpOnly = true;
-                // Make the session cookie essential
-                options.Cookie.IsEssential = true;
+                options.Cookie.Expiration = TimeSpan.FromHours(5);
+                options.IdleTimeout = TimeSpan.FromHours(5);
+                options.Cookie.HttpOnly = true;
+
             });
 
 
@@ -83,7 +84,7 @@ namespace ElevatorAdmin
             services.AddAuthentication().Services.ConfigureApplicationCookie(options =>
             {
                 options.SlidingExpiration = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(1000000);
+                options.ExpireTimeSpan = TimeSpan.FromHours(5);
             });
 
         }
