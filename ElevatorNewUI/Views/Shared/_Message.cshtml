@@ -10,9 +10,8 @@
     @if (!string.IsNullOrEmpty(isSuccess))
     {
         <script>
-                (function () {
-
-            ShowSweetAlert();
+            $(function () {
+                ShowSweetAlert();
 
             function ShowSweetAlert() {
                 var Message = @(new HtmlString(JsonConvert.SerializeObject(isSuccess)));
@@ -35,7 +34,7 @@
                     });
 
         }
-    }());
+            });
 
         </script>
     }

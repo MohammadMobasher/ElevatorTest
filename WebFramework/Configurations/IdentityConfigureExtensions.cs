@@ -28,13 +28,19 @@ namespace WebFramework.Configurations
                 //Singin Settings
                 //identityOptions.SignIn.RequireConfirmedEmail = false;
                 //identityOptions.SignIn.RequireConfirmedPhoneNumber = false;
+                
+
 
                 //Lockout Settings
-                identityOptions.Lockout.MaxFailedAccessAttempts = 5;
-                identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                identityOptions.Lockout.MaxFailedAccessAttempts = 10;
+                identityOptions.Lockout.DefaultLockoutTimeSpan = DateTime.Now.Subtract(DateTime.UtcNow).Add(TimeSpan.FromSeconds(5));
                 identityOptions.Lockout.AllowedForNewUsers = false;
+
+
+                //identityOptions.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromHours(10);
             })
-            .AddEntityFrameworkStores<DatabaseContext>();
+            .AddEntityFrameworkStores<DatabaseContext>()
+            .AddDefaultTokenProviders();
         }
     }
 }
