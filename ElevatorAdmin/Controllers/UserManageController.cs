@@ -25,7 +25,6 @@ namespace ElevatorAdmin.Controllers
         private readonly UsersRoleRepository _usersRoleRepository;
         private readonly RoleRepository _roleRepository;
         private readonly SmsService _smsService;
-        private readonly SmsRestClient _smsRestClient;
         public UserManageController
             (UserRepository userRepository,
             UserManager<Users> userManager

@@ -21,7 +21,7 @@ namespace ElevatorAdmin
 {
     public class Startup
     {
-        
+
         private readonly SiteSettings _siteSetting;
         public IConfiguration Configuration { get; }
 
@@ -32,27 +32,11 @@ namespace ElevatorAdmin
             _siteSetting = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
         }
 
-        
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            //services.AddSingleton<IConfiguration>(new ConfigurationBuilder()
-            //    .SetBasePath(Directory.GetCurrentDirectory())
-            //    .AddJsonFile($"appsettings.json")
-            //    .Build());
-
             services.AddHttpClient();
-
-
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
+          
 
             services.DatabaseConfiguration(Configuration);
             services.AddCustomIdentity(_siteSetting.IdentitySettings);
@@ -63,38 +47,42 @@ namespace ElevatorAdmin
 
             services.AddDistributedMemoryCache();
 
-         
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddSessionStateTempDataProvider();
+
 
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromMinutes(1000000);
+                options.IdleTimeout = TimeSpan.FromSeconds(30);
                 //options.Cookie.HttpOnly = true;
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
 
-
-            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.FromSeconds(1000000));
+            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.FromSeconds(10));
 
             services.AddAuthentication().Services.ConfigureApplicationCookie(options =>
             {
                 options.SlidingExpiration = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(1000000);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(40);
+                options.Cookie.Expiration = TimeSpan.FromMinutes(40);
+
             });
 
+            services.Configure<CookieTempDataProviderOptions>(options => {
+                options.Cookie.IsEssential = true;
+            });
+
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
             //if (env.IsDevelopment())
             //{
-                app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
             //}
             //else
             //{
@@ -103,20 +91,27 @@ namespace ElevatorAdmin
 
             // Redirect StatusCode 400 & 404
             app.UseRedirectConfigure();
-
             app.UseStaticFiles();
             app.UseAuthentication();
-
 
             //app.UseSignalR(route =>
             //{
             //    route.MapHub<UserOnlineCountHub>("/");
             //});
 
-
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions
+            //{
+            //    AuthenticationScheme = AppConfiguration.AuthCookie,
+            //    LoginPath = new PathString("/Account/Login/"),
+            //    ExpireTimeSpan = TimeSpan.FromMinutes(20),
+            //    AccessDeniedPath = new PathString("/Account/AccessDenied/"),
+            //    AutomaticAuthenticate = true,
+            //    AutomaticChallenge = true,
+            //    CookieName = ".Mapfan.Auth",
+            //    //SessionStore = new MemoryCacheTicketStore()
+            //});
 
             app.UseSession();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute("areaRoute", "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
