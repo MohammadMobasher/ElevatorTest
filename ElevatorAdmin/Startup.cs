@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
@@ -18,6 +19,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json.Serialization;
 using Service;
 using WebFramework.Configurations;
@@ -55,59 +58,50 @@ namespace ElevatorAdmin
                     UnicodeRanges.Arabic
                 }));
 
-            services.AddMvc(config =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
+            //services.AddMvc(config =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .Build();
 
-                config.Filters.Add(new AuthorizeFilter(policy));
-            })
-                .AddJsonOptions(x =>
-                {
-                    x.SerializerSettings.ContractResolver = new DefaultContractResolver();
-                });
+            //    config.Filters.Add(new AuthorizeFilter(policy));
+            //})
+            //    .AddJsonOptions(x =>
+            //    {
+            //        x.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            //    });
 
             services.AddDistributedMemoryCache();
             services.AddResponseCaching();
 
-            services.AddSession(options =>
-            {
-                options.CookieName = ".elevator.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(20);
-                options.CookieHttpOnly = true;
-            });
+            //services.AddSession(options =>
+            //{
+            //    options.CookieName = ".elevator.Session";
+            //    options.IdleTimeout = TimeSpan.FromSeconds(20);
+            //    options.CookieHttpOnly = true;
+            //});
 
 
             //services.AddHttpClient();
 
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => false;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.Name = ".elevator.admin";
-                options.Cookie.Expiration = DateTime.Now.Subtract(DateTime.UtcNow).Add(TimeSpan.FromHours(5));
-
-                options.ExpireTimeSpan = DateTime.Now.Subtract(DateTime.UtcNow).Add(TimeSpan.FromHours(5));
-
-                options.SlidingExpiration = true;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => false;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
 
 
-            services.AddSession(options =>
-            {
-                // Set a short timeout for easy testing.
-                options.IdleTimeout = DateTime.Now.Subtract(DateTime.UtcNow).Add(TimeSpan.FromHours(5));
-                //options.Cookie.HttpOnly = true;
-                // Make the session cookie essential
-                options.Cookie.IsEssential = true;
-            });
 
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.Cookie.Name = ".elevator2.admin";
+            //    //options.Cookie.Expiration = DateTime.Now.Subtract(DateTime.UtcNow).Add(TimeSpan.FromMinutes(1));
+            //    options.ExpireTimeSpan = DateTime.Now.Subtract(DateTime.UtcNow).Add(TimeSpan.FromMinutes(1));
+
+            //    options.SlidingExpiration = true;
+            //});
 
             services.DatabaseConfiguration(Configuration);
             services.AddCustomIdentity(_siteSetting.IdentitySettings);
@@ -117,6 +111,30 @@ namespace ElevatorAdmin
             services.ClaimFactoryConfiguration();
 
             services.AddDistributedMemoryCache();
+
+
+            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.FromSeconds(10));
+            services.AddAuthentication()
+                .Services.ConfigureApplicationCookie(options =>
+                {
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = TimeSpan.FromDays(90);
+                });
+
+
+
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = DateTime.Now.Subtract(DateTime.UtcNow).Add(TimeSpan.FromSeconds(20));
+                //options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
+
+
+          
 
 
 
@@ -133,7 +151,7 @@ namespace ElevatorAdmin
             //    options.ValidationInterval = TimeSpan.FromMinutes(1000000)
             //});
 
-            
+
 
 
 
@@ -156,7 +174,31 @@ namespace ElevatorAdmin
             // Redirect StatusCode 400 & 404
             app.UseRedirectConfigure();
             app.UseCookiePolicy();
-            app.UseStaticFiles();
+            app.UseResponseCaching();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = (context) =>
+                {
+                    //if (context.File.Name.ToLower().EndsWith(".css"))
+                    //{
+                    //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                    //    context.Context.Response.Headers["Expires"] = "-1";
+                    //}
+                    //if (context.File.Name.ToLower().EndsWith(".js"))
+                    //{
+                    //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                    //    context.Context.Response.Headers["Expires"] = "-1";
+                    //}
+                    //if (context.File.Name.ToLower().EndsWith(".png"))
+                    //{
+                    //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                    //    context.Context.Response.Headers["Expires"] = "-1";
+                    //}
+                    // Disable caching of all static files.
+                    context.Context.Response.Headers.Add("Cache-Control", "public,max-age=2592000");
+                    context.Context.Response.Headers.Append("Expires", DateTime.UtcNow.AddDays(30).ToString("R", CultureInfo.InvariantCulture));
+                }
+            });
             app.UseAuthentication();
 
 
@@ -165,9 +207,21 @@ namespace ElevatorAdmin
             //    route.MapHub<UserOnlineCountHub>("/");
             //});
 
-            app.UseSession(new SessionOptions() { Cookie = new CookieBuilder() { Name = ".AspNetCore.Session.ElevatorAdmin" } });
 
-            //app.UseSession();
+            //app.Use(async (context, next) =>
+            //{
+            //    //context.Response.Headers[HeaderNames.CacheControl] =
+            //    //    new StringValues(new[] { "no-cache", "max-age=2592000", "must-revalidate", "no-store" });
+            //    context.Request.Headers.Add("Cache-Control", "public,max-age=2592000");
+            //    context.Request.Headers.Append("Expires", DateTime.UtcNow.AddDays(30).ToString("R", CultureInfo.InvariantCulture));
+            //    //context.Response.Headers[HeaderNames.Pragma] = "no-cache";
+
+            //    await next();
+            //});
+
+
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

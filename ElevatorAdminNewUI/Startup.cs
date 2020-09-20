@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,8 +15,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 using Service;
 using WebFramework.Configurations;
+using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
 namespace ElevatorAdminNewUI
 {
@@ -104,7 +108,31 @@ namespace ElevatorAdminNewUI
             // Redirect StatusCode 400 & 404
             app.UseRedirectConfigure();
 
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = (context) =>
+                {
+                    //if (context.File.Name.ToLower().EndsWith(".css"))
+                    //{
+                    //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                    //    context.Context.Response.Headers["Expires"] = "-1";
+                    //}
+                    //if (context.File.Name.ToLower().EndsWith(".js"))
+                    //{
+                    //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                    //    context.Context.Response.Headers["Expires"] = "-1";
+                    //}
+                    //if (context.File.Name.ToLower().EndsWith(".png"))
+                    //{
+                    //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                    //    context.Context.Response.Headers["Expires"] = "-1";
+                    //}
+                    // Disable caching of all static files.
+                    context.Context.Response.Headers.Add("Cache-Control", "public,max-age=2592000");
+                    context.Context.Response.Headers.Append("Expires", DateTime.UtcNow.AddDays(30).ToString("R", CultureInfo.InvariantCulture));
+                }
+            });
             app.UseAuthentication();
 
 
@@ -112,7 +140,17 @@ namespace ElevatorAdminNewUI
             //{
             //    route.MapHub<UserOnlineCountHub>("/");
             //});
+            app.UseResponseCaching();
+            //app.Use(async (context, next) =>
+            //{
+            //    //context.Response.Headers[HeaderNames.CacheControl] =
+            //    //    new StringValues(new[] { "no-cache", "max-age=2592000", "must-revalidate", "no-store" });
+            //    context.Request.Headers.Add("Cache-Control", "public,max-age=2592000");
+            //    context.Request.Headers.Append("Expires", DateTime.UtcNow.AddDays(30).ToString("R", CultureInfo.InvariantCulture));
+            //    //context.Response.Headers[HeaderNames.Pragma] = "no-cache";
 
+            //    await next();
+            //});
 
 
             app.UseSession();

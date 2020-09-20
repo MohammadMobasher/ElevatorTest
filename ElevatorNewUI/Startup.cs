@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -73,9 +74,9 @@ namespace ElevatorNewUI
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
              .AddSessionStateTempDataProvider();
+            services.AddResponseCaching();
 
 
-      
 
             //services.AddScoped<HostedService, DeleteOrderService>();
             //services.AddScoped<IHostedService>();
@@ -100,8 +101,33 @@ namespace ElevatorNewUI
 
 
             app.UseRedirectConfigure();
+            app.UseResponseCaching();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = (context) =>
+                {
+                    //if (context.File.Name.ToLower().EndsWith(".css"))
+                    //{
+                    //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                    //    context.Context.Response.Headers["Expires"] = "-1";
+                    //}
+                    //if (context.File.Name.ToLower().EndsWith(".js"))
+                    //{
+                    //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                    //    context.Context.Response.Headers["Expires"] = "-1";
+                    //}
+                    //if (context.File.Name.ToLower().EndsWith(".png"))
+                    //{
+                    //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                    //    context.Context.Response.Headers["Expires"] = "-1";
+                    //}
+                    // Disable caching of all static files.
+                    context.Context.Response.Headers.Add("Cache-Control", "public,max-age=2592000");
+                    context.Context.Response.Headers.Append("Expires", DateTime.UtcNow.AddDays(30).ToString("R", CultureInfo.InvariantCulture));
+                }
+            });
 
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
             //app.UseStaticFiles(new StaticFileOptions
             //{
             //    OnPrepareResponse = ctx =>
@@ -115,6 +141,11 @@ namespace ElevatorNewUI
             app.UseAuthentication();
 
             app.UseSession();
+
+
+
+
+
 
             app.UseMvc(routes =>
             {
