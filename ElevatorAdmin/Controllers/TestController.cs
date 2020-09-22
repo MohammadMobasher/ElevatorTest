@@ -1,5 +1,7 @@
 ﻿using Core.BankCommon.ViewModels;
 using Dapper;
+using DataLayer.DTO.RolesDTO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos.User;
 using System;
@@ -121,5 +123,13 @@ namespace ElevatorAdmin.Controllers
 
         }
 
+
+        public IActionResult ResizeTest(IFormFile file)
+        {
+
+
+
+            return null;
+        }
     }
 }
