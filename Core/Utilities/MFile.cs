@@ -39,7 +39,7 @@ namespace Core.Utilities
                 FileStream d = new FileStream(FilePath, FileMode.Create);
                 await uploadFile.CopyToAsync(d);
                 d.Close();
-                return whereSave + "/" + UniqueFileName;
+                return  whereSave + "/" + UniqueFileName;
             }
            
             return String.Empty;

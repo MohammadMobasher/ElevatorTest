@@ -1,8 +1,11 @@
 ﻿using Core.BankCommon.ViewModels;
+using Core.Utilities;
 using Dapper;
 using DataLayer.DTO.RolesDTO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 using Service.Repos.User;
 using System;
 using System.Collections.Generic;
@@ -20,10 +23,14 @@ namespace ElevatorAdmin.Controllers
     public class TestController : BaseAdminController
     {
         private readonly IDbConnection _connection;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public TestController(UsersAccessRepository usersAccessRepository, IDbConnection connection) : base(usersAccessRepository)
+        public TestController(UsersAccessRepository usersAccessRepository
+            , IDbConnection connection
+            , IHostingEnvironment hostingEnvironment) : base(usersAccessRepository)
         {
             _connection = connection;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public IActionResult Index()
@@ -117,17 +124,28 @@ namespace ElevatorAdmin.Controllers
                 var title = dynamicParam.ParameterNames.ToList();
 
                 title.ForEach(value => list.Add(dynamicParam.Get<object>(value)));
-                
+
             }
 
 
         }
 
 
-        public IActionResult ResizeTest(IFormFile file)
+        public async Task<IActionResult> ResizeTest()
         {
+            return View();
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> ResizeTest(IFormFile file)
+        {
+            var imageResize = new ImageResizer();
 
+            var save = await MFile.Save(file, "Test");
+
+            var path = _hostingEnvironment.WebRootPath;
+
+            imageResize.Resize($"{path}\\{save}", $"{path}\\Thump\\");
 
             return null;
         }

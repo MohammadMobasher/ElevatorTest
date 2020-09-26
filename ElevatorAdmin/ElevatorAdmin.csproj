@@ -65,7 +65,9 @@
     <Folder Include="Areas\Transportations\Models\" />
     <Folder Include="Areas\Warehouse\Data\" />
     <Folder Include="Areas\Warehouse\Models\" />
+    <Folder Include="wwwroot\Test\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />
+    <Folder Include="wwwroot\Thump\Test\" />
     <Folder Include="wwwroot\Uploads\Cars\" />
     <Folder Include="wwwroot\Uploads\ProductPackage\" />
     <Folder Include="wwwroot\Uploads\UserImage\" />
