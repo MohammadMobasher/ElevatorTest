@@ -10,6 +10,10 @@ using Service.Repos.User;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -144,10 +148,100 @@ namespace ElevatorAdmin.Controllers
             var save = await MFile.Save(file, "Test");
 
             var path = _hostingEnvironment.WebRootPath;
+            Image src = Image.FromFile($"{path}\\{save}", true);
+            //imageResize.Resize($"{path}\\{save}", $"{path}\\Thump\\");
+            string path2 = $"{path}\\{save}";
+            string target = $"{path}\\Thump\\";
 
-            imageResize.Resize($"{path}\\{save}", $"{path}\\Thump\\");
+            //##Device = Desktops
+            //##Screen = 1281px to higher resolution desktops
+
+            if (src.Width > 1280)
+            {
+                Resize(path2, target, src.Width, src.Height, "XL"); // XL
+                Resize(path2, target, (int)(scaled(src.Width, 1280) * (double)src.Width), (int)(scaled(src.Width, 1280) * (double)src.Height), "L"); // L
+                Resize(path2, target, (int)(scaled(src.Width, 1024) * (double)src.Width), (int)(scaled(src.Width, 1024) * (double)src.Height), "M"); // M
+                Resize(path2, target, (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
+                Resize(path2, target, (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+            }
+            else if (src.Width <= 1280 && src.Width >= 1025)
+            {
+                Resize(path2, target, src.Width, src.Height, "XL"); // XL
+                Resize(path2, target, src.Width, src.Height, "L"); // L
+                Resize(path2, target, (int)(scaled(src.Width, 1024) * (double)src.Width), (int)(scaled(src.Width, 1024) * (double)src.Height), "M"); // M
+                Resize(path2, target, (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
+                Resize(path2, target, (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+
+            }
+            else if (src.Width <= 1024 && src.Width >= 768)
+            {
+                Resize(path2, target, src.Width, src.Height, "XL"); // XL
+                Resize(path2, target, src.Width, src.Height, "L"); // L
+                Resize(path2, target, src.Width, src.Height, "M"); // M
+                Resize(path2, target, (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
+                Resize(path2, target, (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+            }
+            else if (src.Width <= 767 && src.Width >= 481)
+            {
+                Resize(path2, target, src.Width, src.Height, "XL"); // XL
+                Resize(path2, target, src.Width, src.Height, "L"); // L
+                Resize(path2, target, src.Width, src.Height, "M"); // M
+                Resize(path2, target, src.Width, src.Height, "S"); // S
+                Resize(path2, target, (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+            }
+            else if (src.Width <= 480 && src.Width >= 320)
+            {
+                Resize(path2, target, src.Width, src.Height, "XL"); // XL
+                Resize(path2, target, src.Width, src.Height, "L"); // L
+                Resize(path2, target, src.Width, src.Height, "M"); // M
+                Resize(path2, target, src.Width, src.Height, "S"); // S
+                Resize(path2, target, src.Width, src.Height, "XS"); // XS
+            }
+
 
             return null;
+        }
+
+        private double scaled(int resouce, int target)
+        {
+            return (((double)target) / ((double)resouce));
+        }
+
+        public void Resize(string srcPath, string srcTarget, int width, int height, string name)
+        {
+            Image image = Image.FromFile(srcPath);
+            Bitmap resultImage = Resize(image, width, height);
+            string extension = Path.GetExtension(srcPath);
+            //resultImage.Save(srcPath.Replace(".png", "_" + width + "x" + height + ".png"));
+            string d = srcTarget + Path.GetFileNameWithoutExtension(srcPath) + name + Path.GetExtension(srcPath);
+            resultImage.Save(srcTarget + Path.GetFileNameWithoutExtension(srcPath) + name + Path.GetExtension(srcPath));
+        }
+
+        //http://stackoverflow.com/questions/11137979/image-resizing-using-c-sharp
+        public Bitmap Resize(Image image, int width, int height)
+        {
+
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
         }
     }
 }
