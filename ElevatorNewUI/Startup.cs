@@ -119,11 +119,11 @@ namespace ElevatorNewUI
                     //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
                     //    context.Context.Response.Headers["Expires"] = "-1";
                     //}
-                    //if (context.File.Name.ToLower().EndsWith(".png"))
-                    //{
-                    //    context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
-                    //    context.Context.Response.Headers["Expires"] = "-1";
-                    //}
+                    if (context.File.Name.ToLower().EndsWith(".png"))
+                    {
+                        context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                        context.Context.Response.Headers["Expires"] = "-1";
+                    }
                     // Disable caching of all static files.
                     context.Context.Response.Headers.Add("Cache-Control", "public,max-age=2592000");
                     context.Context.Response.Headers.Append("Expires", DateTime.UtcNow.AddDays(30).ToString("R", CultureInfo.InvariantCulture));

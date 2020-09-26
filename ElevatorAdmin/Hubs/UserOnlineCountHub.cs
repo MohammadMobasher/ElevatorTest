@@ -17,8 +17,6 @@ namespace ElevatorAdmin.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            
-
             await base.OnConnectedAsync();
         }
 

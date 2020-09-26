@@ -437,6 +437,45 @@ namespace Service.Repos
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
+        public async Task<long> CalculateCartPriceNumberWithoutUserId(int orderId)
+        {
+            var model = await GetListAsync(a =>  a.ShopOrderId == orderId, null, "Product,ProductPackage");
+
+            if (model == null) return 0;
+
+            var sum = default(long);
+
+            foreach (var item in model)
+            {
+                if (item.ProductId != null)
+                {
+                    sum += item.Product.PriceWithDiscount * item.Count;
+                }
+                else if (item.PackageId != null)
+                {
+                    if (item.ProductPackage.PackageWithDiscounts == null)
+                    {
+                        sum += item.ProductPackage.PackageWithDiscounts.Value * item.Count;
+                    }
+                    else
+                    {
+                        sum += item.ProductPackage.PackagePrice * item.Count;
+                    }
+
+                }
+            }
+
+            return sum;
+        }
+
+
+
+
+        /// <summary>
+        /// محاسبه قیمت سبد خرید بر اساس شناسه کاربر و محاسبه مستقیم از سبد خرید به فاکتور
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<long> CalculateCartPriceFromInvice(int orderId)
         {
             var model = await GetListAsync(a => a.ShopOrderId == orderId, null, "Product");
@@ -562,7 +601,7 @@ namespace Service.Repos
 
             var entity = await DbContext.ShopOrder.SingleOrDefaultAsync(x => x.Id == invoiceId);
             //entity.Amount = model.Sum(x =>  Convert.ToInt64(x.OrderPriceDiscount));
-            entity.Amount = await CalculateCartPriceNumber(entity.UserId, invoiceId);
+            entity.Amount = await CalculateCartPriceNumberWithoutUserId(invoiceId);
             entity.PaymentAmount = entity.Amount;
             await DbContext.SaveChangesAsync();
 

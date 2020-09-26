@@ -38,6 +38,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="ImageProcessor" Version="2.9.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -64,7 +65,9 @@
     <Folder Include="Areas\Transportations\Models\" />
     <Folder Include="Areas\Warehouse\Data\" />
     <Folder Include="Areas\Warehouse\Models\" />
+    <Folder Include="wwwroot\Test\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />
+    <Folder Include="wwwroot\Thump\Test\" />
     <Folder Include="wwwroot\Uploads\Cars\" />
     <Folder Include="wwwroot\Uploads\ProductPackage\" />
     <Folder Include="wwwroot\Uploads\UserImage\" />
