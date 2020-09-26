@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElevatorAdminNewUI", "Eleva
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Archive", "Archive", "{8623229E-1BB5-4E4D-892E-1AA3BCC462E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{DCB4B100-7F68-442C-A5BF-AAEDD2D81CE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{C56A706F-48F1-411F-B6FF-59DE308007A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C56A706F-48F1-411F-B6FF-59DE308007A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C56A706F-48F1-411F-B6FF-59DE308007A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB4B100-7F68-442C-A5BF-AAEDD2D81CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB4B100-7F68-442C-A5BF-AAEDD2D81CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB4B100-7F68-442C-A5BF-AAEDD2D81CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB4B100-7F68-442C-A5BF-AAEDD2D81CE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{BAE9B594-E7C6-4F4E-A35A-8B8B30008B1D} = {3492B9DA-72B0-489B-910C-3115CCF5A4AF}
 		{32186853-FDB4-41DB-A806-3F54D898DDFD} = {3492B9DA-72B0-489B-910C-3115CCF5A4AF}
 		{C56A706F-48F1-411F-B6FF-59DE308007A2} = {8623229E-1BB5-4E4D-892E-1AA3BCC462E4}
+		{DCB4B100-7F68-442C-A5BF-AAEDD2D81CE8} = {8623229E-1BB5-4E4D-892E-1AA3BCC462E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B56B6B36-212C-4E63-A808-6430E09EED8A}

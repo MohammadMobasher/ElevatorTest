@@ -65,6 +65,20 @@
                                             <input type="password" class="password-input" asp-for="Password">
                                             <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
+                                        @*<div class="form-account-title">
+
+                                            <script src="https://www.google.com/recaptcha/api.js"></script>
+
+                                           
+
+                                            <script>
+                                               function onSubmit(token) {
+                                                 document.getElementById("demo-form").submit();
+                                               }
+                                            </script>
+
+                                        </div>*@
+
                                         <div class="form-auth-row">
                                             <label for="#" class="ui-checkbox mt-1">
                                                 <input type="checkbox" value="true" name="IsRemember" id="IsRemember">
@@ -73,7 +87,9 @@
                                             <label for="remember" class="remember-me mr-0">مرا به خاطر بسپار</label>
                                         </div>
                                         <div class="form-row-account">
-                                            <button class="btn btn-primary btn-login">ورود به لیفت بازار</button>
+                                            <button 
+
+                                                    class="btn btn-primary btn-login">ورود به لیفت بازار</button>
                                         </div>
                                     </form>
                                 </div>

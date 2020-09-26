@@ -5,6 +5,8 @@
         public string ElmahPath { get; set; }
         public IdentitySettings IdentitySettings { get; set; }
         public SiteConfig SiteConfig { get; set; }
+
+        public GoogleReCaptcha GoogleReCaptcha { get; set; }
     }
 
     public class BankConfig
@@ -50,5 +52,11 @@
     public class SiteConfig
     {
         public string UrlAddress { get; set; }
+    }
+
+    public class GoogleReCaptcha
+    {
+        public string Key { get; set; }
+        public string secret { get; set; }
     }
 }

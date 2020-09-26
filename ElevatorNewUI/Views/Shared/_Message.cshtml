@@ -4,9 +4,9 @@
     var isSuccess = TempData["ServiceResult.Message"] as string;
     var message = TempData["ServiceResult.Succeed"];
 
-
-    <link href="~/Plugins/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
-    <script src="~/Plugins/sweetalert2/dist/sweetalert2.js"></script>
+    <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet"/>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
+    
     @if (!string.IsNullOrEmpty(isSuccess))
     {
         <script>
