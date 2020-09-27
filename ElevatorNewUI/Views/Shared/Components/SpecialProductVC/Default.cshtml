@@ -21,7 +21,9 @@
                             }
                             <div class="item">
                                 <a href="/Product/ProductDetail/@item.Id" class="d-block hover-img-link">
-                                    <img src="http://staffonly.ir/@item.IndexPic" class="img-fluid" alt="">
+                                    <img 
+                                         srcset="@("http://staffonly.ir/Thumb/XL/" + item.IndexPic.Replace("Uploads/Product/", "")) 1281w, @("http://staffonly.ir/Thumb/L/" + item.IndexPic.Replace("Uploads/Product/", "")) 1280w, @("http://staffonly.ir/Thumb/M/" + item.IndexPic.Replace("Uploads/Product/", "")) 1024w, @("http://staffonly.ir/Thumb/S/" + item.IndexPic.Replace("Uploads/Product/", "")) 767w, @("http://staffonly.ir/Thumb/XS/" + item.IndexPic.Replace("Uploads/Product/", "")) 480w"
+                                         src="http://staffonly.ir/@item.IndexPic" class="img-fluid" alt="">
                                 </a>
                                 <h2 class="post-title">
                                     <a href="/Product/ProductDetail/@item.Id">
