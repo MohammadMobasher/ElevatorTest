@@ -42,10 +42,7 @@
                                                         {
                                                             <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@product.Discount.ToPersianNumbers()"></price-tag>
                                                         }
-                                                        @{
-                                                            var image = product.IndexPic.Split("/").LastOrDefault();
-                                                        }
-                                                        <img src="http://staffonly.ir/Thumb/XS/@image" class="img-fluid" alt="">
+                                                        <img data-src="http://staffonly.ir/@product.IndexPic" class="img-fluid lazy" alt="">
                                                     </a>
                                                     <h2 class="post-title">
                                                         <a href="/Product/ProductDetail/@product.Id">
