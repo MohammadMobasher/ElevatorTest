@@ -8,7 +8,7 @@
     <div class="slider-widget-products slider-content-tabs slider-amazing-product pr-0 pl-0">
         <div class="widget widget-product card slider-content-tabs pr-0 pl-0">
             <header class="card-header">
-                <span class="title-one">محصولات شگفت انگیز</span>
+                <span class="title-one">تخفیفات ویژه</span>
                 <h3 class="card-title"></h3>
             </header>
             <div class="product-carousel product-amazing owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
@@ -18,8 +18,14 @@
                         {
                             <div class="owl-item tab-item SuggestionMobile" style="width: 222.313px; margin-left: 10px;">
                                 <div class="item">
+                                    
                                     <a href="/Product/ProductDetail/@item.Id" class="d-block hover-img-link">
-                                        <img src="@("http://staffonly.ir/" + item.IndexPic)" class="img-fluid" alt="">
+                                        <img 
+                                             title="@item.Title"
+                                             src="@("http://staffonly.ir/" + item.IndexPic)"
+                                             srcset="@("http://staffonly.ir/Thumb/XL/" + item.IndexPic.Replace("Uploads/Product/", "")) 1281w, @("http://staffonly.ir/Thumb/L/" + item.IndexPic.Replace("Uploads/Product/", "")) 1280w, @("http://staffonly.ir/Thumb/M/" + item.IndexPic.Replace("Uploads/Product/", "")) 1024w, @("http://staffonly.ir/Thumb/S/" + item.IndexPic.Replace("Uploads/Product/", "")) 767w, @("http://staffonly.ir/Thumb/XS/" + item.IndexPic.Replace("Uploads/Product/", "")) 480w"
+                                             
+                                             class="img-fluid" alt="">
                                     </a>
                                     <h2 class="post-title">
                                         <a href="#">
@@ -36,7 +42,7 @@
                                             تخفیفات ویژه
                                         </a>
                                     </div>
-                               
+
                                 </div>
                             </div>
                         }
@@ -88,7 +94,9 @@
                                         {
                                             <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@item.Discount.ToPersianNumbers()"></price-tag>
                                         }
-                                        <img src="@("http://staffonly.ir/" + item.IndexPic)"
+                                        <img          title="@item.Title"
+                                             srcset="@("http://staffonly.ir/Thumb/XL/" + item.IndexPic.Replace("Uploads/Product/", "")) 1281w, @("http://staffonly.ir/Thumb/L/" + item.IndexPic.Replace("Uploads/Product/", "")) 1280w, @("http://staffonly.ir/Thumb/M/" + item.IndexPic.Replace("Uploads/Product/", "")) 1024w, @("http://staffonly.ir/Thumb/S/" + item.IndexPic.Replace("Uploads/Product/", "")) 767w, @("http://staffonly.ir/Thumb/XS/" + item.IndexPic.Replace("Uploads/Product/", "")) 480w"
+                                             src="@("http://staffonly.ir/" + item.IndexPic)"
                                              class="img-fluid" alt="">
                                     </a>
                                 </div>

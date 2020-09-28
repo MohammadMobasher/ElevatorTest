@@ -143,59 +143,58 @@ namespace ElevatorAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> ResizeTest(IFormFile file)
         {
-            var imageResize = new ImageResizer();
-
-            var save = await MFile.Save(file, "Test");
-
             var path = _hostingEnvironment.WebRootPath;
-            Image src = Image.FromFile($"{path}\\{save}", true);
-            //imageResize.Resize($"{path}\\{save}", $"{path}\\Thump\\");
-            string path2 = $"{path}\\{save}";
-            string target = $"{path}\\Thump\\";
+            string[] files = Directory.GetFiles(path + "\\Uploads\\Product\\");
+            foreach (string fileName in files)
+            {
+                Image src = Image.FromFile($"{fileName}", true);
+                string path2 = $"{fileName}";
+                string target = $"{path}\\Thump\\";
 
-            //##Device = Desktops
-            //##Screen = 1281px to higher resolution desktops
+                //##Device = Desktops
+                //##Screen = 1281px to higher resolution desktops
 
-            if (src.Width > 1280)
-            {
-                Resize(path2, target, src.Width, src.Height, "XL"); // XL
-                Resize(path2, target, (int)(scaled(src.Width, 1280) * (double)src.Width), (int)(scaled(src.Width, 1280) * (double)src.Height), "L"); // L
-                Resize(path2, target, (int)(scaled(src.Width, 1024) * (double)src.Width), (int)(scaled(src.Width, 1024) * (double)src.Height), "M"); // M
-                Resize(path2, target, (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
-                Resize(path2, target, (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
-            }
-            else if (src.Width <= 1280 && src.Width >= 1025)
-            {
-                Resize(path2, target, src.Width, src.Height, "XL"); // XL
-                Resize(path2, target, src.Width, src.Height, "L"); // L
-                Resize(path2, target, (int)(scaled(src.Width, 1024) * (double)src.Width), (int)(scaled(src.Width, 1024) * (double)src.Height), "M"); // M
-                Resize(path2, target, (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
-                Resize(path2, target, (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+                if (src.Width > 1280)
+                {
+                    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
+                    Resize(path2, target + "L\\", (int)(scaled(src.Width, 1280) * (double)src.Width), (int)(scaled(src.Width, 1280) * (double)src.Height), "L"); // L
+                    Resize(path2, target + "M\\", (int)(scaled(src.Width, 1024) * (double)src.Width), (int)(scaled(src.Width, 1024) * (double)src.Height), "M"); // M
+                    Resize(path2, target + "S\\", (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
+                    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+                }
+                else if (src.Width <= 1280 && src.Width >= 1025)
+                {
+                    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
+                    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
+                    Resize(path2, target + "M\\", (int)(scaled(src.Width, 1024) * (double)src.Width), (int)(scaled(src.Width, 1024) * (double)src.Height), "M"); // M
+                    Resize(path2, target + "S\\", (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
+                    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
 
-            }
-            else if (src.Width <= 1024 && src.Width >= 768)
-            {
-                Resize(path2, target, src.Width, src.Height, "XL"); // XL
-                Resize(path2, target, src.Width, src.Height, "L"); // L
-                Resize(path2, target, src.Width, src.Height, "M"); // M
-                Resize(path2, target, (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
-                Resize(path2, target, (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
-            }
-            else if (src.Width <= 767 && src.Width >= 481)
-            {
-                Resize(path2, target, src.Width, src.Height, "XL"); // XL
-                Resize(path2, target, src.Width, src.Height, "L"); // L
-                Resize(path2, target, src.Width, src.Height, "M"); // M
-                Resize(path2, target, src.Width, src.Height, "S"); // S
-                Resize(path2, target, (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
-            }
-            else if (src.Width <= 480 && src.Width >= 320)
-            {
-                Resize(path2, target, src.Width, src.Height, "XL"); // XL
-                Resize(path2, target, src.Width, src.Height, "L"); // L
-                Resize(path2, target, src.Width, src.Height, "M"); // M
-                Resize(path2, target, src.Width, src.Height, "S"); // S
-                Resize(path2, target, src.Width, src.Height, "XS"); // XS
+                }
+                else if (src.Width <= 1024 && src.Width >= 768)
+                {
+                    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
+                    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
+                    Resize(path2, target + "M\\", src.Width, src.Height, "M"); // M
+                    Resize(path2, target + "S\\", (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
+                    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+                }
+                else if (src.Width <= 767 && src.Width >= 481)
+                {
+                    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
+                    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
+                    Resize(path2, target + "M\\", src.Width, src.Height, "M"); // M
+                    Resize(path2, target + "S\\", src.Width, src.Height, "S"); // S
+                    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+                }
+                else if (src.Width <= 480 && src.Width >= 320)
+                {
+                    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
+                    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
+                    Resize(path2, target + "M\\", src.Width, src.Height, "M"); // M
+                    Resize(path2, target + "S\\", src.Width, src.Height, "S"); // S
+                    Resize(path2, target + "XS\\", src.Width, src.Height, "XS"); // XS
+                }
             }
 
 
@@ -213,8 +212,8 @@ namespace ElevatorAdmin.Controllers
             Bitmap resultImage = Resize(image, width, height);
             string extension = Path.GetExtension(srcPath);
             //resultImage.Save(srcPath.Replace(".png", "_" + width + "x" + height + ".png"));
-            string d = srcTarget + Path.GetFileNameWithoutExtension(srcPath) + name + Path.GetExtension(srcPath);
-            resultImage.Save(srcTarget + Path.GetFileNameWithoutExtension(srcPath) + name + Path.GetExtension(srcPath));
+            //string d = srcTarget + Path.GetFileNameWithoutExtension(srcPath) + Path.GetExtension(srcPath);
+            resultImage.Save(srcTarget + Path.GetFileNameWithoutExtension(srcPath) + Path.GetExtension(srcPath));
         }
 
         //http://stackoverflow.com/questions/11137979/image-resizing-using-c-sharp
