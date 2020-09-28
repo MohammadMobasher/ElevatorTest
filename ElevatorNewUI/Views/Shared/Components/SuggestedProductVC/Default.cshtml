@@ -18,14 +18,8 @@
                         {
                             <div class="owl-item tab-item SuggestionMobile" style="width: 222.313px; margin-left: 10px;">
                                 <div class="item">
-                                    
                                     <a href="/Product/ProductDetail/@item.Id" class="d-block hover-img-link">
-                                        <img 
-                                             title="@item.Title"
-                                             src="@("http://staffonly.ir/" + item.IndexPic)"
-                                             srcset="@("http://staffonly.ir/Thumb/XL/" + item.IndexPic.Replace("Uploads/Product/", "")) 1281w, @("http://staffonly.ir/Thumb/L/" + item.IndexPic.Replace("Uploads/Product/", "")) 1280w, @("http://staffonly.ir/Thumb/M/" + item.IndexPic.Replace("Uploads/Product/", "")) 1024w, @("http://staffonly.ir/Thumb/S/" + item.IndexPic.Replace("Uploads/Product/", "")) 767w, @("http://staffonly.ir/Thumb/XS/" + item.IndexPic.Replace("Uploads/Product/", "")) 480w"
-                                             
-                                             class="img-fluid" alt="">
+                                        <img src="@("http://staffonly.ir/" + item.IndexPic)" class="img-fluid" alt="">
                                     </a>
                                     <h2 class="post-title">
                                         <a href="#">
@@ -42,7 +36,7 @@
                                             تخفیفات ویژه
                                         </a>
                                     </div>
-
+                               
                                 </div>
                             </div>
                         }
@@ -94,9 +88,7 @@
                                         {
                                             <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@item.Discount.ToPersianNumbers()"></price-tag>
                                         }
-                                        <img          title="@item.Title"
-                                             srcset="@("http://staffonly.ir/Thumb/XL/" + item.IndexPic.Replace("Uploads/Product/", "")) 1281w, @("http://staffonly.ir/Thumb/L/" + item.IndexPic.Replace("Uploads/Product/", "")) 1280w, @("http://staffonly.ir/Thumb/M/" + item.IndexPic.Replace("Uploads/Product/", "")) 1024w, @("http://staffonly.ir/Thumb/S/" + item.IndexPic.Replace("Uploads/Product/", "")) 767w, @("http://staffonly.ir/Thumb/XS/" + item.IndexPic.Replace("Uploads/Product/", "")) 480w"
-                                             src="@("http://staffonly.ir/" + item.IndexPic)"
+                                        <img src="@("http://staffonly.ir/" + item.IndexPic)"
                                              class="img-fluid" alt="">
                                     </a>
                                 </div>
