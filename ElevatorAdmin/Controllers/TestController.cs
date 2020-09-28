@@ -144,7 +144,7 @@ namespace ElevatorAdmin.Controllers
         public async Task<IActionResult> ResizeTest(IFormFile file)
         {
             var path = _hostingEnvironment.WebRootPath;
-            string[] files = Directory.GetFiles(path + "\\Uploads\\Product\\");
+            string[] files = Directory.GetFiles(path + "\\Test");
             foreach (string fileName in files)
             {
                 Image src = Image.FromFile($"{fileName}", true);

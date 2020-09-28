@@ -160,6 +160,8 @@ namespace ElevatorNewUI.Controllers
         /// <returns></returns>
         public async Task<IActionResult> CalculateCart()
         {
+            if (!User.Identity.IsAuthenticated) return Json("");
+
             var userId = this.GetUserId();
 
             return Json(await _shopProductRepository.CalculateCartPrice(userId));

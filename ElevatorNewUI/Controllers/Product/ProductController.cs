@@ -285,6 +285,8 @@ namespace ElevatorNewUI.Controllers
 
         public async Task<IActionResult> CalculatePrice(int productId)
         {
+
+
             var product = await _productRepository.GetByIdAsync(productId);
             var productDiscount = await _productDiscountRepository.GetByConditionAsync(a => a.ProductId == productId);
             if (productDiscount == null) return Json(product.Price.ToString("n0").ToPersianNumbers());

@@ -121,7 +121,7 @@ namespace ElevatorNewUI
                     //}
                     if (context.File.Name.ToLower().EndsWith(".png"))
                     {
-                        context.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                        context.Context.Response.Headers.Append("Cache-Control-Pic", "public,max-age=86400");
                         context.Context.Response.Headers["Expires"] = "-1";
                     }
                     // Disable caching of all static files.
