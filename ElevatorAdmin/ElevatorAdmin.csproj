@@ -11,6 +11,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>dfdcf518-b210-4ae0-aadf-03e731843e1b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -67,6 +68,7 @@
     <Folder Include="Areas\Warehouse\Models\" />
     <Folder Include="wwwroot\Test\" />
     <Folder Include="wwwroot\Plugins\jstree\themes\default\" />
+    <Folder Include="wwwroot\Thump\VXS\" />
     <Folder Include="wwwroot\Thump\Test\" />
     <Folder Include="wwwroot\Uploads\Cars\" />
     <Folder Include="wwwroot\Uploads\ProductPackage\" />

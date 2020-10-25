@@ -51,8 +51,8 @@
                                                 {
                                                     <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@Model.Discount.ToPersianNumbers()"></price-tag>
                                                 }
-                                                <img class="zoom-img" id="img-product-zoom" src="http://staffonly.ir/@Model.IndexPic"
-                                                     data-zoom-image="http://staffonly.ir/@Model.IndexPic" width="411" />
+                                                <img class="zoom-img" id="img-product-zoom" src="/@Model.IndexPic"
+                                                     data-zoom-image="/@Model.IndexPic" width="411" />
                                                 <div id="gallery_01f" style="width:420px;float:right;">
                                             </a>
 
@@ -60,18 +60,18 @@
                                             <ul class="gallery-items owl-carousel owl-theme" id="gallery-slider">
                                                 <li class="item">
                                                     <a href="#" class="elevatezoom-gallery active" data-update=""
-                                                       data-image="http://staffonly.ir/@Model.IndexPic"
-                                                       data-zoom-image="http://staffonly.ir/@Model.IndexPic">
-                                                        <img src="http://staffonly.ir/@Model.IndexPic" width="100" />
+                                                       data-image="/@Model.IndexPic"
+                                                       data-zoom-image="/@Model.IndexPic">
+                                                        <img src="/@Model.IndexPic" width="100" />
                                                     </a>
                                                 </li>
                                                 @foreach (var item in gallery)
                                                 {
                                                     <li class="item">
                                                         <a href="#" class="elevatezoom-gallery" data-update=""
-                                                           data-image="http://staffonly.ir/@item.Pic"
-                                                           data-zoom-image="http://staffonly.ir/@item.Pic">
-                                                            <img src="http://staffonly.ir/@item.Pic" width="100" />
+                                                           data-image="/@item.Pic"
+                                                           data-zoom-image="/@item.Pic">
+                                                            <img src="/@item.Pic" width="100" />
                                                         </a>
                                                     </li>
                                                 }
@@ -322,7 +322,7 @@
                                                 {
                                                     <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@item.Discount.ToPersianNumbers()"></price-tag>
                                                 }
-                                                <img src="http://staffonly.ir/@item.IndexPic" class="img-fluid" alt="">
+                                                <img src="/@item.IndexPic" class="img-fluid" alt="">
                                             </a>
                                             <h2 class="post-title">
                                                 <a href="#">

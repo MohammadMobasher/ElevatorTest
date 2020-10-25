@@ -132,38 +132,38 @@
 
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td class="order-code">@(PDFraw++)</td>
-                                        <td>
-                                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
-                                                @(item.OrderName ?? item.Product.Title)
-                                            </a>
-                                        </td>
-                                        <td>
-                                            @item.Count
-                                        </td>
-                                        <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
-                                        <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
-                                        <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
-                                        <td>
-                                            @if (item.OrderPriceDiscount != null)
+                                <tr>
+                                    <td class="order-code">@(PDFraw++)</td>
+                                    <td>
+                                        <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                            @(item.OrderName ?? item.Product.Title)
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @item.Count
+                                    </td>
+                                    <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                    <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
+                                    <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                    <td>
+                                        @if (item.OrderPriceDiscount != null)
                                             {
                                                 var price = item.OrderPriceDiscount.Replace(",", "");
 
-                                                <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                        <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
                                             }
                                             else
                                             {
-                                                <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                        <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
                                             }
-                                        </td>
-                                        <td>
-                                            <a href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
-                                                <i title="مشاهده" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-eye text-info font-size-25" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
+                                    </td>
+                                    <td>
+                                        <a href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                            <i title="مشاهده" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-eye text-info font-size-25" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
 
-                                    </tr>
+                                </tr>
 
                                 }
 
@@ -264,40 +264,40 @@
                                                     @{ var raw = 1;}
                                                     @foreach (var item in Model)
                                                     {
-                                                        <tr>
-                                                            <td class="order-code">@(raw++)</td>
-                                                            <td>
-                                                                <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
-                                                                    @(item.OrderName ?? item.Product.Title)
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                @*<input type="hidden" value="@item.ProductId" name="ListProducts[@(index)].ProductId" />*@
+                                                    <tr>
+                                                        <td class="order-code">@(raw++)</td>
+                                                        <td>
+                                                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                                                @(item.OrderName ?? item.Product.Title)
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            @*<input type="hidden" value="@item.ProductId" name="ListProducts[@(index)].ProductId" />*@
 
-                                                                <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Desktop" data-productId="@item.ProductId" value="@item.Count" @*name="ListProducts[@index].Count"*@ />
-                                                            </td>
-                                                            <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
-                                                            <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
-                                                            <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
-                                                            <td>
-                                                                @if (item.OrderPriceDiscount != null)
+                                                            <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Desktop" data-productId="@item.ProductId" value="@item.Count" @*name="ListProducts[@index].Count"*@ />
+                                                        </td>
+                                                        <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                                        <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
+                                                        <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                                        <td>
+                                                            @if (item.OrderPriceDiscount != null)
                                                                 {
                                                                     var price = item.OrderPriceDiscount.Replace(",", "");
 
-                                                                    <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                                            <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                                            <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
                                                                 }
-                                                            </td>
-                                                            <td>
-                                                                <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
-                                                                    <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
-                                                                </a>
-                                                            </td>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
+                                                                <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
+                                                            </a>
+                                                        </td>
 
-                                                        </tr>
+                                                    </tr>
                                                         index++;
                                                     }
 
@@ -356,40 +356,40 @@
                                                                 @{ var rawmobile = 1;}
                                                                 @foreach (var item in Model)
                                                                 {
-                                                                    <tr>
-                                                                        <td class="order-code">@(rawmobile++)</td>
-                                                                        <td>
-                                                                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
-                                                                                @(item.OrderName ?? item.Product.Title)
-                                                                            </a>
-                                                                        </td>
-                                                                        <td>
-                                                                            @*<input type="hidden" value="@item.ProductId" name="ListProducts[@indexMobile].ProductId" />*@
+                                                                <tr>
+                                                                    <td class="order-code">@(rawmobile++)</td>
+                                                                    <td>
+                                                                        <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                                                            @(item.OrderName ?? item.Product.Title)
+                                                                        </a>
+                                                                    </td>
+                                                                    <td>
+                                                                        @*<input type="hidden" value="@item.ProductId" name="ListProducts[@indexMobile].ProductId" />*@
 
-                                                                            <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Mobile" value="@item.Count" data-productId="@item.ProductId" @*name="ListProducts[@indexMobile].Count"*@ />
-                                                                        </td>
-                                                                        <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
-                                                                        <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
-                                                                        <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
-                                                                        <td>
-                                                                            @if (item.OrderPriceDiscount != null)
+                                                                        <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Mobile" value="@item.Count" data-productId="@item.ProductId" @*name="ListProducts[@indexMobile].Count"*@ />
+                                                                    </td>
+                                                                    <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                                                    <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
+                                                                    <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                                                    <td>
+                                                                        @if (item.OrderPriceDiscount != null)
                                                                             {
                                                                                 var price = item.OrderPriceDiscount.Replace(",", "");
 
-                                                                                <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                                                        <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
                                                                             }
                                                                             else
                                                                             {
-                                                                                <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                                                        <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
                                                                             }
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
-                                                                                <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
-                                                                            </a>
-                                                                        </td>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
+                                                                            <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </td>
 
-                                                                    </tr>
+                                                                </tr>
                                                                     indexMobile++;
                                                                 }
 
@@ -515,9 +515,9 @@
 
             src = "";
             if (idioma.hasOwnProperty('loading')) {
-                src = "http://staffonly.ir/" + idioma.image;
+                src = "/" + idioma.image;
             } else {
-                src = "http://staffonly.ir/" + idioma.image;
+                src = "/" + idioma.image;
             }
 
             var $span = $("<span style='font-size:12px'><img style='width:40px; height:40px' src='" + src + "'/> " + idioma.text + "</span>");
@@ -526,9 +526,9 @@
         templateSelection: function (idioma) {
             src = "";
             if (idioma.hasOwnProperty('loading')) {
-                src = "http://staffonly.ir/" + idioma.image;
+                src = "/" + idioma.image;
             } else {
-                src = "http://staffonly.ir/" + idioma.image;
+                src = "/" + idioma.image;
             }
 
             var $span = $("<span style='font-size:12px'><img style='width:40px; height:40px' src='" + src + "'/> " + idioma.text + "</span>");
@@ -536,6 +536,11 @@
         }
     });
 </script>
+
+
+<script src="~/lib/html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
+@*<script src="~/js/PdfMake.js"></script>*@
+
 
 <script>
     function printDiv() {

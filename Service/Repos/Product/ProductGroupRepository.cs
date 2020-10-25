@@ -104,7 +104,28 @@ namespace Service.Repos.Product
             return new Tuple<List<ProductGroupDTO>, List<ProductFullDTO>>(groups, result.ToList());
         }
 
-        
+        public List<ProductFullDTO> GetProductByGroupId(int id)
+        {
+         
+            var queryWith = $@"with A{id} as (
+                                    select Id, ParentId
+                                    from ProductGroup
+                                    where Id = {id}
+                                    union all
+                                    select c.Id, c.ParentId
+                                    from ProductGroup c
+                                    join A{id} p on p.Id = c.ParentId), ";
+
+            var querySelect = $" select TOP 7 *, NewProductGroupId = {id} from Product where ProductGroupId in (select Id  from A{id}) and IsDeleted = 0";
+          
+            queryWith = queryWith.Substring(0, queryWith.Length - 2);
+            //querySelect = querySelect.Substring(0, querySelect.Length - " UNION ALL ".Length);
+
+            string q = queryWith + querySelect;
+            var result = _connection.Query<ProductFullDTO>(q);
+
+            return result.ToList();
+        }
 
         /// <summary>
         /// گرفتن تمام پدرها

@@ -32,15 +32,16 @@ namespace Service.Repos
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ProductDiscountRepository _productDiscountRepository;
         private readonly IDbConnection _connection;
-
+        private readonly LogRepository _logRepository;
         public ProductRepostitory(DatabaseContext dbContext,
             IHostingEnvironment hostingEnvironment,
             ProductDiscountRepository productDiscountRepository,
-            IDbConnection connection) : base(dbContext)
+            IDbConnection connection, LogRepository logRepository) : base(dbContext)
         {
             _hostingEnvironment = hostingEnvironment;
             _productDiscountRepository = productDiscountRepository;
             _connection = connection;
+            _logRepository = logRepository;
         }
 
 
@@ -134,6 +135,8 @@ namespace Service.Repos
             else
             {
                 vm.IndexPic = await MFile.Save(file, FilePath.Product.GetDescription());
+
+                _logRepository.Add(new DataLayer.Entities.Log() { Text = vm.IndexPic });            
             }
 
             var mapModel = Map(vm);

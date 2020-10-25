@@ -20,7 +20,8 @@ using Microsoft.Extensions.Configuration;
 using DataLayer.Entities;
 using DataLayer.ViewModels.Feature;
 using AutoMapper.QueryableExtensions;
-using DataLayer.DTO.Products; 
+using DataLayer.DTO.Products;
+using DataLayer.DTO;
 
 namespace ElevatorNewUI.Controllers
 {
@@ -305,6 +306,11 @@ namespace ElevatorNewUI.Controllers
             return Json(product.Price.ToString("n0").ToPersianNumbers());
         }
 
+        public IActionResult GetByGroupId(int id)
+        {
+            var model = _productGroupRepository.GetProductByGroupId(id);
 
+            return PartialView(model);
+        }
     }
 }

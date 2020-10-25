@@ -13,7 +13,7 @@
 
                     {
                         <li class="tab-item nav-item">
-                            <a class="tab-link" id="tab_@item.Id" data-toggle="tab" href="#href_@item.Id" role="tab" aria-controls="aria_@item.Id" aria-selected="true">@item.Title</a>
+                            <a class="tab-link" data-val="@item.Id" id="tab_@item.Id" data-toggle="tab" href="#href_@item.Id" role="tab" aria-controls="aria_@item.Id" aria-selected="true">@item.Title</a>
                         </li>
                     }
                 }
@@ -21,6 +21,7 @@
             </ul>
         </div>
     </section>
+    @*<div id="tabcontentresult"></div>*@
     <div class="tab-content" id="myTabContent">
         @foreach (ProductGroupDTO item in Model.Item1)
         {
@@ -40,9 +41,13 @@
                                                     <a href="/Product/ProductDetail/@product.Id" class="d-block hover-img-link">
                                                         @if (product.Price != product.PriceWithDiscount)
                                                         {
-                                                            <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@product.Discount.ToPersianNumbers()"></price-tag>
+                                                        <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@product.Discount.ToPersianNumbers()"></price-tag>
                                                         }
-                                                        <img data-src="http://staffonly.ir/@product.IndexPic" class="img-fluid lazy" alt="">
+                                                        @{
+                                                            var image = product.IndexPic.Split("/").LastOrDefault();
+                                                        }
+                                                        <img data-src="/Thumb/VXS/@image" class="img-fluid lazy" alt="">
+                                                        @*<img data-src="/@product.IndexPic" class="img-fluid lazy" alt="">*@
                                                     </a>
                                                     <h2 class="post-title">
                                                         <a href="/Product/ProductDetail/@product.Id">
@@ -93,10 +98,15 @@
 <!-- tabs---------------------------------->
 
 <script>
+
     $(function () {
         $(".tab-link:first").addClass("active");
         $(".tabitems:first").addClass("active");
 
 
     });
+
+
+ 
+
 </script>

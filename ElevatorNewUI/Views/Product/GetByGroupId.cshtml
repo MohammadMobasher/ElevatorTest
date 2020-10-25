@@ -1,0 +1,65 @@
+﻿@using DataLayer.DTO
+@using DataLayer.DTO.Products
+
+@model List<ProductFullDTO>
+<div class="tab-content" id="myTabContent">
+    <div class="tab tabitems camera tab-pane fade active show" id="href_1" role="tabpanel" aria-labelledby="tab_1">
+        <div class="slider-widget-products slider-content-tabs pr-0 pl-0">
+            <div class="widget widget-product card slider-content-tabs pr-0 pl-0">
+                <div class="product-carousel owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 2234px;">
+                            @{ var index = 0;}
+                            @foreach (var product in Model)
+                            {
+                                <div class="owl-item @(index <= 4 ? "active" : "") @(index++) tab-item" style="width: 309.083px; margin-left: 10px;">
+                                    <div class="item">
+                                        <a href="/Product/ProductDetail/@product.Id" class="d-block hover-img-link">
+                                            @if (product.Price != product.PriceWithDiscount)
+                                            {
+                                                <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@product.Discount.ToPersianNumbers()"></price-tag>
+                                            }
+                                            <img data-src="/@product.IndexPic" class="img-fluid lazy" alt="">
+                                        </a>
+                                        <h2 class="post-title">
+                                            <a href="/Product/ProductDetail/@product.Id">
+                                                @product.Title
+                                            </a>
+                                        </h2>
+                                        <div class="price">
+                                            @if (!product.IsExist)
+                                            {
+                                                <span style="color: #b8b0b0;font-size: 15px;"><b>ناموجود</b></span>
+                                            }
+                                            else if (product.Price != product.PriceWithDiscount)
+                                            {
+                                                <del><span>@product.PriceWithDiscount.ToPersianPrice()<span>تومان</span></span></del>
+                                                <ins><span>@product.Price.ToPersianPrice()<span>تومان</span></span></ins>
+                                            }
+                                            else
+                                            {
+                                                <ins><span>@product.Price.ToPersianPrice()<span>تومان</span></span></ins>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                    <div class="owl-nav">
+                        <button type="button" role="presentation" class="owl-prev disabled">
+                            <i class="fa fa-angle-right"></i>
+                        </button>
+                        <button type="button" role="presentation" class="owl-next">
+                            <i class="fa fa-angle-left"></i>
+                        </button>
+                    </div>
+                    <div class="owl-dots disabled"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</div>

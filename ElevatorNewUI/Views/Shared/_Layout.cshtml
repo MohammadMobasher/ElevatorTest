@@ -35,14 +35,14 @@
 
 
     <!-- file js---------------------------------------------------->
-    <script src="~/js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="~/js/vendor/jquery-3.2.1.min.js" ></script>
     <script src="~/lib/jquery.lazy-master/jquery.lazy.min.js"></script>
     <script src="~/lib/jquery.lazy-master/jquery.lazy.plugins.js"></script>
     <script src="~/js/vendor/bootstrap.js?v=1"></script>
     <!-- plugin----------------------------------------------------->
     <script src="~/js/vendor/owl.carousel.min.js"></script>
     <script src="~/js/vendor/jquery.countdown.js?v=1"></script>
-    <script src="~/js/vendor/ResizeSensor.min.js"></script>
+    @*<script src="~/js/vendor/ResizeSensor.min.js"></script>*@
     <script src="~/js/vendor/theia-sticky-sidebar.min.js"></script>
     <script src="~/js/vendor/jquery.nice-select.min.js"></script>
 
@@ -62,7 +62,7 @@
                             <div class="col-lg-3 pr">
                                 <div class="header-logo row">
                                     <a href="/">
-                                        <img src="@( string.IsNullOrEmpty(siteSetting.Logo) ? "http://staffonly.ir/Uploads/SiteSetting/Logo.png" : Url.Content("http://staffonly.ir/" + siteSetting.Logo))" title="LiftBazar, لیفت بازار" alt="LiftBazar, لیفت بازار" asp-append-version="true" />
+                                        <img src="@( string.IsNullOrEmpty(siteSetting.Logo) ? "/Uploads/SiteSetting/Logo.png" : Url.Content("/" + siteSetting.Logo))" title="LiftBazar, لیفت بازار" alt="LiftBazar, لیفت بازار" asp-append-version="true" />
                                     </a>
                                 </div>
                             </div>
@@ -82,21 +82,21 @@
                                                                 <option value="-1">همه دسته ها</option>
                                                                 @foreach (var item in await _productGroupRepository.GetParentsAsync())
                                                                 {
-                                                                    @*if (vm != null)
+                                                                @*if (vm != null)
+                                                                    {
+                                                                        if (vm.Group == item.Id)
                                                                         {
-                                                                            if (vm.Group == item.Id)
-                                                                            {
-                                                                                <option value="@item.Id" selected>@item.Title</option>
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                <option value="@item.Id">@item.Title</option>
-                                                                            }
+                                                                            <option value="@item.Id" selected>@item.Title</option>
                                                                         }
                                                                         else
-                                                                        {*@
-                                                                    <option value="@item.Id">@item.Title</option>
-                                                                    @*}*@
+                                                                        {
+                                                                            <option value="@item.Id">@item.Title</option>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {*@
+                                                                <option value="@item.Id">@item.Title</option>
+                                                                @*}*@
                                                                 }
                                                             </select>
                                                         </div>
@@ -118,35 +118,35 @@
 
                                             @if (User.Identity.IsAuthenticated)
                                             {
-                                                <span class="icon-account">
-                                                    <img src="~/images/man.png" class="avator">
-                                                </span>
-                                                <span class="title-account">@(string.IsNullOrWhiteSpace(User.Identity.FindFirstValue("FullName")) ? "حساب کاربری" : User.Identity.FindFirstValue("FullName") )</span>
-                                                <div class="dropdown-menu">
-                                                    <ul class="account-uls mb-0">
-                                                        <li class="account-item">
-                                                            <a href="/Profile/Index" class="account-link">پنل کاربری</a>
-                                                        </li>
-                                                        <li class="account-item">
-                                                            <a href="/Profile/Orders" class="account-link">سفارشات من</a>
-                                                        </li>
-                                                        <li class="account-item">
-                                                            <a href="/Profile/ListInvoice" class="account-link">پیش فاکتور‌های من</a>
-                                                        </li>
-                                                        <li class="account-item">
-                                                            <a href="/Account/Logout" class="account-link">خروج</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                            <span class="icon-account">
+                                                <img src="~/images/man.png" class="avator">
+                                            </span>
+                                            <span class="title-account">@(string.IsNullOrWhiteSpace(User.Identity.FindFirstValue("FullName")) ? "حساب کاربری" : User.Identity.FindFirstValue("FullName") )</span>
+                                            <div class="dropdown-menu">
+                                                <ul class="account-uls mb-0">
+                                                    <li class="account-item">
+                                                        <a href="/Profile/Index" class="account-link">پنل کاربری</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a href="/Profile/Orders" class="account-link">سفارشات من</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a href="/Profile/ListInvoice" class="account-link">پیش فاکتور‌های من</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a href="/Account/Logout" class="account-link">خروج</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                             }
                                             else
                                             {
-                                                <a href="/Account/Login">
-                                                    <span class="icon-account">
-                                                        <img src="~/images/man.png" class="avator">
-                                                    </span>
-                                                    <span class="title-account">حساب کاربری</span>
-                                                </a>
+                                            <a href="/Account/Login">
+                                                <span class="icon-account">
+                                                    <img src="~/images/man.png" class="avator">
+                                                </span>
+                                                <span class="title-account">حساب کاربری</span>
+                                            </a>
                                             }
                                         </div>
                                     </div>
@@ -436,53 +436,23 @@
         </svg>
     </div>
     <!-- scroll_Progress------------------------->
-    <script src="~/lib/html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
     <script src="~/js/PriceTag.js"></script>
-    <script>
-        function generatePDF(id) {
-            // Choose the element that our invoice is rendered in.
-            const element = document.getElementById(id);
-            // Choose the element and save the PDF for our user.
-            html2pdf()
-                .from(element)
-                .save();
-        }
-    </script>
+    <script src="~/js/MSite.js"></script>
 
-    <script>
+    @*<script src="~/lib/html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>*@
+    @*<script>
         $(function () {
-            var elements = document.getElementsByTagName("INPUT");
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].oninvalid = function (e) {
-                    e.target.setCustomValidity("");
-                    if (!e.target.validity.valid) {
-                        e.target.setCustomValidity("این فیلد نمی تواند خالی باشد");
-                    }
-                };
-                elements[i].oninput = function (e) {
-                    e.target.setCustomValidity("");
-                };
-            }
+            $('.tab-link_AJAX').on('click', function () {
+                var id = $(this).attr('data-val');
 
-            var select = document.getElementsByTagName("SELECT");
-            for (var i = 0; i < select.length; i++) {
-                select[i].oninvalid = function (e) {
-                    e.target.setCustomValidity("");
-                    if (!e.target.validity.valid) {
-                        e.target.setCustomValidity("این فیلد نمی تواند خالی باشد");
-                    }
-                };
-                select[i].oninput = function (e) {
-                    e.target.setCustomValidity("");
-                };
-            }
-
-
-        });
-        $(function () {
-            $('.lazy').lazy();
-        });
-    </script>
+                $.get('/Product/GetByGroupId/' + id, function (result) {
+                    debugger;
+                    $('#tabcontentresult').html(result);
+                });
+            })
+        })
+    </script>*@
+    @*<script src="~/js/site.js"></script>*@
 </body>
 
 </html>

@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using DNTPersianUtils.Core;
 using DataLayer.SSOT;
+using System.IO;
 
 namespace ElevatorNewUI.Controllers
 {
@@ -90,19 +91,27 @@ namespace ElevatorNewUI.Controllers
 
         
 
-        public IActionResult testMobasher()
-        {
+        //public IActionResult testMobasher()
+        //{
 
-            ViewBag.MQuery = this._newsGroupRepository.ddd();
-            return View();
-        }
+        //    ViewBag.MQuery = this._newsGroupRepository.ddd();
+        //    return View();
+        //}
 
-        public IActionResult TestSms()
-        {
-            var ResultTest = $"{DateTime.Now.ToPersianDay()};{100000088}";
+        //public IActionResult TestSms()
+        //{
+        //    var ResultTest = $"{DateTime.Now.ToPersianDay()};{100000088}";
 
-            var trst= _smsRestClient.SendByBaseNumber(ResultTest, "09034537712", (int)SmsBaseCodeSSOT.Result);
-            return Json(trst);
-        }
+        //    var trst= _smsRestClient.SendByBaseNumber(ResultTest, "09034537712", (int)SmsBaseCodeSSOT.Result);
+        //    return Json(trst);
+        //}
+
+
+       
+
+        //public string GetDirectory()
+        //{
+        //    return Directory.GetCurrentDirectory();
+        //}
     }
 }

@@ -4,37 +4,18 @@
     var isSuccess = TempData["ServiceResult.Message"] as string;
     var message = TempData["ServiceResult.Succeed"];
 
-    <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet"/>
-    <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
-    
+    <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    <script src="~/lib/sweetalert2/dist/sweetalert2.js" ></script>
+
     @if (!string.IsNullOrEmpty(isSuccess))
     {
         <script>
             $(function () {
-                ShowSweetAlert();
-
-            function ShowSweetAlert() {
                 var Message = @(new HtmlString(JsonConvert.SerializeObject(isSuccess)));
                 var Succeed = @(JsonConvert.SerializeObject(message));
+                ShowSweetAlert(Message, Succeed);
 
-                    var text = Message || (Succeed ? 'عملیات با موفقیت انجام شد' : "عملیات با خطا مواجه شد");
-
-
-                    swal.fire({
-                        title: (Succeed ? 'موفق' : 'خطا'),
-                        text: text,
-                        type: Succeed ? "success" : "error",
-                        confirmButtonText: "تایید",
-                        showClass: {
-                            popup: 'animated fadeInDown faster'
-                        },
-                        hideClass: {
-                            popup: 'animated fadeOutUp faster'
-                        }
-                    });
-
-        }
-            });
+            })
 
         </script>
     }

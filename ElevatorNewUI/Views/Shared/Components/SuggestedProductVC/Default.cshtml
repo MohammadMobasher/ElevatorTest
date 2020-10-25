@@ -22,7 +22,7 @@
                                         @{
                                             var image = item.IndexPic.Split("/").LastOrDefault();
                                         }
-                                        <img src="http://staffonly.ir/Thumb/XS/@image" class="img-fluid" alt="">
+                                        <img src="/Thumb/XS/@image" class="img-fluid" alt="">
                                     </a>
                                     <h2 class="post-title">
                                         <a href="#">
@@ -94,7 +94,7 @@
                                         @{
                                             var image = item.IndexPic.Split("/").LastOrDefault();
                                         }
-                                        <img src="http://staffonly.ir/Thumb/XS/@image" class="img-fluid" alt="">
+                                        <img src="/Thumb/M/@image" class="img-fluid" alt="">
                                     </a>
                                 </div>
                                 <div class="col-7">
@@ -136,11 +136,11 @@
     </div>
 }
 
-
-<script>
+<!--<script src="~/js/SuggestedProduct.js"></script>-->
+@*<script>
     $(function () {
         $(".suggestedItemContent:first").addClass("active");
         $("[data-target='#amazing-slider']:first").addClass("active");
 
     });
-</script>
+</script>*@

@@ -185,8 +185,8 @@
                                                         <div class="hoproduct-image text-center">
 
                                                             <a class="hoproduct-thumb VisitCounter text-center" data-id="@product.Product.Id" href="/Product/ProductDetail/@product.Product.Id">
-                                                                <img asp-append-version="true" class="hoproduct-frontimage " src="@(product.Product.IndexPic != null && !string.IsNullOrEmpty(product.Product.IndexPic) ? "http://staffonly.ir/" + "/" + product.Product.IndexPic : "/no-image.jpg")" alt="@product.Product.Title" style="width:200px; height:200px">
-                                                                <img asp-append-version="true" class="hoproduct-backimage" src="@(product.Product.IndexPic != null && !string.IsNullOrEmpty(product.Product.IndexPic) ? "http://staffonly.ir/" + "/" + product.Product.IndexPic : "/no-image.jpg")" alt="@product.Product.Title">
+                                                                <img asp-append-version="true" class="hoproduct-frontimage " src="@(product.Product.IndexPic != null && !string.IsNullOrEmpty(product.Product.IndexPic) ? "/" + "/" + product.Product.IndexPic : "/no-image.jpg")" alt="@product.Product.Title" style="width:200px; height:200px">
+                                                                <img asp-append-version="true" class="hoproduct-backimage" src="@(product.Product.IndexPic != null && !string.IsNullOrEmpty(product.Product.IndexPic) ? "/" + "/" + product.Product.IndexPic : "/no-image.jpg")" alt="@product.Product.Title">
                                                             </a>
                                                         </div>
 

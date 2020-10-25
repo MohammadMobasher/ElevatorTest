@@ -110,6 +110,24 @@ namespace ElevatorAdmin.Controllers
             }
         }
 
+        public async Task<IActionResult> SiteDirectory()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:60418/Home/GetDirectory");
+                client.DefaultRequestHeaders.Accept.Clear();
+                var response = await  client.PostAsJsonAsync("http://localhost:60418/Home/GetDirectory","");
+                if (response.IsSuccessStatusCode)
+                {
+                    var result =await  response.Content.ReadAsStringAsync();
+                    return Json(result);
+                }
+            }
+            return Json("");
+
+        }
+
+
         public void Test()
         {
             var query = "select Id,UserName from AspNetUsers";
@@ -144,57 +162,60 @@ namespace ElevatorAdmin.Controllers
         public async Task<IActionResult> ResizeTest(IFormFile file)
         {
             var path = _hostingEnvironment.WebRootPath;
-            string[] files = Directory.GetFiles(path + "\\Test");
+            string[] files = Directory.GetFiles(@"C:\Users\Emran\Desktop\fl\Product");
             foreach (string fileName in files)
             {
                 Image src = Image.FromFile($"{fileName}", true);
                 string path2 = $"{fileName}";
                 string target = $"{path}\\Thump\\";
 
+
+                Resize(path2, target + "VXS\\", (int)(scaled(src.Width, 180) * (double)src.Width), (int)(scaled(src.Width, 180) * (double)src.Height), "XS"); // XS
+
                 //##Device = Desktops
                 //##Screen = 1281px to higher resolution desktops
 
-                if (src.Width > 1280)
-                {
-                    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
-                    Resize(path2, target + "L\\", (int)(scaled(src.Width, 1280) * (double)src.Width), (int)(scaled(src.Width, 1280) * (double)src.Height), "L"); // L
-                    Resize(path2, target + "M\\", (int)(scaled(src.Width, 1024) * (double)src.Width), (int)(scaled(src.Width, 1024) * (double)src.Height), "M"); // M
-                    Resize(path2, target + "S\\", (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
-                    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
-                }
-                else if (src.Width <= 1280 && src.Width >= 1025)
-                {
-                    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
-                    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
-                    Resize(path2, target + "M\\", (int)(scaled(src.Width, 1024) * (double)src.Width), (int)(scaled(src.Width, 1024) * (double)src.Height), "M"); // M
-                    Resize(path2, target + "S\\", (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
-                    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+                //if (src.Width > 1280)
+                //{
+                //    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
+                //    Resize(path2, target + "L\\", (int)(scaled(src.Width, 1280) * (double)src.Width), (int)(scaled(src.Width, 1280) * (double)src.Height), "L"); // L
+                //    Resize(path2, target + "M\\", (int)(scaled(src.Width, 1024) * (double)src.Width), (int)(scaled(src.Width, 1024) * (double)src.Height), "M"); // M
+                //    Resize(path2, target + "S\\", (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
+                //    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+                //}
+                //else if (src.Width <= 1280 && src.Width >= 1025)
+                //{
+                //    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
+                //    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
+                //    Resize(path2, target + "M\\", (int)(scaled(src.Width, 1024) * (double)src.Width), (int)(scaled(src.Width, 1024) * (double)src.Height), "M"); // M
+                //    Resize(path2, target + "S\\", (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
+                //    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
 
-                }
-                else if (src.Width <= 1024 && src.Width >= 768)
-                {
-                    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
-                    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
-                    Resize(path2, target + "M\\", src.Width, src.Height, "M"); // M
-                    Resize(path2, target + "S\\", (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
-                    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
-                }
-                else if (src.Width <= 767 && src.Width >= 481)
-                {
-                    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
-                    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
-                    Resize(path2, target + "M\\", src.Width, src.Height, "M"); // M
-                    Resize(path2, target + "S\\", src.Width, src.Height, "S"); // S
-                    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
-                }
-                else if (src.Width <= 480 && src.Width >= 320)
-                {
-                    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
-                    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
-                    Resize(path2, target + "M\\", src.Width, src.Height, "M"); // M
-                    Resize(path2, target + "S\\", src.Width, src.Height, "S"); // S
-                    Resize(path2, target + "XS\\", src.Width, src.Height, "XS"); // XS
-                }
+                //}
+                //else if (src.Width <= 1024 && src.Width >= 768)
+                //{
+                //    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
+                //    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
+                //    Resize(path2, target + "M\\", src.Width, src.Height, "M"); // M
+                //    Resize(path2, target + "S\\", (int)(scaled(src.Width, 767) * (double)src.Width), (int)(scaled(src.Width, 767) * (double)src.Height), "S"); // S
+                //    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+                //}
+                //else if (src.Width <= 767 && src.Width >= 481)
+                //{
+                //    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
+                //    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
+                //    Resize(path2, target + "M\\", src.Width, src.Height, "M"); // M
+                //    Resize(path2, target + "S\\", src.Width, src.Height, "S"); // S
+                //    Resize(path2, target + "XS\\", (int)(scaled(src.Width, 480) * (double)src.Width), (int)(scaled(src.Width, 480) * (double)src.Height), "XS"); // XS
+                //}
+                //else if (src.Width <= 480 && src.Width >= 320)
+                //{
+                //    Resize(path2, target + "XL\\", src.Width, src.Height, "XL"); // XL
+                //    Resize(path2, target + "L\\", src.Width, src.Height, "L"); // L
+                //    Resize(path2, target + "M\\", src.Width, src.Height, "M"); // M
+                //    Resize(path2, target + "S\\", src.Width, src.Height, "S"); // S
+                //    Resize(path2, target + "XS\\", src.Width, src.Height, "XS"); // XS
+                //}
             }
 
 

@@ -52,6 +52,8 @@
     public class SiteConfig
     {
         public string UrlAddress { get; set; }
+
+        public string Physical { get; set; }
     }
 
     public class GoogleReCaptcha
