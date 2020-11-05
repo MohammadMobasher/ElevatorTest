@@ -51,6 +51,8 @@ namespace ElevatorAdmin
             //    .AddJsonFile($"appsettings.json")
             //    .Build());
 
+            //services.Configure<SiteConfig>(Configuration.GetSection(nameof(SiteConfig)));
+            services.Configure<SiteConfig>(options => Configuration.GetSection("SiteConfig").Bind(options));
             services.AddSingleton<HtmlEncoder>(
                 HtmlEncoder.Create(allowedRanges: new[]
                 {

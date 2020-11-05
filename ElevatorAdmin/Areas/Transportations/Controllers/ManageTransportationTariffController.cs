@@ -35,9 +35,9 @@ namespace ElevatorAdmin.Areas.Transportations.Controllers
                 .GetAllTariff(search, this.CurrentPage, this.PageSize);
 
             this.PageCount = model.Item1;
-
+            this.TotalNumber = model.Item1;
             ViewBag.SearchModel = search;
-
+            ViewBag.Count = model.Item2.Count();
             return View(model.Item2);
         }
 
