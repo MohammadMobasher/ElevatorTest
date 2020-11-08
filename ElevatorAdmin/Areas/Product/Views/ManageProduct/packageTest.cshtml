@@ -1,0 +1,164 @@
+﻿@using DataLayer.DTO
+@model List<FeatureFullDetailDTO>
+@{
+    ViewBag.Title = " ویژگی محصول";
+    //var productFeatures = ViewBag.ProductFeatures as List<ProductFeature>;
+}
+
+<script src="~/parser.js"></script>
+<div class="container">
+
+    <textarea style="width:100%" dir="ltr">
+
+    </textarea>
+
+    <br />
+    <br />
+    <br />
+
+    @{ int row = 1, i = 0;}
+    @foreach (FeatureFullDetailDTO item in Model)
+    {
+        <input type="hidden" name="vm.Items[@i].FeatureId" value="@item.Id" />
+
+
+        @if (item.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fssot)
+        {
+            @*<div class="row">*@
+            <div class="col-4">
+                @*<i class="fa fa-check-square" aria-hidden="true"></i>*@
+                <i class="fa fa-circle-o" aria-hidden="true" name="iconSelect" data-featureId="@item.Id"></i>
+                @item.Title (fueature@(item.Id))
+            </div>
+
+
+            @*</div>*@
+            @*<div class="form-group">
+                    <div class="col-4">
+                        <i class="fa fa-check-square" aria-hidden="true"></i>
+                        fueature @item.Id
+                    </div>
+                    <label for="Tags" class="control-label col-sm-2">
+
+                        @item.Title
+                        @if (item.IsRequired)
+                        {
+                            <i class="text-danger fa fa-star size-8"></i>
+                        }
+                    </label>
+                    <div class="col-sm-10">
+                            <select class="form-control" @(item.IsRequired ? "required" : "") name="vm.Items[@i].FeatureValue">
+                                <option value="">--لطفا انتخاب کنید--</option>
+                                @foreach (DataLayer.DTO.FeatureItem.FeatureItemDTO feature in item.FeatureItems)
+                                {
+                                    <option value="@feature.Id">@feature.Value</option>
+                                }
+                            </select>
+                        </div>
+
+                </div>*@
+
+
+        }
+        else
+        {
+            <div class="form-group">
+                <label for="Text" class="control-label col-sm-2">
+                    @item.Title
+                    @if (item.IsRequired)
+                    {
+                        <i class="text-danger fa fa-star size-8"></i>
+                    }
+                </label>
+                <div class="col-sm-10">
+
+                    <input @(item.IsRequired ? "required" : "")
+                           @(item.FeatureType == DataLayer.SSOT.FeatureTypeSSOT.Fint ? "step='0.01'" : "")
+                           type="@(item.FeatureType==DataLayer.SSOT.FeatureTypeSSOT.Fint?"number":"text")"
+                           placeholder="@item.Title" aria-describedby="Text" name="vm.Items[@i].FeatureValue" class="form-control" />
+                </div>
+            </div>
+        }
+        i++;
+    }
+
+
+    <button type="submit" class="btn btn-block btn-success">ثبت</button>
+
+
+    <script>
+        var formula = "";
+
+        var parser = new formulaParser.Parser();
+        var numberFeatureFormula = 0;
+
+        parser.setVariable('#Floar', "#Floar");
+        parser.setVariable('#FloarHeight', "#FloarHeight");
+
+        parser.setFunction('feature', function (params) {
+            numberFeatureFormula += 1;
+            return "(ProductFeature.FeatureId in (" + params[0] + ") and ProductFeature.FeatureValue in (" + params[1].split('|').join(",") + "))"
+            
+        });
+
+        parser.setFunction('and', function (params) {
+            var firstParam = parser.parse(params[0]);
+            var secondParam = parser.parse(params[1]);
+            return (firstParam.result != null ? firstParam.result : params[0])
+                + " and " + (secondParam.result != null ? secondParam.result : params[1]) ;
+        });
+
+        parser.setFunction('or', function (params) {
+            var firstParam = parser.parse(params[0]);
+            var secondParam = parser.parse(params[1]);
+            return (firstParam.result != null ? firstParam.result : params[0])
+                + " or " + (secondParam.result != null ? secondParam.result : params[1]);
+        });
+
+
+        parser.setFunction('sum', function (params) {
+            var firstParam = parser.parse(params[0]);
+            var secondParam = parser.parse(params[1]);
+            return (firstParam.result != null ? firstParam.result : params[0])
+                + " + " + (secondParam.result != null ? secondParam.result : params[1]);
+        });
+
+        parser.setFunction('minus', function (params) {
+            var firstParam = parser.parse(params[0]);
+            var secondParam = parser.parse(params[1]);
+            return (firstParam.result != null ? firstParam.result : params[0])
+                + " - " + (secondParam.result != null ? secondParam.result : params[1]);
+        });
+
+
+        //parser.setFunction('product', function (params) {
+        //    var firstParam = parser.parse(params[0]);
+        //    var secondParam = parser.parse(params[1]);
+        //    return (firstParam.result != null ? firstParam.result : params[0])
+        //        + " - " + (secondParam.result != null ? secondParam.result : params[1]);
+        //});
+
+
+        parser.setFunction('multiply', function (params) {
+            var firstParam = parser.parse(params[0]);
+            var secondParam = parser.parse(params[1]);
+            return (firstParam.result != null ? firstParam.result : params[0])
+                + " * " + (secondParam.result != null ? secondParam.result : params[1]);
+        });
+
+
+        parser.setFunction('Division', function (params) {
+            var firstParam = parser.parse(params[0]);
+            var secondParam = parser.parse(params[1]);
+            return (firstParam.result != null ? firstParam.result : params[0])
+                + " / " + (secondParam.result != null ? secondParam.result : params[1]);
+        });
+
+        $(function () {
+            $("[name='iconSelect']").on("click", function () {
+
+            });
+        });
+    </script>
+
+</div>

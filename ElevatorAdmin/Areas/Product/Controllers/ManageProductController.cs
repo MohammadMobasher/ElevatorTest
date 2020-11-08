@@ -178,6 +178,23 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AllowAccess]
+        public async Task<IActionResult> packageTest(int id)
+        {
+            var product = _productRepostitory.GetById(id);
+            var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(product.ProductGroupId);
+
+            return View(groupFeature);
+        }
+
+
+
+
+        /// <summary>
+        /// ویژگی های محصولات بر اساس ویژگی های محصول
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AllowAccess]
         public async Task<IActionResult> ProductFeaturesUpdate(int id, int productId)
         {
             var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(id);
