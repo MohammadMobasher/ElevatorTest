@@ -6,7 +6,7 @@
 }
 
 
-<form action="/Feature/ManageFeature/Update" class="form-horizontal" method="post" style="">
+<form action="/Feature/ManageFeature/Update" class="form-horizontal" id="formList" method="post" style="">
 
     <input type="hidden" value="@Model.Id" name="Id" />
 
@@ -137,10 +137,10 @@
 <script>
     $(function () {
 
-        var frm = $('form')
+        var frm = $('#formList')
 
         frm.submit(function (e) {
-
+            debugger;
             e.preventDefault();
             var featueType = $('[name="FeatureType"]').val();
 
@@ -151,7 +151,7 @@
                     $('form').append("<input type='hidden' name='vm.Items[" + index + "]' value='" + val + "'>")
                 })
             }
-            $('form').unbind('submit').submit();
+            $(frm).unbind('submit').submit();
         });
 
         $('[name="FeatureType"]').on("change", function () {
