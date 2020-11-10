@@ -10,6 +10,7 @@ using DataLayer.DTO.ProductFeatures;
 using DataLayer.DTO.Products;
 using DataLayer.ViewModels;
 using DataLayer.ViewModels.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Service.Repos;
@@ -171,6 +172,23 @@ namespace ElevatorAdmin.Areas.Product.Controllers
 
             return PartialView(groupFeature);
         }
+
+        /// <summary>
+        /// ویژگی های محصولات بر اساس ویژگی های محصول
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        public async Task<IActionResult> packageTest(int id)
+        {
+            var product = _productRepostitory.GetById(id);
+            var groupFeature = await _productGroupFeatureRepository.GetFeaturesByGroupId(product.ProductGroupId);
+
+            return View(groupFeature);
+        }
+
+
+
 
         /// <summary>
         /// ویژگی های محصولات بر اساس ویژگی های محصول

@@ -65,7 +65,7 @@ namespace Service.Repos
         public async Task<SweetAlertExtenstion> AddCart(int shopOrderId, int productId, int userId, int count = 1)
         {
 
-            var model = await GetByConditionAsync(a => a.ProductId == productId && a.UserId == userId && a.ShopOrderId == shopOrderId);
+            var model = await GetByConditionAsync(a => a.ProductId == productId && a.ShopOrderId == shopOrderId);
 
             /// درصورتی که این کالا از قبل در سبد خرید این فرد وجود داشته باشد
             /// تنها تعداد آن را به روز رسانی میکنیم
@@ -378,11 +378,11 @@ namespace Service.Repos
         {
             try
             {
-                var entity = await Entities.SingleOrDefaultAsync(x => x.ShopOrderId == invoceId && x.ProductId == productId);
+                var entity = await Entities.Where(x => x.ShopOrderId == invoceId && x.ProductId == productId).ToListAsync();
                 //if (entity == null)
                 //{
-                    Entities.Remove(entity);
-                    await DbContext.SaveChangesAsync();
+                Entities.RemoveRange(entity);
+                await DbContext.SaveChangesAsync();
                     return SweetAlertExtenstion.Ok();
                 //}
 //                return SweetAlertExtenstion.Error();

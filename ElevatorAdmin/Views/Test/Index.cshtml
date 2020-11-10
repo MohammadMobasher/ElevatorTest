@@ -1,10 +1,116 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    Layout = null;
 }
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/parser.js"></script>
+<script>
+    var formula = "";
 
-<h1>Index</h1>
+    var parser = new formulaParser.Parser();
+    var numberFeatureFormula = 0;
 
 
+    var mJson = [];
 
+    parser.setVariable('#Floar', "#Floar");
+    parser.setVariable('#FloarHeight', "#FloarHeight");
+
+
+    //feature(1001, 12, 100, '==')
+    parser.setFunction('feature', function (params) {
+        numberFeatureFormula += 1;
+        
+        return {
+            'productId': params[0],
+            'featureId': params[1],
+            'featureValue': params[2],
+            'operation': params[3],
+        };
+
+        //return "(ProductFeature.FeatureId in (" + params[0] + ") and ProductFeature.FeatureValue in (" + params[1].split('|').join(",") + "))"
+
+    });
+
+    parser.setFunction('and', function (params) {
+       
+        var mparams = [];
+
+        for (var i = 0; i < params.length; i++) {
+            var result = parser.parse(params[i]);
+            mparams.push(
+                result.result != null ? result.result : params[i]
+            )
+        }
+        
+        return {
+            'operation': 'and',
+            'params': mparams
+        };
+
+        
+        //return (firstParam.result != null ? firstParam.result : params[0])
+        //    + " and " + (secondParam.result != null ? secondParam.result : params[1]) ;
+    });
+
+    parser.setFunction('or', function (params) {
+        var mparams = [];
+
+        for (var i = 0; i < params.length; i++) {
+            var result = parser.parse(params[i]);
+            mparams.push(
+                result.result != null ? result.result : params[i]
+            )
+        }
+
+        return {
+            'operation': 'or',
+            'params': mparams
+        };
+    });
+
+
+    parser.setFunction('sum', function (params) {
+        var firstParam = parser.parse(params[0]);
+        var secondParam = parser.parse(params[1]);
+        return (firstParam.result != null ? firstParam.result : params[0])
+            + " + " + (secondParam.result != null ? secondParam.result : params[1]);
+    });
+
+    parser.setFunction('minus', function (params) {
+        var firstParam = parser.parse(params[0]);
+        var secondParam = parser.parse(params[1]);
+        return (firstParam.result != null ? firstParam.result : params[0])
+            + " - " + (secondParam.result != null ? secondParam.result : params[1]);
+    });
+
+
+    //parser.setFunction('product', function (params) {
+    //    var firstParam = parser.parse(params[0]);
+    //    var secondParam = parser.parse(params[1]);
+    //    return (firstParam.result != null ? firstParam.result : params[0])
+    //        + " - " + (secondParam.result != null ? secondParam.result : params[1]);
+    //});
+
+
+    parser.setFunction('multiply', function (params) {
+        var firstParam = parser.parse(params[0]);
+        var secondParam = parser.parse(params[1]);
+        return (firstParam.result != null ? firstParam.result : params[0])
+            + " * " + (secondParam.result != null ? secondParam.result : params[1]);
+    });
+
+
+    parser.setFunction('Division', function (params) {
+        var firstParam = parser.parse(params[0]);
+        var secondParam = parser.parse(params[1]);
+        return (firstParam.result != null ? firstParam.result : params[0])
+            + " / " + (secondParam.result != null ? secondParam.result : params[1]);
+    });
+
+    $(function () {
+        $("[name='iconSelect']").on("click", function () {
+
+        });
+    });
+</script>
 
