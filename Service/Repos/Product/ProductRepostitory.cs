@@ -211,7 +211,7 @@ namespace Service.Repos
                               //// با این جدول به این جهت که بتوان مقادیر ویژگی‌ها را به دست آورد ارتباط میدهیم
                               Value = (from productFeature in this.DbContext.ProductFeature
                                        where productFeature.FeatureId == feature.Id && productFeature.ProductId == productId
-                                       select productFeature.FeatureValue).SingleOrDefault()
+                                       select productFeature.FeatureValue).FirstOrDefault()
 
                           }).ToListAsync();
         }

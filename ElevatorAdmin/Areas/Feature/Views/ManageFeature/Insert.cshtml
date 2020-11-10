@@ -4,7 +4,7 @@
 }
 
 
-<form id="frm" action="/Feature/ManageFeature/Insert" class="form-horizontal" method="post" style="">
+<form id="frm" action="/Feature/ManageFeature/Insert" class="form-horizontal" hidden= method="post" style="">
 
     <div class="form-group">
         <label for="Title" class="control-label col-sm-3">عنوان ویژگی <i class="text-danger fa fa-star size-8"></i></label>
@@ -137,7 +137,7 @@
 <script>
     $(function () {
 
-        var frm = $('form')
+        var frm = $('#frm')
 
         frm.submit(function (e) {
 
@@ -151,7 +151,7 @@
                     $('form').append("<input type='hidden' name='vm.Items[" + index + "]' value='" + val + "'>")
                 })
             }
-            $('form').unbind('submit').submit();
+            $(frm).unbind('submit').submit();
         });
 
         $('[name="FeatureType"]').on("change", function () {
