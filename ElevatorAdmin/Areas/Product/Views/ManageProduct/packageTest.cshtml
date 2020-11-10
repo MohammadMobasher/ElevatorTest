@@ -92,20 +92,44 @@
         var parser = new formulaParser.Parser();
         var numberFeatureFormula = 0;
 
+
+        var mJson = [];
+
         parser.setVariable('#Floar', "#Floar");
         parser.setVariable('#FloarHeight', "#FloarHeight");
 
+
+        //feature(1001, 12, 100, '==')
         parser.setFunction('feature', function (params) {
             numberFeatureFormula += 1;
-            return "(ProductFeature.FeatureId in (" + params[0] + ") and ProductFeature.FeatureValue in (" + params[1].split('|').join(",") + "))"
+
+            return {
+                'productId': params[0],
+                'featureId': params[1],
+                'featureValue': params[2],
+                'operation': params[3],
+            };
+
+            //return "(ProductFeature.FeatureId in (" + params[0] + ") and ProductFeature.FeatureValue in (" + params[1].split('|').join(",") + "))"
             
         });
 
         parser.setFunction('and', function (params) {
-            var firstParam = parser.parse(params[0]);
-            var secondParam = parser.parse(params[1]);
-            return (firstParam.result != null ? firstParam.result : params[0])
-                + " and " + (secondParam.result != null ? secondParam.result : params[1]) ;
+
+            mJson.push({
+                'operation': 'and',
+                'params': [
+                    parser.parse(params[0]),
+                    parser.parse(params[1]),
+                ]
+            });
+
+            console.log(mJson);
+
+
+            return mJson;
+            //return (firstParam.result != null ? firstParam.result : params[0])
+            //    + " and " + (secondParam.result != null ? secondParam.result : params[1]) ;
         });
 
         parser.setFunction('or', function (params) {

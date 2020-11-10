@@ -10,6 +10,7 @@ using DataLayer.DTO.ProductFeatures;
 using DataLayer.DTO.Products;
 using DataLayer.ViewModels;
 using DataLayer.ViewModels.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Service.Repos;
@@ -177,7 +178,7 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [AllowAccess]
+        [AllowAnonymous]
         public async Task<IActionResult> packageTest(int id)
         {
             var product = _productRepostitory.GetById(id);
