@@ -288,6 +288,15 @@ namespace ElevatorAdmin.Areas.Product.Controllers
         #endregion
 
 
+        #region فرمول
+
+        public IActionResult FormulProduct(int id)
+        {
+            return View();
+        }
+
+        #endregion
+
         //[ActionRole("حذف آیتم")]
         //[HasAccess]
         //public async Task<IActionResult> Delete(int Id)
