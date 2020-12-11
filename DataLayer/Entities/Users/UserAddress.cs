@@ -38,6 +38,16 @@ namespace DataLayer.Entities
 
         public TehranAreas? TehranAreasFrom { get; set; }
 
+        /// <summary>
+        /// آیا خارج از تهران می باشد
+        /// </summary>
+        public bool IsOutTehran { get; set; }
+
+        /// <summary>
+        /// نام شهر
+        /// </summary>
+        public string Province { get; set; }
+
         [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }
 

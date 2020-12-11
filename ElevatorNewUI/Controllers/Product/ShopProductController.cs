@@ -343,6 +343,7 @@ namespace ElevatorNewUI.Controllers
 
             ViewBag.FactorId = id;
 
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId && a.ShopOrderId == id);
             return View(listOrders);
         }
 

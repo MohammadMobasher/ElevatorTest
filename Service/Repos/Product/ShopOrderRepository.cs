@@ -340,7 +340,7 @@ namespace Service.Repos
                 	JOIN WarehouseProductCheck on ShopProduct.ProductId = WarehouseProductCheck.ProductId
                 	JOIN Warehouse on WarehouseProductCheck.WarehouseId = Warehouse.Id
 					JOIN UserAddress ON ShopProduct.ShopOrderId = UserAddress.ShopOrderId
-                where ShopProduct.ShopOrderId = {orderId}
+                where ShopProduct.ShopOrderId = {orderId} and UserAddress.IsOutTehran = 0
                 
                 DECLARE @OrderDetail TABLE (ProductSize BIGINT,Area int)
                 insert INTO @OrderDetail(ProductSize,Area)

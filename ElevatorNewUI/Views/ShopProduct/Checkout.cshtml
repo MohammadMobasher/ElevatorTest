@@ -9,6 +9,7 @@
     long tariff = ViewBag.Tariff;
 
     var unit = ViewBag.Unit as List<ProductUnit>;
+    var userAddress = ViewBag.UserAddress as UserAddress;
 }
 
 
@@ -110,7 +111,8 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-
+                                                @if (!userAddress.IsOutTehran)
+                                                {
                                                 <tr class="cart-subtotal">
                                                     <th>هزینه حمل و نقل</th>
                                                     <td>
@@ -140,7 +142,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-
+                                                }
 
                                                 <tr class="cart-subtotal">
                                                     <th>کل</th>
@@ -186,7 +188,7 @@
                                         </li>
                                     </ul>
                                     </div>
-                                    @if (tariff != 0)
+                                    @if (userAddress.IsOutTehran ||tariff != 0)
                                     {
                                         <div class="form-auth-row">
                                             <label for="#" class="ui-checkbox mt-1">
