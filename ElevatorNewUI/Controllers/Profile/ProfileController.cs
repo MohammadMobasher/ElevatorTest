@@ -165,6 +165,7 @@ namespace ElevatorNewUI.Controllers.Profile
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
             ViewBag.SidebarActive = ProfileSidebarSSOT.SpecialInvoice;
             var result = await _shopOrderRepository.ListSpecialInvoice(Title);
+            ViewBag.Title = Title;
 
             return View(result);
         }

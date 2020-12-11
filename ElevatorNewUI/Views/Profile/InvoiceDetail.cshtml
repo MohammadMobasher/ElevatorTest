@@ -227,7 +227,7 @@
                             </div>
 
 
-                            <form asp-controller="Profile" asp-action="EditShopOrder">
+                            <form asp-controller="Profile" asp-action="EditShopOrder" id="frmUpdate" method="post">
                                 <input type="hidden" name="ShopOrderId" value="@order.Id" />
                                 <input type="hidden" name="urlBack" value="InvoiceDetail" />
                                 <div class="profile-content">
@@ -306,9 +306,9 @@
                                                         <td class="order-code">@(raw++)</td>
                                                         <td>@(item.OrderName ?? item.Product.Title) </td>
                                                         <td>
-                                                            <input type="hidden" value="@item.ProductId" name="ListProducts[@index].ProductId" />
+                                                            @*<input type="hidden" value="@item.ProductId" name="ListProducts[@index].ProductId" />*@
 
-                                                            <input type="number" class="productCount" style="width: 30px; text-align:center" name="ListProducts[@index].Count" value="@item.Count" />
+                                                            <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Desktop" data-productId="@item.ProductId"  value="@item.Count" />
                                                         </td>
                                                         <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
                                                         <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
@@ -422,9 +422,9 @@
                                                                     <td class="order-code">@(raw1++)</td>
                                                                     <td>@(item.OrderName ?? item.Product.Title) </td>
                                                                     <td>
-                                                                        <input type="hidden" value="@item.ProductId" name="ListProducts[@indexMobile].ProductId" />
+                                                                        @*<input type="hidden" value="@item.ProductId" name="ListProducts[@indexMobile].ProductId" />*@
 
-                                                                        <input type="number" class="productCount" style="width: 30px; text-align:center" name="ListProducts[@indexMobile].Count" value="@item.Count" />
+                                                                        <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Mobile" data-productId="@item.ProductId" value="@item.Count" />
                                                                     </td>
                                                                     <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
                                                                     <td>@(item.OrderPrice ?? item.Product.Price.ToPersianPrice())</td>
@@ -487,19 +487,28 @@
 </div>
 <script>
 
-    //$(function () {
+    $(function () {
+        $('.productCount').on("change", function (event) {
+            
+            var sectionType = $(this).attr("data-section");
 
-    //    $('.productCount').on("keypress", function (event) {
+            var inputs = $(`input[data-section="${sectionType}"]`);
 
-    //        var keycode = (event.keyCode ? event.keyCode : event.which);
-    //        if (keycode == '13') {
+            $.each(inputs, function (index, key) {
+                var value = $(key).val();
+                var id = $(key).attr('data-productId');
+                $('#frmUpdate').append(`<input type='hidden' name='ListProducts[${index}].Count' value='${value}'/>`);
+                $('#frmUpdate').append(`<input type='hidden' name='ListProducts[${index}].ProductId' value='${id}'/>`);
+            })
 
-    //            $('.editBtn').trigger('click');
-    //        }
-    //    });
+            //var keycode = (event.keyCode ? event.keyCode : event.which);
+            $('#frmUpdate').submit();
+            $('.editBtn').trigger('click');
 
-    //});
-    <img src="~/images/man.png" />
+        });
+
+    });
+    //<img src="~/images/man.png" />
 </script>
 <script language="javascript">
     $('[name="ProductId"]').select2({

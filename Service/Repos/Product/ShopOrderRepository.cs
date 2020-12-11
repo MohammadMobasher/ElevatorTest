@@ -10,6 +10,7 @@ using Service.Repos.Warehouses;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -100,7 +101,7 @@ namespace Service.Repos
         {
             if (!string.IsNullOrEmpty(Title))
             {
-                return await Entities.Where(x => x.IsSpecialInvoice == true && x.Title.Contains(Title)).ToListAsync();
+                return await Entities.Where(x => x.IsSpecialInvoice == true && x.Title.Contains(Title.ConvertNumerals(CultureInfo.GetCultureInfo("en-US")))).ToListAsync();
             }
             else
             {

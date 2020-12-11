@@ -150,9 +150,13 @@ namespace Service.Repos.Product
         {
             try
             {
-                List<ProductFeature> realItems = new List<ProductFeature>(); 
+                List<ProductFeature> realItems = new List<ProductFeature>();
                 foreach (var item in items)
-                    realItems.Add(Entities.SingleOrDefault(x => x.ProductId == item.ProductId && x.FeatureId == item.FeatureId));
+                {
+                    var result = Entities.SingleOrDefault(x => x.ProductId == item.ProductId && x.FeatureId == item.FeatureId);
+                    if(result != null)
+                        realItems.Add(result);
+                }
 
                 await DeleteRangeAsync(realItems);
                 return SweetAlertExtenstion.Ok();

@@ -1,6 +1,5 @@
 ﻿@model List<Product>
 
-
 <div class="slider-widget-products slider-content-tabs pr-0 pl-0">
     <div class="widget widget-product card slider-content-tabs pr-0 pl-0">
         <header class="card-header">
@@ -23,8 +22,7 @@
                                     @*@{
                                         var image = item.IndexPic.Split("/").LastOrDefault();
                                     }
-                                    <img data-src="/Thumb/VXS/@image" class="img-fluid lazy" alt="">*@
-                                    <img data-src="http://staffonly.ir/@item.IndexPic" class="img-fluid lazy" alt="">
+                                    <img data-src="http://liftbazar.ir//@item.IndexPic" class="img-fluid lazy" alt="">
                                 </a>
                                 <h2 class="post-title">
                                     <a href="/Product/ProductDetail/@item.Id">
@@ -38,8 +36,8 @@
                                     }   
                                     else if (item.Price != item.PriceWithDiscount)
                                     {
-                                        <del><span>@item.PriceWithDiscount.ToPersianPrice()<span>تومان</span></span></del>
-                                        <ins><span>@item.Price.ToPersianPrice()<span>تومان</span></span></ins>
+                                        <del><span>@item.Price.ToPersianPrice()<span>تومان</span></span></del>
+                                        <ins><span>@item.PriceWithDiscount.ToPersianPrice()<span>تومان</span></span></ins>
                                     }
                                     else
                                     {

@@ -19,10 +19,11 @@
                             <div class="owl-item tab-item SuggestionMobile" style="width: 222.313px; margin-left: 10px;">
                                 <div class="item">
                                     <a href="/Product/ProductDetail/@item.Id" class="d-block hover-img-link">
-                                        @*@{
-                                            var image = item.IndexPic.Split("/").LastOrDefault();
+                                        @if (item.Price != item.PriceWithDiscount)
+                                        {
+                                            <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@item.Discount.ToPersianNumbers()"></price-tag>
                                         }
-                                        <img src="/Thumb/XS/@image" class="img-fluid" alt="">*@
+                                
                                         <img src="http://staffonly.ir/@item.IndexPic" class="img-fluid" alt="">
                                     </a>
                                     <h2 class="post-title">
@@ -88,7 +89,7 @@
                             <div class="row m-0">
                                 <div class="right-col col-5 d-flex align-items-center">
                                     <a class="w-100 text-center img-link-amazing" href="/Product/ProductDetail/@item.Id">
-                                        @if (item.Price != item.PriceWithDiscount)
+                                        @if (item.Price != item.PriceWithDiscount && item.Discount!=null)
                                         {
                                             <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@item.Discount.ToPersianNumbers()"></price-tag>
                                         }

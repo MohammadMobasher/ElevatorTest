@@ -33,7 +33,7 @@
                     <div class="col-lg-3 col-md-3 col-xs-12 pr sticky-sidebar">
                         <div class="shop-archive-sidebar">
                             <div class="sidebar-archive mb-3">
-                                <section class="widget-product-categories">
+                                @*<section class="widget-product-categories">
                                     <header class="cat-header">
                                         <h2 class="mb-0">
                                             <button class="btn btn-block text-right" data-toggle="collapse" href="#headingOne" role="button" aria-expanded="false" aria-controls="headingOne">
@@ -58,7 +58,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </section>
+                                </section>*@
 
 
 
@@ -70,7 +70,7 @@
                                         <section class="widget-product-categories">
                                             <header class="cat-header">
                                                 <h2 class="mb-0">
-                                                    <button class="btn btn-block text-right" data-toggle="collapse" href="#heading@(item.Id)" role="button" aria-expanded="false" aria-controls="heading@(item.Id)">
+                                                    <button class="btn btn-block text-right" type="button" data-toggle="collapse" href="#heading@(item.Id)" role="button" aria-expanded="false" aria-controls="heading@(item.Id)">
                                                         @item.Title
                                                         <i class="mdi mdi-chevron-down"></i>
                                                     </button>
@@ -78,7 +78,7 @@
                                             </header>
                                             <div class="product-filter" style="max-height:250px; overflow-y:auto">
                                                 <div class="card">
-                                                    <div class="collapse show" id="heading@(item.Id)">
+                                                    <div class="collapse" id="heading@(item.Id)">
                                                         <div class="card-main mb-0 mt-2">
 
 
