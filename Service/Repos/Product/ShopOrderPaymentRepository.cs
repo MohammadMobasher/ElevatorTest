@@ -36,6 +36,7 @@ namespace Service.Repos.Product
                     IsSuccess = false,
                     PaymentAmount = model.PaymentAmount,
                     PaymentDate = null,
+                    IsOnlinePay = true
                 });
             }
             else
@@ -49,6 +50,7 @@ namespace Service.Repos.Product
                         IsSuccess = false,
                         PaymentAmount = payment > 50000000 ? 50000000 : payment,
                         PaymentDate = null,
+                        IsOnlinePay = true
                     });
 
                     payment = payment - 50000000;
@@ -59,6 +61,24 @@ namespace Service.Repos.Product
 
             return (int)count;
         }
+
+
+        public async Task<int> CreateOfflinePayment(int orderId)
+        {
+            var model = await _shopOrderRepository.GetByIdAsync(orderId);
+
+            Add(new ShopOrderPayment()
+            {
+                ShopOrderId = orderId,
+                IsSuccess = false,
+                PaymentAmount = model.PaymentAmount,
+                PaymentDate = null,
+                IsOnlinePay = false
+            });
+
+            return 1;
+        }
+
 
 
         /// <summary>
@@ -90,7 +110,33 @@ namespace Service.Repos.Product
         }
 
 
+        public async Task<SweetAlertExtenstion> SetOfflinePayment(int orderId)
+        {
+            var model = await _shopOrderRepository.GetByIdAsync(orderId);
 
+            if (model == null)
+                return SweetAlertExtenstion.Error("اطلاعاتی با این شناسه یافت نشد");
+
+
+            var orderPayment = await GetByConditionAsync(a => !a.IsOnlinePay && a.ShopOrderId == orderId);
+
+            if (orderPayment == null)
+                return SweetAlertExtenstion.Error("اطلاعات پرداختی با این شناسه فاکتور یافت نشد");
+
+            #region Set Payment
+            orderPayment.IsSuccess = true;
+            orderPayment.SuccessDate = DateTime.Now;
+
+            await UpdateAsync(orderPayment);
+
+            model.IsSuccessed = true;
+            model.SuccessDate = DateTime.Now;
+
+            await _shopOrderRepository.UpdateAsync(model);
+            #endregion
+
+            return SweetAlertExtenstion.Ok();
+        }
 
     }
 }

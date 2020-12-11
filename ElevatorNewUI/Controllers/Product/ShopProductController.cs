@@ -209,7 +209,11 @@ namespace ElevatorNewUI.Controllers
 
         #region CheckOut
 
-
+        /// <summary>
+        ///  ثبت اطلاعات کاربری از سمت پیش فاکتور
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> UserAddressFromInvoice(int id)
         {
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
@@ -229,6 +233,12 @@ namespace ElevatorNewUI.Controllers
             return RedirectToAction(nameof(CheckoutFromInvoice), new { orderId = userAddress.ShopOrderId });
         }
 
+
+        /// <summary>
+        /// ثبت فاکتور و نمایش اطلاعات ان از سمت پیش فاکتور
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         public async Task<IActionResult> CheckoutFromInvoice(int orderId)
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == orderId, null, "Product,ProductPackage");
@@ -246,9 +256,16 @@ namespace ElevatorNewUI.Controllers
         }
 
 
+
         [HttpPost]
-        public async Task<IActionResult> SendToBankFromInvoice(int orderId)
+        public async Task<IActionResult> SendToBankFromInvoice(int orderId, bool isOnlinePay = true)
         {
+            if (!isOnlinePay)
+            {
+                var createPaymentFactor = await _shopOrderPaymentRepository.CreateOfflinePayment(orderId);
+
+                return RedirectToAction("OrderDetail", "Profile", new { id = orderId });
+            }
 
             var countPaymentFactor = await _shopOrderPaymentRepository.CreatePayment(orderId);
 
@@ -269,7 +286,12 @@ namespace ElevatorNewUI.Controllers
 
 
 
-
+        /// <summary>
+        /// جزئیات اطلاعات آدرس کاربر اگر از قبل اطلاعاتی به ثبت رسیده بود نمایش میدهد در غیر اینصورت 
+        /// آدرس جدیدی باید ثبت بکند
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> UserAddress(int id)
         {
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
@@ -279,6 +301,12 @@ namespace ElevatorNewUI.Controllers
             return View();
         }
 
+        /// <summary>
+        /// ثبت اطلاعات آدرس کاربر
+        /// </summary>
+        /// <param name="userAddress"></param>
+        /// <param name="FactorId"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> UserAddress(UserAddress userAddress, int FactorId)
         {
@@ -294,7 +322,12 @@ namespace ElevatorNewUI.Controllers
 
 
 
-
+        /// <summary>
+        /// قبل از وصل شدن به درگاه ابتدا همه ی اطلاعات فاکتور را نمایش می دهیم 
+        /// سپس کاربر تصمیم میگیرد که به صورت آنلاین پرداخت کند  یا پرداخت درب منل انجام دهد
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Checkout(int id)
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId && a.ShopOrderId == id
@@ -314,20 +347,31 @@ namespace ElevatorNewUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendToBank(int id)
+        public async Task<IActionResult> SendToBank(int id, bool isOnlinePay = true)
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId
             && !a.IsFinaly && !a.IsFactorSubmited);
 
             var orderId = await _shopOrderRepository.UpdatePaymentFactor(id, listOrders);
 
+            // اگر پرداخت درب منزل بود ابتدا برایش یک فاکتور ایجاد میکنیم سپس به صفحه جزئیات فاکتور منتقلش میکنیم
+            if (!isOnlinePay)
+            {
+                var createPayment = await _shopOrderPaymentRepository.CreateOfflinePayment(orderId);
+
+                return RedirectToAction("OrderDetail", "Profile", new { id = orderId });
+            }
+
+            // اگر پرداخت آنلاین بود ابتدا باید چک شود که فاکتور بیشتر از 50 ملیون میباشد یا خیر 
             var countPaymentFactor = await _shopOrderPaymentRepository.CreatePayment(orderId);
 
+            // اگر مبلغ کل بیشتر از 50 ملیون بود به صفحه جزئیات فاکتور منتقل شده 
             if (orderId != 0 && countPaymentFactor > 1)
             {
                 return RedirectToAction("OrderDetail", "Profile", new { id = orderId });
             }
 
+            // اگر مبلغ کل کمتر از 50 ملیون بود به درگاه بانک منتقل می شود
             else if (orderId != 0 && countPaymentFactor == 1)
             {
                 var paymentId = await _shopOrderPaymentRepository.GetByConditionAsync(a => a.ShopOrderId == orderId

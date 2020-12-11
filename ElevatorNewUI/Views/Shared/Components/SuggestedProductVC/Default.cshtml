@@ -19,10 +19,11 @@
                             <div class="owl-item tab-item SuggestionMobile" style="width: 222.313px; margin-left: 10px;">
                                 <div class="item">
                                     <a href="/Product/ProductDetail/@item.Id" class="d-block hover-img-link">
-                                        @{
+                                        @*@{
                                             var image = item.IndexPic.Split("/").LastOrDefault();
                                         }
-                                        <img src="/Thumb/XS/@image" class="img-fluid" alt="">
+                                        <img src="/Thumb/XS/@image" class="img-fluid" alt="">*@
+                                        <img src="http://staffonly.ir/@item.IndexPic" class="img-fluid" alt="">
                                     </a>
                                     <h2 class="post-title">
                                         <a href="#">

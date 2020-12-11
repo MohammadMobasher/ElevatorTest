@@ -4,6 +4,7 @@ using DataLayer.Entities;
 using DataLayer.Entities.Warehouse;
 using DataLayer.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Service.Repos.Product;
 using Service.Repos.User;
 using Service.Repos.Warehouses;
 using System;
@@ -21,7 +22,7 @@ namespace Service.Repos
         private readonly ShopProductRepository _shopProductRepository;
         private readonly IDbConnection _connection;
         private readonly WarehouseProductCheckRepository _warehouseProductCheckRepository;
-
+   
         public ShopOrderRepository(DatabaseContext dbContext
             , UserAddressRepository userAddressRepository
             , ShopProductRepository shopProductRepository
@@ -92,7 +93,7 @@ namespace Service.Repos
             {
                 return await Entities.Where(x => x.IsInvoice == true && x.UserId == userId).ToListAsync();
             }
-            
+
         }
 
         public async Task<List<ShopOrder>> ListSpecialInvoice(string Title)
@@ -115,7 +116,7 @@ namespace Service.Repos
         /// <param name="IsInvoice">پیش فاکتور است یا خیر</param>
         /// <param name="specialInvoice">ادمین به عنوان پیش فاکتور پیش فرض ثبت کرده یا خیر </param>
         /// <returns></returns>
-        public async Task<int> AddFactor(int userId, string title,bool IsInvoice,bool specialInvoice)
+        public async Task<int> AddFactor(int userId, string title, bool IsInvoice, bool specialInvoice)
         {
             var model = new ShopOrder()
             {
@@ -131,7 +132,7 @@ namespace Service.Repos
 
             await AddAsync(model);
 
-            var list = await DbContext.ShopProduct.Where(x=> x.UserId == userId && !x.IsFinaly && !x.IsFactorSubmited).ToListAsync();
+            var list = await DbContext.ShopProduct.Where(x => x.UserId == userId && !x.IsFinaly && !x.IsFactorSubmited).ToListAsync();
             // مشخص کردن اینکه این سبد محصولات مربوط به کدام فاکتور می باشد
             await _shopProductRepository.ChangeStatus(list, model.Id);
 
@@ -143,24 +144,24 @@ namespace Service.Repos
         }
 
 
-        public async Task<int> UpdatePaymentFactor(int factorId,IEnumerable<ShopProduct> shopProducts)
+        public async Task<int> UpdatePaymentFactor(int factorId, IEnumerable<ShopProduct> shopProducts, bool isOnlinePay = true)
         {
             try
             {
                 var model = await GetByIdAsync(factorId);
 
                 var tariff = CalculateTariffByOrderId(factorId) ?? 0;
-             
-                model.Amount = await _shopProductRepository.CalculateCartPriceNumber(model.UserId,factorId);
+
+                model.Amount = await _shopProductRepository.CalculateCartPriceNumber(model.UserId, factorId);
                 model.PaymentAmount = model.Amount + tariff;
-                
+                model.IsOnlinePay = isOnlinePay;
 
                 await UpdateAsync(model);
                 // در جدول مربوط به آدرس
                 // شماره فاکتور را قرار میدهیم تا بعد بتوانیم از آن استفاده کنیم
                 await _userAddressRepository.UpdateShopOrderId(model.Id, model.UserId);
 
-                await _shopProductRepository.ChangeStatus(shopProducts.ToList(),model.Id);
+                await _shopProductRepository.ChangeStatus(shopProducts.ToList(), model.Id);
 
                 return model.Id;
 
@@ -187,7 +188,7 @@ namespace Service.Repos
 
                 };
 
-                
+
 
                 model.PaymentAmount = model.Amount + tariff;
 
@@ -209,6 +210,8 @@ namespace Service.Repos
                 throw new Exception(e.Message);
             }
         }
+
+
 
 
 
@@ -281,7 +284,7 @@ namespace Service.Repos
             var count = model.Count();
 
             model = model.Include(a => a.Users);
-            model = model.OrderByDescending(a => a.SuccessDate).ThenByDescending(a => a.Id);
+            model = model.OrderByDescending(a => a.CreateDate).ThenByDescending(a => a.Id);
 
             return new Tuple<int, List<ShopOrder>>(count, await model.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync());
         }
@@ -410,7 +413,7 @@ namespace Service.Repos
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<int?> OverWriteShopOrder(int id,int userId)
+        public async Task<int?> OverWriteShopOrder(int id, int userId)
         {
             try
             {
@@ -437,7 +440,7 @@ namespace Service.Repos
 
                 await AddAsync(entity);
 
-                await _shopProductRepository.OverwriteShopProduct(id, entity.Id,userId);
+                await _shopProductRepository.OverwriteShopProduct(id, entity.Id, userId);
 
                 return entity.Id;
             }
@@ -463,7 +466,7 @@ namespace Service.Repos
             model.TransferProductPrice = tariff;
             model.PaymentAmount = (model.TransferProductPrice ?? 0) + model.Amount;
 
-            await UpdateAsync(model,false);
+            await UpdateAsync(model, false);
 
             return await SaveAsync();
         }
@@ -480,7 +483,7 @@ namespace Service.Repos
 
             if (model == null) return SweetAlertExtenstion.Error("اطلاعاتی با این شناسه یافت نشد");
 
-            model.Amount =await  _shopProductRepository.CalculateCartPriceNumber(model.UserId, orderId);
+            model.Amount = await _shopProductRepository.CalculateCartPriceNumber(model.UserId, orderId);
             model.TransferProductPrice = CalculateTariffByOrderId(orderId);
             model.PaymentAmount = model.Amount + (model.TransferProductPrice ?? 0);
 

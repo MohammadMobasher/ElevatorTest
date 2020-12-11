@@ -138,13 +138,29 @@ namespace ElevatorAdmin.Areas.Orders.Controllers
         {
             var model = _usersPaymentRepository.GetList();
 
-            return View(model);
+            return View(model); 
         }
 
         [ActionRole("حذف فاکتور")]
         public async Task<ActionResult> DeleteOrder(int id)
         {
             var model = await _shopOrderRepository.DeleteOrder(id);
+
+            TempData.AddResult(model);
+
+            return Redirect(IndexUrlWithQueryString);
+        }
+
+
+        /// <summary>
+        /// بعد از اینکه کاربر به صوریت حظوری فاکتور خود را پرداخت کرد از طریق این متد
+        /// اطلاعات فاکتورش را بروز رسانی میکنیم
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> SetOfflinePayment(int orderId)
+        {
+            var model = await _shopOrderPaymentRepository.SetOfflinePayment(orderId);
 
             TempData.AddResult(model);
 

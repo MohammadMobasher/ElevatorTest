@@ -47,10 +47,11 @@
                 <th>نام و نام خانوادگی</th>
                 <th>شماره تماس</th>
                 <th>قیمت پرداخت شده</th>
+                <th>نوع پرداخت</th>
                 <th>تاریح ثبت فاکتور</th>
                 <th>تاریخ سفارش</th>
-                <th>نتیجه فاکتور</th>
-                <th>وضعیت سفارش</th>
+                <th width="100">نتیجه فاکتور</th>
+                <th width="100">وضعیت سفارش</th>
 
             </tr>
             <tr>
@@ -68,7 +69,7 @@
                     <th>
                         ----
                     </th>
-               
+
                     <th>
                         ----
                     </th>
@@ -79,7 +80,10 @@
                         ----
                     </th>
                     <th>
-                        <select name="IsSuccessed"  asp-for="@search.IsSuccessed" class="form-control searchSelect">
+                        ----
+                    </th>
+                    <th>
+                        <select name="IsSuccessed" asp-for="@search.IsSuccessed" class="form-control searchSelect">
                             <option>--لطفا انتخاب کنید--</option>
                             <option value="true">پرداخت شده</option>
                             <option value="false">پرداخت نشده</option>
@@ -121,6 +125,9 @@
                         @item.Amount.ToPersianPrice()
                     </td>
                     <td>
+                        @(item.IsOnlinePay?"آنلاین":"درب منزل")
+                    </td>
+                    <td>
                         @(item.CreateDate == null ? " - - -" : item.CreateDate.ToShortPersianDateString())
                     </td>
                     <td>
@@ -128,7 +135,7 @@
                     </td>
                     <td>@(item.IsSuccessed ? "پرداخت شده " : " پرداخت نشده")</td>
                     <td>
-                        @(item.Status == null ? "پرداختی انجام نشده" : item.Status.ToDisplay())
+                        @(item.Status == null ? "پرداخت نشده" : item.Status.ToDisplay())
                     </td>
 
 

@@ -58,6 +58,9 @@ namespace DataLayer.Entities
         /// </summary>
         public long? TransferProductPrice { get; set; }
 
+        public bool IsOnlinePay { get; set; }
+
+
         [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }
 

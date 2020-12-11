@@ -22,6 +22,11 @@ namespace DataLayer.Entities
 
         public bool IsSuccess { get; set; }
 
+        /// <summary>
+        ///  آیا پرداخت آنلاین می باشد یا پرداخت درب منزل؟
+        /// </summary>
+        public bool IsOnlinePay { get; set; }
+
         public DateTime? SuccessDate { get; set; }
 
         [ForeignKey(nameof(ShopOrderId))]

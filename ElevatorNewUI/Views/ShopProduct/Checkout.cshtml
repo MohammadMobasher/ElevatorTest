@@ -164,19 +164,27 @@
                                             <p>مبالغ بالای پنجاه ملیون تومان به صورت مرحله ای پرداخت می شود و پس از ثبت سفارش شما به پنل مدیریتی هدایت می شوید و از آنجا میتوانید پرداخت هایتان را مدیریت کنید</p>
                                         </div>
                                         }
-                                        <ul class="checkout-payment-methods">
+                                    <ul class="checkout-payment-methods">
 
-                                            <li class="checkout-payment-method-item d-block">
-                                                <label for="#" class="outline-radio">
-                                                    <input checked type="radio" name="payment_method" id="payment-option-online">
-                                                    <span class="outline-radio-check"></span>
-                                                </label>
-                                                <label for="#" class="shipping-totals-title-row">
-                                                    <div class="shipping-totals-title">پرداخت اینترنتی هوشمند</div>
-                                                </label>
-                                            </li>
-
-                                        </ul>
+                                        <li class="checkout-payment-method-item d-block">
+                                            <label for="#" class="outline-radio">
+                                                <input checked type="radio" name="isOnlinePay" value="true" id="payment-option-online">
+                                                <span class="outline-radio-check"></span>
+                                            </label>
+                                            <label for="#" class="shipping-totals-title-row">
+                                                <div class="shipping-totals-title">پرداخت اینترنتی هوشمند</div>
+                                            </label>
+                                        </li>
+                                        <li class="checkout-payment-method-item d-block">
+                                            <label for="#" class="outline-radio">
+                                                <input checked type="radio" name="isOnlinePay" value="false" id="payment-option-offline">
+                                                <span class="outline-radio-check"></span>
+                                            </label>
+                                            <label for="#" class="shipping-totals-title-row">
+                                                <div class="shipping-totals-title">پرداخت درب منزل</div>
+                                            </label>
+                                        </li>
+                                    </ul>
                                     </div>
                                     @if (tariff != 0)
                                     {

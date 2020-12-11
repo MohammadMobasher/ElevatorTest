@@ -137,16 +137,20 @@
                                                             }
                                                         </td>
                                                         <td>
-                                                            @if (!item.IsSuccess)
+                                                            @if (!item.IsSuccess && item.IsOnlinePay)
                                                             {
                                                                 <a target="_blank" class="btn btn-info" asp-action="RequestByOrderPayment" asp-controller="ShopProduct" asp-route-id="@item.Id">
                                                                     پرداخت
                                                                 </a>
                                                             }
-                                                            else
+                                                            else if (item.IsSuccess)
                                                             {
 
                                                                 <span class="text-success">پرداخت شده</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-info">پرداخت درب منزل</span>
                                                             }
                                                         </td>
                                                     </tr>
