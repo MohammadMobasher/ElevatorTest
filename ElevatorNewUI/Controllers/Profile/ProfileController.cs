@@ -173,6 +173,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
         public async Task<IActionResult> SpecialInvoiceDetail(int id)
         {
+          
             //به روز رسانی قیمت کالا های داخل هر پیش فاکتور
             await _shopProductRepository.ProductsPriceCheck(id);
 
