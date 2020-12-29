@@ -46,7 +46,13 @@
                                                             <span>تومان</span>
                                                         </span>
                                                     </td>
-                                                    <td class="detail"><a href="/Profile/OrderDetail/@item.Id" class="btn btn-secondary d-block">نمایش</a></td>
+                                                    <td class="detail">
+                                                        <a href="/Profile/OrderDetail/@item.Id" class="btn btn-secondary d-block">نمایش</a>
+                                                        @if (!item.IsSuccessed)
+                                                        {
+                                                            <a href="/Profile/OrderDelete/@item.Id" class="btn btn-danger d-block">حذف</a>
+                                                        }
+                                                    </td>
                                                 </tr>
 
                                             }

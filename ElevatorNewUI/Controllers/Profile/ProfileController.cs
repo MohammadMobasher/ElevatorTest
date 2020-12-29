@@ -62,6 +62,13 @@ namespace ElevatorNewUI.Controllers.Profile
             return View();
         }
 
+        public async Task<IActionResult> OrderDelete(int id)
+        {
+            TempData.AddResult(await _shopOrderRepository.DeleteOrder(id, this.UserId));
+
+            return RedirectToAction("Orders");
+        }
+
         public async Task<IActionResult> Orders()
         {
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
@@ -166,6 +173,7 @@ namespace ElevatorNewUI.Controllers.Profile
             ViewBag.SidebarActive = ProfileSidebarSSOT.SpecialInvoice;
             var result = await _shopOrderRepository.ListSpecialInvoice(Title);
             ViewBag.Title = Title;
+            ViewBag.UserInfoBase = await _userRepository.GetByConditionAsync(a => a.Id == this.UserId);
 
             return View(result);
         }

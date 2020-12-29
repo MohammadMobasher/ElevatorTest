@@ -253,6 +253,7 @@ namespace Service.Repos
 
         }
 
+
         /// <summary>
         /// زمانی که خرید با موفقیت انجام شد ما در دیتا بیس ثبت میکنیم
         /// </summary>
@@ -371,6 +372,36 @@ namespace Service.Repos
             var model = GetByCondition(a => a.Id == id);
 
             if (model == null) return SweetAlertExtenstion.Error();
+
+            model.IsDeleted = true;
+            Update(model);
+
+            var productIds = DbContext.ShopProduct.Where(x => x.ShopOrderId == id).ToList();
+            List<WarehouseProductCheck> items = new List<WarehouseProductCheck>();
+
+            foreach (var item in productIds)
+            {
+                items.Add(new WarehouseProductCheck
+                {
+                    Count = item.Count,
+                    Date = DateTime.Now,
+                    ProductId = item.ProductId.Value,
+                    TypeSSOt = DataLayer.SSOT.WarehouseTypeSSOT.In,
+                });
+            }
+
+            await _warehouseProductCheckRepository.AddFromShopOrder(items);
+
+            return SweetAlertExtenstion.Ok();
+        }
+
+        public async Task<SweetAlertExtenstion> DeleteOrder(int id, int userId)
+        {
+            var model = GetByCondition(a => a.Id == id);
+
+            if (model == null) return SweetAlertExtenstion.Error();
+
+            if(model.UserId != userId) return SweetAlertExtenstion.Error(message:"این فاکتور متعلق به شما نمی‍‌باشد");
 
             model.IsDeleted = true;
             Update(model);
