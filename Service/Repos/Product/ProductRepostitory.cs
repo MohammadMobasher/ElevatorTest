@@ -101,7 +101,7 @@ namespace Service.Repos
                                    product.Title.Contains(term.CleanString())
                                 || product.ShortDescription.Contains(term.CleanString())
                                 || product.SearchKeyWord.Contains(term.CleanString())
-                                || product.Tags.Contains(term.CleanString())
+                                //|| product.Tags.Contains(term.CleanString())
                                 )
                           select new select2IdTextImage
                           {

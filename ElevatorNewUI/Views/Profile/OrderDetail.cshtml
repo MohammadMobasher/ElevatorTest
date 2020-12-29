@@ -91,7 +91,9 @@
                                             <thead>
                                                 <tr>
                                                     <th colspan="1">عنوان</th>
-                                                    <th colspan="4">آدرس</th>
+                                                    <th colspan="1">نام گیرنده</th>
+                                                    <th colspan="1">شماره تلفن گیرنده</th>
+                                                    <th colspan="2">آدرس</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -99,7 +101,13 @@
                                                     <td colspan="1">
                                                         @address.Title
                                                     </td>
-                                                    <td colspan="4">
+                                                    <td colspan="1">
+                                                        @address.To
+                                                    </td>
+                                                    <td colspan="1">
+                                                        @address.PhoneNumberTo
+                                                    </td>
+                                                    <td colspan="3">
                                                         @address.Address
                                                     </td>
                                                 </tr>

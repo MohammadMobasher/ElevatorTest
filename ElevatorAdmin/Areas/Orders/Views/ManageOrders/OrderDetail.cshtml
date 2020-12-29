@@ -254,6 +254,16 @@
                                     <label class="col-12 control-label">مبلغ فاکتور</label>
                                     <div class="col-12">@order.Amount.ToPersianPrice()</div>
                                 </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                    <label class="col-12 control-label">نام و نام خانوادگی گیرنده</label>
+                                    <div class="col-12">@address?.To</div>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                    <label class="col-12 control-label">شماره تلفن گیرنده</label>
+                                    <div class="col-12">@address.PhoneNumberTo.ToPersianNumbers()</div>
+                                </div>
 
                             </div>
                         </div>

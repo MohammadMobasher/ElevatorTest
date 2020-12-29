@@ -15,6 +15,7 @@
 @{
     var unit = ViewBag.Unit as List<ProductUnit>;
     var userInfo = ViewBag.UserInfo as DataLayer.Entities.Users.Users;
+    var userInfoBase = ViewBag.UserInfoBase as DataLayer.Entities.Users.Users;
     var order = ViewBag.Order as ShopOrder;
     var address = ViewBag.UserAddress as UserAddress;
 
@@ -195,7 +196,7 @@
 
                         <div class="col-lg-9 col-md-9 col-xs-12 pl ">
 
-                            @if (userInfo.IsModerator)
+                            @if (userInfoBase.IsModerator)
                             {
                                 <div class="profile-content">
                                     <div class="profile-stats">
@@ -425,7 +426,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if (userInfo.IsModerator)
+                                @if (userInfoBase.IsModerator)
                                 {
                                     <input type="submit" class="btn btn-warning pull-left editBtn " style="margin-left:16px;display:none" value="به روز رسانی">
                                 }
@@ -443,7 +444,7 @@
         </section>
     </div>
 </div>
-@if (userInfo.IsModerator)
+@if (userInfoBase.IsModerator)
 {
     <script>
 

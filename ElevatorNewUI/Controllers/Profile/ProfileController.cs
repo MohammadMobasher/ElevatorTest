@@ -186,6 +186,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
             // اطلاعات کاربر
             ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == order.UserId);
+            ViewBag.UserInfoBase = await _userRepository.GetByConditionAsync(a => a.Id == this.UserId);
             ViewBag.Order = order;
 
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == order.UserId);
