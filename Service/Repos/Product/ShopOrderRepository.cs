@@ -459,6 +459,7 @@ namespace Service.Repos
                     CreateDate = DateTime.Now,
                     IsDeleted = false,
                     IsSuccessed = false,
+                    
                     DiscountCode = model.DiscountCode,
                     IsInvoice = false,
                     TransferProductPrice = model.TransferProductPrice,
@@ -481,6 +482,50 @@ namespace Service.Repos
                 return null;
             }
         }
+
+
+        /// <summary>
+        /// ایجاد فاکتور از پیش فاکتور
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<int?> OverWritePreShopOrder(int id, int userId)
+        {
+            try
+            {
+                var model = await GetByIdAsync(id);
+
+                if (model == null) return null;
+
+                var entity = new ShopOrder()
+                {
+                    Amount = model.Amount,
+                    CreateDate = DateTime.Now,
+                    IsDeleted = false,
+                    IsSuccessed = false,
+                    DiscountCode = model.DiscountCode,
+                    IsInvoice = true,
+                    TransferProductPrice = model.TransferProductPrice,
+                    SuccessDate = null,
+                    Status = null,
+                    OrderId = null,
+                    Title = model.Title,
+                    PaymentAmount = model.PaymentAmount,
+                    UserId = model.IsSpecialInvoice ? userId : model.UserId
+                };
+
+                await AddAsync(entity);
+
+                await _shopProductRepository.OverwriteShopProduct(id, entity.Id, userId);
+
+                return entity.Id;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// محاسبه تعرفه و قیمت نهایی برای فاکتور

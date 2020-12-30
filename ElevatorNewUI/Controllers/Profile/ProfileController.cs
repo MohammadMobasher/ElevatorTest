@@ -263,6 +263,16 @@ namespace ElevatorNewUI.Controllers.Profile
             return RedirectToAction("UserAddressFromInvoice", "ShopProduct", new { id = model });
         }
 
+        public async Task<IActionResult> CreatePreFactorFromInvoce(int id)
+        {
+            var userId = this.UserId;
+
+            var model = await _shopOrderRepository.OverWritePreShopOrder(id, userId);
+
+            return RedirectToAction("ListInvoice", "Profile");
+        }
+
+
         #endregion
 
 
