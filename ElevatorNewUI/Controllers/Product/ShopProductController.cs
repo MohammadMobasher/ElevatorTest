@@ -8,7 +8,9 @@ using Core;
 using Core.BankCommon.ViewModels;
 using Core.Utilities;
 using DataLayer.Entities;
+using DataLayer.SSOT;
 using DataLayer.ViewModels.UsersPayments;
+using DNTPersianUtils.Core;
 using Elevator.Controllers;
 using ElevatorNewUI.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -40,6 +42,7 @@ namespace ElevatorNewUI.Controllers
         private readonly ProductUnitRepository _productUnitRepository;
         private readonly LogRepository _logRepository;
         private readonly WarehouseProductCheckRepository _warehouseProductCheckRepository;
+        private readonly SmsRestClient _smsRestClient;
 
         public ShopProductController(ShopProductRepository shopProductRepository
             , IConfiguration configuration
@@ -53,7 +56,8 @@ namespace ElevatorNewUI.Controllers
             , ShopOrderPaymentRepository shopOrderPaymentRepository
             , ProductUnitRepository productUnitRepository
             , LogRepository logRepository
-            , WarehouseProductCheckRepository warehouseProductCheckRepository)
+            , WarehouseProductCheckRepository warehouseProductCheckRepository
+            , SmsRestClient smsRestClient)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _shopProductRepository = shopProductRepository;
@@ -69,6 +73,7 @@ namespace ElevatorNewUI.Controllers
             _productUnitRepository = productUnitRepository;
             _logRepository = logRepository;
             _warehouseProductCheckRepository = warehouseProductCheckRepository;
+            _smsRestClient = smsRestClient;
         }
 
         public async Task<IActionResult> Index()
@@ -360,6 +365,29 @@ namespace ElevatorNewUI.Controllers
             if (!isOnlinePay)
             {
                 var createPayment = await _shopOrderPaymentRepository.CreateOfflinePayment(orderId);
+
+
+                // ارسال اس ام اس به کاربر جهت ثبت سفارش
+                var text = $"{orderId};{DateTime.Now.ToPersianDay()}";
+                var phoneNumber = _userRepository.GetByCondition(a => a.Id == UserId).PhoneNumber;
+
+                var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
+
+                // ارسال اس ام اس به مدیریت 
+                var ResultTest = $"{DateTime.Now.ToPersianDay()};{orderId}";
+
+
+                var sms1Result = _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
+                var sms2Result = _smsRestClient.SendByBaseNumber(ResultTest, "09351631398", (int)SmsBaseCodeSSOT.Result);
+                var sms3Result = _smsRestClient.SendByBaseNumber(ResultTest, "09104996615", (int)SmsBaseCodeSSOT.Result);
+
+                _logRepository.Add(new Log() { Text = $"sms1Result+>{sms1Result.RetStatus}-{sms1Result.Value}-{sms1Result.StrRetStatus}" });
+                _logRepository.Add(new Log() { Text = $"sms2Result+>{sms2Result.RetStatus}-{sms2Result.Value}-{sms2Result.StrRetStatus}" });
+                _logRepository.Add(new Log() { Text = $"sms3Result+>{sms3Result.RetStatus}-{sms3Result.Value}-{sms3Result.StrRetStatus}" });
+
+               // await _treeRepository.CalculateRateTreeFromAmountAndInsert(result.PaymentAmount, model.UserId);
+
+
 
                 return RedirectToAction("OrderDetail", "Profile", new { id = orderId });
             }

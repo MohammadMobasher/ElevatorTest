@@ -269,7 +269,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
             var model = await _shopOrderRepository.OverWritePreShopOrder(id, userId);
 
-            return RedirectToAction("ListInvoice", "Profile");
+            return RedirectToAction("InvoiceDetail", "Profile",new { id = model});
         }
 
 
