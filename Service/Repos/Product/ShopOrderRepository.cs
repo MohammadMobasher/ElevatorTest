@@ -23,7 +23,7 @@ namespace Service.Repos
         private readonly ShopProductRepository _shopProductRepository;
         private readonly IDbConnection _connection;
         private readonly WarehouseProductCheckRepository _warehouseProductCheckRepository;
-   
+
         public ShopOrderRepository(DatabaseContext dbContext
             , UserAddressRepository userAddressRepository
             , ShopProductRepository shopProductRepository
@@ -88,7 +88,7 @@ namespace Service.Repos
         {
             if (!string.IsNullOrEmpty(Title))
             {
-                return await Entities.Where(x => x.IsInvoice == true && x.UserId == userId && x.Title.Contains(Title)).ToListAsync();
+                return await Entities.Where(x => x.IsInvoice == true && x.UserId == userId && x.Title.Contains(Title.ConvertNumerals(CultureInfo.GetCultureInfo("en-US")))).ToListAsync();
             }
             else
             {
@@ -401,7 +401,7 @@ namespace Service.Repos
 
             if (model == null) return SweetAlertExtenstion.Error();
 
-            if(model.UserId != userId) return SweetAlertExtenstion.Error(message:"این فاکتور متعلق به شما نمی‍‌باشد");
+            if (model.UserId != userId) return SweetAlertExtenstion.Error(message: "این فاکتور متعلق به شما نمی‍‌باشد");
 
             model.IsDeleted = true;
             Update(model);
@@ -419,8 +419,15 @@ namespace Service.Repos
                     TypeSSOt = DataLayer.SSOT.WarehouseTypeSSOT.In,
                 });
             }
+            try
+            {
 
-            await _warehouseProductCheckRepository.AddFromShopOrder(items);
+                await _warehouseProductCheckRepository.AddFromShopOrder(items);
+            }
+            catch (Exception)
+            {
+
+            }
 
             return SweetAlertExtenstion.Ok();
         }
@@ -459,7 +466,7 @@ namespace Service.Repos
                     CreateDate = DateTime.Now,
                     IsDeleted = false,
                     IsSuccessed = false,
-                    
+
                     DiscountCode = model.DiscountCode,
                     IsInvoice = false,
                     TransferProductPrice = model.TransferProductPrice,
