@@ -298,9 +298,11 @@ namespace ElevatorNewUI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         public async Task<IActionResult> UserAddress(int id)
         {
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
+            
             //ViewBag.ShopOrderId = id;
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
             ViewBag.FactorId = id;
@@ -314,6 +316,7 @@ namespace ElevatorNewUI.Controllers
         /// <param name="FactorId"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> UserAddress(UserAddress userAddress, int FactorId)
         {
             userAddress.UserId = UserId;

@@ -119,6 +119,7 @@ namespace ElevatorAdmin
             services.AddAuthentication()
                 .Services.ConfigureApplicationCookie(options =>
                 {
+
                     options.SlidingExpiration = true;
                     options.ExpireTimeSpan = TimeSpan.FromDays(90);
                 });

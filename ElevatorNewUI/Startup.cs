@@ -57,9 +57,12 @@ namespace ElevatorNewUI
 
             services.AddAuthentication().Services.ConfigureApplicationCookie(options =>
             {
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/Login";
                 options.SlidingExpiration = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(40);
-                options.Cookie.Expiration = TimeSpan.FromMinutes(40);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.Cookie.Expiration = TimeSpan.FromMinutes(30);
 
             });
 
@@ -91,9 +94,15 @@ namespace ElevatorNewUI
                 //options.Cookie.HttpOnly = true;
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
+                
             });
 
-            services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
+            //services.ConfigureApplicationCookie(options => {
+            //    options.LoginPath = "/Account/Login";
+            //    options.LogoutPath = "/Account/Login";
+            //    options.AccessDeniedPath = "/Account/Login";
+            //    options.SlidingExpiration = true;
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
