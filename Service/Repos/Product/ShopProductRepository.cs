@@ -344,16 +344,20 @@ namespace Service.Repos
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<SweetAlertExtenstion> UpdateCountAllItems(ShopOrderUpdateFromSite model)
+        public async Task<SweetAlertExtenstion> UpdateCountAllItems(ShopOrderUpdateFromSite model, string title)
         {
             string query = "";
             try
             {
-                
+                query += $"update ShopOrder set title = '{title}' where Id = {model.ShopOrderId} ;";
 
-                foreach (var item in model.ListProducts)
+
+                if (model.ListProducts != null)
                 {
-                    query += $"update ShopProduct set Count = {item.Count} where ShopOrderId = {model.ShopOrderId} and ProductId = {item.ProductId} ;";
+                    foreach (var item in model.ListProducts)
+                    {
+                        query += $"update ShopProduct set Count = {item.Count} where ShopOrderId = {model.ShopOrderId} and ProductId = {item.ProductId} ;";
+                    }
                 }
 
 

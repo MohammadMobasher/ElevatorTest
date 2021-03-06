@@ -322,10 +322,10 @@ namespace ElevatorNewUI.Controllers.Profile
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> EditShopOrder(ShopOrderUpdateFromSite model, string urlBack)
+        public async Task<IActionResult> EditShopOrder(ShopOrderUpdateFromSite model, string urlBack, string inputTitle)
         {
 
-            TempData.AddResult(await _shopProductRepository.UpdateCountAllItems(model));
+            TempData.AddResult(await _shopProductRepository.UpdateCountAllItems(model, inputTitle));
 
             return RedirectToAction(urlBack, new { id = model.ShopOrderId });
         }

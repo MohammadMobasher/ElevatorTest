@@ -84,7 +84,7 @@
             /*display:block;*/
             /*table-layout: fixed;*/
             background-color: #FFFFFF;
-            font-size: 12px;
+            font-size: 16px;
             border: 1.5px solid #000000 !important;
         }
 
@@ -241,9 +241,9 @@
                 <tr>
                     <td width="50">ردیف</td>
                     <td>عنوان کالا</td>
-                    <td>تعداد کالا</td>
-                    <td>واحد کالا</td>
-                    <td>قیمت اصلی کالا</td>
+                    <td>تعداد</td>
+                    <td>واحد</td>
+                    <td>قیمت اصلی</td>
                     <td>قیمت با تخفیف</td>
                     <td>قیمت کل</td>
                     <td>مشاهده</td>
@@ -254,9 +254,9 @@
                     <tr>
                         <td class="order-code">@(PDFraw++)</td>
                         <td>
-                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                            
                                 @(item.OrderName ?? item.Product.Title)
-                            </a>
+                            
                         </td>
                         <td>
                             @item.Count
@@ -357,6 +357,7 @@
                             <form asp-controller="Profile" asp-action="EditShopOrder" id="frmUpdate" method="post">
                                 <input type="hidden" name="ShopOrderId" value="@order.Id" />
                                 <input type="hidden" name="urlBack" value="InvoiceDetail" />
+                                <input type="hidden" name="inputTitle" value="@order.Title" />
                                 <div class="profile-content">
                                     <div class="alert alert-info font-size-14">جزئیات فاکتور</div>
                                     <div class="profile-stats">
@@ -392,7 +393,7 @@
                                                         <td>
 
                                                             <input type="text" name="inputPhoneWeb" value="@userInfo.PhoneNumber" />
-                                                            
+
                                                         </td>
                                                         <td>@order.CreateDate.Value.ToPersianDateTextify()</td>
 
@@ -533,8 +534,8 @@
                                                                         <input type="text" name="inputTitleMobile" value="@order.Title" />
                                                                     </td>
                                                                     @*<td colspan="4">
-                                                                            @order.Title
-                                                                        </td>*@
+                                                @order.Title
+                                            </td>*@
 
                                                                 </tr>
                                                             </tbody>
@@ -644,8 +645,8 @@
             })
 
             //var keycode = (event.keyCode ? event.keyCode : event.which);
-            $('#frmUpdate').submit();
-            $('.editBtn').trigger('click');
+            //$('#frmUpdate').submit();
+            //$('.editBtn').trigger('click');
 
         });
 
@@ -659,6 +660,7 @@
         $('[name="inputTitleWeb"]').on("keyup", function (event) {
 
             $('[name="titlePrint"]').text($('[name="inputTitleWeb"]').val());
+            $('[name="inputTitle"]').val($('[name="inputTitleWeb"]').val());
             
         });
     });
@@ -666,6 +668,7 @@
         $('[name="inputTitleMobile"]').on("keyup", function (event) {
 
             $('[name="titlePrint"]').text($('[name="inputTitleMobile"]').val());
+            $('[name="inputTitle"]').val($('[name="inputTitleMobile"]').val());
         });
     });
 
@@ -791,3 +794,4 @@
 
 
 </script>
+
