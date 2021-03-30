@@ -9,6 +9,7 @@ using DataLayer.ViewModels.ShopOrder;
 using DataLayer.ViewModels.User;
 using Elevator.Controllers;
 using ElevatorNewUI.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Repos;
 using Service.Repos.Product;
@@ -47,7 +48,7 @@ namespace ElevatorNewUI.Controllers.Profile
             _shopOrderPaymentRepository = shopOrderPaymentRepository;
         }
 
-
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var model = await _userRepository.GetByConditionAsync(a => a.Id == UserId);
@@ -56,12 +57,19 @@ namespace ElevatorNewUI.Controllers.Profile
 
             return View(model);
         }
-
+        [Authorize]
         public IActionResult ChangePassword()
         {
             return View();
         }
+        [Authorize]
+        public async Task<IActionResult> OrderDelete(int id)
+        {
+            TempData.AddResult(await _shopOrderRepository.DeleteOrder(id, this.UserId));
 
+            return RedirectToAction("Orders");
+        }
+        [Authorize]
         public async Task<IActionResult> Orders()
         {
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
@@ -75,7 +83,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
             return View(orders.ToList());
         }
-
+        [Authorize]
         public async Task<IActionResult> OrderDetail(int id)
         {
             var reloadPrice = await _shopOrderRepository.ReloadPrice(id);
@@ -110,7 +118,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
             return View(model);
         }
-
+        [Authorize]
         public IActionResult Favorite()
         {
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
@@ -133,7 +141,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
 
         #region Change Account Info 
-
+        [Authorize]
         public async Task<IActionResult> EditProfile()
         {
             var model = await _userRepository.GetByConditionAsync(a => a.Id == this.UserId);
@@ -144,6 +152,7 @@ namespace ElevatorNewUI.Controllers.Profile
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> EditProfile(EditProfileViewModel vm, EditProfileUserAddressViewModel model)
         {
             vm.Id = UserId;
@@ -159,18 +168,19 @@ namespace ElevatorNewUI.Controllers.Profile
 
 
         #region SpecialInvoice
-
+        [Authorize]
         public async Task<IActionResult> ListSpecialInvoice(string Title)
         {
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
             ViewBag.SidebarActive = ProfileSidebarSSOT.SpecialInvoice;
             var result = await _shopOrderRepository.ListSpecialInvoice(Title);
             ViewBag.Title = Title;
+            ViewBag.UserInfoBase = await _userRepository.GetByConditionAsync(a => a.Id == this.UserId);
 
             return View(result);
         }
 
-
+        [Authorize]
         public async Task<IActionResult> SpecialInvoiceDetail(int id)
         {
           
@@ -205,7 +215,7 @@ namespace ElevatorNewUI.Controllers.Profile
         #endregion
 
         #region لیست پیش‌فاکتور ها
-
+        [Authorize]
         public async Task<IActionResult> ListInvoice(string Title)
         {
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);
@@ -217,7 +227,7 @@ namespace ElevatorNewUI.Controllers.Profile
             return View(result);
         }
 
-
+        [Authorize]
         public async Task<IActionResult> InvoiceDetail(int id)
         {
             //به روز رسانی قیمت کالا های داخل هر پیش فاکتور
@@ -245,7 +255,7 @@ namespace ElevatorNewUI.Controllers.Profile
         }
 
 
-
+        [Authorize]
         public async Task<IActionResult> CreateFactorFromInvoce(int id)
         {
             var userId = this.UserId;
@@ -254,12 +264,22 @@ namespace ElevatorNewUI.Controllers.Profile
 
             return RedirectToAction("UserAddressFromInvoice", "ShopProduct", new { id = model });
         }
+        [Authorize]
+        public async Task<IActionResult> CreatePreFactorFromInvoce(int id)
+        {
+            var userId = this.UserId;
+
+            var model = await _shopOrderRepository.OverWritePreShopOrder(id, userId);
+
+            return RedirectToAction("InvoiceDetail", "Profile",new { id = model});
+        }
+
 
         #endregion
 
 
         #region حذف یک پیش فاکتور
-
+        [Authorize]
         public async Task<IActionResult> InvoiceDelete(int id)
         {
             TempData.AddResult(await _shopOrderRepository.DeleteInvoice(id));
@@ -271,7 +291,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
 
         #region حذف یک پیش فاکتور
-
+        [Authorize]
         public async Task<IActionResult> SpecialInvoiceDelete(int id)
         {
             TempData.AddResult(await _shopOrderRepository.DeleteInvoice(id));
@@ -282,7 +302,7 @@ namespace ElevatorNewUI.Controllers.Profile
         #endregion
 
         #region حذف یک آیتم از یک پیش فاکتور
-
+        [Authorize]
         public async Task<IActionResult> DeleteItemFromShopOrder(int shopOrderId, int productId, string urlBack)
         {
 
@@ -301,19 +321,20 @@ namespace ElevatorNewUI.Controllers.Profile
         #region  به روز رسانی یک فاکتور و ...
 
         [HttpPost]
-        public async Task<IActionResult> EditShopOrder(ShopOrderUpdateFromSite model, string urlBack)
+        [Authorize]
+        public async Task<IActionResult> EditShopOrder(ShopOrderUpdateFromSite model, string urlBack, string inputTitle)
         {
 
-            TempData.AddResult(await _shopProductRepository.UpdateCountAllItems(model));
+            TempData.AddResult(await _shopProductRepository.UpdateCountAllItems(model, inputTitle));
 
             return RedirectToAction(urlBack, new { id = model.ShopOrderId });
         }
-        
+
         #endregion
 
 
         #region جستجو در بین کالاها
-
+        [Authorize]
         public async Task<IActionResult> SearchProduct(string term)
         {
             var result = await _productRepostitory.SearchForSelect2(term);
@@ -324,7 +345,7 @@ namespace ElevatorNewUI.Controllers.Profile
         #endregion
 
         #region اضافه کردن یک کالا به یک فاکتور
-
+        [Authorize]
         public async Task<IActionResult> AddToShopOrder(int ProductId, int ShopOrderId, int Count, string urlBack)
         {
             var userId = this.GetUserId();
@@ -335,7 +356,7 @@ namespace ElevatorNewUI.Controllers.Profile
         }
 
         #endregion
-
+        [Authorize]
         public async Task<IActionResult> ListTree()
         {
             ViewBag.Model = _userRepository.GetByCondition(a => a.Id == UserId);

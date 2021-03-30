@@ -24,7 +24,7 @@
                             <a href="#" onclick="generatePDF('pdfMake')" class="print-link pull-left text-danger"><i class="fa fa-file-pdf-o fa-3x"></i></a>
 
                             <form asp-action="SendToBankFromInvoice" method="post" class="form-checkout" id="pdfMake">
-                                <input type="hidden" name="orderId" value="@ViewBag.OrderId"/>
+                                <input type="hidden" name="orderId" value="@ViewBag.OrderId" />
                                 <h3 class="order-review-heading">سفارش  @User.Identity.FindFirstValue("FullName")</h3>
                                 <div class="checkout-review-order">
                                     <div>
@@ -40,8 +40,8 @@
                                                     <th scope="col">قیمت کل</th>
                                                     @*<th scope="col">مشاهده</th>*@
                                                     @*<th scope="col" class="product-name">محصول</th>
-                    <th scope="col" class="product-count">تعداد</th>
-                    <th scope="col" class="product-price">قیمت کل</th>*@
+                                                        <th scope="col" class="product-count">تعداد</th>
+                                                        <th scope="col" class="product-price">قیمت کل</th>*@
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -73,11 +73,11 @@
                                                                 }
                                                             </td>
                                                             @*<td class="product-price text-info">
-                                <span class="amount">
-                                    @((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())
-                                    <span>تومان</span>
-                                </span>
-                            </td>*@
+                                                                    <span class="amount">
+                                                                        @((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())
+                                                                        <span>تومان</span>
+                                                                    </span>
+                                                                </td>*@
                                                         </tr>
                                                     }
                                                     else
@@ -141,21 +141,21 @@
                                                     </tr>
 
                                                 }
-                                                    <tr class="cart-subtotal">
-                                                        <th>کل</th>
-                                                        <td>
-                                                            <div class="price">
+                                                <tr class="cart-subtotal">
+                                                    <th>کل</th>
+                                                    <td>
+                                                        <div class="price">
 
-                                                                <ins>
-                                                                    <span class="amount">
-                                                                        @((SumPrice + tariff).ToPersianPrice())
-                                                                        <span>تومان</span>
-                                                                    </span>
-                                                                </ins>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tfoot>
+                                                            <ins>
+                                                                <span class="amount">
+                                                                    @((SumPrice + tariff).ToPersianPrice())
+                                                                    <span>تومان</span>
+                                                                </span>
+                                                            </ins>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                         @if ((SumPrice + tariff) >= 50000000)
                                         {
@@ -163,28 +163,30 @@
                                                 <p>مبالغ بالای پنجاه ملیون تومان به صورت مرحله ای پرداخت می شود و پس از ثبت سفارش شما به پنل مدیریتی هدایت می شوید و از آنجا میتوانید پرداخت هایتان را مدیریت کنید</p>
                                             </div>
                                         }
-                                    <ul class="checkout-payment-methods">
+                                        <ul class="checkout-payment-methods">
 
-                                        <li class="checkout-payment-method-item d-block">
-                                            <label for="#" class="outline-radio">
-                                                <input checked type="radio" name="isOnlinePay" value="true" id="payment-option-online">
-                                                <span class="outline-radio-check"></span>
-                                            </label>
-                                            <label for="#" class="shipping-totals-title-row">
-                                                <div class="shipping-totals-title">پرداخت اینترنتی هوشمند</div>
-                                            </label>
-                                        </li>
-
-                                        <li class="checkout-payment-method-item d-block">
-                                            <label for="#" class="outline-radio">
-                                                <input checked type="radio" name="isOnlinePay" value="false" id="payment-option-online">
-                                                <span class="outline-radio-check"></span>
-                                            </label>
-                                            <label for="#" class="shipping-totals-title-row">
-                                                <div class="shipping-totals-title">پرداخت درب منزل</div>
-                                            </label>
-                                        </li>
-                                    </ul>
+                                            <li class="checkout-payment-method-item d-block">
+                                                <label for="#" class="outline-radio">
+                                                    <input checked type="radio" name="isOnlinePay" value="true" id="payment-option-online">
+                                                    <span class="outline-radio-check"></span>
+                                                </label>
+                                                <label for="#" class="shipping-totals-title-row">
+                                                    <div class="shipping-totals-title">پرداخت اینترنتی هوشمند</div>
+                                                </label>
+                                            </li>
+                                            @if (!userAddress.IsOutTehran)
+                                            {
+                                                <li class="checkout-payment-method-item d-block">
+                                                    <label for="#" class="outline-radio">
+                                                        <input checked type="radio" name="isOnlinePay" value="false" id="payment-option-online">
+                                                        <span class="outline-radio-check"></span>
+                                                    </label>
+                                                    <label for="#" class="shipping-totals-title-row">
+                                                        <div class="shipping-totals-title">پرداخت درب منزل</div>
+                                                    </label>
+                                                </li>
+                                            }
+                                        </ul>
                                     </div>
                                     @if (userAddress.IsOutTehran || tariff != 0)
                                     {

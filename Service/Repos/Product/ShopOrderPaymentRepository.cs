@@ -67,16 +67,18 @@ namespace Service.Repos.Product
         {
             var model = await _shopOrderRepository.GetByIdAsync(orderId);
 
-            Add(new ShopOrderPayment()
+            var paymemt = new ShopOrderPayment()
             {
                 ShopOrderId = orderId,
                 IsSuccess = false,
                 PaymentAmount = model.PaymentAmount,
                 PaymentDate = null,
                 IsOnlinePay = false
-            });
+            };
 
-            return 1;
+            Add(paymemt);
+
+            return model.Id;
         }
 
 

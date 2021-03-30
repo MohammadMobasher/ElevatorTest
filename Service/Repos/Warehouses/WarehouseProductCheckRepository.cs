@@ -18,7 +18,7 @@ namespace Service.Repos.Warehouses
         private readonly IDbConnection _dbConnection;
 
         public WarehouseProductCheckRepository(DatabaseContext dbContext,
-            IDbConnection dbConnection)  : base(dbContext)
+            IDbConnection dbConnection) : base(dbContext)
         {
             _dbConnection = dbConnection;
         }
@@ -39,15 +39,15 @@ namespace Service.Repos.Warehouses
            int take = -1,
            WarehouseProductCheckSearchViewModel model = null)
         {
-            var query = Entities.Include(x=> x.Product).ProjectTo<WarehouseProductCheckFullDTO>().Where(x=> x.WarehouseId == warehouseId);
+            var query = Entities.Include(x => x.Product).ProjectTo<WarehouseProductCheckFullDTO>().Where(x => x.WarehouseId == warehouseId);
 
             if (!string.IsNullOrEmpty(model.ProductTitle))
                 query = query.Where(x => x.Product.Title.Contains(model.ProductTitle));
 
-            if(model.Count != null)
+            if (model.Count != null)
                 query = query.Where(x => x.Count == model.Count);
 
-            if(model.Type != null)
+            if (model.Type != null)
                 query = query.Where(x => x.TypeSSOt == model.Type);
 
 
@@ -109,7 +109,9 @@ namespace Service.Repos.Warehouses
 
             foreach (var item in warehouseProductCheck)
             {
-                query += $@"
+                try
+                {
+                    query += $@"
                     insert into WarehouseProductCheck(
 	                                    Count, 
 	                                    Date, 
@@ -126,9 +128,16 @@ namespace Service.Repos.Warehouses
                                     );
                     ";
 
-                await _dbConnection.QueryAsync(query);
+                    await _dbConnection.QueryAsync(query);
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
             }
-               
+
         }
     }
 }

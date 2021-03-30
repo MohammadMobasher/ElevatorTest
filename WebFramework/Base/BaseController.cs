@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Html;
 using Core;
 using Core.Utilities;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Routing;
 
 namespace Elevator.Controllers
 {
@@ -56,7 +57,7 @@ namespace Elevator.Controllers
 
         public BaseController()
         {
-            
+
         }
 
         /// <summary>
@@ -66,6 +67,27 @@ namespace Elevator.Controllers
         /// <param name="context"></param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            //var d = User.Identity;
+            //if (string.IsNullOrEmpty(User.Identity.FindFirstValue("FirstName")))
+            //{
+            //    context.Result =
+            //        new RedirectToRouteResult(new RouteValueDictionary(new
+            //        {
+            //            controller = "Home",
+            //            action = "Login11111"
+            //        }));
+            //}
+
+            //if (context.HttpContext.Session == null ||
+            //        !context.HttpContext.Session.TryGetValue("ID", out byte[] val))
+            //{
+            //    context.Result =
+            //        new RedirectToRouteResult(new RouteValueDictionary(new
+            //        {
+            //            controller = "Home",
+            //            action = "Login11111"
+            //        }));
+            //}
             base.OnActionExecuting(context);
 
 

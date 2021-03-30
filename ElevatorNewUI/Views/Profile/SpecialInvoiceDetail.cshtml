@@ -261,7 +261,10 @@
                                                         <th>قیمت اصلی کالا</th>
                                                         <th>قیمت با تخفیف</th>
                                                         <th>قیمت کل</th>
-                                                        <th>اقدامات</th>
+                                                        @if (userInfoBase.IsModerator)
+                                                        {
+                                                            <th>اقدامات</th>
+                                                        }
 
                                                     </tr>
                                                 </thead>
@@ -296,11 +299,14 @@
                                                                     <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
                                                                 }
                                                             </td>
-                                                            <td>
-                                                                <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
-                                                                    <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
-                                                                </a>
-                                                            </td>
+                                                            @if (userInfoBase.IsModerator)
+                                                            {
+                                                                <td>
+                                                                    <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
+                                                                        <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
+                                                                    </a>
+                                                                </td>
+                                                            }
 
                                                         </tr>
                                                         index++;
@@ -353,7 +359,10 @@
                                                                     <th>قیمت اصلی کالا</th>
                                                                     <th>قیمت با تخفیف</th>
                                                                     <th>قیمت کل</th>
-                                                                    <th>اقدامات</th>
+                                                                    @if (userInfoBase.IsModerator)
+                                                                    {
+                                                                        <th>اقدامات</th>
+                                                                    }
 
                                                                 </tr>
                                                             </thead>
@@ -388,11 +397,14 @@
                                                                                 <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
                                                                             }
                                                                         </td>
-                                                                        <td>
-                                                                            <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
-                                                                                <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
-                                                                            </a>
-                                                                        </td>
+                                                                        @if (userInfoBase.IsModerator)
+                                                                        {
+                                                                            <td>
+                                                                                <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
+                                                                                    <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
+                                                                                </a>
+                                                                            </td>
+                                                                        }
 
                                                                     </tr>
                                                                     indexMobile++;
@@ -431,9 +443,12 @@
                                     <input type="submit" class="btn btn-warning pull-left editBtn " style="margin-left:16px;display:none" value="به روز رسانی">
                                 }
                             </form>
-                          
-                                <a class="btn btn-success pull-left " style=" margin-left:16px" href="/Profile/CreateFactorFromInvoce?id=@order.Id">ثبت فاکتور</a>
-                            
+
+
+                            <a class="btn btn-warning pull-left " style=" margin-left:16px" href="/Profile/CreatePreFactorFromInvoce?id=@order.Id">ویرایش</a>
+
+                            <a class="btn btn-success pull-left " style=" margin-left:16px" href="/Profile/CreateFactorFromInvoce?id=@order.Id">خرید</a>
+
                             <a class="btn btn-danger pull-left" style="margin-left:16px" href="/Profile/ListInvoice">بازگشت</a>
                         </div>
 

@@ -80,24 +80,24 @@
                                                         <div class="custom-select-ui">
                                                             <select class="right" name="Group">
                                                                 <option value="-1">همه دسته ها</option>
-                                                                @foreach (var item in await _productGroupRepository.GetParentsAsync())
+                                                                @*@foreach (var item in await _productGroupRepository.GetParentsAsync())
                                                                 {
-                                                                @*if (vm != null)
+                                                                if (vm != null)
                                                                     {
-                                                                        if (vm.Group == item.Id)
+                                                                        if (vm.group == item.id)
                                                                         {
-                                                                            <option value="@item.Id" selected>@item.Title</option>
+                                                                            <option value="@item.id" selected>@item.title</option>
                                                                         }
                                                                         else
                                                                         {
-                                                                            <option value="@item.Id">@item.Title</option>
+                                                                            <option value="@item.id">@item.title</option>
                                                                         }
                                                                     }
                                                                     else
-                                                                    {*@
+                                                                    {
                                                                 <option value="@item.Id">@item.Title</option>
-                                                                @*}*@
                                                                 }
+                                                                }*@
                                                             </select>
                                                         </div>
                                                     </div>
@@ -132,6 +132,9 @@
                                                     </li>
                                                     <li class="account-item">
                                                         <a href="/Profile/ListInvoice" class="account-link">پیش فاکتور‌های من</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a href="/Profile/ListSpecialInvoice" class="account-link">پیش فاکتور‌های پیشنهادی</a>
                                                     </li>
                                                     <li class="account-item">
                                                         <a href="/Account/Logout" class="account-link">خروج</a>

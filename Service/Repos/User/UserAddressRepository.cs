@@ -45,7 +45,17 @@ namespace Service.Repos.User
 
             var entity = await DbContext.UserAddress.LastOrDefaultAsync(x => x.UserId == userId && x.ShopOrderId == null);
 
-            if (entity == null) return false;
+            if (entity == null)
+            {
+                await DbContext.UserAddress.AddAsync(new UserAddress
+                {
+                    ShopOrderId = shopOrderId,
+                    UserId = userId,
+
+                });
+                await DbContext.SaveChangesAsync();
+                return true;
+            }
             entity.ShopOrderId = shopOrderId;
             await DbContext.SaveChangesAsync();
 

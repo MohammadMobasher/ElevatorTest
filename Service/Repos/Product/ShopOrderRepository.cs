@@ -23,7 +23,7 @@ namespace Service.Repos
         private readonly ShopProductRepository _shopProductRepository;
         private readonly IDbConnection _connection;
         private readonly WarehouseProductCheckRepository _warehouseProductCheckRepository;
-   
+
         public ShopOrderRepository(DatabaseContext dbContext
             , UserAddressRepository userAddressRepository
             , ShopProductRepository shopProductRepository
@@ -88,7 +88,7 @@ namespace Service.Repos
         {
             if (!string.IsNullOrEmpty(Title))
             {
-                return await Entities.Where(x => x.IsInvoice == true && x.UserId == userId && x.Title.Contains(Title)).ToListAsync();
+                return await Entities.Where(x => x.IsInvoice == true && x.UserId == userId && x.Title.Contains(Title.ConvertNumerals(CultureInfo.GetCultureInfo("en-US")))).ToListAsync();
             }
             else
             {
@@ -253,6 +253,7 @@ namespace Service.Repos
 
         }
 
+
         /// <summary>
         /// زمانی که خرید با موفقیت انجام شد ما در دیتا بیس ثبت میکنیم
         /// </summary>
@@ -394,6 +395,43 @@ namespace Service.Repos
             return SweetAlertExtenstion.Ok();
         }
 
+        public async Task<SweetAlertExtenstion> DeleteOrder(int id, int userId)
+        {
+            var model = GetByCondition(a => a.Id == id);
+
+            if (model == null) return SweetAlertExtenstion.Error();
+
+            if (model.UserId != userId) return SweetAlertExtenstion.Error(message: "این فاکتور متعلق به شما نمی‍‌باشد");
+
+            model.IsDeleted = true;
+            Update(model);
+
+            var productIds = DbContext.ShopProduct.Where(x => x.ShopOrderId == id).ToList();
+            List<WarehouseProductCheck> items = new List<WarehouseProductCheck>();
+
+            foreach (var item in productIds)
+            {
+                items.Add(new WarehouseProductCheck
+                {
+                    Count = item.Count,
+                    Date = DateTime.Now,
+                    ProductId = item.ProductId.Value,
+                    TypeSSOt = DataLayer.SSOT.WarehouseTypeSSOT.In,
+                });
+            }
+            try
+            {
+
+                await _warehouseProductCheckRepository.AddFromShopOrder(items);
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return SweetAlertExtenstion.Ok();
+        }
+
 
         /// <summary>
         /// زمانی که کاربر به سمت درگاه میرود 
@@ -428,6 +466,7 @@ namespace Service.Repos
                     CreateDate = DateTime.Now,
                     IsDeleted = false,
                     IsSuccessed = false,
+
                     DiscountCode = model.DiscountCode,
                     IsInvoice = false,
                     TransferProductPrice = model.TransferProductPrice,
@@ -450,6 +489,50 @@ namespace Service.Repos
                 return null;
             }
         }
+
+
+        /// <summary>
+        /// ایجاد فاکتور از پیش فاکتور
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<int?> OverWritePreShopOrder(int id, int userId)
+        {
+            try
+            {
+                var model = await GetByIdAsync(id);
+
+                if (model == null) return null;
+
+                var entity = new ShopOrder()
+                {
+                    Amount = model.Amount,
+                    CreateDate = DateTime.Now,
+                    IsDeleted = false,
+                    IsSuccessed = false,
+                    DiscountCode = model.DiscountCode,
+                    IsInvoice = true,
+                    TransferProductPrice = model.TransferProductPrice,
+                    SuccessDate = null,
+                    Status = null,
+                    OrderId = null,
+                    Title = model.Title,
+                    PaymentAmount = model.PaymentAmount,
+                    UserId = model.IsSpecialInvoice ? userId : model.UserId
+                };
+
+                await AddAsync(entity);
+
+                await _shopProductRepository.OverwriteShopProduct(id, entity.Id, userId);
+
+                return entity.Id;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// محاسبه تعرفه و قیمت نهایی برای فاکتور
