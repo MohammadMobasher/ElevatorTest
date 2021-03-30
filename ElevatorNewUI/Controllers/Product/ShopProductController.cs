@@ -252,6 +252,7 @@ namespace ElevatorNewUI.Controllers
             ViewBag.Tariff = _shopOrderRepository.CalculateTariffByOrderId(orderId) ?? 0;
 
             ViewBag.OrderId = orderId;
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId && a.ShopOrderId == orderId);
             return View(listOrders);
         }
 

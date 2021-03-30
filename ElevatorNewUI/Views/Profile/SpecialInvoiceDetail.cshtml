@@ -15,8 +15,10 @@
 @{
     var unit = ViewBag.Unit as List<ProductUnit>;
     var userInfo = ViewBag.UserInfo as DataLayer.Entities.Users.Users;
+    var userInfoBase = ViewBag.UserInfoBase as DataLayer.Entities.Users.Users;
     var order = ViewBag.Order as ShopOrder;
     var address = ViewBag.UserAddress as UserAddress;
+
 }
 <style>
     .select2-container .select2-selection--single {
@@ -132,38 +134,38 @@
 
                                 @foreach (var item in Model)
                                 {
-                                <tr>
-                                    <td class="order-code">@(PDFraw++)</td>
-                                    <td>
-                                        <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
-                                            @(item.OrderName ?? item.Product.Title)
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @item.Count
-                                    </td>
-                                    <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
-                                    <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
-                                    <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
-                                    <td>
-                                        @if (item.OrderPriceDiscount != null)
+                                    <tr>
+                                        <td class="order-code">@(PDFraw++)</td>
+                                        <td>
+                                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                                @(item.OrderName ?? item.Product.Title)
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @item.Count
+                                        </td>
+                                        <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                        <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
+                                        <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                        <td>
+                                            @if (item.OrderPriceDiscount != null)
                                             {
                                                 var price = item.OrderPriceDiscount.Replace(",", "");
 
-                                        <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                                <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
                                             }
                                             else
                                             {
-                                        <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                                <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
                                             }
-                                    </td>
-                                    <td>
-                                        <a href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
-                                            <i title="مشاهده" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-eye text-info font-size-25" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
+                                        </td>
+                                        <td>
+                                            <a href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                                <i title="مشاهده" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-eye text-info font-size-25" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
 
-                                </tr>
+                                    </tr>
 
                                 }
 
@@ -193,38 +195,41 @@
 
 
                         <div class="col-lg-9 col-md-9 col-xs-12 pl ">
-                            <div class="profile-content">
-                                <div class="profile-stats">
-                                    <div class="profile-address">
-                                        <div class="middle-container">
-                                            <div class="alert alert-info font-size-14">ثبت کالای جدید</div>
-                                            <form asp-controller="Profile" asp-action="AddToShopOrder" class="form-checkout">
-                                                <input type="hidden" name="ShopOrderId" value="@order.Id" />
-                                                <input type="hidden" name="urlBack" value="SpecialInvoiceDetail" />
-                                                <div class="form-checkout-row">
 
-                                                    <div class="form-checkout-valid-row">
-                                                        <label for="province">
-                                                            نام کالا
-                                                            <abbr class="required" title="ضروری" style="color:red;">*</abbr>
-                                                        </label>
+                            @if (userInfoBase.IsModerator)
+                            {
+                                <div class="profile-content">
+                                    <div class="profile-stats">
+                                        <div class="profile-address">
+                                            <div class="middle-container">
+                                                <div class="alert alert-info font-size-14">ثبت کالای جدید</div>
+                                                <form asp-controller="Profile" asp-action="AddToShopOrder" class="form-checkout">
+                                                    <input type="hidden" name="ShopOrderId" value="@order.Id" />
+                                                    <input type="hidden" name="urlBack" value="SpecialInvoiceDetail" />
+                                                    <div class="form-checkout-row">
 
-                                                        <select name="ProductId"></select>
+                                                        <div class="form-checkout-valid-row">
+                                                            <label for="province">
+                                                                نام کالا
+                                                                <abbr class="required" title="ضروری" style="color:red;">*</abbr>
+                                                            </label>
+
+                                                            <select name="ProductId"></select>
+
+                                                        </div>
+
+                                                        <label for="Count">تعداد<abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                        <input type="number" required name="Count" value="1" class="input-name-checkout form-control" placeholder="تعداد">
+
+                                                        <input type="submit" class="btn btn-success pull-left editBtn" value="ثبت">
 
                                                     </div>
-
-                                                    <label for="Count">تعداد<abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="number" required name="Count" value="1" class="input-name-checkout form-control" placeholder="تعداد">
-
-                                                    <input type="submit" class="btn btn-success pull-left editBtn" value="ثبت">
-
-                                                </div>
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
+                            }
 
                             <form asp-controller="Profile" asp-action="EditShopOrder" id="frmUpdate" method="post">
                                 <input type="hidden" name="ShopOrderId" value="@order.Id" />
@@ -264,40 +269,40 @@
                                                     @{ var raw = 1;}
                                                     @foreach (var item in Model)
                                                     {
-                                                    <tr>
-                                                        <td class="order-code">@(raw++)</td>
-                                                        <td>
-                                                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
-                                                                @(item.OrderName ?? item.Product.Title)
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            @*<input type="hidden" value="@item.ProductId" name="ListProducts[@(index)].ProductId" />*@
+                                                        <tr>
+                                                            <td class="order-code">@(raw++)</td>
+                                                            <td>
+                                                                <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                                                    @(item.OrderName ?? item.Product.Title)
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                @*<input type="hidden" value="@item.ProductId" name="ListProducts[@(index)].ProductId" />*@
 
-                                                            <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Desktop" data-productId="@item.ProductId" value="@item.Count" @*name="ListProducts[@index].Count"*@ />
-                                                        </td>
-                                                        <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
-                                                        <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
-                                                        <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
-                                                        <td>
-                                                            @if (item.OrderPriceDiscount != null)
+                                                                <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Desktop" data-productId="@item.ProductId" value="@item.Count" @*name="ListProducts[@index].Count"*@ />
+                                                            </td>
+                                                            <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                                            <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
+                                                            <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                                            <td>
+                                                                @if (item.OrderPriceDiscount != null)
                                                                 {
                                                                     var price = item.OrderPriceDiscount.Replace(",", "");
 
-                                                            <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                                                    <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
                                                                 }
                                                                 else
                                                                 {
-                                                            <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                                                    <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
                                                                 }
-                                                        </td>
-                                                        <td>
-                                                            <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
-                                                                <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
-                                                            </a>
-                                                        </td>
+                                                            </td>
+                                                            <td>
+                                                                <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
+                                                                    <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
+                                                                </a>
+                                                            </td>
 
-                                                    </tr>
+                                                        </tr>
                                                         index++;
                                                     }
 
@@ -356,40 +361,40 @@
                                                                 @{ var rawmobile = 1;}
                                                                 @foreach (var item in Model)
                                                                 {
-                                                                <tr>
-                                                                    <td class="order-code">@(rawmobile++)</td>
-                                                                    <td>
-                                                                        <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
-                                                                            @(item.OrderName ?? item.Product.Title)
-                                                                        </a>
-                                                                    </td>
-                                                                    <td>
-                                                                        @*<input type="hidden" value="@item.ProductId" name="ListProducts[@indexMobile].ProductId" />*@
+                                                                    <tr>
+                                                                        <td class="order-code">@(rawmobile++)</td>
+                                                                        <td>
+                                                                            <a target="_blank" href="http://liftbazar.ir/Product/ProductDetail/@item.ProductId">
+                                                                                @(item.OrderName ?? item.Product.Title)
+                                                                            </a>
+                                                                        </td>
+                                                                        <td>
+                                                                            @*<input type="hidden" value="@item.ProductId" name="ListProducts[@indexMobile].ProductId" />*@
 
-                                                                        <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Mobile" value="@item.Count" data-productId="@item.ProductId" @*name="ListProducts[@indexMobile].Count"*@ />
-                                                                    </td>
-                                                                    <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
-                                                                    <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
-                                                                    <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
-                                                                    <td>
-                                                                        @if (item.OrderPriceDiscount != null)
+                                                                            <input type="number" class="productCount" style="width: 30px; text-align:center" data-section="Mobile" value="@item.Count" data-productId="@item.ProductId" @*name="ListProducts[@indexMobile].Count"*@ />
+                                                                        </td>
+                                                                        <td>@(item?.Product.ProductUnitId != null ? unit.FirstOrDefault(a => a.Id == item?.Product.ProductUnitId).Name : "واحدی ثبت نشده")</td>
+                                                                        <td>@(long.Parse(item.OrderPrice).ToPersianPrice() ?? item.Product.Price.ToPersianPrice())</td>
+                                                                        <td>@(long.Parse(item.OrderPriceDiscount).ToPersianPrice() ?? item.Product.PriceWithDiscount.ToPersianPrice())</td>
+                                                                        <td>
+                                                                            @if (item.OrderPriceDiscount != null)
                                                                             {
                                                                                 var price = item.OrderPriceDiscount.Replace(",", "");
 
-                                                                        <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
+                                                                                <span>@((long.Parse(price) * item.Count).ToPersianPrice()) </span>
                                                                             }
                                                                             else
                                                                             {
-                                                                        <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
+                                                                                <span>@((item.Product.PriceWithDiscount * item.Count).ToPersianPrice())</span>
                                                                             }
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
-                                                                            <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
-                                                                        </a>
-                                                                    </td>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/Profile/DeleteItemFromShopOrder?shopOrderId=@order.Id&productId=@item.ProductId&urlBack=SpecialInvoiceDetail">
+                                                                                <i title="حذف" data-toggle="tooltip" data-placement="bottom" class="mdi mdi-delete text-danger font-size-25" aria-hidden="true"></i>
+                                                                            </a>
+                                                                        </td>
 
-                                                                </tr>
+                                                                    </tr>
                                                                     indexMobile++;
                                                                 }
 
@@ -421,10 +426,14 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <input type="submit" class="btn btn-warning pull-left editBtn " style="margin-left:16px;display:none" value="به روز رسانی">
+                                @if (userInfoBase.IsModerator)
+                                {
+                                    <input type="submit" class="btn btn-warning pull-left editBtn " style="margin-left:16px;display:none" value="به روز رسانی">
+                                }
                             </form>
-                            <a class="btn btn-success pull-left " style=" margin-left:16px" href="/Profile/CreateFactorFromInvoce?id=@order.Id">ثبت فاکتور</a>
+                          
+                                <a class="btn btn-success pull-left " style=" margin-left:16px" href="/Profile/CreateFactorFromInvoce?id=@order.Id">ثبت فاکتور</a>
+                            
                             <a class="btn btn-danger pull-left" style="margin-left:16px" href="/Profile/ListInvoice">بازگشت</a>
                         </div>
 
@@ -435,107 +444,111 @@
         </section>
     </div>
 </div>
-<script>
+@if (userInfoBase.IsModerator)
+{
+    <script>
 
-    $(function () {
-        $('.productCount').on("change", function (event) {
-            debugger;
-            var sectionType = $(this).attr("data-section");
+        $(function () {
+            $('.productCount').on("change", function (event) {
+                debugger;
+                var sectionType = $(this).attr("data-section");
 
-            var inputs = $(`input[data-section="${sectionType}"]`);
+                var inputs = $(`input[data-section="${sectionType}"]`);
 
-            $.each(inputs, function (index, key) {
-                var value = $(key).val();
-                var id = $(key).attr('data-productId');
-                $('#frmUpdate').append(`<input type='hidden' name='ListProducts[${index}].Count' value='${value}'/>`);
-                $('#frmUpdate').append(`<input type='hidden' name='ListProducts[${index}].ProductId' value='${id}'/>`);
-            })
+                $.each(inputs, function (index, key) {
+                    var value = $(key).val();
+                    var id = $(key).attr('data-productId');
+                    $('#frmUpdate').append(`<input type='hidden' name='ListProducts[${index}].Count' value='${value}'/>`);
+                    $('#frmUpdate').append(`<input type='hidden' name='ListProducts[${index}].ProductId' value='${id}'/>`);
+                })
 
-            //var keycode = (event.keyCode ? event.keyCode : event.which);
-            $('#frmUpdate').submit();
-            $('.editBtn').trigger('click');
+                //var keycode = (event.keyCode ? event.keyCode : event.which);
+                $('#frmUpdate').submit();
+                $('.editBtn').trigger('click');
+
+            });
 
         });
+        //<img src="~/images/man.png" />
+    </script>
+    <script language="javascript">
+        $('[name="ProductId"]').select2({
+            allowClear: true,
+            language: {
+                inputTooShort: function (args) {
+                    // args.minimum is the minimum required length
+                    // args.input is the user-typed text
+                    return "نام کالای خود را وارد کنید";
+                },
+                //inputTooLong: function (args) {
+                //    // args.maximum is the maximum allowed length
+                //    // args.input is the user-typed text
+                //    return "You typed too much";
+                //},
+                errorLoading: function () {
+                    return "خطایی به وجود آمده، لطفا مجددا تلاش کنید";
+                },
+                //loadingMore: function () {
+                //    return "Loading more results";
+                //},
+                noResults: function () {
+                    return "کالایی با این نام یافت نشد";
+                },
+                searching: function () {
+                    return "در حال جستجو";
+                },
+                //maximumSelected: function (args) {
+                //    // args.maximum is the maximum number of items the user may select
+                //    return "Error loading results";
+                //}
+            },
+            ajax: {
+                url: "/Profile/SearchProduct",
+                dataType: 'json',
+                quietMillis: 200,
+                data: function (term) {
+                    return {
+                        term: term.term, //search term
+                    };
+                },
+                processResults: function (response) {
 
-    });
-    //<img src="~/images/man.png" />
-</script>
-<script language="javascript">
-    $('[name="ProductId"]').select2({
-        allowClear: true,
-        language: {
-            inputTooShort: function (args) {
-                // args.minimum is the minimum required length
-                // args.input is the user-typed text
-                return "نام کالای خود را وارد کنید";
-            },
-            //inputTooLong: function (args) {
-            //    // args.maximum is the maximum allowed length
-            //    // args.input is the user-typed text
-            //    return "You typed too much";
-            //},
-            errorLoading: function () {
-                return "خطایی به وجود آمده، لطفا مجددا تلاش کنید";
-            },
-            //loadingMore: function () {
-            //    return "Loading more results";
-            //},
-            noResults: function () {
-                return "کالایی با این نام یافت نشد";
-            },
-            searching: function () {
-                return "در حال جستجو";
-            },
-            //maximumSelected: function (args) {
-            //    // args.maximum is the maximum number of items the user may select
-            //    return "Error loading results";
-            //}
-        },
-        ajax: {
-            url: "/Profile/SearchProduct",
-            dataType: 'json',
-            quietMillis: 200,
-            data: function (term) {
-                return {
-                    term: term.term, //search term
-                };
-            },
-            processResults: function (response) {
+                    return {
+                        results: response
+                    };
+                },
+                cache: true
 
-                return {
-                    results: response
-                };
             },
-            cache: true
-
-        },
-        minimumInputLength: 1,
-        templateResult: function (idioma) {
+            minimumInputLength: 1,
+            templateResult: function (idioma) {
 
 
-            src = "";
-            if (idioma.hasOwnProperty('loading')) {
-                src = "/" + idioma.image;
-            } else {
-                src = "/" + idioma.image;
+                src = "";
+                if (idioma.hasOwnProperty('loading')) {
+                    src = "/" + idioma.image;
+                } else {
+                    src = "/" + idioma.image;
+                }
+
+                var $span = $("<span style='font-size:12px'><img style='width:40px; height:40px' src='" + src + "'/> " + idioma.text + "</span>");
+                return $span;
+            },
+            templateSelection: function (idioma) {
+                src = "";
+                if (idioma.hasOwnProperty('loading')) {
+                    src = "/" + idioma.image;
+                } else {
+                    src = "/" + idioma.image;
+                }
+
+                var $span = $("<span style='font-size:12px'><img style='width:40px; height:40px' src='" + src + "'/> " + idioma.text + "</span>");
+                return $span;
             }
+        });
+    </script>
 
-            var $span = $("<span style='font-size:12px'><img style='width:40px; height:40px' src='" + src + "'/> " + idioma.text + "</span>");
-            return $span;
-        },
-        templateSelection: function (idioma) {
-            src = "";
-            if (idioma.hasOwnProperty('loading')) {
-                src = "/" + idioma.image;
-            } else {
-                src = "/" + idioma.image;
-            }
-
-            var $span = $("<span style='font-size:12px'><img style='width:40px; height:40px' src='" + src + "'/> " + idioma.text + "</span>");
-            return $span;
-        }
-    });
-</script>
+}
 
 
 <script src="~/lib/html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>

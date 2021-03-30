@@ -20,6 +20,15 @@ namespace DataLayer.Entities
         /// </summary>
         public int? ShopOrderId { get; set; }
 
+        /// <summary>
+        /// نام گیرنده
+        /// </summary>
+        public string To { get; set; }
+
+        /// <summary>
+        /// شماره موبایل تحویل گیرنده
+        /// </summary>
+        public string PhoneNumberTo { get; set; }
         public string Title { get; set; }
 
         public string PhoneNumber { get; set; }

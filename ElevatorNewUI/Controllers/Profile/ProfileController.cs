@@ -173,6 +173,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
         public async Task<IActionResult> SpecialInvoiceDetail(int id)
         {
+          
             //به روز رسانی قیمت کالا های داخل هر پیش فاکتور
             await _shopProductRepository.ProductsPriceCheck(id);
 
@@ -185,6 +186,7 @@ namespace ElevatorNewUI.Controllers.Profile
 
             // اطلاعات کاربر
             ViewBag.UserInfo = await _userRepository.GetByConditionAsync(a => a.Id == order.UserId);
+            ViewBag.UserInfoBase = await _userRepository.GetByConditionAsync(a => a.Id == this.UserId);
             ViewBag.Order = order;
 
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == order.UserId);

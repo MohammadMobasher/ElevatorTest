@@ -34,9 +34,21 @@
                                                     <input type="text" id="phone-number" disabled value="@userInfo.PhoneNumber" class="input-name-checkout form-control text-left">
                                                 </div>
 
+
+
                                                 <div class="validate-required">
                                                     <label for="fixed-number">شماره تلفن ثابت <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                                     <input type="text" name="Telephone" required value="@address?.Telephone" id="fixed-number" class="input-name-checkout form-control text-left">
+                                                </div>
+
+                                                <div class="validate-required">
+                                                    <label for="post-code">نام و نام خانوادگی گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                    <input type="text" name="To" required dir="ltr" value="@address?.To" id="post-code" class="input-name-checkout form-control">
+                                                </div>
+
+                                                <div class="validate-required">
+                                                    <label for="phone-number">شماره موبایل گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                    <input type="text" id="phone-number" value="@address.PhoneNumberTo" class="input-name-checkout form-control text-left">
                                                 </div>
 
                                                 <div class="validate-required">
@@ -46,10 +58,10 @@
 
                                                 <div class="row" style="margin-bottom:2%">
                                                     <div class="col-md-6">
-                                                        <input type="radio" id="OutTehran" @(address.IsOutTehran?"checked":"")  style="width:3%;margin-bottom:0" name="IsOutTehran" value="true" /> خارج از تهران
+                                                        <input type="radio" id="OutTehran" @(address.IsOutTehran ? "checked" : "") style="width:3%;margin-bottom:0" name="IsOutTehran" value="true" /> خارج از تهران
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="radio" id="InTehran" @(!address.IsOutTehran?"checked":"") style="width:3%;margin-bottom:0" name="IsOutTehran" value="false" /> داخل تهران
+                                                        <input type="radio" id="InTehran" @(!address.IsOutTehran ? "checked" : "") style="width:3%;margin-bottom:0" name="IsOutTehran" value="false" /> داخل تهران
                                                     </div>
                                                 </div>
 
@@ -58,16 +70,16 @@
 
                                                     <div class="validate-required">
                                                         <label for="Street">منطقه <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                        <select name="TehranAreasFrom"  asp-for="@address.TehranAreasFrom" asp-items="@Html.GetEnumSelectList<TehranAreas>()">
+                                                        <select name="TehranAreasFrom" asp-for="@address.TehranAreasFrom" asp-items="@Html.GetEnumSelectList<TehranAreas>()">
                                                             <option value="">--لطفا انتخاب کنید--</option>
                                                         </select>
                                                         @*<input type="text" name="Address" value="@address?.TehranAreasFrom" id="post-code" class="input-name-checkout form-control">*@
                                                     </div>
 
                                                     @*<div class="validate-required">
-                                                            <label for="Street">آدرس <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                            <input type="text" name="Address" required value="@address?.Address" id="post-code" class="input-name-checkout form-control">
-                                                        </div>*@
+                <label for="Street">آدرس <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                <input type="text" name="Address" required value="@address?.Address" id="post-code" class="input-name-checkout form-control">
+            </div>*@
 
 
                                                     <div class="validate-required">
@@ -75,7 +87,7 @@
                                                             پلاک
                                                             <abbr class="required" title="ضروری" style="color:red;">*</abbr>
                                                         </label>
-                                                        <input type="number" name="Plaque"  value="@address?.Plaque" id="bld-num" class="input-name-checkout js-input-bld-num form-control">
+                                                        <input type="number" name="Plaque" value="@address?.Plaque" id="bld-num" class="input-name-checkout js-input-bld-num form-control">
                                                     </div>
 
                                                     <div class="validate-required">
@@ -88,7 +100,7 @@
                                                 <div style="@(address.IsOutTehran?"":"display:none")" id="OutTehranForm">
                                                     <div class="validate-required">
                                                         <label for="Street">شهر <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                        <input type="text" name="Province"  value="@address?.Province" id="post-code" class="input-name-checkout form-control">
+                                                        <input type="text" name="Province" value="@address?.Province" id="post-code" class="input-name-checkout form-control">
                                                     </div>
                                                 </div>
 
