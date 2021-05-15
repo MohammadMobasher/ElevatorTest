@@ -19,7 +19,9 @@
                                     {
                                         <price-tag style="" backgroundcolor="#da251e" textcolor="#fff" text="@item.Discount.ToPersianNumbers()"></price-tag>
                                     }
-                                  
+                                    @{
+                                        var image = item.IndexPic.Split("/").LastOrDefault();
+                                    }
                                     <img data-src="http://liftbazar.ir//@item.IndexPic" class="img-fluid lazy" alt="">
                                 </a>
                                 <h2 class="post-title">
