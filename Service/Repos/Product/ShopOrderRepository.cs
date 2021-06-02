@@ -139,7 +139,7 @@ namespace Service.Repos
 
             // در جدول مربوط به آدرس
             // شماره فاکتور را قرار میدهیم تا بعد بتوانیم از آن استفاده کنیم
-            await _userAddressRepository.UpdateShopOrderId(model.Id, userId);
+            //await _userAddressRepository.UpdateShopOrderId(model.Id, userId);
 
             return model.Id;
         }
@@ -160,7 +160,7 @@ namespace Service.Repos
                 await UpdateAsync(model);
                 // در جدول مربوط به آدرس
                 // شماره فاکتور را قرار میدهیم تا بعد بتوانیم از آن استفاده کنیم
-                await _userAddressRepository.UpdateShopOrderId(model.Id, model.UserId);
+                //await _userAddressRepository.UpdateShopOrderId(model.Id, model.UserId);
 
                 await _shopProductRepository.ChangeStatus(shopProducts.ToList(), model.Id);
 
@@ -262,14 +262,23 @@ namespace Service.Repos
         /// <returns></returns>
         public async Task<bool> SuccessedOrder(int id, int userId)
         {
-            var model = GetByCondition(a => a.Id == id && a.UserId == userId);
 
-            if (model == null) return false;
 
-            model.IsSuccessed = true;
-            model.SuccessDate = DateTime.Now;
+            var query = @"
+                UPDATE ShopOrder
+                SET IsSuccessed = 1, SuccessDate = '" + DateTime.Now + @"'
+                WHERE Id = " + id + " and UserId = " + userId;
 
-            await UpdateAsync(model);
+            this._connection.Query(query);
+
+            //var model = GetByCondition(a => a.Id == id && a.UserId == userId);
+
+            //if (model == null) return false;
+
+            //model.IsSuccessed = true;
+            //model.SuccessDate = DateTime.Now;
+
+            //await UpdateAsync(model);
             return true;
         }
 

@@ -1,6 +1,6 @@
 ﻿@model List<ShopOrder>
 
-@{ 
+@{
     List<UserAddress> addresses = ViewBag.UserAddress as List<UserAddress>;
 }
 
@@ -12,91 +12,111 @@
 
                     <partial name="_SidebarProfile" model="@ViewBag.Model">
 
-                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
-                        <div class="profile-content">
-                            <div class="profile-stats">
-                                <div class="table-orders">
-                                    <table class="table table-profile-orders">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th scope="col">ردیف</th>
-                                                <th scope="col">عنوان</th>
-                                                <th scope="col">تاریخ ثبت سفارش</th>
-                                                <th scope="col">نتیجه پرداخت</th>
-                                                <th scope="col">وضعیت سفارش</th>
-                                                <th scope="col">مبلغ کل</th>
-                                                <th scope="col">جزئیات</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @{ var raw = 1;}
-                                            @foreach (var item in Model)
-                                            {
+                        <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                            <div class="profile-content">
+                                <div class="profile-stats">
+                                    <div class="table-orders">
+                                        <table class="table table-profile-orders">
+                                            <thead class="thead-light">
                                                 <tr>
-                                                    <td class="order-code">@(raw++)</td>
-                                                    <td>@item.Title</td>
-                                                    <td>@item.SuccessDate.ToPersianDateTextify()</td>
-                                                    <td class="Waiting @(item.IsSuccessed ? "text-success" :"text-danger")">@(item.IsSuccessed?"پرداخت شده":"ناموفق")</td>
-                                                    <td>
-                                                        @(item.Status == null?"درحال بررسی ": item.Status.ToDisplay())
-                                                    </td>
-                                                    <td class="totla">
-                                                        <span class="amount">
-                                                            @item.PaymentAmount.ToPersianPrice()
-                                                            <span>تومان</span>
-                                                        </span>
-                                                    </td>
-                                                    <td class="detail">
-                                                        <a href="/Profile/OrderDetail/@item.Id" class="btn btn-secondary d-block">نمایش</a>
-                                                        @if (!item.IsSuccessed)
-                                                        {
-                                                            <a href="/Profile/OrderDelete/@item.Id" class="btn btn-danger d-block">حذف</a>
-                                                        }
-                                                    </td>
+                                                    <th scope="col">ردیف</th>
+                                                    <th scope="col">شماره فاکتور</th>
+                                                    <th scope="col">عنوان</th>
+                                                    <th scope="col">تاریخ ثبت سفارش</th>
+                                                    <th scope="col">نتیجه پرداخت</th>
+                                                    <th scope="col">وضعیت سفارش</th>
+                                                    <th scope="col">مبلغ کل</th>
+                                                    <th scope="col">جزئیات</th>
                                                 </tr>
-
-                                            }
-                                        </tbody>
-                                    </table>
-                                    <div class="profile-orders">
-                                        <div class="collapse">
-                                            <div class="profile-orders-item">
+                                            </thead>
+                                            <tbody>
+                                                @{ var raw = 1;}
                                                 @foreach (var item in Model)
                                                 {
-                                                    <div class="profile-orders-header">
-                                                        <a href="/Profile/OrderDetail/@item.Id" class="profile-orders-header-details">
-                                                            <div class="profile-orders-header-summary">
-                                                                <div class="profile-orders-header-row">
-                                                                    <span class="profile-orders-header-id">@item.OrderId</span>
-                                                                    <span class="profile-orders-header-state text-success">@(item.IsSuccessed ? "پرداخت شده" : "ناموفق")</span>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                        <!-- <hr class="ui-separator"> -->
-                                                        <div class="profile-orders-header-data">
-                                                            <div class="profile-info-row">
-                                                                <div class="profile-info-label">تاریخ ثبت سفارش</div>
-                                                                <div class="profile-info-value">@item.CreateDate.ToPersianDateTextify()</div>
-                                                            </div>
-                                                            <div class="profile-info-row">
-                                                                <div class="profile-info-label">مبلغ کل</div>
-                                                                <div class="profile-info-value">
-                                                                    <span class="amount">
-                                                                        @item.PaymentAmount.ToPersianPrice()
-                                                                        <span>تومان</span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <tr>
+                                                        <td class="order-code">@(raw++)</td>
+                                                        <td>@item.Id</td>
+                                                        <td>@item.Title</td>
+                                                        <td>@item.SuccessDate.ToPersianDateTextify()</td>
+                                                        <td class="Waiting @(item.IsSuccessed ? "text-success" :"text-danger")">@(item.IsSuccessed?"پرداخت شده":"ناموفق")</td>
+                                                        <td>
+                                                            @(item.Status == null?"درحال بررسی ": item.Status.ToDisplay())
+                                                        </td>
+                                                        <td class="totla">
+                                                            <span class="amount">
+                                                                @item.PaymentAmount.ToPersianPrice()
+                                                                <span>تومان</span>
+                                                            </span>
+                                                        </td>
+                                                        <td class="detail">
+                                                            <a href="/Profile/OrderDetail/@item.Id" class="btn btn-secondary d-block">نمایش</a>
+                                                            @if (!item.IsSuccessed)
+                                                            {
+                                                                <a href="/Profile/OrderDelete/@item.Id" class="btn btn-danger d-block">حذف</a>
+                                                            }
+                                                        </td>
+                                                    </tr>
+
                                                 }
+                                            </tbody>
+                                        </table>
+                                        <div class="profile-orders">
+                                            <div class="collapse">
+                                                <div class="profile-orders-item">
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <div class="profile-orders-header">
+
+
+
+                                                            <!-- <hr class="ui-separator"> -->
+                                                            <div class="profile-orders-header-data">
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-label">شماره فاکتور</div>
+                                                                    <div class="profile-info-value">@item.Id</div>
+                                                                </div>
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-label">تاریخ ثبت سفارش</div>
+                                                                    <div class="profile-info-value">@item.CreateDate.ToPersianDateTextify()</div>
+                                                                </div>
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-label">مبلغ کل</div>
+                                                                    <div class="profile-info-value">
+                                                                        <span class="amount">
+                                                                            @item.PaymentAmount.ToPersianPrice()
+                                                                            <span>تومان</span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-label">وضعیت</div>
+                                                                    <div class="profile-info-value"><span class=" text-success">@(item.IsSuccessed ? "پرداخت شده" : "ناموفق")</span></div>
+                                                                </div>
+
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-label btn btn-info color000">
+                                                                        <a href="/Profile/OrderDetail/@item.Id" class="">
+                                                                            نمایش
+                                                                        </a>
+
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+
+
+
+                                                            <br />
+                                                        </div>
+                                                    }
                                                 </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </section>

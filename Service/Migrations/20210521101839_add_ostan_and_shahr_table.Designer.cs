@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service;
 
 namespace Service.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210521101839_add_ostan_and_shahr_table")]
+    partial class add_ostan_and_shahr_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1132,8 +1134,6 @@ namespace Service.Migrations
 
                     b.Property<bool>("IsOutTehran");
 
-                    b.Property<int?>("OstanId");
-
                     b.Property<string>("PhoneNumber");
 
                     b.Property<string>("PhoneNumberTo");
@@ -1141,8 +1141,6 @@ namespace Service.Migrations
                     b.Property<string>("Plaque");
 
                     b.Property<string>("Province");
-
-                    b.Property<int?>("ShahrId");
 
                     b.Property<int?>("ShopOrderId");
 
@@ -1159,10 +1157,6 @@ namespace Service.Migrations
                     b.Property<string>("ZipCode");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OstanId");
-
-                    b.HasIndex("ShahrId");
 
                     b.HasIndex("ShopOrderId");
 
@@ -1720,14 +1714,6 @@ namespace Service.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.UserAddress", b =>
                 {
-                    b.HasOne("DataLayer.Entities.Ostan", "Ostan")
-                        .WithMany()
-                        .HasForeignKey("OstanId");
-
-                    b.HasOne("DataLayer.Entities.Shahr", "Shahr")
-                        .WithMany()
-                        .HasForeignKey("ShahrId");
-
                     b.HasOne("DataLayer.Entities.ShopOrder", "ShopOrder")
                         .WithMany()
                         .HasForeignKey("ShopOrderId");

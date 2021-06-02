@@ -64,38 +64,46 @@ namespace ElevatorAdmin.Controllers
         [AllowAnonymous()]
         public async Task<IActionResult> Login(string userName, string password)
         {
-            var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.UserName == userName);
-
-            if (model == null)
+            if ((userName != null && !string.IsNullOrEmpty(userName)) && (password != null && !string.IsNullOrEmpty(password)))
             {
-                TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این نام کاربری یافت نشد!"));
+                var model = _userRepository.TableNoTracking.FirstOrDefault(a => a.UserName == userName);
+
+                if (model == null)
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این نام کاربری یافت نشد!"));
+                    return RedirectToAction("Login");
+                }
+
+                if (model.IsActive == false)
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("شما فعال نیستید!"));
+                    return RedirectToAction("Login");
+                }
+
+                if (model.IsModerator == false)
+                {
+                    TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این نام کاربری یافت نشد!"));
+                    return RedirectToAction("Login");
+                }
+                var result = await _signInManager.PasswordSignInAsync(model, password, true, false);
+
+                if (result.Succeeded)
+                {
+
+                    //Request.Headers["User-Agent"].ToString();
+
+                    //await _userRepository.SetUserClaims(userName);
+                    return RedirectToAction("Index", "Home");
+                }
+                TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور یا نام کاربری نادرست است"));
+
+                return Redirect("Index");
+            }
+            else
+            {
+                TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور یا نام کاربری نادرست است"));
                 return RedirectToAction("Login");
             }
-
-            if (model.IsActive == false)
-            {
-                TempData.AddResult(SweetAlertExtenstion.Error("شما فعال نیستید!"));
-                return RedirectToAction("Login");
-            }
-
-            if(model.IsModerator == false)
-            {
-                TempData.AddResult(SweetAlertExtenstion.Error("کاربری با این نام کاربری یافت نشد!"));
-                return RedirectToAction("Login");
-            }
-            var result = await _signInManager.PasswordSignInAsync(model, password, true, false);
-
-            if (result.Succeeded)
-            {
-
-                //Request.Headers["User-Agent"].ToString();
-
-                //await _userRepository.SetUserClaims(userName);
-                return RedirectToAction("Index", "Home");
-            }
-            TempData.AddResult(SweetAlertExtenstion.Error("کلمه عبور یا نام کاربری نادرست است"));
-            
-            return Redirect("Index");
         }
 
         [AllowAccess]

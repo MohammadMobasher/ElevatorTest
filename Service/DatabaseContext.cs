@@ -30,6 +30,8 @@ namespace Service
         #region Tables
 
         public DbSet<Log> Log { get; set; }
+        public DbSet<Ostan> Ostan { get; set; }
+        public DbSet<Shahr> Shahr { get; set; }
         public DbSet<Tree> Tree { get; set; }
         public DbSet<UserTreeReminded> UserTreeReminded { get; set; }
         public DbSet<ShopOrderPayment> ShopOrderPayment { get; set; }

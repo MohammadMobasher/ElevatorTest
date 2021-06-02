@@ -171,6 +171,7 @@ namespace ElevatorNewUI.Controllers
         {
             try
             {
+                _logRepository.Add(new Log() { Text = $"Start => " });
                 // گرفتن اطلاعات فاکتور بر اساس شناسه خرید و شناسه گاربری
                 var model = _usersPaymentRepository.GetByCondition(a => a.OrderId == vm.OrderId && a.Token == vm.Token);
 
@@ -196,11 +197,12 @@ namespace ElevatorNewUI.Controllers
                 var ipgUri = string.Format("{0}/api/v0/Advice/Verify", _bankConfig.PurchasePage);
 
                 var res = CallApi<BankCallBackResultViewModel>(ipgUri, data);
+                _logRepository.Add(new Log() { Text = $"1 => " + ((res != null && res.Result != null) ? "" : "") });
                 if (res != null && res.Result != null)
                 {
                     await _usersPaymentRepository.ResultOrder(model.ShopOrderId.Value, model.OrderId, UserId, res.Result.Succeed, res.Result.ResCode);
-
-                    if (res.Result.ResCode == "0")
+                    _logRepository.Add(new Log() { Text = $"2 => " + res.Result.ResCode.ToString() });
+                    if (res.Result.ResCode == "3000")
                     {
                         vm.VerifyResultData = res.Result;
                         res.Result.Succeed = true;
@@ -218,16 +220,39 @@ namespace ElevatorNewUI.Controllers
                             Status = ShopOrderStatusSSOT.Ordered
                         });
 
+                        //// ارسال اس ام اس به کاربر جهت ثبت سفارش
+                        //var text = $"{model.OrderId};{DateTime.Now.ToPersianDay()}";
+                        //var phoneNumber = _userRepository.GetByCondition(a => a.Id == model.UserId).PhoneNumber;
+
+                        //var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
+
+                        //// ارسال اس ام اس به مدیریت 
+                        //var ResultTest = $"{DateTime.Now.ToPersianDay()};{model.OrderId}";
+
+                        //var ResultSms = _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
+
+
+                        _logRepository.Add(new Log() { Text = $"3 => " + "Start send message" });
                         // ارسال اس ام اس به کاربر جهت ثبت سفارش
-                        var text = $"{model.OrderId};{DateTime.Now.ToPersianDay()}";
+                        var text = $"{model.ShopOrderId};{DateTime.Now.ToPersianDay()}";
                         var phoneNumber = _userRepository.GetByCondition(a => a.Id == model.UserId).PhoneNumber;
 
                         var smsResult = _smsRestClient.SendByBaseNumber(text, phoneNumber, (int)SmsBaseCodeSSOT.SetOrder);
 
                         // ارسال اس ام اس به مدیریت 
-                        var ResultTest = $"{DateTime.Now.ToPersianDay()};{model.OrderId}";
+                        var ResultTest = $"{DateTime.Now.ToPersianDay()};{model.ShopOrderId}";
 
-                        var ResultSms = _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
+
+                        var sms1Result = _smsRestClient.SendByBaseNumber(ResultTest, "09122013443", (int)SmsBaseCodeSSOT.Result);
+                        var sms2Result = _smsRestClient.SendByBaseNumber(ResultTest, "09351631398", (int)SmsBaseCodeSSOT.Result);
+                        var sms3Result = _smsRestClient.SendByBaseNumber(ResultTest, "09104996615", (int)SmsBaseCodeSSOT.Result);
+
+
+
+                        _logRepository.Add(new Log() { Text = $"sms -> FirstUser>{sms1Result.RetStatus}-{sms1Result.Value}-{sms1Result.StrRetStatus}" });
+                        _logRepository.Add(new Log() { Text = $"sms -> SecondUser>{sms2Result.RetStatus}-{sms2Result.Value}-{sms2Result.StrRetStatus}" });
+                        _logRepository.Add(new Log() { Text = $"sms -> ThirtUser>{sms3Result.RetStatus}-{sms3Result.Value}-{sms3Result.StrRetStatus}" });
+                        _logRepository.Add(new Log() { Text = $"3 => " + "End send message" });
 
                         return RedirectToAction("Result", "UserOrder", new { orderId = res.Result.OrderId, shopOrderId = model.ShopOrderId });
                     }
@@ -239,6 +264,7 @@ namespace ElevatorNewUI.Controllers
             catch (Exception ex)
             {
                 ViewBag.Message = ex.ToString();
+                _logRepository.Add(new Log() { Text = $"Error => {ex.ToString()}" });
             }
 
             return Redirect("/");
@@ -258,6 +284,7 @@ namespace ElevatorNewUI.Controllers
         {
             try
             {
+                _logRepository.Add(new Log() { Text = $"*Start => " });
                 // گرفتن اطلاعات فاکتور بر اساس شناسه خرید و شناسه گاربری
                 var model = _usersPaymentRepository.GetByCondition(a => a.OrderId == vm.OrderId && a.Token == vm.Token);
 
@@ -291,10 +318,12 @@ namespace ElevatorNewUI.Controllers
                 var ipgUri = string.Format("{0}/api/v0/Advice/Verify", _bankConfig.PurchasePage);
 
                 var res = CallApi<BankCallBackResultViewModel>(ipgUri, data);
+                _logRepository.Add(new Log() { Text = $"*1 => " + ((res != null && res.Result != null) ? "" : "") });
+
                 if (res != null && res.Result != null)
                 {
                     await _usersPaymentRepository.ResultOrder(result.ShopOrderId, result.OrderId, UserId, res.Result.Succeed, res.Result.ResCode);
-
+                    _logRepository.Add(new Log() { Text = $"*2 => " + res.Result.ResCode.ToString() });
                     if (res.Result.ResCode == "0")
                     {
                         vm.VerifyResultData = res.Result;
@@ -321,7 +350,7 @@ namespace ElevatorNewUI.Controllers
                             await _shopProductRepository.SuccessedOrder(result.ShopOrderId, model.UserId);
                         }
 
-
+                        _logRepository.Add(new Log() { Text = $"*3 => " + "Start send message" });
                         // ارسال اس ام اس به کاربر جهت ثبت سفارش
                         var text = $"{result.ShopOrderId};{DateTime.Now.ToPersianDay()}";
                         var phoneNumber = _userRepository.GetByCondition(a => a.Id == model.UserId).PhoneNumber;
@@ -336,9 +365,11 @@ namespace ElevatorNewUI.Controllers
                         var sms2Result = _smsRestClient.SendByBaseNumber(ResultTest, "09351631398", (int)SmsBaseCodeSSOT.Result);
                         var sms3Result = _smsRestClient.SendByBaseNumber(ResultTest, "09104996615", (int)SmsBaseCodeSSOT.Result);
 
-                        _logRepository.Add(new Log() { Text = $"sms1Result+>{sms1Result.RetStatus}-{sms1Result.Value}-{sms1Result.StrRetStatus}" });
-                        _logRepository.Add(new Log() { Text = $"sms2Result+>{sms2Result.RetStatus}-{sms2Result.Value}-{sms2Result.StrRetStatus}" });
-                        _logRepository.Add(new Log() { Text = $"sms3Result+>{sms3Result.RetStatus}-{sms3Result.Value}-{sms3Result.StrRetStatus}" });
+                        _logRepository.Add(new Log() { Text = $"*sms -> FirstUser>{sms1Result.RetStatus}-{sms1Result.Value}-{sms1Result.StrRetStatus}" });
+                        _logRepository.Add(new Log() { Text = $"*sms -> SecondUser>{sms2Result.RetStatus}-{sms2Result.Value}-{sms2Result.StrRetStatus}" });
+                        _logRepository.Add(new Log() { Text = $"*sms -> ThirtUser>{sms3Result.RetStatus}-{sms3Result.Value}-{sms3Result.StrRetStatus}" });
+                        _logRepository.Add(new Log() { Text = $"*3 => " + "End send message" });
+
 
                         await _treeRepository.CalculateRateTreeFromAmountAndInsert(result.PaymentAmount, model.UserId);
                         return RedirectToAction("Result", "UserOrder", new { orderId = res.Result.OrderId, shopOrderId = result.ShopOrderId });
@@ -351,6 +382,7 @@ namespace ElevatorNewUI.Controllers
             catch (Exception ex)
             {
                 ViewBag.Message = ex.ToString();
+                _logRepository.Add(new Log() { Text = $"*Error => {ex.ToString()}" });
             }
 
             return Redirect("/");

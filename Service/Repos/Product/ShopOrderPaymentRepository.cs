@@ -23,6 +23,11 @@ namespace Service.Repos.Product
         public async Task<int> CreatePayment(int orderId)
         {
             var model = await _shopOrderRepository.GetByIdAsync(orderId);
+            var items = await this.Entities.Where(x => x.ShopOrderId == orderId).ToListAsync();
+
+            if(items!= null && items.Count > 0) {
+                return items.Count;
+            }
 
             var count = Math.Ceiling((decimal)model.PaymentAmount / 50000000);
 
@@ -66,6 +71,12 @@ namespace Service.Repos.Product
         public async Task<int> CreateOfflinePayment(int orderId)
         {
             var model = await _shopOrderRepository.GetByIdAsync(orderId);
+            var items = await this.Entities.Where(x => x.ShopOrderId == orderId).ToListAsync();
+
+            if (items != null && items.Count > 0)
+            {
+                return items.First().Id;
+            }
 
             var paymemt = new ShopOrderPayment()
             {
@@ -90,6 +101,11 @@ namespace Service.Repos.Product
         /// <returns></returns>
         public async Task<bool> AllIsPay(int shopOrderId)
         {
+            var order = await DbContext.ShopOrder.FirstAsync(a => a.Id == shopOrderId);
+            // اگر پرداخت درب منزل بود پرداخت شده 
+            if (order != null && !order.IsOnlinePay)
+                return true;
+
             var items = await DbContext.ShopOrderPayment.Where(x => x.ShopOrderId == shopOrderId && x.IsSuccess == /*false?*/ true).ToListAsync();
             if (items != null && items.Count > 0)
                 return true;

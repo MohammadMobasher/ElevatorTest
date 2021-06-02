@@ -43,6 +43,7 @@ namespace ElevatorNewUI.Controllers
         private readonly LogRepository _logRepository;
         private readonly WarehouseProductCheckRepository _warehouseProductCheckRepository;
         private readonly SmsRestClient _smsRestClient;
+        private readonly OstanRepository _ostanRepository;
 
         public ShopProductController(ShopProductRepository shopProductRepository
             , IConfiguration configuration
@@ -57,7 +58,8 @@ namespace ElevatorNewUI.Controllers
             , ProductUnitRepository productUnitRepository
             , LogRepository logRepository
             , WarehouseProductCheckRepository warehouseProductCheckRepository
-            , SmsRestClient smsRestClient)
+            , SmsRestClient smsRestClient
+            , OstanRepository ostanRepository)
         {
             _bankConfig = configuration.GetSection(nameof(BankConfig)).Get<BankConfig>();
             _shopProductRepository = shopProductRepository;
@@ -74,6 +76,7 @@ namespace ElevatorNewUI.Controllers
             _logRepository = logRepository;
             _warehouseProductCheckRepository = warehouseProductCheckRepository;
             _smsRestClient = smsRestClient;
+            _ostanRepository = ostanRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -100,6 +103,7 @@ namespace ElevatorNewUI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddCart(int productId, int count)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
@@ -204,7 +208,7 @@ namespace ElevatorNewUI.Controllers
             {
                 return Redirect("/Profile/ListInvoice");
             }
-            return RedirectToAction("UserAddress", new { id = factorId });
+            return RedirectToAction("UserAddress", new { id = factorId, title = Title });
         }
 
         #endregion
@@ -219,10 +223,11 @@ namespace ElevatorNewUI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<IActionResult> UserAddressFromInvoice(int id)
+        public async Task<IActionResult> UserAddressFromInvoice(int id, string title)
         {
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
             ViewBag.OrderId = id;
+            ViewBag.TitleUserAddress = title;
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
             return View();
         }
@@ -299,13 +304,14 @@ namespace ElevatorNewUI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [Authorize]
-        public async Task<IActionResult> UserAddress(int id)
+        public async Task<IActionResult> UserAddress(int id, string title)
         {
             ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
-            
+            ViewBag.TitleUserAddress = title;
             //ViewBag.ShopOrderId = id;
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
             ViewBag.FactorId = id;
+            ViewBag.Ostans = await _ostanRepository.GetAll();
             return View();
         }
 
@@ -317,10 +323,24 @@ namespace ElevatorNewUI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> UserAddress(UserAddress userAddress, int FactorId)
+        public async Task<IActionResult> UserAddress(UserAddress userAddress, int FactorId, string Title)
         {
             userAddress.UserId = UserId;
             userAddress.ShopOrderId = FactorId;
+            userAddress.Title = Title;
+            var ostanTehran = await _ostanRepository.GetByConditionAsync(x=> x.Name.Contains("تهران"));
+
+            if(userAddress.OstanId == ostanTehran.Id)
+            {
+                userAddress.IsOutTehran = false;
+            }
+            else
+            {
+                userAddress.IsOutTehran = true;
+            }
+
+            //_logRepository.Add(new Log() { Text = $"title => " + Title });
+
             _userAddressRepository.Submit(userAddress);
 
             await _shopOrderRepository.SetTariffForFactor(FactorId);
@@ -337,6 +357,7 @@ namespace ElevatorNewUI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         public async Task<IActionResult> Checkout(int id)
         {
             var listOrders = await _shopProductRepository.GetListAsync(a => a.UserId == UserId && a.ShopOrderId == id
@@ -388,11 +409,12 @@ namespace ElevatorNewUI.Controllers
                 _logRepository.Add(new Log() { Text = $"sms2Result+>{sms2Result.RetStatus}-{sms2Result.Value}-{sms2Result.StrRetStatus}" });
                 _logRepository.Add(new Log() { Text = $"sms3Result+>{sms3Result.RetStatus}-{sms3Result.Value}-{sms3Result.StrRetStatus}" });
 
-               // await _treeRepository.CalculateRateTreeFromAmountAndInsert(result.PaymentAmount, model.UserId);
+                // await _treeRepository.CalculateRateTreeFromAmountAndInsert(result.PaymentAmount, model.UserId);
 
 
-
-                return RedirectToAction("OrderDetail", "Profile", new { id = orderId });
+                // mohammad
+                return RedirectToAction("Result2", "UserOrder", new { shopOrderId = orderId });
+                //return RedirectToAction("OrderDetail", "Profile", new { id = orderId });
             }
 
             // اگر پرداخت آنلاین بود ابتدا باید چک شود که فاکتور بیشتر از 50 ملیون میباشد یا خیر 
@@ -412,6 +434,8 @@ namespace ElevatorNewUI.Controllers
 
                 return await RequestByOrderPayment(paymentId.Id);
             }
+            //TODO
+            // اینجا باید به جای دیگه ایی Redirectشود
             return RedirectToAction("Index");
         }
 

@@ -57,5 +57,22 @@ namespace ElevatorNewUI.Controllers.Product
 
             return View(shopOrderPayment);
         }
+
+
+        public async Task<IActionResult> Result2(int shopOrderId)
+        {
+            var shopOrderPayment = await _shopOrderPaymentRepository
+                .GetByConditionAsync(a => a.ShopOrderId == shopOrderId);
+
+            var userInfo = await _userRepository.GetByConditionAsync(a => a.Id == UserId);
+            //var model = await _shopOrderRepository.GetByConditionAsync(a => a.OrderId == orderId && a.UserId == UserId);
+            ViewBag.Order = await _shopProductRepository.GetListAsync(a => a.ShopOrderId == shopOrderId && a.UserId == UserId, null, "Product,ProductPackage");
+
+            ViewBag.PhoneNumber = userInfo.PhoneNumber;
+            ViewBag.FullName = userInfo.FirstName + " " + userInfo.LastName;
+            ViewBag.UserAddress = await _userAddressRepository.GetByConditionAsync(a => a.UserId == UserId);
+
+            return View(shopOrderPayment);
+        }
     }
 }

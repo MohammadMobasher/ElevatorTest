@@ -80,7 +80,7 @@ namespace ElevatorNewUI
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
              .AddSessionStateTempDataProvider();
-            services.AddResponseCaching();
+            //services.AddResponseCaching();
 
 
 
@@ -113,7 +113,7 @@ namespace ElevatorNewUI
 
 
             app.UseRedirectConfigure();
-            app.UseResponseCaching();
+            //app.UseResponseCaching();
             app.UseStaticFiles(new StaticFileOptions()
             {
                 OnPrepareResponse = (context) =>

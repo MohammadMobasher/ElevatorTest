@@ -44,6 +44,7 @@ namespace DataLayer.Entities
         public string ZipCode { get; set; }
 
         public string Address { get; set; }
+        public string Description { get; set; }
 
         public TehranAreas? TehranAreasFrom { get; set; }
 
@@ -57,6 +58,13 @@ namespace DataLayer.Entities
         /// </summary>
         public string Province { get; set; }
 
+
+        public int? OstanId { get; set; }
+
+        public int? ShahrId { get; set; }
+
+
+
         [ForeignKey(nameof(UserId))]
         public virtual Users.Users Users { get; set; }
 
@@ -64,5 +72,11 @@ namespace DataLayer.Entities
 
         [ForeignKey(nameof(ShopOrderId))]
         public virtual ShopOrder ShopOrder { get; set; }
+
+        [ForeignKey(nameof(OstanId))]
+        public virtual Ostan Ostan { get; set; }
+
+        [ForeignKey(nameof(ShahrId))]
+        public virtual Shahr Shahr { get; set; }
     }
 }

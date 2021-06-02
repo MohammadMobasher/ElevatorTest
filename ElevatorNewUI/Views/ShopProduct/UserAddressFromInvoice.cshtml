@@ -17,6 +17,7 @@
 
                                 <input type="hidden" name="ShopOrderId" value="@ViewBag.OrderId"/>
                                 <input type="hidden" name="FactorId" value="@ViewBag.FactorId" />
+                                <input type="hidden" name="Title" value="@ViewBag.TitleUserAddress" />
                                 <div class="col2-set" id="customer-details">
                                     <div class="col-12">
                                         <div class="billing-fields mt-4">
@@ -30,8 +31,8 @@
                                                 </div>
 
                                                 <div class="validate-required">
-                                                    <label for="phone-number">شماره موبایل <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" id="phone-number" disabled value="@userInfo.PhoneNumber" class="input-name-checkout form-control text-left">
+                                                    <label for="phone-number">شماره موبایل خریدار<abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                    <input type="text" name="PhoneNumber" id="phone-number" disabled value="@userInfo.PhoneNumber" class="input-name-checkout form-control text-left">
                                                 </div>
 
                                                 <div class="validate-required">
@@ -41,34 +42,36 @@
 
                                                 <div class="validate-required">
                                                     <label for="post-code">نام و نام خانوادگی تحویل گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" name="To" required dir="ltr" value="@address?.To" id="post-code" class="input-name-checkout form-control" >
+                                                    <input type="text" name="To" required dir="ltr" value="@address?.To" id="post-code" class="input-name-checkout form-control">
                                                 </div>
 
                                                 <div class="validate-required">
                                                     <label for="phone-number">شماره موبایل تحویل گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="text" id="PhoneNumberTo"  value="@address.PhoneNumberTo" class="input-name-checkout form-control text-left">
+                                                    <input type="text" id="PhoneNumberTo" value="@address?.PhoneNumberTo" class="input-name-checkout form-control text-left">
                                                 </div>
 
                                                 @*<div class="validate-required">
-                                                    <label for="post-code">کد پستی <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                    <input type="number" name="ZipCode" required dir="ltr" value="@address?.ZipCode" id="post-code" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
-                                                </div>*@
-
+            <label for="post-code">کد پستی <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+            <input type="number" name="ZipCode" required dir="ltr" value="@address?.ZipCode" id="post-code" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
+        </div>*@
+                                                <div class="alert alert-warning">
+                                                    <p>درصورتی که تحویل بار خارج از تهران باشد، کرایه به صورت پس کرایه در محل دریافت می‌شود</p>
+                                                </div>
                                                 <div class="row" style="margin-bottom:2%">
                                                     <div class="col-md-6">
-                                                        <input type="radio" id="OutTehran" @(address.IsOutTehran ? "checked" : "") style="width:3%;margin-bottom:0" name="IsOutTehran" value="true" /> خارج از تهران
+                                                        <input type="radio" id="OutTehran" @((address!=null) && address.IsOutTehran ? "checked" : "") style="width:3%;margin-bottom:0" name="IsOutTehran" value="true" /> خارج از تهران
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="radio" id="InTehran" @(!address.IsOutTehran ? "checked" : "") style="width:3%;margin-bottom:0" name="IsOutTehran" value="false" /> داخل تهران
+                                                        <input type="radio" id="InTehran" @(!((address!=null) && address.IsOutTehran) ? "checked" : "") style="width:3%;margin-bottom:0" name="IsOutTehran" value="false" /> داخل تهران
                                                     </div>
                                                 </div>
 
 
-                                                <div style="@(!address.IsOutTehran?"":"display:none")" id="TehranForm">
+                                                <div style="@(!((address!=null) && address.IsOutTehran)?"":"display:none")" id="TehranForm">
 
                                                     <div class="validate-required">
                                                         <label for="Street">منطقه <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                        <select name="TehranAreasFrom" asp-for="@address.TehranAreasFrom" asp-items="@Html.GetEnumSelectList<TehranAreas>()">
+                                                        <select required  name="TehranAreasFrom" asp-for="@address.TehranAreasFrom" asp-items="@Html.GetEnumSelectList<TehranAreas>()">
                                                             <option value="">--لطفا انتخاب کنید--</option>
                                                         </select>
                                                         @*<input type="text" name="Address" value="@address?.TehranAreasFrom" id="post-code" class="input-name-checkout form-control">*@
@@ -85,34 +88,34 @@
                                                             پلاک
                                                             <abbr class="required" title="ضروری" style="color:red;">*</abbr>
                                                         </label>
-                                                        <input type="number" name="Plaque" value="@address?.Plaque" id="bld-num" class="input-name-checkout js-input-bld-num form-control">
+                                                        <input type="number" required name="Plaque" value="@address?.Plaque" id="bld-num" class="input-name-checkout js-input-bld-num form-control">
                                                     </div>
 
                                                     <div class="validate-required">
                                                         <label for="apt-id">واحد</label>
-                                                        <input type="number" id="apt-id" name="Floor" value="@address?.Floor" class="input-name-checkout js-input-apt-id form-control">
+                                                        <input type="number" required id="apt-id" name="Floor" value="@address?.Floor" class="input-name-checkout js-input-apt-id form-control">
                                                     </div>
 
                                                 </div>
 
-                                                <div style="@(address.IsOutTehran?"":"display:none")" id="OutTehranForm">
+                                                <div style="@((address!=null) && address.IsOutTehran?"":"display:none")" id="OutTehranForm">
                                                     <div class="validate-required">
                                                         <label for="Street">شهر <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                        <input type="text" name="Province" value="@address?.Province" id="post-code" class="input-name-checkout form-control">
+                                                        <input @((address!=null) && address.IsOutTehran ? "required" : "") type="text" name="Province" value="@address?.Province" id="post-code" class="input-name-checkout form-control">
                                                     </div>
                                                 </div>
 
                                                 <label for="address">
                                                     آدرس<abbr class="required" title="ضروری" style="color:red;">*</abbr>
                                                 </label>
-                                                <textarea name="Address" rows="5" cols="30" id="address" class="textarea-name-checkout form-control" placeholder="لطفا آدرس دقیق را وارد نمایید ... ">@address?.Address</textarea>
+                                                <textarea required name="Address" rows="5" cols="30" id="address" class="textarea-name-checkout form-control" placeholder="لطفا آدرس دقیق را وارد نمایید ... ">@address?.Address</textarea>
 
 
                                                 <label for="address">
                                                     توضیحات سفارش
                                                     <span class="optional">(اختیاری)</span>
                                                 </label>
-                                                <textarea rows="5" cols="30" id="address" class="textarea-name-checkout form-control" placeholder="یادداشت ها درباره سفارش شما ، برای مثال نکات مهم برای تحویل بار "></textarea>
+                                                <textarea rows="5" cols="30" name="Description" id="address" class="textarea-name-checkout form-control" placeholder="یادداشت ها درباره سفارش شما ، برای مثال نکات مهم برای تحویل بار "></textarea>
 
                                             </div>
                                         </div>
@@ -156,6 +159,14 @@
             $('[name="Plaque"]').val("");
             $('[name="Floor"]').val("");
         });
+
+        var d = "@(address?.IsOutTehran)";
+        console.log(d);
+        if (d === "True") {
+            $('#OutTehran').click();
+        } else {
+            $('#InTehran').click();
+        }
 
     });
 </script>

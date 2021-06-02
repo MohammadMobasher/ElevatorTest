@@ -25,6 +25,12 @@ namespace Service.Repos.User
         
         public bool Submit(UserAddress vm)
         {
+
+            var result = this.Entities.SingleOrDefault(x => x.ShopOrderId == vm.ShopOrderId);
+            if(result != null)
+            {
+                this.DbContext.UserAddress.Remove(result);
+            }
             //if (!Check(vm.UserId))
             //{
             vm.Id = 0;

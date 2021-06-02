@@ -217,64 +217,94 @@
 
 <div id="pdfMake">
 
-    @if (order.IsSuccessed)
-    {
-        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
-            <div class="container">
-                <fieldset class="margin-bottom-30">
-                    <legend>اطلاعات فاکتور</legend>
 
-                    <div class="container ">
-                        <div class="row">
-                            <div class="col-12 text-center margin-bottom-10">
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
-                                    <label class="col-12 control-label">نام نام خانوادگی</label>
-                                    <div class="col-12">@userInfo.FirstName @userInfo.LastName</div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
-                                    <label class="col-12 control-label">شماره تماس</label>
-                                    <div class="col-12">@userInfo.PhoneNumber</div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
-                                    <label class="col-12 control-label">تاریخ ثبت فاکتور</label>
-                                    <div class="col-12">@order.CreateDate.Value.ToPersianDateTextify()</div>
-                                </div>
+
+    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+        <div class="container">
+            <fieldset class="margin-bottom-30">
+                <legend>اطلاعات فاکتور</legend>
+
+                <div class="container ">
+                    <div class="row">
+                        <div class="col-12 text-center margin-bottom-10">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                <label class="col-12 control-label">نام نام خانوادگی</label>
+                                <div class="col-12">@userInfo.FirstName @userInfo.LastName</div>
                             </div>
-                            <div class="col-12 text-center ">
-                                <div class=" control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">آدرس:</div>
-                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 border-bottom-1 padding-15"> @address.Address</div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                <label class="col-12 control-label">شماره تماس</label>
+                                <div class="col-12">@userInfo.PhoneNumber</div>
                             </div>
-                            <div class="col-12 text-center">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                <label class="col-12 control-label">تاریخ ثبت فاکتور</label>
+                                <div class="col-12">@order.CreateDate.Value.ToPersianDateTextify()</div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center ">
+                            <div class=" control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">آدرس:</div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 border-bottom-1 padding-15"> @address.Address</div>
+                        </div>
+                        <div class="col-12 text-center">
+                            @if (order.IsSuccessed)
+                            {
                                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
                                     <label class="col-12 control-label">تاریخ خرید</label>
                                     <div class="col-12">@order.SuccessDate.Value.ToPersianDateTextify()</div>
                                 </div>
+                            }
 
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
-                                    <label class="col-12 control-label">مبلغ فاکتور</label>
-                                    <div class="col-12">@order.Amount.ToPersianPrice()</div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
-                                    <label class="col-12 control-label">نام و نام خانوادگی گیرنده</label>
-                                    <div class="col-12">@address?.To</div>
-                                </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                <label class="col-12 control-label">مبلغ فاکتور</label>
+                                <div class="col-12">@order.Amount.ToPersianPrice()</div>
                             </div>
-                            <div class="col-12 text-center">
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
-                                    <label class="col-12 control-label">شماره تلفن گیرنده</label>
-                                    <div class="col-12">@address.PhoneNumberTo.ToPersianNumbers()</div>
-                                </div>
-
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                <label class="col-12 control-label">نام و نام خانوادگی گیرنده</label>
+                                <div class="col-12">@address?.To</div>
                             </div>
                         </div>
+                        <div class="col-12 text-center">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                <label class="col-12 control-label">شماره تلفن گیرنده</label>
+                                <div class="col-12">@address.PhoneNumberTo.ToPersianNumbers()</div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                <label class="col-12 control-label">تلفن ثابت</label>
+                                <div class="col-12">@address.Telephone</div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                <label class="col-12 control-label">واحد</label>
+                                <div class="col-12">@address.Floor</div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 text-center">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                <label class="col-12 control-label">پلاک</label>
+                                <div class="col-12">@address.Plaque</div>
+                            </div>
+
+
+                        </div>
+                        @if (!string.IsNullOrEmpty(address.Description))
+                        {
+                            <div class="col-12 text-center">
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 border-bottom-1 padding-15">
+                                    <label class="col-12 control-label">توضیحات</label>
+                                    <div class="col-12">@address.Description</div>
+                                </div>
+                            </div>
+                        }
                     </div>
+                </div>
 
 
 
-                </fieldset>
-            </div>
+            </fieldset>
         </div>
-    }
+    </div>
+
 
 
     <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12" style="margin-top:20px">
@@ -365,10 +395,10 @@
 
 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12" style="margin-top:20px">
     <div class="container">
-        @if (!order.IsOnlinePay)
+        @if (!order.IsOnlinePay && !order.IsSuccessed)
         {
             <div class="alert alert-warning">
-                <p style="color:rebeccapurple">بعد از اینکه کاربر پرداخت به صورت حظوری را انجام داد شما باید از طریق دکمه زیر فاکتور کاربر را بروزرسانی کنید</p>
+                <p style="color:rebeccapurple">بعد از اینکه کاربر پرداخت به صورت حضوری را انجام داد شما باید از طریق دکمه زیر فاکتور کاربر را بروزرسانی کنید</p>
             </div>
             <form action="/Orders/ManageOrders/SetOfflinePayment" method="post">
                 <input type="hidden" name="orderId" value="@order.Id" />

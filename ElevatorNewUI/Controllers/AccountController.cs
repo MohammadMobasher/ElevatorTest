@@ -82,7 +82,7 @@ namespace ElevatorNewUI.Controllers
 
                     // درصورتی که کاربر قبل از لاگین به آدرس صفحه ایی را وارد کرده بود که نیاز به لاگین داشته است
                     // در این صورت باید به آن صفحه هدایت شود
-                    if (!string.IsNullOrEmpty(redirect) && Url.IsLocalUrl(redirect))
+                    if (!string.IsNullOrEmpty(redirect))
                         return Redirect(redirect);
                     else
                         return RedirectToAction("Index", "Home");
