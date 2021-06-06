@@ -218,4 +218,18 @@
             $('#InTehran').click();
         }
     });*@
+
+    $(function () {
+        $('[name="OstanId"]').on('change', function () {
+            var id = $(this).val();
+            $.get('/ShopProduct/GetCity', { id: id }, function (result) {
+                $('[name="ShahrId"]').empty();
+                if (result) {
+                    $.each(result, function (index, key) {
+                        $('[name="ShahrId"]').append(`<option value="${key.id}">${key.name}</option>`)
+                    });
+                }
+            });
+        });
+    })
 </script>

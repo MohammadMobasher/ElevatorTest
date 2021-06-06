@@ -229,6 +229,7 @@ namespace ElevatorNewUI.Controllers
             ViewBag.OrderId = id;
             ViewBag.TitleUserAddress = title;
             ViewBag.UserInfo = await _userRepository.GetByIdAsync(UserId);
+            ViewBag.Ostans = await _ostanRepository.GetAll();
             return View();
         }
 
@@ -708,5 +709,12 @@ namespace ElevatorNewUI.Controllers
         #endregion
 
         #endregion
+
+        public async Task<IActionResult> GetCity(int id)
+        {
+            var data = await _ostanRepository.GetByOstanId(id);
+
+            return Json(data);
+        }
     }
 }

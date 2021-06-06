@@ -3,6 +3,7 @@
     ViewData["Title"] = "Index";
     var address = ViewBag.UserAddress as UserAddress;
     var userInfo = ViewBag.UserInfo as DataLayer.Entities.Users.Users;
+    var Ostans = ViewBag.Ostans as List<DataLayer.Entities.Ostan>;
 }
 
 
@@ -50,6 +51,41 @@
                                                     <input type="text" id="PhoneNumberTo" value="@address?.PhoneNumberTo" class="input-name-checkout form-control text-left">
                                                 </div>
 
+
+
+                                                <div class="validate-required">
+                                                    <label for="Street">استان <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                    <select required name="OstanId">
+                                                        <option value="">--لطفا انتخاب کنید--</option>
+                                                        @foreach (var item in Ostans)
+                                                        {
+                                                            @if ((address != null) && address.OstanId != null)
+                                                            {
+                                                                if (address.OstanId == item.Id)
+                                                                {
+                                                                    <option checked value="@item.Id">@item.Name</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@item.Id">@item.Name</option>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.Id">@item.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+
+                                                <div class="validate-required">
+                                                    <label for="Street">شهر <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                    <select required name="ShahrId">
+                                                        <option value="">--لطفا انتخاب کنید--</option>
+                                                    </select>
+                                                </div>
+
+
                                                 @*<div class="validate-required">
             <label for="post-code">کد پستی <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
             <input type="number" name="ZipCode" required dir="ltr" value="@address?.ZipCode" id="post-code" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
@@ -59,10 +95,10 @@
                                                 </div>
                                                 <div class="row" style="margin-bottom:2%">
                                                     <div class="col-md-6">
-                                                        <input type="radio" id="OutTehran" @((address!=null) && address.IsOutTehran ? "checked" : "") style="width:3%;margin-bottom:0" name="IsOutTehran" value="true" /> خارج از تهران
+                                                        <input type="radio" id="OutTehran" @((address != null) && address.IsOutTehran ? "checked" : "") style="width:3%;margin-bottom:0" name="IsOutTehran" value="true" /> خارج از تهران
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="radio" id="InTehran" @(!((address!=null) && address.IsOutTehran) ? "checked" : "") style="width:3%;margin-bottom:0" name="IsOutTehran" value="false" /> داخل تهران
+                                                        <input type="radio" id="InTehran" @(!((address != null) && address.IsOutTehran) ? "checked" : "") style="width:3%;margin-bottom:0" name="IsOutTehran" value="false" /> داخل تهران
                                                     </div>
                                                 </div>
 
@@ -71,7 +107,7 @@
 
                                                     <div class="validate-required">
                                                         <label for="Street">منطقه <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                        <select required  name="TehranAreasFrom" asp-for="@address.TehranAreasFrom" asp-items="@Html.GetEnumSelectList<TehranAreas>()">
+                                                        <select required name="TehranAreasFrom" asp-for="@address.TehranAreasFrom" asp-items="@Html.GetEnumSelectList<TehranAreas>()">
                                                             <option value="">--لطفا انتخاب کنید--</option>
                                                         </select>
                                                         @*<input type="text" name="Address" value="@address?.TehranAreasFrom" id="post-code" class="input-name-checkout form-control">*@
@@ -101,7 +137,7 @@
                                                 <div style="@((address!=null) && address.IsOutTehran?"":"display:none")" id="OutTehranForm">
                                                     <div class="validate-required">
                                                         <label for="Street">شهر <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                        <input @((address!=null) && address.IsOutTehran ? "required" : "") type="text" name="Province" value="@address?.Province" id="post-code" class="input-name-checkout form-control">
+                                                        <input @((address != null) && address.IsOutTehran ? "required" : "") type="text" name="Province" value="@address?.Province" id="post-code" class="input-name-checkout form-control">
                                                     </div>
                                                 </div>
 
@@ -169,4 +205,20 @@
         }
 
     });
+
+
+
+    $(function () {
+        $('[name="OstanId"]').on('change', function () {
+            var id = $(this).val();
+            $.get('/ShopProduct/GetCity', { id: id }, function (result) {
+                $('[name="ShahrId"]').empty();
+                if (result) {
+                    $.each(result, function (index, key) {
+                        $('[name="ShahrId"]').append(`<option value="${key.id}">${key.name}</option>`)
+                    });
+                }
+            });
+        });
+    })
 </script>
